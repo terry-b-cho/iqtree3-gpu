@@ -58,22 +58,22 @@ Full provenance and citation: [`data/PROVENANCE.md`](data/PROVENANCE.md).
 ## What you'll see (live output)
 
 The run streams IQ-TREE's own progress. These are the lines worth watching — **actual output from a
-real run on an NVIDIA L40S**:
+real run, from a fresh clone, on a Tesla V100S** (an L40S gave 6 s and 29 s for the two arms):
 
 ```
  [1/4] GPU run   ->  iqtree3 -gpu -m LG+G4
-[IQ-TREE3-GPU] 1 CUDA device(s) visible; device 0: NVIDIA L40S (sm_89)
-[IQ-TREE3-GPU] GPU acceleration ACTIVE on NVIDIA L40S.   <- the GPU kernel is installed
+[IQ-TREE3-GPU] 1 CUDA device(s) visible; device 0: Tesla V100S-PCIE-32GB (sm_70)
+[IQ-TREE3-GPU] GPU acceleration ACTIVE on Tesla V100S-PCIE-32GB (sm_70) ...   <- the GPU kernel is installed
 [IQ-TREE3-GPU selftest] IQ-TREE logL=-33829.329090  CPU-recompute=-33829.329090  rel=2.796e-15
 [IQ-TREE3-GPU selftest] GPU-recompute=-33829.329090  rel-vs-CPUrecompute=0.000e+00
                                                           ^^^ device reproduces the CPU log-likelihood
 ...ModelFinder / tree search / ultrafast bootstrap progress...
 Maximum-likelihood tree: .../examples/out/gpu.treefile
-  -> GPU run finished in 34s
+  -> GPU run finished in 5s
   -> GPU kernel engaged (verified)
 
  [2/4] CPU run   ->  iqtree3 -m LG+G4
-  -> CPU run finished in 33s
+  -> CPU run finished in 44s
 
  [3/4] Exactness check
 VERDICT[example]: PASS   rf_dist=0   logl_a=-33476.5026  logl_b=-33476.5026  logl_reldiff=0.00e+00
@@ -99,9 +99,10 @@ GPU test).
 
 ## Why this example isn't about speed
 
-This dataset is deliberately tiny (8 taxa, ~4 k columns) so it finishes in seconds. At that size the
-GPU has almost nothing to chew on and per-kernel launch overhead dominates, so **GPU ≈ CPU here**
-(34 s vs 33 s in the run above). **That is expected and is not a sign that anything is wrong.**
+This dataset is deliberately tiny (8 taxa, ~4 k columns) so it finishes in seconds, and both arms run
+with `-T 1` so the check is cheap. The 5 s versus 44 s above is therefore one host thread against the
+device, not the 20-thread comparison the paper reports, and at this size per-kernel launch overhead
+still dominates on the device. **Do not read a speedup from it, in either direction.**
 
 The question this example answers is the one that matters first: *does this new GPU plug-in run
 correctly on my machine, and does it give me the same tree as the CPU-only IQ-TREE I already trust?*

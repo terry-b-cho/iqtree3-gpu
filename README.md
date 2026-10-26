@@ -194,6 +194,8 @@ module load gcc/14.2.0 cuda/12.8            # runtime libraries
 
 - **`--gpu-strict`** is computationally identical to `-gpu` but aborts, with the reason and a non-zero
   exit, if any likelihood call fell back to the CPU. Use it for benchmarks and CI.
+- **`-T N` must not exceed the cores you were given.** IQ-TREE refuses to start otherwise ("more threads
+  than CPU cores available"); on a cluster, match `-T` to your allocation (`-c`), or use `-T AUTO`.
 - **`-T N` is not symmetric.** On the CPU it is N worker threads. On the GPU it drives host-side work only
   and does not change the result. Report comparisons as "CPU, N threads" vs "GPU + N host threads".
 - **Proof the GPU ran.** The start-up banner only proves the kernel was installed. The exit line is the
@@ -276,6 +278,7 @@ binary. Tree complexity is branches x patterns x rate categories x states^2.
 | `error while loading shared libraries: libcudart.so.12` or `libcublas.so.12` | `module load cuda/12.8` before running; `ldd ./iqtree3_gpu_build/iqtree3 \| grep -E 'cudart\|cublas'` must show no `not found` |
 | `GLIBCXX_3.4.31 not found` | `module load gcc/14.2.0` before running |
 | `-gpu requested but no CUDA device is visible` | No GPU allocated: request `--gres=gpu:1`, or run without `-gpu` |
+| `ERROR: You have specified more threads than CPU cores available` | Stock IQ-TREE behaviour: lower `-T` to the cores you were allocated, or use `-T AUTO` |
 | Start-up says a model is on CPU fallback | Expected for mixture, codon, `+ASC`, partitioned models; the result is still equivalent, and `GPUSTATS` names the reason |
 | `--gpu-strict FAILED: N of M likelihood calls ran on the CPU` | Not a pure GPU run; drop `--gpu-strict` or choose an eligible model |
 | Slower than the CPU | Expected below about 2e7 tree complexity or with few distinct patterns, where launch latency dominates; judge size by `Number of distinct site patterns` in the `.iqtree` report |
