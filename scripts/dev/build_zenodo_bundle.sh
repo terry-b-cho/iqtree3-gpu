@@ -21,7 +21,7 @@ _d=$(_i3g_try "${REPO_DIR:-}") || _d=$(_i3g_try "$(dirname "${BASH_SOURCE[0]:-$0
 . "$_d/scripts/lib/paths.sh"
 cd "$REPO" || exit 1
 
-VER="${1:-$(cat VERSION 2>/dev/null || echo 0.1.0-dev)}"
+VER="${1:-$(cat VERSION 2>/dev/null || echo 0.1.0)}"
 B="zenodo_upload_bundle/iqtree3-gpu-benchmark-inputs-v${VER}"
 rm -rf zenodo_upload_bundle; mkdir -p "$B/data/dna"
 

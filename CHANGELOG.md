@@ -1,14 +1,21 @@
 # Changelog
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follow
-[Semantic Versioning](https://semver.org/). Nothing has been released publicly yet.
+[Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-The tool is feature-complete and validated; the remaining work before a public release is packaging
-and the accompanying manuscript. See [`results/benchmarks/KEY_NUMBERS.md`](results/benchmarks/KEY_NUMBERS.md) for the measured numbers and
-`results/benchmarks/KEY_NUMBERS.md` for the current measured numbers (regenerated from data, never
-typed by hand).
+Nothing yet.
+
+## [0.1.0] - 2026-10-25
+
+First public release: the version described in the preprint *IQ-TREE3-GPU: GPU-accelerated
+maximum-likelihood phylogenetic tree inference for complex amino acid substitution models*
+(Byeongyeon Cho and Aleksandar D. Kostic, 2026). A patch against [IQ-TREE 3](https://github.com/iqtree/iqtree3)
+at commit `6401e06` (3.1.3). Primary repository
+<https://github.com/kosticlab/iqtree3-gpu>, synchronized mirror <https://github.com/terry-b-cho/iqtree3-gpu>.
+See [`results/benchmarks/KEY_NUMBERS.md`](results/benchmarks/KEY_NUMBERS.md) for the measured numbers
+(regenerated from data, never typed by hand).
 
 ### Added
 - GPU likelihood kernel for amino-acid and DNA single-matrix reversible models, applied to IQ-TREE 3
@@ -32,6 +39,3 @@ typed by hand).
 - One recorded cell fails the bootstrap-support arm of the equivalence gate while remaining exact in
   topology and likelihood; the per-run evidence is distributed under `results/benchmarks/paired/`.
 - Profile-mixture, codon, partitioned and `+ASC` models fall back to the CPU (still exact).
-
-## [0.1.0-dev] - unreleased
-Pre-release development. No tagged versions yet.

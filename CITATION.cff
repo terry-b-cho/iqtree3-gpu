@@ -1,31 +1,142 @@
+# Citation metadata for IQ-TREE3-GPU (Citation File Format 1.2.0).
+# GitHub renders this as the "Cite this repository" button. Validate with: cffconvert --validate
 cff-version: 1.2.0
-message: "If you use IQ-TREE-GPU, please cite both this tool and IQ-TREE 3."
-title: "IQ-TREE-GPU: an exact GPU likelihood backend for IQ-TREE 3"
+message: >-
+  If you use IQ-TREE3-GPU, please cite this work (see preferred-citation) together with the
+  IQ-TREE 3 article it builds on (Wong et al. 2026, doi:10.1093/molbev/msag117), listed under
+  references. A preprint DOI and a Zenodo DOI for the archived record will be added here when
+  they are minted.
+title: "IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic tree inference for complex amino acid substitution models"
 abstract: >-
-  A GPU implementation of the phylogenetic likelihood kernel for IQ-TREE 3 that is algorithmically
-  equivalent to the CPU path: identical topology (Robinson-Foulds distance 0) and log-likelihoods
-  agreeing to within 1e-4 relative difference across the recorded benchmark campaign.
+  Maximum-likelihood (ML) phylogenetic inference spends much of its computational time evaluating
+  likelihoods via the Felsenstein pruning algorithm. Although previous studies have explored GPU
+  acceleration of these calculations, such efforts have not translated into widely accessible,
+  general-purpose tools that researchers can readily incorporate into existing phylogenetic
+  workflows and computational pipelines. We introduce IQ-TREE3-GPU, which offloads the IQ-TREE 3
+  likelihood kernel to GPUs while leaving the surrounding inference workflow unchanged. We
+  benchmarked the implementation primarily on genome-scale amino-acid alignments constructed from
+  publicly available bacterial metagenome-assembled genomes (MAGs), with complementary nucleotide
+  alignment datasets extending the analysis to substantially larger computational workloads.
+  Inferred topologies were identical across 182 paired CPU based IQ-TREE3 and IQ-TREE3-GPU runs
+  spanning these workloads. For amino-acid phylogenetic inference with ModelFinder, IQ-TREE3-GPU
+  achieved a median 3.73-fold speedup relative to CPU-only IQ-TREE 3 when both used 20 CPU
+  threads, and a 34.2-fold speedup with a single CPU thread. Fixed-model nucleotide analyses
+  yielded a median 0.80-fold speedup at 20 threads, with GPU acceleration becoming advantageous at
+  a much higher tree complexity than in the amino-acid workflow. These results establish
+  IQ-TREE3-GPU as a practical, reusable tool for accelerating computationally intensive amino-acid
+  phylogenetic reconstruction within existing research workflows.
 type: software
-version: "0.1.0-dev"
+version: "0.1.0"
+date-released: 2026-10-25
 license: GPL-2.0-only
-repository-code: "https://github.com/kosticlab/iqtree3-gpu"   # PLACEHOLDER: replace at standalone release
+repository-code: "https://github.com/kosticlab/iqtree3-gpu"
+url: "https://github.com/kosticlab/iqtree3-gpu"
+identifiers:
+  - type: url
+    value: "https://github.com/terry-b-cho/iqtree3-gpu"
+    description: "Synchronized mirror of the primary repository github.com/kosticlab/iqtree3-gpu"
 authors:
   - family-names: Cho
-    given-names: Terry
-    email: tedblry@gmail.com
-    # PLACEHOLDER: add affiliation and ORCID before release
+    given-names: Byeongyeon
+    alias: Terry B. Cho
+    email: byeongyeon_cho@hms.harvard.edu
+    orcid: "https://orcid.org/0000-0003-1370-2629"
+    affiliation: >-
+      Department of Biomedical Informatics, Harvard Medical School, Boston, MA, USA;
+      Department of Microbiology and Immunobiology, Harvard Medical School, Boston, MA, USA;
+      Section on Pathophysiology and Molecular Pharmacology, Joslin Diabetes Center, Boston, MA, USA
+  - family-names: Kostic
+    given-names: Aleksandar D.
+    email: Aleksandar.Kostic@joslin.harvard.edu
+    orcid: "https://orcid.org/0000-0002-0837-4360"
+    affiliation: >-
+      Department of Microbiology and Immunobiology, Harvard Medical School, Boston, MA, USA;
+      Section on Pathophysiology and Molecular Pharmacology, Joslin Diabetes Center, Boston, MA, USA
+contact:
+  - family-names: Kostic
+    given-names: Aleksandar D.
+    email: Aleksandar.Kostic@joslin.harvard.edu
+    orcid: "https://orcid.org/0000-0002-0837-4360"
 keywords:
   - phylogenetics
   - maximum likelihood
   - GPU
   - CUDA
   - IQ-TREE
+  - amino acid substitution models
+  - metagenome-assembled genomes
+preferred-citation:
+  type: unpublished
+  title: "IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic tree inference for complex amino acid substitution models"
+  authors:
+    - family-names: Cho
+      given-names: Byeongyeon
+      orcid: "https://orcid.org/0000-0003-1370-2629"
+    - family-names: Kostic
+      given-names: Aleksandar D.
+      orcid: "https://orcid.org/0000-0002-0837-4360"
+  year: 2026
+  url: "https://github.com/kosticlab/iqtree3-gpu"
+  notes: >-
+    Preprint in preparation; corresponding author Aleksandar D. Kostic
+    (Aleksandar.Kostic@joslin.harvard.edu). The preprint DOI will be added when it is posted.
+    Software version 0.1.0 is the version described.
 references:
+  - type: article
+    title: "IQ-TREE 3: phylogenomic inference software using complex evolutionary models"
+    authors:
+      - family-names: Wong
+        given-names: Thomas K F
+      - family-names: Ly-Trong
+        given-names: Nhan
+      - family-names: Ren
+        given-names: Huaiyan
+      - family-names: Demotte
+        given-names: Piyumal
+      - family-names: Baños
+        given-names: Hector
+      - family-names: Roger
+        given-names: Andrew J
+      - family-names: Susko
+        given-names: Edward
+      - family-names: Bielow
+        given-names: Chris
+      - family-names: De Maio
+        given-names: Nicola
+      - family-names: Goldman
+        given-names: Nick
+      - family-names: Hahn
+        given-names: Matthew W
+      - name-particle: dos
+        family-names: Reis
+        given-names: Mario
+      - family-names: Vinh
+        given-names: Le Sy
+      - family-names: Huttley
+        given-names: Gavin
+      - family-names: Lanfear
+        given-names: Robert
+      - family-names: Minh
+        given-names: Bui Quang
+    journal: "Molecular Biology and Evolution"
+    volume: 43
+    issue: 5
+    year: 2026
+    month: 5
+    issn: "1537-1719"
+    doi: "10.1093/molbev/msag117"
+    url: "https://doi.org/10.1093/molbev/msag117"
+    notes: >-
+      Article number msag117. This is the IQ-TREE 3 paper. IQ-TREE3-GPU is a patch against IQ-TREE 3
+      and IQ-TREE 3 must be cited alongside it.
   - type: software
     title: "IQ-TREE 3"
-    notes: >-
-      This project is a patch against IQ-TREE 3 at commit
-      6401e06905f65a11ccd6e45f369a1987d657d600 (reported version 3.1.3) and inherits its GPL-2.0
-      license. IQ-TREE must be cited alongside this tool.
+    authors:
+      - name: "IQ-TREE development team"
+    version: "3.1.3"
+    commit: 6401e06905f65a11ccd6e45f369a1987d657d600
     repository-code: "https://github.com/iqtree/iqtree3"
-# PLACEHOLDER: add `doi:` and `date-released:` when a tagged release + Zenodo DOI exist.
+    license: GPL-2.0-only
+    notes: >-
+      This project is a patch against IQ-TREE 3 at commit 6401e06905f65a11ccd6e45f369a1987d657d600
+      (reported version 3.1.3) and inherits its GPL-2.0 license.

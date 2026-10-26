@@ -1,12 +1,12 @@
-# Contributing to IQ-TREE-GPU
+# Contributing to IQ-TREE3-GPU
 
-> **Status: pre-release.** this repository currently lives inside a larger research repository and is
-> being prepared for extraction into a standalone public repository. Until that happens the issue
-> tracker and PR process below are **PLACEHOLDERS** — replace the URLs at release.
+> **Primary repository:** <https://github.com/kosticlab/iqtree3-gpu> (authoritative; open issues and
+> pull requests there). A synchronized mirror is kept at <https://github.com/terry-b-cho/iqtree3-gpu>.
+> Upstream: [IQ-TREE 3](https://github.com/iqtree/iqtree3); report problems in IQ-TREE itself there.
 
 ## Reporting a problem
 
-Open an issue at **PLACEHOLDER: `https://github.com/<org>/iqtree-gpu/issues`** and include:
+Open an issue at <https://github.com/kosticlab/iqtree3-gpu/issues> and include:
 
 1. The output of `scripts/iqtree3-gpu-verify.sh` (30 seconds, prints the engagement and equivalence
    verdict). This answers most questions immediately.

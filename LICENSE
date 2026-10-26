@@ -1,4 +1,4 @@
-IQ-TREE-GPU — a GPU likelihood backend for IQ-TREE 3
+IQ-TREE3-GPU — a GPU likelihood backend for IQ-TREE 3
 =====================================================
 
 This project is a patch/derivative of IQ-TREE 3 and therefore inherits IQ-TREE's license:
@@ -18,10 +18,16 @@ What is covered
 Attribution / how to cite
 --------------------------
 If you use this tool, please cite both:
-  - IQ-TREE 3: Minh B.Q. et al. (2020) IQ-TREE 2, Mol. Biol. Evol. 37:1530-1534 (and the IQ-TREE 3
-    release), https://github.com/iqtree/iqtree3
-  - This work (IQ-TREE-GPU): see manuscript/ for the citation, and cite the exact GPU card used, as
-    reported in the figures/tables, when quoting a performance number.
+  - IQ-TREE 3: Wong T.K.F., Ly-Trong N., Ren H., Demotte P., Baños H., Roger A.J., Susko E., Bielow C.,
+    De Maio N., Goldman N., Hahn M.W., dos Reis M., Vinh L.S., Huttley G., Lanfear R., Minh B.Q. (2026)
+    IQ-TREE 3: phylogenomic inference software using complex evolutionary models.
+    Mol. Biol. Evol. 43(5):msag117, https://doi.org/10.1093/molbev/msag117
+    (source: https://github.com/iqtree/iqtree3)
+  - This work: Cho B., Kostic A.D. (2026) IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic
+    tree inference for complex amino acid substitution models. Version 0.1.0.
+    https://github.com/kosticlab/iqtree3-gpu (mirror: https://github.com/terry-b-cho/iqtree3-gpu).
+    Machine-readable citation metadata are in CITATION.cff. When quoting a performance number, also
+    cite the exact GPU card used, as reported in the figures/tables.
 
 No warranty
 -----------

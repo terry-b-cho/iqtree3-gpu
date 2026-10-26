@@ -1,6 +1,6 @@
-# IQ-TREE-GPU — user guide
+# IQ-TREE3-GPU — user guide
 
-A CUDA likelihood backend for **IQ-TREE 3**. One promise:
+A CUDA likelihood backend for [**IQ-TREE 3**](https://github.com/iqtree/iqtree3). One promise:
 
 > **The GPU gives you the same tree as CPU IQ-TREE — log-likelihood within 1e-4, identical topology
 > (Robinson-Foulds distance 0), matching SH-aLRT/UFBoot support.**

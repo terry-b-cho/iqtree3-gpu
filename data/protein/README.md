@@ -1,6 +1,6 @@
 # Benchmark datasets
 
-Inputs for the IQ-TREE-GPU benchmark and validation suites. Three sets, each with a distinct job.
+Inputs for the IQ-TREE3-GPU benchmark and validation suites. Three sets, each with a distinct job.
 **These constrain the benchmark only — the tool itself has no size limit** (the device arena is sized
 from IQ-TREE's own `max_lh_slots`, and falls back to the CPU kernel if it will not fit in VRAM).
 
@@ -111,7 +111,8 @@ Built by [`../../scripts/dev/build_dna_datasets.sh`](../../scripts/dev/build_dna
 
 ## Citation
 
-GTDB (Parks et al.), CheckM2 (Chklovski et al.), IQ-TREE 3 (Minh et al. 2020) and AliSim (Ly-Trong
+GTDB (Parks et al.), CheckM2 (Chklovski et al.), IQ-TREE 3 (Wong et al. 2026,
+https://doi.org/10.1093/molbev/msag117) and AliSim (Ly-Trong
 et al.) for the simulated nucleotide data.
 
 ## Complexity-extension datasets (added 2026-08-31)

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 340" width="1320" height="340" role="img"
+     aria-label="IQ-TREE3-GPU: a phylogenetic tree whose likelihood is computed on a GPU, giving the same tree as CPU IQ-TREE 3">
+  <title>IQ-TREE3-GPU</title>
+  <style>
+    .ink  { fill: #1f2328; }
+    .mute { fill: #656d76; }
+    .rule { stroke: #d0d7de; }
+    @media (prefers-color-scheme: dark) {
+      .ink  { fill: #e6edf3; }
+      .mute { fill: #8d96a0; }
+      .rule { stroke: #30363d; }
+    }
+    .aa  { stroke: #1f77b4; }   /* amino acid + ModelFinder (figure palette) */
+    .nt  { stroke: #ff7f0e; }   /* nucleotide, fixed model (figure palette) */
+    .tree { fill: none; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+    .chip { fill: #0b7285; }
+    .die  { fill: #e3fafc; }
+    .cell { fill: #0b7285; opacity: 0.85; }
+    .pin  { fill: #0b7285; opacity: 0.6; }
+    .flow { fill: none; stroke: #0b7285; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 2 16; }
+    text  { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+  </style>
+
+  <!-- phylogenetic tree (cladogram), amino-acid blue with one nucleotide-orange clade -->
+  <g class="tree aa" transform="translate(40,40)">
+    <path d="M0 130 H60"/>
+    <path d="M60 60 V200"/>
+    <path d="M60 60 H130"/>
+    <path d="M130 25 V95"/>
+    <path d="M130 25 H230"/>
+    <path d="M130 95 H180"/>
+    <path d="M180 75 V115"/>
+    <path d="M180 75 H230"/>
+    <path d="M180 115 H230"/>
+    <path d="M60 200 H110"/>
+    <path d="M110 165 V235"/>
+    <path d="M110 165 H230"/>
+  </g>
+  <g class="tree nt" transform="translate(40,40)">
+    <path d="M110 235 H160"/>
+    <path d="M160 215 V255"/>
+    <path d="M160 215 H230"/>
+    <path d="M160 255 H230"/>
+  </g>
+
+  <!-- tips flow into the GPU -->
+  <path class="flow" d="M290 170 C 330 170, 330 170, 370 170"/>
+
+  <!-- GPU chip -->
+  <g transform="translate(380,70)">
+    <!-- pins -->
+    <g class="pin">
+      <rect x="-14" y="30" width="14" height="10" rx="2"/><rect x="-14" y="60" width="14" height="10" rx="2"/>
+      <rect x="-14" y="90" width="14" height="10" rx="2"/><rect x="-14" y="120" width="14" height="10" rx="2"/>
+      <rect x="-14" y="150" width="14" height="10" rx="2"/>
+      <rect x="200" y="30" width="14" height="10" rx="2"/><rect x="200" y="60" width="14" height="10" rx="2"/>
+      <rect x="200" y="90" width="14" height="10" rx="2"/><rect x="200" y="120" width="14" height="10" rx="2"/>
+      <rect x="200" y="150" width="14" height="10" rx="2"/>
+      <rect x="30" y="-14" width="10" height="14" rx="2"/><rect x="60" y="-14" width="10" height="14" rx="2"/>
+      <rect x="90" y="-14" width="10" height="14" rx="2"/><rect x="120" y="-14" width="10" height="14" rx="2"/>
+      <rect x="150" y="-14" width="10" height="14" rx="2"/>
+      <rect x="30" y="200" width="10" height="14" rx="2"/><rect x="60" y="200" width="10" height="14" rx="2"/>
+      <rect x="90" y="200" width="10" height="14" rx="2"/><rect x="120" y="200" width="10" height="14" rx="2"/>
+      <rect x="150" y="200" width="10" height="14" rx="2"/>
+    </g>
+    <rect class="chip" x="0" y="0" width="200" height="200" rx="18"/>
+    <rect class="die" x="26" y="26" width="148" height="148" rx="8"/>
+    <!-- streaming multiprocessors: a grid of cells, lit in the figure palette -->
+    <g class="cell">
+      <rect x="38" y="38" width="26" height="26" rx="3"/><rect x="70" y="38" width="26" height="26" rx="3"/>
+      <rect x="102" y="38" width="26" height="26" rx="3"/><rect x="134" y="38" width="26" height="26" rx="3"/>
+      <rect x="38" y="70" width="26" height="26" rx="3"/><rect x="70" y="70" width="26" height="26" rx="3"/>
+      <rect x="102" y="70" width="26" height="26" rx="3"/><rect x="134" y="70" width="26" height="26" rx="3"/>
+      <rect x="38" y="102" width="26" height="26" rx="3"/><rect x="70" y="102" width="26" height="26" rx="3"/>
+      <rect x="102" y="102" width="26" height="26" rx="3"/><rect x="134" y="102" width="26" height="26" rx="3"/>
+      <rect x="38" y="134" width="26" height="26" rx="3"/><rect x="70" y="134" width="26" height="26" rx="3"/>
+      <rect x="102" y="134" width="26" height="26" rx="3"/><rect x="134" y="134" width="26" height="26" rx="3"/>
+    </g>
+    <rect x="70" y="70" width="26" height="26" rx="3" fill="#1f77b4"/>
+    <rect x="102" y="70" width="26" height="26" rx="3" fill="#1f77b4"/>
+    <rect x="70" y="102" width="26" height="26" rx="3" fill="#1f77b4"/>
+    <rect x="102" y="102" width="26" height="26" rx="3" fill="#ff7f0e"/>
+  </g>
+
+  <!-- the same tree comes back out -->
+  <path class="flow" d="M600 170 C 640 170, 640 170, 680 170"/>
+  <g class="tree aa" transform="translate(690,110)" style="stroke-width:5">
+    <path d="M0 60 H30"/><path d="M30 25 V95"/><path d="M30 25 H70"/><path d="M30 95 H50"/>
+    <path d="M50 80 V110"/><path d="M50 80 H70"/><path d="M50 110 H70"/>
+  </g>
+  <text x="690" y="245" class="mute" font-size="17">same topology, RF = 0</text>
+  <text x="690" y="268" class="mute" font-size="17">log-likelihood within 1e-4</text>
+
+  <!-- wordmark -->
+  <line class="rule" x1="860" y1="60" x2="860" y2="280" stroke-width="2"/>
+  <text x="890" y="150" class="ink" font-size="66" font-weight="700" letter-spacing="-1">IQ-TREE3</text>
+  <text x="890" y="222" class="ink" font-size="66" font-weight="700" letter-spacing="-1">-GPU</text>
+  <text x="890" y="262" class="mute" font-size="18">CUDA likelihood backend for IQ-TREE 3</text>
+</svg>

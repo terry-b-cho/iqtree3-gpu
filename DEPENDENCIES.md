@@ -1,6 +1,6 @@
 # Dependencies and tested hardware
 
-Everything needed to build and run IQ-TREE-GPU, with the **exact versions this tool was built and
+Everything needed to build and run IQ-TREE3-GPU, with the **exact versions this tool was built and
 validated against**. Where a version is known to matter, that is stated; where a range is fine, that
 is stated too. Nothing here is aspirational — every version below was used to produce the results in
 `results/`.
@@ -17,7 +17,7 @@ is stated too. Nothing here is aspirational — every version below was used to 
 | **C++ compiler** | GCC 14.2.0 | must be a version your CUDA release accepts — see the pitfall below |
 | **Eigen** | 3.4.0 | header-only; IQ-TREE's usual dependency |
 | **Boost** | headers only | header-only use; no compiled Boost libraries needed |
-| **IQ-TREE 3 source** | commit `6401e06905f65a11ccd6e45f369a1987d657d600` | pinned by `build_iqtree_gpu.sh`; the patch is made against exactly this commit |
+| [**IQ-TREE 3 source**](https://github.com/iqtree/iqtree3) | commit `6401e06905f65a11ccd6e45f369a1987d657d600` | pinned by `build_iqtree_gpu.sh`; the patch is made against exactly this commit |
 
 Resulting binary: `IQ-TREE version 3.1.3 for Linux x86 64-bit`.
 

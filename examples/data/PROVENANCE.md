@@ -1,7 +1,7 @@
 # examples/data — provenance and citation
 
 **What these are:** deliberately tiny amino-acid alignments used by `examples/run_example.sh` so a new
-user can run IQ-TREE-GPU end to end in ~1-2 minutes, watch real output, and confirm the installation
+user can run IQ-TREE3-GPU end to end in ~1-2 minutes, watch real output, and confirm the installation
 works. **Several genera are provided** so you can try more than one tree.
 
 | file | source genus | taxa | columns | reduced from | min occupancy |
@@ -31,5 +31,6 @@ and recent host switching or genuinely non-codiversifying lineages are biologica
 codiversification occurs is a *research question*, not an assumption — and 8 genomes could not settle
 it either way. Use these runs to confirm the software works, not to draw biological conclusions.
 
-**Citation:** please cite GTDB (Parks et al.), CheckM2 (Chklovski et al.), IQ-TREE (Minh et al. 2020),
-and this work — see the repository `README.md` Citation section.
+**Citation:** please cite GTDB (Parks et al.), CheckM2 (Chklovski et al.), IQ-TREE 3
+(Wong et al. 2026, https://doi.org/10.1093/molbev/msag117), and this work (Cho and Kostic 2026,
+IQ-TREE3-GPU) — see the repository `README.md` Citation section and `CITATION.cff`.

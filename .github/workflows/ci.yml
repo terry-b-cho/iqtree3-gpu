@@ -1,5 +1,5 @@
 # =============================================================================
-#  CI for IQ-TREE-GPU.
+#  CI for IQ-TREE3-GPU.
 #
 #  GitHub's hosted runners have no NVIDIA GPU, so CI can never prove the kernel is CORRECT -- that
 #  requires a device and is what scripts/run_tests.sh --gpu is for. What CI CAN prove, and what

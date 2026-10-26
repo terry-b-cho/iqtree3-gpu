@@ -25,7 +25,7 @@ ok   () { printf "  \033[32mPASS\033[0m  %s\n" "$1"; PASS=$((PASS+1)); }
 bad  () { printf "  \033[31mFAIL\033[0m  %s\n" "$1"; FAIL=$((FAIL+1)); }
 note () { printf "  ----  %s\n" "$1"; }
 
-echo "== IQ-TREE-GPU test suite ($TIER) =="
+echo "== IQ-TREE3-GPU test suite ($TIER) =="
 echo "   repository: $REPO"
 
 # ---------------------------------------------------------------- quick (no GPU)

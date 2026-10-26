@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  IQ-TREE-GPU — worked example  (takes ~1-2 minutes)
+#  IQ-TREE3-GPU — worked example  (takes ~1-2 minutes)
 # =============================================================================
 # Paths: the repository root is resolved at run time by scripts/lib/paths.sh. Nothing is hardcoded.
 #  What this does, in order:
@@ -51,7 +51,7 @@ BOOT="-B 1000"          # ultrafast bootstrap, 1000 replicates
 mkdir -p "$OUT"
 
 echo "==============================================================="
-echo " IQ-TREE-GPU worked example"
+echo " IQ-TREE3-GPU worked example"
 echo "==============================================================="
 echo "  binary     : $BIN"
 echo "  alignment  : ${ALN#$REPO/}   ($(grep -c '^>' "$ALN") taxa)"

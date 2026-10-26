@@ -1,8 +1,8 @@
-# IQ-TREE-GPU — kernel design (rewrite, 2026-07-21)
+# IQ-TREE3-GPU — kernel design (rewrite, 2026-07-21)
 
 ## Objective
 
-Run IQ-TREE 3's maximum-likelihood tree search with the likelihood engine **actually executing on the
+Run [IQ-TREE 3](https://github.com/iqtree/iqtree3)'s maximum-likelihood tree search with the likelihood engine **actually executing on the
 GPU**, performing the **same algorithm** as CPU IQ-TREE, faster.
 
 **Equivalence gate (the real one):** `logL within 1e-4`, `RF = 0`, matching SH-aLRT/UFBoot support.

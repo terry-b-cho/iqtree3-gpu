@@ -25,13 +25,22 @@ METADATA = {
     "title": "IQ-TREE3-GPU: benchmark inputs, results, figures, code and scoping-review archive "
              "(exact GPU likelihoods for IQ-TREE 3)",
     "creators": [
-        {"name": "Cho, Byeongyeon (Terry)", "affiliation": "Harvard University", "orcid": "0000-0003-1370-2629"},
-        {"name": "Kostic, Aleksandar D.", "affiliation": "Harvard Medical School; Joslin Diabetes Center", "orcid": "0000-0002-0837-4360"},
+        {"name": "Cho, Byeongyeon",
+         "affiliation": "Department of Biomedical Informatics, Harvard Medical School; Department of Microbiology "
+                        "and Immunobiology, Harvard Medical School; Section on Pathophysiology and Molecular "
+                        "Pharmacology, Joslin Diabetes Center",
+         "orcid": "0000-0003-1370-2629"},
+        {"name": "Kostic, Aleksandar D.",
+         "affiliation": "Department of Microbiology and Immunobiology, Harvard Medical School; Section on "
+                        "Pathophysiology and Molecular Pharmacology, Joslin Diabetes Center",
+         "orcid": "0000-0002-0837-4360"},
     ],
     "description": (
-        "<p>The archived record behind the manuscript <i>Exact GPU likelihoods accelerate maximum-likelihood "
-        "phylogenetics conditionally on workflow</i>: IQ-TREE3-GPU, a CUDA backend for the conditional-likelihood "
-        "kernel of IQ-TREE 3, and its paired CPU-versus-GPU benchmark campaign.</p>"
+        "<p>The archived record behind the manuscript <i>IQ-TREE3-GPU: GPU-accelerated maximum-likelihood "
+        "phylogenetic tree inference for complex amino acid substitution models</i> (Cho and Kostic, 2026): "
+        "IQ-TREE3-GPU, a CUDA backend for the conditional-likelihood kernel of IQ-TREE 3 (Wong et al. 2026, "
+        "doi:10.1093/molbev/msag117), and its paired CPU-versus-GPU benchmark campaign. Code repository: "
+        "https://github.com/kosticlab/iqtree3-gpu (mirror https://github.com/terry-b-cho/iqtree3-gpu).</p>"
         "<p><b>Files.</b> 01: the 45 amino-acid alignment files (concatenated marker-gene alignments of "
         "metagenome-assembled genomes, one genus each): the 35 benchmark datasets of the paper (the size ladder, "
         "the single-thread sets, the column-subsampled sets and the full genera run at scale) and the 10 further "

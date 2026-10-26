@@ -1,10 +1,10 @@
 # =============================================================================
-#  IQ-TREE-GPU container image.
-#  PLACEHOLDER STATUS: builds the tool correctly, but is untested in CI (no GPU runner) and the
-#  image is not published anywhere yet. Verify and push to a registry at standalone release.
+#  IQ-TREE3-GPU container image.
+#  STATUS: builds the tool correctly, but is untested in CI (no GPU runner) and the image is not
+#  published to a registry; build it locally from https://github.com/kosticlab/iqtree3-gpu.
 #
-#    docker build -f containers/Dockerfile -t iqtree-gpu:0.1.0-dev .
-#    docker run --gpus all -v "$PWD":/data iqtree-gpu:0.1.0-dev \
+#    docker build -f containers/Dockerfile -t iqtree3-gpu:0.1.0 .
+#    docker run --gpus all -v "$PWD":/data iqtree3-gpu:0.1.0 \
 #           iqtree3 -gpu --gpu-strict -s /data/aln.faa -m TESTNEW -T 20
 # =============================================================================
 # CUDA 12.8 + GCC 14 is the combination the campaign was measured on. nvcc rejects a host compiler
