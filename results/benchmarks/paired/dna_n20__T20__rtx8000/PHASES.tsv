@@ -1,0 +1,7 @@
+phase	arm	phase_wall_s	phase_speedup
+modelfinder	cpu	NA	NA
+modelfinder	gpu	NA	NA
+tree_search	cpu	226.442	0.95
+tree_search	gpu	238.758	NA
+total	cpu	239.236	0.96
+total	gpu	248.889	NA

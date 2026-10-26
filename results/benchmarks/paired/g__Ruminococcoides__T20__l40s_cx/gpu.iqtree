@@ -1,0 +1,501 @@
+IQ-TREE 3.1.3 built Jul 22 2026
+
+Input file name: /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Ruminococcoides/concat_alignment.faa
+Type of analysis: ModelFinder + tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 1
+
+REFERENCES
+----------
+
+To cite IQ-TREE 3 please use:
+
+Thomas K.F. Wong, Nhan Ly-Trong, Huaiyan Ren, Piyumal Demotte, Hector Banos,
+Andrew J. Roger, Edward Susko, Chris Bielow, Nicola De Maio, Nick Goldman,
+Matthew W. Hahn, Mario dos Reis, Le Sy Vinh, Gavin Huttley, Robert Lanfear, Bui Quang Minh (2026)
+IQ-TREE 3: Phylogenomic Inference Software using Complex Evolutionary Models.
+Molecular Biology and Evolution, msag117.
+https://doi.org/10.1093/molbev/msag117
+
+Since you used ModelFinder please also cite: 
+
+Subha Kalyaanamoorthy, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler,
+and Lars S Jermiin (2017) ModelFinder: Fast model selection for
+accurate phylogenetic estimates. Nature Methods, 14:587–589.
+https://doi.org/10.1038/nmeth.4285
+
+Since you used ultrafast bootstrap (UFBoot) please also cite: 
+
+Diep Thi Hoang, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh,
+and Le Sy Vinh (2018) UFBoot2: Improving the ultrafast bootstrap
+approximation. Mol. Biol. Evol., 35:518–522.
+https://doi.org/10.1093/molbev/msx281
+
+SEQUENCE ALIGNMENT
+------------------
+
+NOTE: Alignment sequence type is auto-detected. If in doubt, specify it via -st option.
+Input data: 66 sequences with 228101 amino-acid sites
+Number of constant sites: 72591 (= 31.8241% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 72591 (= 31.8241% of all sites)
+Number of parsimony informative sites: 126736
+Number of distinct site patterns: 169785
+
+ModelFinder
+-----------
+
+Best-fit model according to BIC: VT+F+R10
+
+List of models sorted by BIC scores: 
+
+Model                  LogL         AIC      w-AIC        AICc     w-AICc         BIC      w-BIC
+VT+F+R10        -7452297.033 14904926.066 +        1 14904926.309 +        1 14906642.098 +        1
+PMB+F+R10       -7456052.522 14912437.044 -        0 14912437.287 -        0 14914153.076 -        0
+BLOSUM62+F+R10  -7459864.082 14920060.164 -        0 14920060.407 -        0 14921776.196 -        0
+VT+R10          -7472483.988 14945261.976 -        0 14945262.167 -        0 14946781.595 -        0
+BLOSUM62+R10    -7479775.661 14959845.322 -        0 14959845.513 -        0 14961364.941 -        0
+WAG+F+R10       -7481583.576 14963499.152 -        0 14963499.395 -        0 14965215.184 -        0
+PMB+R10         -7489172.981 14978639.962 -        0 14978640.153 -        0 14980159.581 -        0
+WAG+R10         -7501577.780 15003449.560 -        0 15003449.751 -        0 15004969.179 -        0
+Q.PFAM+F+R10    -7502147.065 15004626.130 -        0 15004626.373 -        0 15006342.162 -        0
+LG+F+R10        -7514415.545 15029163.090 -        0 15029163.333 -        0 15030879.122 -        0
+Q.PFAM+R10      -7523158.877 15046611.754 -        0 15046611.945 -        0 15048131.373 -        0
+RTREV+F+R10     -7529034.718 15058401.436 -        0 15058401.679 -        0 15060117.468 -        0
+LG+R10          -7532399.895 15065093.790 -        0 15065093.981 -        0 15066613.409 -        0
+LG+I+R10        -7532400.698 15065097.396 -        0 15065097.589 -        0 15066627.352 -        0
+LG+R9           -7532419.882 15065129.764 -        0 15065129.950 -        0 15066628.708 -        0
+LG+I+R9         -7532417.462 15065126.924 -        0 15065127.112 -        0 15066636.205 -        0
+LG+I+R8         -7532431.154 15065150.308 -        0 15065150.491 -        0 15066638.914 -        0
+LG+R8           -7532498.269 15065282.538 -        0 15065282.719 -        0 15066760.807 -        0
+LG+I+R7         -7532677.171 15065638.342 -        0 15065638.520 -        0 15067106.273 -        0
+LG+R7           -7532843.887 15065969.774 -        0 15065969.950 -        0 15067427.368 -        0
+LG+I+R6         -7533224.209 15066728.418 -        0 15066728.591 -        0 15068175.674 -        0
+LG+R6           -7533860.209 15067998.418 -        0 15067998.589 -        0 15069435.337 -        0
+CPREV+F+R10     -7533837.376 15068006.752 -        0 15068006.995 -        0 15069722.784 -        0
+LG+I+R5         -7534788.098 15069852.196 -        0 15069852.364 -        0 15071278.777 -        0
+LG+R5           -7536448.806 15073171.612 -        0 15073171.778 -        0 15074587.855 -        0
+LG+I+R4         -7539538.474 15079348.948 -        0 15079349.111 -        0 15080754.854 -        0
+Q.YEAST+F+R10   -7541423.447 15083178.894 -        0 15083179.137 -        0 15084894.926 -        0
+LG+R4           -7544397.035 15089064.070 -        0 15089064.231 -        0 15090459.638 -        0
+Q.YEAST+R10     -7545470.634 15091235.268 -        0 15091235.459 -        0 15092754.887 -        0
+LG+I+G4         -7547196.858 15094655.716 -        0 15094655.868 -        0 15096009.934 -        0
+Q.INSECT+R10    -7551666.355 15103626.710 -        0 15103626.901 -        0 15105146.329 -        0
+Q.INSECT+F+R10  -7551553.029 15103438.058 -        0 15103438.301 -        0 15105154.090 -        0
+CPREV+R10       -7554596.183 15109486.366 -        0 15109486.557 -        0 15111005.985 -        0
+LG+I+R3         -7554677.605 15109623.210 -        0 15109623.369 -        0 15111008.441 -        0
+LG+G4           -7558083.892 15116427.784 -        0 15116427.933 -        0 15117771.665 -        0
+JTTDCMUT+F+R10  -7567433.890 15135199.780 -        0 15135200.023 -        0 15136915.812 -        0
+JTT+F+R10       -7568169.685 15136671.370 -        0 15136671.613 -        0 15138387.402 -        0
+LG+R3           -7568883.185 15138032.370 -        0 15138032.526 -        0 15139407.263 -        0
+JTTDCMUT+R10    -7589521.776 15179337.552 -        0 15179337.743 -        0 15180857.171 -        0
+JTT+R10         -7590476.665 15181247.330 -        0 15181247.521 -        0 15182766.949 -        0
+RTREV+R10       -7593191.411 15186676.822 -        0 15186677.013 -        0 15188196.441 -        0
+DCMUT+F+R10     -7605425.035 15211182.070 -        0 15211182.313 -        0 15212898.102 -        0
+LG+I+R2         -7605804.089 15211872.178 -        0 15211872.332 -        0 15213236.734 -        0
+DAYHOFF+F+R10   -7606399.068 15213130.136 -        0 15213130.379 -        0 15214846.168 -        0
+MTINV+F+R10     -7627099.523 15254531.046 -        0 15254531.289 -        0 15256247.078 -        0
+DCMUT+R10       -7630535.959 15261365.918 -        0 15261366.109 -        0 15262885.537 -        0
+DAYHOFF+R10     -7631418.447 15263130.894 -        0 15263131.085 -        0 15264650.513 -        0
+LG+R2           -7656164.133 15312590.266 -        0 15312590.418 -        0 15313944.484 -        0
+Q.PLANT+F+R10   -7687768.791 15375869.582 -        0 15375869.825 -        0 15377585.614 -        0
+MTREV+F+R10     -7692115.958 15384563.916 -        0 15384564.159 -        0 15386279.948 -        0
+Q.PLANT+R10     -7698237.901 15396769.802 -        0 15396769.993 -        0 15398289.421 -        0
+Q.MAMMAL+F+R10  -7698457.956 15397247.912 -        0 15397248.155 -        0 15398963.944 -        0
+MTZOA+F+R10     -7706189.648 15412711.296 -        0 15412711.539 -        0 15414427.328 -        0
+MTMET+F+R10     -7711488.682 15423309.364 -        0 15423309.607 -        0 15425025.396 -        0
+Q.MAMMAL+R10    -7732973.010 15466240.020 -        0 15466240.211 -        0 15467759.639 -        0
+FLU+F+R10       -7754020.957 15508373.914 -        0 15508374.157 -        0 15510089.946 -        0
+FLU+R10         -7777933.640 15556161.280 -        0 15556161.471 -        0 15557680.899 -        0
+Q.BIRD+F+R10    -7801555.453 15603442.906 -        0 15603443.149 -        0 15605158.938 -        0
+MTART+F+R10     -7811496.618 15623325.236 -        0 15623325.479 -        0 15625041.268 -        0
+Q.BIRD+R10      -7828963.509 15658221.018 -        0 15658221.209 -        0 15659740.637 -        0
+HIVB+F+R10      -7837863.748 15676059.496 -        0 15676059.739 -        0 15677775.528 -        0
+MTVER+F+R10     -7869204.487 15738740.974 -        0 15738741.217 -        0 15740457.006 -        0
+HIVB+R10        -7882022.405 15764338.810 -        0 15764339.001 -        0 15765858.429 -        0
+MTZOA+R10       -7882298.470 15764890.940 -        0 15764891.131 -        0 15766410.559 -        0
+LG+I            -7889508.339 15779276.678 -        0 15779276.827 -        0 15780620.559 -        0
+MTINV+R10       -7899351.213 15798996.426 -        0 15798996.617 -        0 15800516.045 -        0
+MTMET+R10       -7927080.436 15854454.872 -        0 15854455.063 -        0 15855974.491 -        0
+MTREV+R10       -7954576.394 15909446.788 -        0 15909446.979 -        0 15910966.407 -        0
+MTMAM+F+R10     -7980997.893 15962327.786 -        0 15962328.029 -        0 15964043.818 -        0
+FLAVI+F+R10     -8004068.284 16008468.568 -        0 16008468.811 -        0 16010184.600 -        0
+HIVW+F+R10      -8026707.556 16053747.112 -        0 16053747.355 -        0 16055463.144 -        0
+MTART+R10       -8041108.373 16082510.746 -        0 16082510.937 -        0 16084030.365 -        0
+FLAVI+R10       -8053569.386 16107432.772 -        0 16107432.963 -        0 16108952.391 -        0
+MTVER+R10       -8088452.498 16177198.996 -        0 16177199.187 -        0 16178718.615 -        0
+HIVW+R10        -8122770.924 16245835.848 -        0 16245836.039 -        0 16247355.467 -        0
+LG              -8130944.079 16262146.158 -        0 16262146.305 -        0 16263479.701 -        0
+MTMAM+R10       -8227022.863 16454339.726 -        0 16454339.917 -        0 16455859.345 -        0
+
+AIC, w-AIC   : Akaike information criterion scores and weights.
+AICc, w-AICc : Corrected AIC scores and weights.
+BIC, w-BIC   : Bayesian information criterion scores and weights.
+
+Plus signs denote the 95% confidence sets.
+Minus signs denote significant exclusion.
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: VT+F+R10
+
+State frequencies: (empirical counts from alignment)
+
+  pi(A) = 0.0791
+  pi(R) = 0.0430
+  pi(N) = 0.0462
+  pi(D) = 0.0638
+  pi(C) = 0.0159
+  pi(Q) = 0.0268
+  pi(E) = 0.0745
+  pi(G) = 0.0732
+  pi(H) = 0.0164
+  pi(I) = 0.0755
+  pi(L) = 0.0838
+  pi(K) = 0.0737
+  pi(M) = 0.0282
+  pi(F) = 0.0373
+  pi(P) = 0.0349
+  pi(S) = 0.0593
+  pi(T) = 0.0554
+  pi(W) = 0.0055
+  pi(Y) = 0.0344
+  pi(V) = 0.0727
+
+Model of rate heterogeneity: FreeRate with 10 categories
+Site proportion and rates:  (0.1936,0.0154) (0.1504,0.1664) (0.1758,0.4933) (0.1906,0.9967) (0.1614,1.7089) (0.0943,2.6470) (0.0263,4.1344) (0.0062,6.4730) (0.0011,10.3666) (0.0004,25.8456)
+
+ Category  Relative_rate  Proportion
+  1         0.0154         0.1936
+  2         0.1664         0.1504
+  3         0.4933         0.1758
+  4         0.9967         0.1906
+  5         1.7089         0.1614
+  6         2.6470         0.0943
+  7         4.1344         0.0263
+  8         6.4730         0.0062
+  9         10.3666        0.0011
+  10         25.8456        0.0004
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -7451078.3573 (s.e. 17306.9372)
+Unconstrained log-likelihood (without tree): -2633253.6784
+Number of free parameters (#branches + #model parameters): 166
+Akaike information criterion (AIC) score: 14902488.7146
+Corrected Akaike information criterion (AICc) score: 14902488.9579
+Bayesian information criterion (BIC) score: 14904204.7469
+
+Total tree length (sum of branch lengths): 12.7894
+Sum of internal branch lengths: 4.4425 (34.7353% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Cervus_elaphus_W_Gl21_1E09' is drawn at root
+Numbers in parentheses are SH-aLRT support (%) / ultrafast bootstrap support (%)
+
++--------Cervus_elaphus_W_Gl21_1E09
+|
+|                         +-----------------Cervus_elaphus_W_Gl21_2BNV
+|                      +--| (100/100)
+|                      |  |                             +---Homo_sapiens_H_Ca23_7F9S
+|                      |  |                          +--| (100/100)
+|                      |  |                          |  +--Homo_sapiens_H_Ca23_W4V8
+|                      |  |                       +--| (100/98)
+|                      |  |                       |  +--Homo_sapiens_H_Ca23_Y1CA
+|                      |  |                +------| (100/100)
+|                      |  |                |      |  +--Homo_sapiens_H_Ca23_E833
+|                      |  |                |      +--| (100/100)
+|                      |  |                |         +---Pan_troglodytes_W_Sa23_BAQ1
+|                      |  |             +--| (100/98)
+|                      |  |             |  +-----------Ochotona_curzoniae_W_Pu23_6CMV
+|                      |  |          +--| (100/100)
+|                      |  |          |  |             +--Pan_paniscus_W_Sa23_YV03
+|                      |  |          |  |          +--| (100/100)
+|                      |  |          |  |          |  |  +--Pan_troglodytes_W_Sa23_375R
+|                      |  |          |  |          |  +--| (100/100)
+|                      |  |          |  |          |     |     +--Pan_troglodytes_W_Sa23_6W8P
+|                      |  |          |  |          |     |  +--| (100/100)
+|                      |  |          |  |          |     |  |  |        +--Pan_troglodytes_W_Sa23_AMXN
+|                      |  |          |  |          |     |  |  |     +--| (100/100)
+|                      |  |          |  |          |     |  |  |     |  +--Pan_troglodytes_W_Sa23_BKW4
+|                      |  |          |  |          |     |  |  |  +--| (100/100)
+|                      |  |          |  |          |     |  |  |  |  +--Pan_troglodytes_W_Sa23_P7RS
+|                      |  |          |  |          |     |  |  +--| (100/100)
+|                      |  |          |  |          |     |  |     +--Pan_troglodytes_W_Sa23_T393
+|                      |  |          |  |          |     +--| (100/100)
+|                      |  |          |  |          |        +--Pan_troglodytes_W_Sa23_B2WY
+|                      |  |          |  |  +-------| (100/100)
+|                      |  |          |  |  |       +--Pan_troglodytes_W_Sa23_06DN
+|                      |  |          |  +--| (100/99)
+|                      |  |          |     |      +-------Pantholops_hodgsonii_W_Li25_6Q2N
+|                      |  |          |     +------| (100/100)
+|                      |  |          |            +---------Rangifer_tarandus_W_Gl21_PMC7
+|                      |  |       +--| (100/100)
+|                      |  |       |  |         +-----Pantholops_hodgsonii_W_Li25_5RW1
+|                      |  |       |  |     +---| (100/100)
+|                      |  |       |  |     |   +----Pantholops_hodgsonii_W_Li25_ASDX
+|                      |  |       |  |  +--| (100/100)
+|                      |  |       |  |  |  +---------Pantholops_hodgsonii_W_Li25_HBBE
+|                      |  |       |  +--| (100/100)
+|                      |  |       |     +-------Pantholops_hodgsonii_W_Li25_QAZT
+|                      |  |  +----| (100/100)
+|                      |  |  |    |       +--Homo_sapiens_H_Ca23_KHQV
+|                      |  |  |    |  +----| (100/100)
+|                      |  |  |    |  |    |  +--Homo_sapiens_H_Ca23_WGTZ
+|                      |  |  |    |  |    +--| (100/100)
+|                      |  |  |    |  |       |  +--Pan_troglodytes_W_Sa23_JEAV
+|                      |  |  |    |  |       +--| (100/100)
+|                      |  |  |    |  |          +---Pan_troglodytes_W_Sa23_JYX4
+|                      |  |  |    +--| (100/100)
+|                      |  |  |       +-----------Pantholops_hodgsonii_W_Li25_990H
+|                      |  +--| (99.7/98)
+|                      |     |          +---Pantholops_hodgsonii_W_Li25_ASPJ
+|                      |     +----------| (100/100)
+|                      |                |  +---Pantholops_hodgsonii_W_Li25_F9GT
+|                      |                +--| (100/100)
+|                      |                   +--Pantholops_hodgsonii_W_Li25_Y8ZT
+|                +-----| (100/100)
+|                |     |          +----------Homo_sapiens_H_Ca23_CNNM
+|                |     +----------| (100/100)
+|                |                +--------Ochotona_curzoniae_W_Pu23_GP4Q
+|            +---| (100/100)
+|            |   |                      +-------Pantholops_hodgsonii_W_Li25_6AKM
+|            |   |                   +--| (100/100)
+|            |   |                   |  +------Pantholops_hodgsonii_W_Li25_XEKV
+|            |   |                +--| (100/100)
+|            |   |                |  |     +----Pantholops_hodgsonii_W_Li25_BVH9
+|            |   |                |  |  +--| (100/78)
+|            |   |                |  |  |  +---Pantholops_hodgsonii_W_Li25_Q4SP
+|            |   |                |  +--| (100/100)
+|            |   |                |     +--Pantholops_hodgsonii_W_Li25_Z6GA
+|            |   |             +--| (100/78)
+|            |   |             |  +----------Pantholops_hodgsonii_W_Li25_KBY4
+|            |   |       +-----| (100/100)
+|            |   |       |     |   +----Pantholops_hodgsonii_W_Li25_8FPX
+|            |   |       |     +---| (100/100)
+|            |   |       |         +-----Pantholops_hodgsonii_W_Li25_X453
+|            |   +-------| (100/100)
+|            |           |           +-------Pantholops_hodgsonii_W_Li25_9KXX
+|            |           |        +--| (100/100)
+|            |           |        |  |  +----Pantholops_hodgsonii_W_Li25_TV94
+|            |           |        |  +--| (100/100)
+|            |           |        |     +-----Pantholops_hodgsonii_W_Li25_V3R9
+|            |           +--------| (100/100)
+|            |                    |  +----Pantholops_hodgsonii_W_Li25_JE3B
+|            |                    +--| (99.5/85)
+|            |                       +----Pantholops_hodgsonii_W_Li25_SF4C
+|         +--| (100/100)
+|         |  |         +-------Pantholops_hodgsonii_W_Li25_0J3P
+|         |  |      +--| (75.3/49)
+|         |  |      |  |  +------Pantholops_hodgsonii_W_Li25_SQSE
+|         |  |      |  +--| (100/100)
+|         |  |      |     +------Pantholops_hodgsonii_W_Li25_V07P
+|         |  +------| (100/100)
+|         |         |           +--Pantholops_hodgsonii_W_Li25_19BB
+|         |         |        +--| (100/100)
+|         |         |        |  +----Pantholops_hodgsonii_W_Li25_D7ZM
+|         |         |     +--| (100/49)
+|         |         |     |  +----Pantholops_hodgsonii_W_Li25_K9AK
+|         |         |  +--| (100/49)
+|         |         |  |  |  +------Pantholops_hodgsonii_W_Li25_8D2D
+|         |         |  |  +--| (100/100)
+|         |         |  |     +------Pantholops_hodgsonii_W_Li25_E7AB
+|         |         +--| (100/88)
+|         |            |     +------Pantholops_hodgsonii_W_Li25_4Z18
+|         |            |  +--| (100/49)
+|         |            |  |  +-----Pantholops_hodgsonii_W_Li25_8MSN
+|         |            +--| (100/49)
+|         |               |  +-----Pantholops_hodgsonii_W_Li25_PKDZ
+|         |               +--| (100/100)
+|         |                  +-----Pantholops_hodgsonii_W_Li25_RAJ3
+|   +-----| (100/100)
+|   |     |           +---Equus_kiang_W_Li25_6NWF
+|   |     +-----------| (100/100)
+|   |                 +--Equus_kiang_W_Li25_M1G1
++---| (100/100)
+|   |  +-------------Cervus_elaphus_W_Gl21_J61D
+|   +--| (100/100)
+|      |        +------Pantholops_hodgsonii_W_Li25_ANYP
+|      |     +--| (99.7/98)
+|      |     |  +-------Pantholops_hodgsonii_W_Li25_B208
+|      |  +--| (100/100)
+|      |  |  +---------Rangifer_tarandus_W_Gl21_JN31
+|      +--| (100/100)
+|         +----------Pantholops_hodgsonii_W_Li25_NZ23
+|
++-------Pantholops_hodgsonii_W_Li25_QQ1Z
+
+Tree in newick format:
+
+(Cervus_elaphus_W_Gl21_1E09:0.1847028929,((((((Cervus_elaphus_W_Gl21_2BNV:0.3717505067,((((((((Homo_sapiens_H_Ca23_7F9S:0.0896276417,Homo_sapiens_H_Ca23_W4V8:0.0635816648)100/100:0.0392161159,Homo_sapiens_H_Ca23_Y1CA:0.0492305674)100/98:0.0170683065,(Homo_sapiens_H_Ca23_E833:0.0729654840,Pan_troglodytes_W_Sa23_BAQ1:0.0917697668)100/100:0.0309521794)100/100:0.1485448234,Ochotona_curzoniae_W_Pu23_6CMV:0.2522362685)100/98:0.0333012946,(((Pan_paniscus_W_Sa23_YV03:0.0517792398,(Pan_troglodytes_W_Sa23_375R:0.0542152136,((Pan_troglodytes_W_Sa23_6W8P:0.0461402959,(((Pan_troglodytes_W_Sa23_AMXN:0.0421874281,Pan_troglodytes_W_Sa23_BKW4:0.0506640583)100/100:0.0242175365,Pan_troglodytes_W_Sa23_P7RS:0.0268504465)100/100:0.0278485788,Pan_troglodytes_W_Sa23_T393:0.0594690792)100/100:0.0196348193)100/100:0.0284956852,Pan_troglodytes_W_Sa23_B2WY:0.0044315770)100/100:0.0281818551)100/100:0.0271667027)100/100:0.0312188455,Pan_troglodytes_W_Sa23_06DN:0.0460502210)100/100:0.1611953327,(Pantholops_hodgsonii_W_Li25_6Q2N:0.1677385474,Rangifer_tarandus_W_Gl21_PMC7:0.2026684955)100/100:0.1501038723)100/99:0.0399149264)100/100:0.0296070710,(((Pantholops_hodgsonii_W_Li25_5RW1:0.1221804217,Pantholops_hodgsonii_W_Li25_ASDX:0.1131541947)100/100:0.0821635433,Pantholops_hodgsonii_W_Li25_HBBE:0.2015633466)100/100:0.0348573508,Pantholops_hodgsonii_W_Li25_QAZT:0.1793745124)100/100:0.0494575582)100/100:0.0550321337,((Homo_sapiens_H_Ca23_KHQV:0.0769551384,(Homo_sapiens_H_Ca23_WGTZ:0.0722650039,(Pan_troglodytes_W_Sa23_JEAV:0.0710377467,Pan_troglodytes_W_Sa23_JYX4:0.0907499246)100/100:0.0529131937)100/100:0.0250178835)100/100:0.1194757806,Pantholops_hodgsonii_W_Li25_990H:0.2498389244)100/100:0.0657795063)100/100:0.1083563004,(Pantholops_hodgsonii_W_Li25_ASPJ:0.0971153949,(Pantholops_hodgsonii_W_Li25_F9GT:0.0823028861,Pantholops_hodgsonii_W_Li25_Y8ZT:0.0617489800)100/100:0.0615540912)100/100:0.2388414558)99.7/98:0.0378435464)100/100:0.0366769532,(Homo_sapiens_H_Ca23_CNNM:0.2317286687,Ochotona_curzoniae_W_Pu23_GP4Q:0.1980290142)100/100:0.2258092504)100/100:0.1228472007,(((((Pantholops_hodgsonii_W_Li25_6AKM:0.1630197178,Pantholops_hodgsonii_W_Li25_XEKV:0.1516527278)100/100:0.0414282479,((Pantholops_hodgsonii_W_Li25_BVH9:0.1026748413,Pantholops_hodgsonii_W_Li25_Q4SP:0.0986130484)100/78:0.0405217544,Pantholops_hodgsonii_W_Li25_Z6GA:0.0658604260)100/100:0.0712960113)100/100:0.0437103368,Pantholops_hodgsonii_W_Li25_KBY4:0.2223442864)100/78:0.0424989049,(Pantholops_hodgsonii_W_Li25_8FPX:0.1068738474,Pantholops_hodgsonii_W_Li25_X453:0.1243265820)100/100:0.0903564932)100/100:0.1222293080,((Pantholops_hodgsonii_W_Li25_9KXX:0.1672859244,(Pantholops_hodgsonii_W_Li25_TV94:0.1054389636,Pantholops_hodgsonii_W_Li25_V3R9:0.1221305713)100/100:0.0364478869)100/100:0.0200205745,(Pantholops_hodgsonii_W_Li25_JE3B:0.1122623214,Pantholops_hodgsonii_W_Li25_SF4C:0.1088108333)99.5/85:0.0226635736)100/100:0.1984124700)100/100:0.1623336398)100/100:0.0878410144,((Pantholops_hodgsonii_W_Li25_0J3P:0.1783158920,(Pantholops_hodgsonii_W_Li25_SQSE:0.1448980049,Pantholops_hodgsonii_W_Li25_V07P:0.1510968825)100/100:0.0465492484)75.3/49:0.0295151203,((((Pantholops_hodgsonii_W_Li25_19BB:0.0467654324,Pantholops_hodgsonii_W_Li25_D7ZM:0.1038778229)100/100:0.0573500637,Pantholops_hodgsonii_W_Li25_K9AK:0.1044137595)100/49:0.0399253985,(Pantholops_hodgsonii_W_Li25_8D2D:0.1435742077,Pantholops_hodgsonii_W_Li25_E7AB:0.1482536069)100/100:0.0546838521)100/49:0.0287575761,((Pantholops_hodgsonii_W_Li25_4Z18:0.1435885536,Pantholops_hodgsonii_W_Li25_8MSN:0.1259815982)100/49:0.0474787098,(Pantholops_hodgsonii_W_Li25_PKDZ:0.1252395278,Pantholops_hodgsonii_W_Li25_RAJ3:0.1205949579)100/100:0.0548005444)100/49:0.0357964660)100/88:0.0258947721)100/100:0.1467348147)100/100:0.0605654549,(Equus_kiang_W_Li25_6NWF:0.0925408143,Equus_kiang_W_Li25_M1G1:0.0788816580)100/100:0.2571640595)100/100:0.1299422815,(Cervus_elaphus_W_Gl21_J61D:0.2879688951,(((Pantholops_hodgsonii_W_Li25_ANYP:0.1479966780,Pantholops_hodgsonii_W_Li25_B208:0.1635433942)99.7/98:0.0327110414,Rangifer_tarandus_W_Gl21_JN31:0.2121858869)100/100:0.0488234672,Pantholops_hodgsonii_W_Li25_NZ23:0.2252760539)100/100:0.0729372411)100/100:0.0496177640)100/100:0.0901494779,Pantholops_hodgsonii_W_Li25_QQ1Z:0.1746009179);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -7451117.44513685
+Robinson-Foulds distance between ML tree and consensus tree: 10
+
+Branches with support >0.00000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++--------Cervus_elaphus_W_Gl21_1E09
+|
+|                         +-----------------Cervus_elaphus_W_Gl21_2BNV
+|                      +--| (100)
+|                      |  |                             +---Homo_sapiens_H_Ca23_7F9S
+|                      |  |                          +--| (100)
+|                      |  |                          |  +--Homo_sapiens_H_Ca23_W4V8
+|                      |  |                       +--| (98)
+|                      |  |                       |  +--Homo_sapiens_H_Ca23_Y1CA
+|                      |  |                +------| (100)
+|                      |  |                |      |  +--Homo_sapiens_H_Ca23_E833
+|                      |  |                |      +--| (100)
+|                      |  |                |         +---Pan_troglodytes_W_Sa23_BAQ1
+|                      |  |             +--| (98)
+|                      |  |             |  +-----------Ochotona_curzoniae_W_Pu23_6CMV
+|                      |  |          +--| (100)
+|                      |  |          |  |             +--Pan_paniscus_W_Sa23_YV03
+|                      |  |          |  |          +--| (100)
+|                      |  |          |  |          |  |  +--Pan_troglodytes_W_Sa23_375R
+|                      |  |          |  |          |  +--| (100)
+|                      |  |          |  |          |     |     +--Pan_troglodytes_W_Sa23_6W8P
+|                      |  |          |  |          |     |  +--| (100)
+|                      |  |          |  |          |     |  |  |        +--Pan_troglodytes_W_Sa23_AMXN
+|                      |  |          |  |          |     |  |  |     +--| (100)
+|                      |  |          |  |          |     |  |  |     |  +--Pan_troglodytes_W_Sa23_BKW4
+|                      |  |          |  |          |     |  |  |  +--| (100)
+|                      |  |          |  |          |     |  |  |  |  +--Pan_troglodytes_W_Sa23_P7RS
+|                      |  |          |  |          |     |  |  +--| (100)
+|                      |  |          |  |          |     |  |     +--Pan_troglodytes_W_Sa23_T393
+|                      |  |          |  |          |     +--| (100)
+|                      |  |          |  |          |        +--Pan_troglodytes_W_Sa23_B2WY
+|                      |  |          |  |  +-------| (100)
+|                      |  |          |  |  |       +--Pan_troglodytes_W_Sa23_06DN
+|                      |  |          |  +--| (99)
+|                      |  |          |     |      +-------Pantholops_hodgsonii_W_Li25_6Q2N
+|                      |  |          |     +------| (100)
+|                      |  |          |            +---------Rangifer_tarandus_W_Gl21_PMC7
+|                      |  |       +--| (100)
+|                      |  |       |  |         +-----Pantholops_hodgsonii_W_Li25_5RW1
+|                      |  |       |  |     +---| (100)
+|                      |  |       |  |     |   +----Pantholops_hodgsonii_W_Li25_ASDX
+|                      |  |       |  |  +--| (100)
+|                      |  |       |  |  |  +---------Pantholops_hodgsonii_W_Li25_HBBE
+|                      |  |       |  +--| (100)
+|                      |  |       |     +-------Pantholops_hodgsonii_W_Li25_QAZT
+|                      |  |  +----| (100)
+|                      |  |  |    |       +--Homo_sapiens_H_Ca23_KHQV
+|                      |  |  |    |  +----| (100)
+|                      |  |  |    |  |    |  +--Homo_sapiens_H_Ca23_WGTZ
+|                      |  |  |    |  |    +--| (100)
+|                      |  |  |    |  |       |  +--Pan_troglodytes_W_Sa23_JEAV
+|                      |  |  |    |  |       +--| (100)
+|                      |  |  |    |  |          +---Pan_troglodytes_W_Sa23_JYX4
+|                      |  |  |    +--| (100)
+|                      |  |  |       +-----------Pantholops_hodgsonii_W_Li25_990H
+|                      |  +--| (98)
+|                      |     |          +---Pantholops_hodgsonii_W_Li25_ASPJ
+|                      |     +----------| (100)
+|                      |                |  +---Pantholops_hodgsonii_W_Li25_F9GT
+|                      |                +--| (100)
+|                      |                   +--Pantholops_hodgsonii_W_Li25_Y8ZT
+|                +-----| (100)
+|                |     |          +----------Homo_sapiens_H_Ca23_CNNM
+|                |     +----------| (100)
+|                |                +--------Ochotona_curzoniae_W_Pu23_GP4Q
+|            +---| (100)
+|            |   |                      +-------Pantholops_hodgsonii_W_Li25_6AKM
+|            |   |                   +--| (100)
+|            |   |                   |  +------Pantholops_hodgsonii_W_Li25_XEKV
+|            |   |                +--| (100)
+|            |   |                |  |     +----Pantholops_hodgsonii_W_Li25_BVH9
+|            |   |                |  |  +--| (78)
+|            |   |                |  |  |  +---Pantholops_hodgsonii_W_Li25_Q4SP
+|            |   |                |  +--| (100)
+|            |   |                |     +--Pantholops_hodgsonii_W_Li25_Z6GA
+|            |   |             +--| (78)
+|            |   |             |  +----------Pantholops_hodgsonii_W_Li25_KBY4
+|            |   |       +-----| (100)
+|            |   |       |     |   +----Pantholops_hodgsonii_W_Li25_8FPX
+|            |   |       |     +---| (100)
+|            |   |       |         +-----Pantholops_hodgsonii_W_Li25_X453
+|            |   +-------| (100)
+|            |           |           +-------Pantholops_hodgsonii_W_Li25_9KXX
+|            |           |        +--| (100)
+|            |           |        |  |  +----Pantholops_hodgsonii_W_Li25_TV94
+|            |           |        |  +--| (100)
+|            |           |        |     +-----Pantholops_hodgsonii_W_Li25_V3R9
+|            |           +--------| (100)
+|            |                    |  +----Pantholops_hodgsonii_W_Li25_JE3B
+|            |                    +--| (85)
+|            |                       +----Pantholops_hodgsonii_W_Li25_SF4C
+|         +--| (100)
+|         |  |        +--------Pantholops_hodgsonii_W_Li25_0J3P
+|         |  |     +--| (51)
+|         |  |     |  |     +--Pantholops_hodgsonii_W_Li25_19BB
+|         |  |     |  |  +--| (100)
+|         |  |     |  |  |  +---Pantholops_hodgsonii_W_Li25_D7ZM
+|         |  |     |  +--| (88)
+|         |  |     |     |           +-----Pantholops_hodgsonii_W_Li25_4Z18
+|         |  |     |     |        +--| (51)
+|         |  |     |     |        |  +---Pantholops_hodgsonii_W_Li25_K9AK
+|         |  |     |     |     +--| (49)
+|         |  |     |     |     |  +------Pantholops_hodgsonii_W_Li25_8MSN
+|         |  |     |     |  +--| (49)
+|         |  |     |     |  |  |  +-----Pantholops_hodgsonii_W_Li25_PKDZ
+|         |  |     |     |  |  +--| (100)
+|         |  |     |     |  |     +----Pantholops_hodgsonii_W_Li25_RAJ3
+|         |  |     |     +--| (49)
+|         |  |     |        |  +------Pantholops_hodgsonii_W_Li25_8D2D
+|         |  |     |        +--| (100)
+|         |  |     |           +------Pantholops_hodgsonii_W_Li25_E7AB
+|         |  +-----| (100)
+|         |        |  +------Pantholops_hodgsonii_W_Li25_SQSE
+|         |        +--| (100)
+|         |           +------Pantholops_hodgsonii_W_Li25_V07P
+|   +-----| (100)
+|   |     |           +---Equus_kiang_W_Li25_6NWF
+|   |     +-----------| (100)
+|   |                 +--Equus_kiang_W_Li25_M1G1
++---| (100)
+|   |  +-------------Cervus_elaphus_W_Gl21_J61D
+|   +--| (100)
+|      |        +------Pantholops_hodgsonii_W_Li25_ANYP
+|      |     +--| (98)
+|      |     |  +-------Pantholops_hodgsonii_W_Li25_B208
+|      |  +--| (100)
+|      |  |  +---------Rangifer_tarandus_W_Gl21_JN31
+|      +--| (100)
+|         +----------Pantholops_hodgsonii_W_Li25_NZ23
+|
++-------Pantholops_hodgsonii_W_Li25_QQ1Z
+
+
+Consensus tree in newick format: 
+
+(Cervus_elaphus_W_Gl21_1E09:0.1862945974,((((((Cervus_elaphus_W_Gl21_2BNV:0.3704324482,((((((((Homo_sapiens_H_Ca23_7F9S:0.0895962928,Homo_sapiens_H_Ca23_W4V8:0.0635478883)100:0.0391542981,Homo_sapiens_H_Ca23_Y1CA:0.0492254303)98:0.0170153880,(Homo_sapiens_H_Ca23_E833:0.0728786364,Pan_troglodytes_W_Sa23_BAQ1:0.0916827458)100:0.0309652882)100:0.1485125535,Ochotona_curzoniae_W_Pu23_6CMV:0.2520838326)98:0.0331974612,(((Pan_paniscus_W_Sa23_YV03:0.0517324026,(Pan_troglodytes_W_Sa23_375R:0.0542383739,((Pan_troglodytes_W_Sa23_6W8P:0.0460805839,(((Pan_troglodytes_W_Sa23_AMXN:0.0421076146,Pan_troglodytes_W_Sa23_BKW4:0.0506248134)100:0.0241827554,Pan_troglodytes_W_Sa23_P7RS:0.0268206104)100:0.0278165802,Pan_troglodytes_W_Sa23_T393:0.0594877104)100:0.0196193692)100:0.0284571753,Pan_troglodytes_W_Sa23_B2WY:0.0044089174)100:0.0281378863)100:0.0271395847)100:0.0311896463,Pan_troglodytes_W_Sa23_06DN:0.0459888693)100:0.1612128189,(Pantholops_hodgsonii_W_Li25_6Q2N:0.1676221949,Rangifer_tarandus_W_Gl21_PMC7:0.2027527090)100:0.1501801165)99:0.0398273238)100:0.0296560362,(((Pantholops_hodgsonii_W_Li25_5RW1:0.1222386213,Pantholops_hodgsonii_W_Li25_ASDX:0.1130684705)100:0.0822286485,Pantholops_hodgsonii_W_Li25_HBBE:0.2012541904)100:0.0349702590,Pantholops_hodgsonii_W_Li25_QAZT:0.1790556582)100:0.0494497373)100:0.0548473830,((Homo_sapiens_H_Ca23_KHQV:0.0767784382,(Homo_sapiens_H_Ca23_WGTZ:0.0721657100,(Pan_troglodytes_W_Sa23_JEAV:0.0709966067,Pan_troglodytes_W_Sa23_JYX4:0.0906524929)100:0.0529105335)100:0.0250916331)100:0.1196565623,Pantholops_hodgsonii_W_Li25_990H:0.2493931186)100:0.0657942376)100:0.1084077348,(Pantholops_hodgsonii_W_Li25_ASPJ:0.0974175543,(Pantholops_hodgsonii_W_Li25_F9GT:0.0823911399,Pantholops_hodgsonii_W_Li25_Y8ZT:0.0616596973)100:0.0612124302)100:0.2389751035)98:0.0380169146)100:0.0362711804,(Homo_sapiens_H_Ca23_CNNM:0.2321356477,Ochotona_curzoniae_W_Pu23_GP4Q:0.1973339193)100:0.2261796309)100:0.1231602498,(((((Pantholops_hodgsonii_W_Li25_6AKM:0.1627161482,Pantholops_hodgsonii_W_Li25_XEKV:0.1516393102)100:0.0417009996,((Pantholops_hodgsonii_W_Li25_BVH9:0.1027333937,Pantholops_hodgsonii_W_Li25_Q4SP:0.0985627243)78:0.0404314059,Pantholops_hodgsonii_W_Li25_Z6GA:0.0658260329)100:0.0710068252)100:0.0437088528,Pantholops_hodgsonii_W_Li25_KBY4:0.2219790303)78:0.0426749435,(Pantholops_hodgsonii_W_Li25_8FPX:0.1069574700,Pantholops_hodgsonii_W_Li25_X453:0.1242583218)100:0.0901755192)100:0.1230954037,((Pantholops_hodgsonii_W_Li25_9KXX:0.1669088565,(Pantholops_hodgsonii_W_Li25_TV94:0.1054550455,Pantholops_hodgsonii_W_Li25_V3R9:0.1220720492)100:0.0364000803)100:0.0206803455,(Pantholops_hodgsonii_W_Li25_JE3B:0.1121913682,Pantholops_hodgsonii_W_Li25_SF4C:0.1088146687)85:0.0221466447)100:0.1970043577)100:0.1615858787)100:0.0826610565,((Pantholops_hodgsonii_W_Li25_0J3P:0.1836245639,((Pantholops_hodgsonii_W_Li25_19BB:0.0538268000,Pantholops_hodgsonii_W_Li25_D7ZM:0.0945075176)100:0.0792415384,((((Pantholops_hodgsonii_W_Li25_4Z18:0.1236475957,Pantholops_hodgsonii_W_Li25_K9AK:0.0935747251)51:0.0524562703,Pantholops_hodgsonii_W_Li25_8MSN:0.1480411131)49:0.0319876309,(Pantholops_hodgsonii_W_Li25_PKDZ:0.1303165523,Pantholops_hodgsonii_W_Li25_RAJ3:0.1166592611)100:0.0540082542)49:0.0293450448,(Pantholops_hodgsonii_W_Li25_8D2D:0.1416278097,Pantholops_hodgsonii_W_Li25_E7AB:0.1515123652)100:0.0571313280)49:0.0286233548)88:0.0259909938)51:0.0279812457,(Pantholops_hodgsonii_W_Li25_SQSE:0.1493454859,Pantholops_hodgsonii_W_Li25_V07P:0.1470290758)100:0.0439277295)100:0.1385449840)100:0.0640844008,(Equus_kiang_W_Li25_6NWF:0.0931256876,Equus_kiang_W_Li25_M1G1:0.0781978148)100:0.2525694716)100:0.1335121382,(Cervus_elaphus_W_Gl21_J61D:0.2875680938,(((Pantholops_hodgsonii_W_Li25_ANYP:0.1481503736,Pantholops_hodgsonii_W_Li25_B208:0.1635364106)98:0.0328191211,Rangifer_tarandus_W_Gl21_JN31:0.2115818952)100:0.0490597164,Pantholops_hodgsonii_W_Li25_NZ23:0.2246711484)100:0.0730077355)100:0.0500005644)100:0.0903383946,Pantholops_hodgsonii_W_Li25_QQ1Z:0.1727912961);
+
+ALISIM COMMAND
+--------------
+To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
+
+--alisim simulated_MSA -t /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.treefile -m "VT+F+R10{0.193573,0.0154348,0.150392,0.166395,0.175805,0.493317,0.190555,0.996739,0.161365,1.70886,0.0942715,2.64705,0.0263381,4.13439,0.00623089,6.47298,0.00111002,10.3666,0.000360005,25.8456}" --length 228101
+
+To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Ruminococcoides/concat_alignment.faa --alisim mimicked_MSA
+
+To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Ruminococcoides/concat_alignment.faa --alisim mimicked_MSA --num-alignments 100
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Mon Sep  7 16:02:39 2026
+Total CPU time used: 27009.55206 seconds (7h:30m:9s)
+Total wall-clock time used: 17163.84965 seconds (4h:46m:3s)
+

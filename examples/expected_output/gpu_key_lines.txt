@@ -1,0 +1,5 @@
+Number of constant sites: 1612 (= 40.3302% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 1612 (= 40.3302% of all sites)
+Number of parsimony informative sites: 784
+Model of substitution: LG+G4
+Log-likelihood of the tree: -33476.5026 (s.e. 325.2870)

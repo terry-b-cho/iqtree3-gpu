@@ -1,0 +1,579 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0c46374..97b2764 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -81,6 +81,19 @@ set(GCC_MIN_VERSION "9") # minimum GCC version that is tested in CI
+ project(iqtree)
+ add_definitions(-DIQ_TREE)
+ 
++# ---- IQ-TREE3-GPU: optional GPU likelihood backend (CUDA) ----
++option(IQTREE_GPU "Build the IQ-TREE3-GPU likelihood backend (CUDA)" OFF)
++if (IQTREE_GPU)
++    enable_language(CUDA)
++    if (NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
++        set(CMAKE_CUDA_ARCHITECTURES 89)  # L40S = sm_89; override with -DCMAKE_CUDA_ARCHITECTURES=
++    endif()
++    add_definitions(-DIQTREE_GPU)
++    find_package(CUDAToolkit REQUIRED)
++    message(STATUS "IQ-TREE3-GPU backend: ON (CUDA arch ${CMAKE_CUDA_ARCHITECTURES})")
++endif()
++# -------------------------------------------------------------
++
+ # Require position independent code for IQ-TREE to be used as a library 
+ if (BUILD_LIB)
+     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+diff --git a/main/phyloanalysis.cpp b/main/phyloanalysis.cpp
+index c2dac05..21c475e 100644
+--- a/main/phyloanalysis.cpp
++++ b/main/phyloanalysis.cpp
+@@ -3007,8 +3007,41 @@ void printMCMCFileFormat(PhyloTree *tree, MatrixXd &hessian, stringstream &tree_
+         }
+ 
+ 
+-        processDervMCMCTree(gradient_vector_new, nBranches, mem_size, G_matrix_new, ptn_freq_diagonal,
+-                            gradient_vector_eigen, hessian, hessian_diagonal_new);
++        bool hessian_done = false;
++#ifdef IQTREE_GPU
++        // IQ-TREE3-GPU. Under -gpu the per-pattern derivative matrix G is DEVICE-RESIDENT: each
++        // row was written by the derivative kernel from the register it already held. The
++        // Hessian is then a symmetric rank-k update of it, so it is one cuBLAS DSYRK on the
++        // card instead of a branchNum x mem_size host transpose plus an Eigen product (for the
++        // largest benchmark genus that transpose alone is a ~158 MB temporary).
++        //
++        // gpuMCMCHessian() returns false unless the device G is this tree's, complete and
++        // error-free, in which case nothing below changes and the Eigen path runs exactly as
++        // it always did -- the host G_matrix is filled from the same device rows either way.
++        //
++        // It hands back G*diag(ptn_freq)*G^T indexed by BRANCH ID, unnegated and with its true
++        // diagonal. The three steps processDervMCMCTree() applies on top are reproduced here
++        // rather than shared, because the row permutation into export order has to be applied
++        // to BOTH indices and that is only meaningful on the square matrix.
++        if (branch_ids.size() == nBranches && nBranches == (size_t)tree->branchNum) {
++            vector<double> gpu_hessian(nBranches * nBranches);
++            if (tree->gpuMCMCHessian(gpu_hessian.data(), (int)nBranches)) {
++                gradient_vector_eigen = Map<RowVectorXd>(gradient_vector_new, nBranches);
++                hessian.resize(nBranches, nBranches);
++                for (size_t i = 0; i < nBranches; i++)
++                    for (size_t j = 0; j < nBranches; j++)
++                        hessian(i, j) = -gpu_hessian[(size_t)branch_ids[i] * nBranches
++                                                     + (size_t)branch_ids[j]];
++                hessian.diagonal() = Map<VectorXd>(hessian_diagonal_new, nBranches).array();
++                hessian_done = true;
++                cout << "[IQ-TREE3-GPU] MCMCTree Hessian formed on the device "
++                        "(cuBLAS DSYRK over the resident G matrix)." << endl;
++            }
++        }
++#endif
++        if (!hessian_done)
++            processDervMCMCTree(gradient_vector_new, nBranches, mem_size, G_matrix_new, ptn_freq_diagonal,
++                                gradient_vector_eigen, hessian, hessian_diagonal_new);
+         saveTreeMCMCTree(branchLengthsNew, branch_lengths_vector, tree, tree_stream);
+ 
+         aligned_free(G_matrix_new);
+diff --git a/tree/CMakeLists.txt b/tree/CMakeLists.txt
+index b120155..165392a 100644
+--- a/tree/CMakeLists.txt
++++ b/tree/CMakeLists.txt
+@@ -59,3 +59,20 @@ phylohmm.h
+ )
+ 
+ target_link_libraries(tree pll model alignment)
++
++# ---- IQ-TREE3-GPU: GPU likelihood backend ----
++if (IQTREE_GPU)
++    target_sources(tree PRIVATE gpu_kernels.cu phylotreegpu.cpp)
++    # -fmad=false: never let the compiler silently contract a*b+c. Every place a fused
++    # multiply-add is wanted calls fma() explicitly, which is what the CPU kernel's mul_add()
++    # does, so rounding stays predictable instead of depending on nvcc's contraction choices.
++    set_source_files_properties(gpu_kernels.cu PROPERTIES LANGUAGE CUDA
++                                COMPILE_OPTIONS "-fmad=false")
++    # CUDA::cublas is required, not optional: gpu_kernels.cu forms the MCMCTree Hessian
++    # H = G*diag(ptn_freq)*G^T with a single cublasDsyrk. Without this line the CUDA
++    # translation unit still COMPILES (cublas_v2.h is on the CUDAToolkit include path that
++    # CUDA::cudart brings in) and only fails at link time, which is exactly the kind of
++    # breakage a fresh clone discovers and a warm build tree does not.
++    target_link_libraries(tree CUDA::cudart CUDA::cublas)
++endif()
++# --------------------------------------------
+diff --git a/tree/phylotree.cpp b/tree/phylotree.cpp
+index f5b4ed4..4479fd8 100644
+--- a/tree/phylotree.cpp
++++ b/tree/phylotree.cpp
+@@ -20,6 +20,9 @@
+  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+  ***************************************************************************/
+ #include "phylotree.h"
++#ifdef IQTREE_GPU
++#include "gpu_kernels.h"
++#endif
+ #include "utils/starttree.h"
+ #include "utils/progress.h"  //for progress_display
+ //#include "rateheterogeneity.h"
+@@ -246,6 +249,12 @@ PhyloTree::~PhyloTree() {
+     if (site_rate != nullptr)
+         delete site_rate;
+     site_rate = nullptr;
++#ifdef IQTREE_GPU
++    // IQ-TREE3-GPU: a deferred device-to-host copy of _pattern_lh may still be outstanding, and
++    // its destination is the buffer freed on the next line. ModelFinder deletes a whole IQTree
++    // per candidate model, so this is the normal case, not a corner one.
++    gpuForgetPatternLh();
++#endif
+     aligned_free(_pattern_lh_cat);
+     aligned_free(_pattern_lh);
+     aligned_free(_pattern_scaling);
+@@ -958,6 +967,11 @@ void PhyloTree::initializeAllPartialLh() {
+ }
+ 
+ void PhyloTree::deleteAllPartialLh() {
++#ifdef IQTREE_GPU
++    // IQ-TREE3-GPU: same reason as in ~PhyloTree() -- _pattern_lh is freed below and may be the
++    // destination of a deferred device-to-host copy.
++    gpuForgetPatternLh();
++#endif
+     //Note: aligned_free now sets the pointer to nullptr
+     //      (so there's no need to do that explicitly any more)
+     aligned_free(central_partial_lh);
+@@ -1285,6 +1299,13 @@ double PhyloTree::computeLikelihood(double *pattern_lh, bool save_log_value) {
+ //    } else {
+         score = computeLikelihoodBranch(current_it, (PhyloNode*) current_it_back->node, save_log_value);
+ //    }
++#ifdef IQTREE_GPU
++    // IQ-TREE3-GPU: reader of _pattern_lh. Under -gpu the branch kernel leaves the per-pattern
++    // values on the device; this is one of the two places outside the likelihood kernels that
++    // reads them back, so it is one of the two places that has to ask for them.
++    if (pattern_lh)
++        gpuSyncPatternLh();
++#endif
+     if (pattern_lh)
+         memmove(pattern_lh, _pattern_lh, aln->size() * sizeof(double));
+ 
+@@ -1375,7 +1396,17 @@ double PhyloTree::computePatternLhCat(SiteLoglType wsl) {
+ 
+     double score;
+ 
++#ifdef IQTREE_GPU
++    // IQ-TREE3-GPU: _pattern_lh_cat is the only IQ-TREE buffer the GPU branch kernel fills on
++    // demand rather than always (it costs an npat*ncat device-to-host copy). Every consumer
++    // (+R EM, +I EM, empirical-Bayes site rates, -wslr) enters through this function, so the
++    // request is raised here and lowered immediately afterwards.
++    gpu_ptn_lh_cat_wanted = true;
++#endif
+     score = computeLikelihoodBranch(current_it, (PhyloNode*)current_it_back->node);
++#ifdef IQTREE_GPU
++    gpu_ptn_lh_cat_wanted = false;
++#endif
+     // TODO: SIMD aware
+     transformPatternLhCat();
+     /*
+@@ -1497,8 +1528,17 @@ void PhyloTree::computePatternLikelihood(double *ptn_lh, double *cur_logl, doubl
+     if (ptn_lh_cat) {
+         // Right now only Naive version store _pattern_lh_cat!
+         computePatternLhCat(wsl);
+-    } 
+-    
++    }
++
++#ifdef IQTREE_GPU
++    // IQ-TREE3-GPU: the second (and last) reader of _pattern_lh outside the likelihood kernels.
++    // Note this function does NOT recompute the likelihood -- it reports the per-pattern values
++    // of whatever was computed last -- so the sync has to happen here rather than at some
++    // earlier call site. AFTER the computePatternLhCat() above, because that runs a fresh
++    // branch evaluation and would otherwise leave a newer deferred copy outstanding.
++    gpuSyncPatternLh();
++#endif
++
+     double sum_scaling = current_it->lh_scale_factor + current_it_back->lh_scale_factor;
+     //double sum_scaling = 0.0;
+     if (sum_scaling < 0.0) {
+@@ -2640,6 +2680,14 @@ void PhyloTree::optimizeOneBranch(PhyloNode *node1, PhyloNode *node2, bool clear
+ //    mem_slots.cleanup();
+     if (optimize_by_newton) {
+         // Newton-Raphson method
++#ifdef IQTREE_GPU
++        // STEP 3: run the entire Newton loop on-device when the GPU engine is active
++        // for this tree; identical (x1,xguess,x2,xacc,maxNRStep) semantics. Falls back to the host
++        // optimiser (which itself uses fast derivative/logL graph replay) on any precondition
++        // miss or non-finite derivative -- never silently.
++        if (!gpuNewtonOptimize(params->min_branch_length, current_len, params->max_branch_length,
++                               params->min_branch_length, maxNRStep, optx))
++#endif
+         optx = minimizeNewton(params->min_branch_length, current_len, params->max_branch_length, params->min_branch_length, negative_lh, maxNRStep);
+         if (verbose_mode >= VB_DEBUG) {
+             cout << "minimizeNewton logl: " << computeLikelihoodFromBuffer() << endl;
+diff --git a/tree/phylotree.h b/tree/phylotree.h
+index 2b752e4..561fd61 100644
+--- a/tree/phylotree.h
++++ b/tree/phylotree.h
+@@ -950,6 +950,98 @@ public:
+     typedef double (PhyloTree::*ComputeLikelihoodBranchType)(PhyloNeighbor*, PhyloNode*, bool);
+     ComputeLikelihoodBranchType computeLikelihoodBranchPointer;
+ 
++#ifdef IQTREE_GPU
++    // IQ-TREE3-GPU: GPU likelihood backend. These four are a mutually consistent set: they own
++    // the device partials, the device theta and the per-pattern outputs between them, and fall
++    // back per call to the cpuCompute*Pointer members below on GPU-ineligible models.
++    // Implementation and design notes in tree/phylotreegpu.cpp.
++    void   computePartialLikelihoodGPU(TraversalInfo &info, size_t ptn_lower, size_t ptn_upper, int thread_id);
++    double computeLikelihoodBranchGPU(PhyloNeighbor *dad_branch, PhyloNode *dad, bool save_log_value);
++    double computeLikelihoodFromBufferGPU();
++    void   computeLikelihoodDervGPU(PhyloNeighbor *dad_branch, PhyloNode *dad, double *df, double *ddf);
++
++    /** build/refresh the device context for this tree; false -> caller must use the CPU */
++    bool   gpuPrepare();
++    /** slot index of a neighbour's partial within central_partial_lh / nni_partial_lh, or -1 */
++    int    gpuSlotIndex(PhyloNeighbor *nei);
++    /** true when the cached device context still describes this tree/model/alignment */
++    bool   gpuContextMatches();
++    /** true when the existing device arena is the right SIZE and CONTENT for this tree, i.e.
++        when only the BINDING (which tree, which host arena, which ncat) can still be wrong.
++        True here but false in gpuContextMatches() means gpuSwitchNcat() and/or gpuRebind()
++        can repair the context without a single cudaMalloc. */
++    bool   gpuGeometryMatches();
++    /** re-point the existing device arena at the current ncat, without reallocating it */
++    bool   gpuSwitchNcat();
++    /** re-point the existing device arena at THIS tree (new slot mapping, engine-side
++        invalidation), without reallocating it. Caller owns clearAllPartialLH()/theta_computed. */
++    bool   gpuRebind();
++    /** (re)create the device engine and the slot table for this tree */
++    bool   gpuBuildContext();
++    /** upload eigen decomposition, rates/props, tip partials and ptn_freq/ptn_invar */
++    bool   gpuUploadModel();
++    /** drop the device context and invalidate the host partials before handing back to CPU */
++    void   gpuLeave();
++    /** gpuLeave() plus a permanent disable, after a device error mid-evaluation */
++    void   gpuAbortToCpu();
++    /** device analogue of computeTraversalInfo<VectorClass>(node, dad, false) */
++    void   gpuTraverse(PhyloNode *node, PhyloNode *dad);
++    /** device analogue of computeLikelihoodBufferGenericSIMD, into the given theta slot */
++    bool   gpuComputeTheta(PhyloNeighbor *dad_branch, PhyloNode *dad, int theta_slot);
++
++    /** STEP 2: compute the partial sweep + theta for the traversal just built by
++        gpuTraverse, either by replaying a cached full-traversal CUDA graph (when the identical
++        full traversal has been seen before under the current generation) or by issuing the
++        per-node launches and, for a FULL traversal, capturing them into a graph for next time.
++        Dirty-SUBSET traversals always take the per-node path. Returns false on a device error. */
++    bool   gpuReplayOrComputeSweep(PhyloNeighbor *dad_branch, PhyloNode *dad, int theta_slot);
++    /** Fills `lens` (resized to branchNum) with the tree's current branch lengths indexed by
++        Neighbor::id, for upload via iqtree_gpu_lik_set_branch_lengths before a graph replay. */
++    void   gpuGatherBranchLengths(std::vector<double> &lens);
++
++    /** STEP 3: run the whole per-branch Newton optimisation on-device (one
++        conditional-graph launch), mirroring minimizeNewton's (x1,xguess,x2,xacc,maxNRStep) call.
++        Returns true and sets optx on success; false means "use the host optimiser". */
++    bool   gpuNewtonOptimize(double x1, double xguess, double x2, double xacc,
++                             int maxNRStep, double &optx);
++
++    /** Fills every host buffer the GPU path does NOT maintain with signalling NaN, so that an
++        untraced consumer produces obviously broken output instead of plausible-but-wrong
++        numbers. gmatrix_enabled selects G_matrix's treatment: zeroed when the MCMCTree export
++        is filling it, poisoned otherwise. See the OUTPUT CONTRACT table in phylotreegpu.cpp. */
++    void   gpuPoisonUnmaintainedBuffers(bool gmatrix_enabled);
++
++    /** MCMCTree Hessian H = G*diag(ptn_freq)*G^T computed on the device from the resident
++        G matrix (one cuBLAS DSYRK), UNNEGATED and with its true diagonal -- i.e. the
++        intermediate at phyloanalysis.cpp:2855. hessian_out receives nbranch*nbranch doubles,
++        indexed by IQ-TREE BRANCH ID in both dimensions; the caller owns the permutation into
++        export order, the sign flip and the hessian_diagonal substitution. Returns false (and
++        changes nothing) whenever the device G is absent, incomplete or not this tree's, in
++        which case the host G_matrix is filled and the Eigen path applies unchanged. */
++    bool   gpuMCMCHessian(double *hessian_out, int nbranch);
++
++    /** Set by computePatternLhCat() around its computeLikelihoodBranch() call. The GPU branch
++        kernel produces _pattern_lh_cat only when this is true: it is an extra
++        npat*ncat device-to-host copy that only the +R / +I EM optimisers and the
++        empirical-Bayes site-rate output ever read, and both reach it via computePatternLhCat. */
++    bool   gpu_ptn_lh_cat_wanted = false;
++
++    /** Materialises the deferred _pattern_lh device-to-host copy, if one is outstanding.
++        The GPU branch kernels leave the per-pattern log-likelihoods on the device instead of
++        copying 1.2 MB back on every Newton iteration; this is the point where a consumer says
++        it is about to read them. Must be called before ANY read of _pattern_lh outside the
++        likelihood kernels themselves -- there are exactly two, both in phylotree.cpp
++        (computeLikelihood's memmove into the caller's buffer, and computePatternLikelihood).
++        A no-op when the GPU is not in use or nothing is outstanding. */
++    void   gpuSyncPatternLh();
++
++    /** Drops any outstanding deferred _pattern_lh copy that targets THIS tree's buffer,
++        without performing it. Called immediately before _pattern_lh is freed: the deferred
++        copy's destination is about to become dangling, and nobody can read the buffer after
++        it is freed, so the right action is to forget rather than to flush. */
++    void   gpuForgetPatternLh();
++#endif
++
+     /**
+      * MINH: this implements the fast alternative strategy for reversible model (March 2013)
+      * where partial likelihoods at nodes store real partial likelihoods times eigenvectors
+@@ -1345,6 +1437,15 @@ public:
+     typedef void (PhyloTree::*ComputeLikelihoodDervType)(PhyloNeighbor *, PhyloNode *, double *, double *);
+     ComputeLikelihoodDervType computeLikelihoodDervPointer;
+ 
++#ifdef IQTREE_GPU
++    // IQ-TREE3-GPU: saved CPU likelihood pointers, for per-call fallback when the current model is
++    // GPU-ineligible (mixture / +I / non-AA). Set in setLikelihoodKernel before the GPU override.
++    ComputePartialLikelihoodType    cpuComputePartialLikelihoodPointer;
++    ComputeLikelihoodBranchType     cpuComputeLikelihoodBranchPointer;
++    ComputeLikelihoodFromBufferType cpuComputeLikelihoodFromBufferPointer;
++    ComputeLikelihoodDervType       cpuComputeLikelihoodDervPointer;
++#endif
++
+     typedef void (PhyloTree::*ComputeLikelihoodDervMixlenType)(PhyloNeighbor *, PhyloNode *, double &, double &);
+     ComputeLikelihoodDervMixlenType computeLikelihoodDervMixlenPointer;
+ 
+@@ -2072,6 +2173,13 @@ public:
+ 
+     virtual void setLikelihoodKernel(LikelihoodKernel lk);
+ 
++    /**
++        IQ-TREE3-GPU: IQ-TREE's original CPU/SIMD kernel selection. It returns early from several
++        branches, so setLikelihoodKernel() calls it first and applies the GPU pointer swap
++        afterwards -- a swap placed inside this function after those returns is unreachable.
++     */
++    void setLikelihoodKernelCPU(LikelihoodKernel lk);
++
+     virtual void setNumThreads(int num_threads);
+ 
+ #if defined(BINARY32) || defined(__NOAVX__)
+diff --git a/tree/phylotreesse.cpp b/tree/phylotreesse.cpp
+index e340fda..01ed1e2 100644
+--- a/tree/phylotreesse.cpp
++++ b/tree/phylotreesse.cpp
+@@ -18,6 +18,9 @@
+  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+  ***************************************************************************/
+ #include "phylotree.h"
++#ifdef IQTREE_GPU
++#include "gpu_kernels.h"
++#endif
+ #include "vectorclass/instrset.h"
+ 
+ #if INSTRSET < 2
+@@ -86,9 +89,15 @@ void PhyloTree::setParsimonyKernel(LikelihoodKernel lk) {
+     ASSERT(0);
+ }
+ 
+-void PhyloTree::setLikelihoodKernel(LikelihoodKernel lk) {
++// IQ-TREE3-GPU: this is IQ-TREE's ORIGINAL kernel-selection logic, unchanged except for its name.
++// It installs the CPU (SIMD) likelihood function pointers and RETURNS EARLY from several branches
++// (e.g. the AVX+FMA path at "return" below). Anything appended after those returns is unreachable,
++// which is exactly how the GPU swap was silently disabled -- so the GPU hook now lives in the
++// setLikelihoodKernel() wrapper beneath this function, where it runs on every return path.
++void PhyloTree::setLikelihoodKernelCPU(LikelihoodKernel lk) {
+ 
+ 	sse = lk;
++
+     vector_size = 1;
+     safe_numeric = (params && (params->lk_safe_scaling || leafNum >= params->numseq_safe_scaling)) ||
+         (aln && aln->num_states != 4 && aln->num_states != 20);
+@@ -194,6 +203,130 @@ void PhyloTree::setLikelihoodKernel(LikelihoodKernel lk) {
+     computePartialLikelihoodPointer = nullptr;
+     computeLikelihoodFromBufferPointer = nullptr;
+ #endif
++
++}
++
++// IQ-TREE3-GPU: GPU likelihood backend entry point.
++//
++// WHY THIS IS A WRAPPER. setLikelihoodKernelCPU() (above) returns early from several branches --
++// on any CPU with SSE2 or better it installs the SIMD pointers and returns immediately. The GPU
++// pointer swap used to sit at the END of that function, after those returns, so it was DEAD CODE:
++// `-gpu` runs reported the CUDA device, passed the device self-test (which calls the device
++// log-likelihood directly, bypassing the function pointers), and then silently ran the stock CPU
++// kernel for the entire search. Doing the swap here, after the CPU selection has fully finished,
++// guarantees it applies no matter which branch installed the CPU pointers.
++void PhyloTree::setLikelihoodKernel(LikelihoodKernel lk) {
++    setLikelihoodKernelCPU(lk);
++
++#ifdef IQTREE_GPU
++    // `-gpu` activates the backend when a CUDA device is present.
++    // (Legacy: env IQTREE_GPU_SWAP still forces it on, for reproducing older validation runs.)
++    if (params && (params->gpu_lik || getenv("IQTREE_GPU_SWAP"))) {
++        // THE OUTPUT GUARD, and it comes FIRST -- before the device is even looked at.
++        //
++        // Everything else about GPU selection asks whether the INPUTS are supported. This asks
++        // whether the OUTPUTS this run will consume are ones the engine fills. That question was
++        // never asked, which is how `--dating mcmctree` ran against a G_matrix the GPU had never
++        // written: the buffer existed, held whatever aligned_alloc returned, and the exported
++        // Hessian looked like numbers. gpu_eligible() could not have caught it, because nothing
++        // about the alignment or the model was wrong.
++        //
++        // It runs ahead of the device-count test on purpose. The user asked for -gpu together
++        // with a feature the GPU cannot serve; that is worth saying whether or not a card
++        // happens to be visible, and saying it in the same place every time makes the message
++        // reproducible on a login node.
++        const char *unsupported = iqtree_gpu_unsupported_output(params);
++        if (unsupported) {
++            // --gpu-strict promised that this run is a GPU measurement. Declining the backend
++            // here would produce a pure CPU run that still says "-gpu" on its command line,
++            // which is exactly the confusion the flag exists to prevent.
++            if (params->gpu_strict) {
++                fflush(stdout);
++                outError(string("IQ-TREE3-GPU --gpu-strict: the GPU backend cannot serve this "
++                                "run because ") + unsupported +
++                         ". Plain -gpu would fall back to the CPU kernel for the whole run; "
++                         "--gpu-strict refuses so that the result is not reported as a GPU one.");
++            }
++            static bool gpu_output_guard_done = false;
++            if (!gpu_output_guard_done) {
++                gpu_output_guard_done = true;
++                printf("[IQ-TREE3-GPU] -gpu declined: %s.\n", unsupported);
++                printf("[IQ-TREE3-GPU]   Running on the CPU likelihood kernel instead. "
++                       "Remove the flag above to use the GPU.\n");
++                fflush(stdout);
++            }
++        } else if (iqtree_gpu_device_count() > 0) {
++            // Save CPU pointers so GPU functions can fall back per-call on ineligible models.
++            cpuComputePartialLikelihoodPointer    = computePartialLikelihoodPointer;
++            cpuComputeLikelihoodBranchPointer     = computeLikelihoodBranchPointer;
++            cpuComputeLikelihoodDervPointer       = computeLikelihoodDervPointer;
++            cpuComputeLikelihoodFromBufferPointer = computeLikelihoodFromBufferPointer;
++            computePartialLikelihoodPointer    = &PhyloTree::computePartialLikelihoodGPU;
++            computeLikelihoodBranchPointer     = &PhyloTree::computeLikelihoodBranchGPU;
++            computeLikelihoodDervPointer       = &PhyloTree::computeLikelihoodDervGPU;
++            computeLikelihoodFromBufferPointer = &PhyloTree::computeLikelihoodFromBufferGPU;
++            // NOTE: computeLikelihoodDervMixlenPointer is deliberately left alone. Mixlen trees
++            // are GPU-ineligible (they read the host theta_all, which the GPU path does not
++            // maintain), so they must keep their CPU mixlen derivative; nulling it here used to
++            // turn any -mixlen run under -gpu into a null-pointer call.
++            // ModelFinder re-selects the kernel once per candidate model (~1232 times), so the
++            // banner is printed only on the first activation to keep the log readable.
++            static bool gpu_banner_done = false;
++            if (!gpu_banner_done) {
++                gpu_banner_done = true;
++                // One host thread drives the GPU: each node is a single launch covering ALL
++                // patterns, so -T only affects the CPU-side work (parsimony, model setup).
++                // Splitting the pattern range across host threads and streams, as the previous
++                // integration did, fragments those launches and costs more than it buys.
++                printf("[IQ-TREE3-GPU] GPU acceleration ACTIVE on %s "
++                       "(one launch per node over all patterns, single host thread).\n",
++                       iqtree_gpu_device_name());
++                printf("[IQ-TREE3-GPU]   accelerated: single-matrix reversible models with "
++                       "+F, +G, +R, +I -- amino acid (LG/WAG/VT/JTT/Q.*) and "
++                       "nucleotide (JC/K80/HKY/TN/GTR and the rest of the reversible DNA set).\n");
++                printf("[IQ-TREE3-GPU]   CPU fallback (per call): mixture/profile, non-reversible, "
++                       "+ASC, +E, mixlen, partitioned, and codon/morphological/binary data.\n");
++                printf("[IQ-TREE3-GPU]   Equivalence target vs CPU IQ-TREE: logL within 1e-4, "
++                       "RF=0, matching SH-aLRT/UFBoot support (verify: iqtree3-gpu-verify.sh).\n");
++                // The banner above is printed ONCE and proves nothing about the rest of the
++                // run: every entry point re-tests eligibility per call and can delegate
++                // silently. Point at the accounting that does prove it.
++                printf("[IQ-TREE3-GPU]   Per-call accounting is reported at exit as "
++                       "'likelihood calls: N on GPU, M delegated to CPU' plus a GPUSTATS line; "
++                       "--gpu-strict turns any delegation into an error.\n");
++                if (params->gpu_strict)
++                    printf("[IQ-TREE3-GPU]   --gpu-strict ACTIVE: identical kernels and "
++                           "identical results to plain -gpu; the only difference is that a CPU "
++                           "fallback or a device error aborts the run instead of being "
++                           "absorbed.\n");
++                if (params->dating_method == "mcmctree") {
++                    // Named explicitly because it is the feature that motivated the output
++                    // guard: saying "supported" out loud is what distinguishes a checked case
++                    // from an unchecked one in a log a reviewer reads a year from now.
++                    printf("[IQ-TREE3-GPU]   --dating mcmctree: gradients, Hessian diagonal and "
++                           "the per-pattern G matrix are produced on the device (Hessian via "
++                           "cuBLAS DSYRK).\n");
++                }
++                fflush(stdout);
++            }
++        } else {
++            // Same argument as the output guard above: no device means the whole run is CPU,
++            // and --gpu-strict exists so that such a run cannot be mistaken for a GPU one.
++            if (params->gpu_strict) {
++                fflush(stdout);
++                outError("IQ-TREE3-GPU --gpu-strict: no CUDA device is visible. Plain -gpu falls "
++                         "back to the CPU kernel here; --gpu-strict refuses, because the run "
++                         "would otherwise be a CPU run reported under a -gpu command line.");
++            }
++            static bool gpu_nodev_done = false;
++            if (!gpu_nodev_done) {
++                gpu_nodev_done = true;
++                printf("[IQ-TREE3-GPU] -gpu requested but no CUDA device is visible; using the CPU kernel.\n");
++                fflush(stdout);
++            }
++        }
++    }
++#endif
+ }
+ 
+ void PhyloTree::changeLikelihoodKernel(LikelihoodKernel lk) {
+diff --git a/utils/tools.cpp b/utils/tools.cpp
+index 4bb0bfb..82293bf 100644
+--- a/utils/tools.cpp
++++ b/utils/tools.cpp
+@@ -3103,6 +3103,29 @@ void parseArg(int argc, char *argv[], Params &params) {
+ 				continue;
+ 			}
+ 
++			// IQ-TREE3-GPU: request the GPU likelihood backend.
++			if (strcmp(argv[cnt], "-gpu") == 0 || strcmp(argv[cnt], "--gpu-lik") == 0) {
++				params.gpu_lik = true;
++				continue;
++			}
++
++			// IQ-TREE3-GPU: prove the GPU backend actually ran the whole likelihood.
++			//
++			// This implies -gpu and changes NOTHING about which kernels run: same eligibility
++			// test, same launches, same reductions, same results. The four GPU entry points
++			// each re-test eligibility on EVERY call and silently delegate to the saved CPU
++			// kernel when it fails, so a run can print "GPU acceleration ACTIVE", show non-zero
++			// nvidia-smi utilisation, and still evaluate an arbitrary fraction of its
++			// likelihoods on the CPU (an ineligible ModelFinder candidate is enough). A
++			// benchmark in that state is partly CPU-vs-CPU. Under --gpu-strict the first such
++			// delegation aborts the run, naming the failed condition and the call site, and a
++			// device error is fatal instead of falling back.
++			if (strcmp(argv[cnt], "--gpu-strict") == 0 || strcmp(argv[cnt], "-gpu-strict") == 0) {
++				params.gpu_lik    = true;
++				params.gpu_strict = true;
++				continue;
++			}
++
+ 			if (strcmp(argv[cnt], "-safe-seq") == 0) {
+ 				cnt++;
+ 				if (cnt >= argc)
+@@ -5813,6 +5836,15 @@ void usage_iqtree(char* argv[], bool full_command) {
+     << "  --prefix STRING      Prefix for all output files (default: aln/partition)" << endl
+     << "  --seed NUM           Random seed number, normally used for debugging purpose" << endl
+     << "  --safe               Safe likelihood kernel to avoid numerical underflow" << endl
++#ifdef IQTREE_GPU
++    // IQ-TREE3-GPU. The second line is the point of the flag and is deliberately explicit: the
++    // GPU path is the SAME under -gpu and --gpu-strict, so anyone reaching for --gpu-strict
++    // hoping for a speed-up should be told here that there isn't one to be had.
++    << "  -gpu, --gpu-lik      Run the amino-acid likelihood kernel on the GPU (CUDA)" << endl
++    << "  --gpu-strict         Implies -gpu and PROVES it: identical kernels and identical" << endl
++    << "                       results, but abort instead of silently falling back to the" << endl
++    << "                       CPU, and require 100% GPU at exit (benchmarking / CI only)" << endl
++#endif
+     << "  --mem NUM[G|M|%]     Maximal RAM usage in GB | MB | %" << endl
+     << "  --runs NUM           Number of indepedent runs (default: 1)" << endl
+     << "  -v, --verbose        Verbose mode, printing more messages to screen" << endl
+@@ -7289,6 +7321,8 @@ void Params::setDefault() {
+     SSE = LK_AVX_FMA;
+ #endif
+     lk_safe_scaling = false;
++    gpu_lik = false;
++    gpu_strict = false;
+     numseq_safe_scaling = 2000;
+     kernel_nonrev = false;
+     print_site_lh = WSL_NONE;
+diff --git a/utils/tools.h b/utils/tools.h
+index 5847300..351d845 100644
+--- a/utils/tools.h
++++ b/utils/tools.h
+@@ -2019,6 +2019,17 @@ public:
+     /** TRUE for safe numerical scaling (per category; used for large trees), default: FALSE */
+     bool lk_safe_scaling;
+ 
++    /** IQ-TREE3-GPU: TRUE to use the GPU likelihood backend (requires -DIQTREE_GPU build), default: FALSE */
++    bool gpu_lik;
++
++    /** IQ-TREE3-GPU: TRUE to REFUSE every silent CPU fallback under -gpu, default: FALSE.
++        This is a PROOF flag, not a performance flag. It selects exactly the same kernels,
++        the same tolerances and the same numerical path as plain -gpu -- what it changes is
++        that a call which -gpu would have quietly delegated to the CPU kernel (ineligible
++        model, torn-down context, device error) aborts the run instead, naming the condition
++        and the call site, and that the end-of-run accounting must show 100% GPU. */
++    bool gpu_strict;
++
+     /** minimum number of sequences to always use safe scaling, default: 2000 */
+     int numseq_safe_scaling;
+ 

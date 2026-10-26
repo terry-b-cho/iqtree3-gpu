@@ -1,0 +1,57 @@
+# =============================================================================
+#  CI for IQ-TREE-GPU.
+#
+#  GitHub's hosted runners have no NVIDIA GPU, so CI can never prove the kernel is CORRECT -- that
+#  requires a device and is what scripts/run_tests.sh --gpu is for. What CI CAN prove, and what
+#  actually breaks in practice, is:
+#     1. the scripts parse,
+#     2. the patch still applies to the pinned upstream commit,
+#     3. the repo invariants hold (no hardcoded paths, RF=0 across the recorded data).
+#
+#  Paths below are relative to the repository root.
+# =============================================================================
+name: CI
+
+on:
+  push: { branches: [main] }
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quick:
+    name: Syntax, paths and data invariants (no GPU)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install the analysis dependencies the checks import
+        run: python -m pip install --quiet numpy matplotlib pypdf
+      - name: Run the quick tier
+        run: bash scripts/run_tests.sh --quick
+
+  patch-applies:
+    name: GPU patch applies to the pinned IQ-TREE commit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clone upstream at the pin and apply
+        run: |
+          PIN=$(grep -oE '^PIN=[0-9a-f]+' build_iqtree_gpu.sh | cut -d= -f2)
+          echo "pinned upstream commit: $PIN"
+          git clone --filter=blob:none https://github.com/iqtree/iqtree3.git /tmp/iqtree3
+          git -C /tmp/iqtree3 checkout -q "$PIN"
+          git -C /tmp/iqtree3 apply --check --whitespace=nowarn "$GITHUB_WORKSPACE/src/iqtree3_gpu.patch"
+          echo "patch applies cleanly"
+
+  # PLACEHOLDER: a self-hosted GPU runner would enable the real correctness gate.
+  # gpu:
+  #   runs-on: [self-hosted, gpu]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: bash build_iqtree_gpu.sh "$RUNNER_TEMP/build"
+  #     - run: bash scripts/run_tests.sh --gpu

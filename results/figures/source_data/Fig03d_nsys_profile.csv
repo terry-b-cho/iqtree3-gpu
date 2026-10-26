@@ -1,0 +1,9 @@
+axes,axes_title,kind,series,x_label,y_label,x,y,width,height_or_value
+0,"Device kernels are a small part of wall time solid = kernel, hatched = memcpy; n = 1 profiled run each",segment,,,seconds,-0.42,93.0,,
+0,"Device kernels are a small part of wall time solid = kernel, hatched = memcpy; n = 1 profiled run each",segment,,,seconds,0.42,93.0,,
+0,"Device kernels are a small part of wall time solid = kernel, hatched = memcpy; n = 1 profiled run each",segment,,,seconds,0.5800000000000001,60.0,,
+0,"Device kernels are a small part of wall time solid = kernel, hatched = memcpy; n = 1 profiled run each",segment,,,seconds,1.42,60.0,,
+0,"Device kernels are a small part of wall time solid = kernel, hatched = memcpy; n = 1 profiled run each",bar,,,seconds,-0.33,0,0.32,25.97
+0,"Device kernels are a small part of wall time solid = kernel, hatched = memcpy; n = 1 profiled run each",bar,,,seconds,0.010000000000000037,0,0.31999999999999995,6.91
+0,"Device kernels are a small part of wall time solid = kernel, hatched = memcpy; n = 1 profiled run each",bar,,,seconds,0.6699999999999999,0,0.31999999999999995,3.68
+0,"Device kernels are a small part of wall time solid = kernel, hatched = memcpy; n = 1 profiled run each",bar,,,seconds,1.0099999999999998,0,0.32000000000000006,5.03

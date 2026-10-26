@@ -1,0 +1,39 @@
+# card_specs.tsv - static intrinsic specs per GPU card (schema group J: card spec table)
+# ---------------------------------------------------------------------------------------------
+# ONE ROW PER CARD this project can schedule. These are the STATIC vendor-datasheet nominal
+# values that EXPLAIN why a card wins or loses a run: fp64_tflops is the central prediction for
+# PROTEIN (fp64 compute-bound) and mem_bandwidth_gbs is the central prediction for DNA
+# (memory-bound). card_sweep.sh joins this table by the `card` key (the gres short name,
+# i.e. the CARD env var) and writes these columns into each card-sweep row alongside the runtime
+# nvidia-smi measurements, so a reader can rank the cards by intrinsic capability.
+#
+# SOURCE: the per-row `source` column is authoritative (vendor datasheet or product brief, NOMINAL
+# peak/boost figures for the EXACT variant the harness schedules, i.e. the nvidia-smi product name
+# recorded in RUNS.tsv). `derived` = TRUE marks a value not printed by the vendor and computed here.
+# Round-8 corrections (author action R21): the teslaV100 row previously held V100 PCIe values
+# (7.0 TFLOP/s, 250 W, 32 GB) although the card scheduled is the Tesla V100-SXM2-16GB
+# (7.8 TFLOP/s, 300 W, 16 GB); the a100 row held SXM4 bandwidth/TDP (2039 GB/s, 400 W) although
+# the card is the A100 80GB PCIe (1935 GB/s, 300 W). FP64 for the A100 is 9.7 in both variants.
+# RUNS.tsv keeps the spec snapshot each card-sweep row was written with; this table is the
+# reference, and key_numbers.py emits spec_* keys from it for the manuscript.
+#
+# UNCERTAIN / DERIVED VALUES (not guessed silently - flagged here per the group-J rule):
+#   - fp64_tflops for L40S is DERIVED: the Ada datasheet lists "no FP64", meaning no dedicated
+#     fp64 units; fp64 runs at 1/64 of fp32 (~91.6/64 = ~1.4 TFLOPS). Recorded as 1.4 (derived=TRUE).
+#   - fp64_tflops for A40/A6000/RTX8000 are the vendor GFLOPS figures (0.58/0.60/0.51) - low by
+#     design (1/64 Ampere, 1/32 Turing); exact but easy to mistake for a typo, so noted.
+#   - msrp_usd is the single genuinely soft column: launch list price, USD, rounded. Street/OEM
+#     pricing varies widely and drifts; treat perf_per_usd as order-of-magnitude only. All MSRP
+#     cells are approximate (~).
+#   - a100 fp64_tflops=9.7 is the NON-tensor rate; fp64 TENSOR (DMMA) is 19.5 (fp64_tensor=yes).
+#
+# `card` KEY must equal the gres short name / CARD env var used by the harness:
+#   a100 teslaV100s teslaV100 l40s a40 rtx8000 a6000 (a6000 was never benchmarked; kept for the harness)
+card	arch	fp64_tflops	fp32_tflops	mem_bandwidth_gbs	mem_type	bus_width_bit	vram_gb	sm_count	tdp_w	pcie_gen	fp64_tensor	msrp_usd	derived	source
+a100	Ampere	9.7	19.5	1935	HBM2e	5120	80	108	300	4	yes	15000	FALSE	NVIDIA A100 80GB PCIe datasheet (nvidia-a100-datasheet-nvidia-us-2188504-web.pdf): FP64 9.7 TFLOPS, FP32 19.5, 1935 GB/s, 300 W
+teslaV100s	Volta	8.2	16.4	1134	HBM2	4096	32	80	250	3	no	8000	FALSE	NVIDIA Tesla V100S PCIe datasheet: FP64 8.2 TFLOPS, FP32 16.4, 1134 GB/s, 250 W
+teslaV100	Volta	7.8	15.7	900	HBM2	4096	16	80	300	3	no	8999	FALSE	NVIDIA Tesla V100 datasheet (tesla-volta-v100-datasheet.pdf), SXM2 16 GB column: FP64 7.8 TFLOPS, FP32 15.7, 900 GB/s, 300 W
+l40s	Ada	1.4	91.6	864	GDDR6	384	48	142	350	4	no	10000	TRUE	NVIDIA L40S datasheet: FP32 91.6 TFLOPS, 864 GB/s, 350 W; FP64 not listed, derived as FP32/64 (Ada FP64 rate)
+a40	Ampere	0.58	37.4	696	GDDR6	384	48	84	300	4	no	4500	FALSE	NVIDIA A40 datasheet: FP32 37.4 TFLOPS, 696 GB/s, 300 W; FP64 0.58 TFLOPS (GA102 1/64 rate, vendor figure)
+rtx8000	Turing	0.51	16.3	672	GDDR6	384	48	72	260	3	no	5500	FALSE	NVIDIA Quadro RTX 8000 datasheet: FP32 16.3 TFLOPS, 672 GB/s, 260 W; FP64 0.51 TFLOPS (TU102 1/32 rate, vendor figure)
+a6000	Ampere	0.60	38.7	768	GDDR6	384	48	84	300	4	no	4650	FALSE	NVIDIA RTX A6000 datasheet: FP32 38.7 TFLOPS, 768 GB/s, 300 W; FP64 0.60 TFLOPS; not benchmarked in this study

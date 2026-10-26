@@ -1,0 +1,141 @@
+IQ-TREE version 3.1.3 for Linux x86 64-bit built Jul 22 2026
+Developed by Bui Quang Minh, Thomas Wong, Nhan Ly-Trong, Huaiyan Ren
+Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
+Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
+
+Host:    compute-g-17-170.o2.rc.hms.harvard.edu (AVX512, FMA3, 502 GB RAM)
+Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n14/aln.phy -T 20 -m GTR+F+G4 --ufboot 1000 --alrt 1000 -seed 1 --prefix /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu -redo
+Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Sun Aug 30 17:09:58 2026
+Kernel:  AVX+FMA - 20 threads (20 CPU cores detected)
+
+Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n14/aln.phy ... Phylip format detected
+Alignment most likely contains DNA/RNA sequences
+Constructing alignment: done in 1.55021 secs using 209.9% CPU
+Alignment has 14 sequences with 1791247 columns, 627458 distinct patterns
+1053276 parsimony-informative, 275915 singleton sites, 462056 constant sites
+                                  Gap/Ambiguity  Composition  p-value
+Analyzing sequences: done in 0.0183389 secs using 1857% CPU
+   1  Equus_kiang_W_Li25_D9CX             0.00%    passed     81.65%
+   2  Gorilla_gorilla_W_Sa23_TCG0         0.00%    passed     64.92%
+   3  Pan_troglodytes_W_Sa23_AXA6         0.00%    passed     77.11%
+   4  Pantholops_hodgsonii_W_Li25_D7AT    0.00%    passed     37.65%
+   5  Pan_troglodytes_W_Sa23_EATX         0.00%    passed     99.17%
+   6  Pantholops_hodgsonii_W_Li25_A7KE    0.00%    passed     59.90%
+   7  Pantholops_hodgsonii_W_Li25_CQDE    0.00%    passed     89.80%
+   8  Pantholops_hodgsonii_W_Li25_C0T8    0.00%    passed     43.97%
+   9  Pantholops_hodgsonii_W_Li25_S9XW    0.00%    passed     79.00%
+  10  Mus_musculus_W_Bo21_MKBD            0.00%    passed     79.82%
+  11  Mus_musculus_W_Bo21_RK8P            0.00%    passed     82.53%
+  12  Pantholops_hodgsonii_W_Li25_0N67    0.00%    passed     50.59%
+  13  Pantholops_hodgsonii_W_Li25_B7XF    0.00%    passed     93.77%
+  14  Pantholops_hodgsonii_W_Li25_41B5    0.00%    passed     68.10%
+****  TOTAL                               0.00%  0 sequences failed composition chi2 test (p-value<5%; df=3)
+NOTE: minimal branch length is reduced to 0.000000055827 for long alignment
+Checking for duplicate sequences: done in 0.0934749 secs using 1828% CPU
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 0.428 seconds
+Generating 1000 samples for ultrafast bootstrap (seed: 1)...
+
+NOTE: 3532 MB RAM (3 GB) is required!
+Estimate model parameters (epsilon = 0.100)
+1. Initial log-likelihood: -19522035.270
+2. Current log-likelihood: -19164851.920
+3. Current log-likelihood: -19159927.985
+4. Current log-likelihood: -19159834.537
+5. Current log-likelihood: -19159832.665
+6. Current log-likelihood: -19159832.039
+7. Current log-likelihood: -19159831.645
+8. Current log-likelihood: -19159831.301
+9. Current log-likelihood: -19159831.118
+10. Current log-likelihood: -19159830.938
+Optimal log-likelihood: -19159830.885
+Rate parameters:  A-C: 0.99242  A-G: 2.49097  A-T: 1.19475  C-G: 0.89388  C-T: 2.79495  G-T: 1.00000
+Base frequencies:  A: 0.280  C: 0.220  G: 0.220  T: 0.280
+Gamma shape alpha: 0.700
+Parameters optimization took 10 rounds (7.295 sec)
+Wrote distance file to... 
+Computing ML distances based on estimated model parameters...
+Calculating distance matrix: done in 0.014636 secs using 1986% CPU
+Computing ML distances took 0.034033 sec (of wall-clock time) 0.670685 sec (of CPU time)
+Setting up auxiliary I and S matrices: done in 0.000163078 secs using 1829% CPU
+Constructing RapidNJ tree: done in 0.00145483 secs using 1975% CPU
+Computing RapidNJ tree took 0.001673 sec (of wall-clock time) 0.033145 sec (of CPU time)
+Log-likelihood of RapidNJ tree: -19159830.874
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Generating 99 parsimony trees... 84.391 second
+Computing log-likelihood of 99 initial trees ... 18.520 seconds
+Current best score: -19159830.874
+
+Do NNI search on 20 best initial trees
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 1: -19159830.802
+Iteration 10 / LogL: -19160482.483 / Time: 0h:2m:42s
+Iteration 20 / LogL: -19163410.916 / Time: 0h:3m:8s
+Finish initializing candidate tree set (1)
+Current best tree score: -19159830.802 / CPU time: 150.392
+Number of iterations: 20
+--------------------------------------------------------------------
+|               OPTIMIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Iteration 30 / LogL: -19160070.164 / Time: 0h:3m:31s (0h:8m:35s left)
+Iteration 40 / LogL: -19159845.337 / Time: 0h:3m:53s (0h:6m:3s left)
+Iteration 50 / LogL: -19161544.533 / Time: 0h:4m:13s (0h:4m:23s left)
+Log-likelihood cutoff on original alignment: -19159925.203
+Iteration 60 / LogL: -19159935.343 / Time: 0h:4m:35s (0h:3m:10s left)
+Iteration 70 / LogL: -19160118.114 / Time: 0h:4m:55s (0h:2m:12s left)
+Iteration 80 / LogL: -19161490.221 / Time: 0h:5m:14s (0h:1m:23s left)
+Iteration 90 / LogL: -19159885.093 / Time: 0h:5m:37s (0h:0m:41s left)
+Iteration 100 / LogL: -19159883.517 / Time: 0h:6m:0s (0h:0m:3s left)
+Log-likelihood cutoff on original alignment: -19159895.173
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 1.000
+TREE SEARCH COMPLETED AFTER 102 ITERATIONS / Time: 0h:6m:5s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -19159830.802
+2. Current log-likelihood: -19159830.217
+3. Current log-likelihood: -19159829.818
+4. Current log-likelihood: -19159829.801
+Optimal log-likelihood: -19159829.793
+Rate parameters:  A-C: 0.99597  A-G: 2.49677  A-T: 1.20007  C-G: 0.89640  C-T: 2.80187  G-T: 1.00000
+Base frequencies:  A: 0.280  C: 0.220  G: 0.220  T: 0.280
+Gamma shape alpha: 0.700
+Parameters optimization took 4 rounds (2.074 sec)
+BEST SCORE FOUND : -19159829.793
+
+Testing tree branches by SH-like aLRT with 1000 replicates...
+18.637 sec.
+Creating bootstrap support values...
+Split supports printed to NEXUS file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.splits.nex
+Total tree length: 3.887
+
+Total number of iterations: 102
+CPU time used for tree search: 5901.354 sec (1h:38m:21s)
+Wall-clock time used for tree search: 327.642 sec (0h:5m:27s)
+Total CPU time used: 6517.567 sec (1h:48m:37s)
+Total wall-clock time used: 386.055 sec (0h:6m:26s)
+
+Computing bootstrap consensus tree...
+Reading input file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.splits.nex...
+14 taxa and 25 splits.
+Consensus tree written to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.contree
+Reading input trees file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.contree
+Log-likelihood of consensus tree: -19159829.793
+
+Analysis results written to: 
+  IQ-TREE report:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.iqtree
+  Maximum-likelihood tree:       /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.treefile
+  Likelihood distances:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.mldist
+
+Ultrafast bootstrap approximation results written to:
+  Split support values:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.splits.nex
+  Consensus tree:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.contree
+  Screen log file:               /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/cpu.log
+
+Date and Time: Sun Aug 30 17:16:28 2026

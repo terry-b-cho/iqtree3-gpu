@@ -1,0 +1,8 @@
+# device	NVIDIA L40S
+# driver	13020
+# runtime	12080
+# host	compute-g-17-169.o2.rc.hms.harvard.edu
+# n_per_variant	100000
+variant	n	median_us	p25_us	p75_us	mean_us	min_us
+sync	100000	4.761	4.427	4.834	4.697	4.274
+async	100000	1.453	1.451	1.454	1.455	1.449

@@ -1,0 +1,363 @@
+IQ-TREE 3.1.3 built Jul 22 2026
+
+Input file name: /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Onthovivens/concat_alignment.faa
+Type of analysis: ModelFinder + tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 1
+
+REFERENCES
+----------
+
+To cite IQ-TREE 3 please use:
+
+Thomas K.F. Wong, Nhan Ly-Trong, Huaiyan Ren, Piyumal Demotte, Hector Banos,
+Andrew J. Roger, Edward Susko, Chris Bielow, Nicola De Maio, Nick Goldman,
+Matthew W. Hahn, Mario dos Reis, Le Sy Vinh, Gavin Huttley, Robert Lanfear, Bui Quang Minh (2026)
+IQ-TREE 3: Phylogenomic Inference Software using Complex Evolutionary Models.
+Molecular Biology and Evolution, msag117.
+https://doi.org/10.1093/molbev/msag117
+
+Since you used ModelFinder please also cite: 
+
+Subha Kalyaanamoorthy, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler,
+and Lars S Jermiin (2017) ModelFinder: Fast model selection for
+accurate phylogenetic estimates. Nature Methods, 14:587–589.
+https://doi.org/10.1038/nmeth.4285
+
+Since you used ultrafast bootstrap (UFBoot) please also cite: 
+
+Diep Thi Hoang, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh,
+and Le Sy Vinh (2018) UFBoot2: Improving the ultrafast bootstrap
+approximation. Mol. Biol. Evol., 35:518–522.
+https://doi.org/10.1093/molbev/msx281
+
+SEQUENCE ALIGNMENT
+------------------
+
+NOTE: Alignment sequence type is auto-detected. If in doubt, specify it via -st option.
+Input data: 34 sequences with 150333 amino-acid sites
+Number of constant sites: 56670 (= 37.6963% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 56670 (= 37.6963% of all sites)
+Number of parsimony informative sites: 75850
+Number of distinct site patterns: 98012
+
+ModelFinder
+-----------
+
+Best-fit model according to BIC: PMB+F+R6
+
+List of models sorted by BIC scores: 
+
+Model                  LogL         AIC      w-AIC        AICc     w-AICc         BIC      w-BIC
+PMB+F+R6        -2568745.311 5137678.622 +        1 5137678.741 +        1 5138611.159 +        1
+BLOSUM62+F+R6   -2571525.228 5143238.456 -        0 5143238.575 -        0 5144170.993 -        0
+VT+F+R6         -2571772.345 5143732.690 -        0 5143732.809 -        0 5144665.227 -        0
+WAG+F+R6        -2585438.958 5171065.916 -        0 5171066.035 -        0 5171998.453 -        0
+CPREV+F+R6      -2597001.763 5194191.526 -        0 5194191.645 -        0 5195124.063 -        0
+Q.PFAM+F+R6     -2598650.651 5197489.302 -        0 5197489.421 -        0 5198421.839 -        0
+LG+F+R6         -2603101.673 5206391.346 -        0 5206391.465 -        0 5207323.883 -        0
+RTREV+F+R6      -2603310.548 5206809.096 -        0 5206809.215 -        0 5207741.633 -        0
+BLOSUM62+R6     -2603697.934 5207545.868 -        0 5207545.944 -        0 5208289.914 -        0
+VT+R6           -2604582.055 5209314.110 -        0 5209314.186 -        0 5210058.156 -        0
+PMB+R6          -2609602.673 5219355.346 -        0 5219355.422 -        0 5220099.392 -        0
+Q.YEAST+F+R6    -2612367.429 5224922.858 -        0 5224922.977 -        0 5225855.395 -        0
+JTT+F+R6        -2613214.848 5226617.696 -        0 5226617.815 -        0 5227550.233 -        0
+JTTDCMUT+F+R6   -2613297.212 5226782.424 -        0 5226782.543 -        0 5227714.961 -        0
+Q.INSECT+F+R6   -2613674.346 5227536.692 -        0 5227536.811 -        0 5228469.229 -        0
+MTINV+F+R6      -2621178.927 5242545.854 -        0 5242545.973 -        0 5243478.391 -        0
+DCMUT+F+R6      -2621690.073 5243568.146 -        0 5243568.265 -        0 5244500.683 -        0
+DAYHOFF+F+R6    -2622156.749 5244501.498 -        0 5244501.617 -        0 5245434.035 -        0
+WAG+R6          -2622583.023 5245316.046 -        0 5245316.122 -        0 5246060.092 -        0
+CPREV+R6        -2624532.524 5249215.048 -        0 5249215.124 -        0 5249959.094 -        0
+Q.YEAST+R6      -2628265.467 5256680.934 -        0 5256681.010 -        0 5257424.980 -        0
+Q.INSECT+R6     -2635189.136 5270528.272 -        0 5270528.348 -        0 5271272.318 -        0
+LG+R6           -2636088.220 5272326.440 -        0 5272326.516 -        0 5273070.486 -        0
+LG+R7           -2636086.083 5272326.166 -        0 5272326.246 -        0 5273090.053 -        0
+LG+I+R6         -2636095.192 5272342.384 -        0 5272342.462 -        0 5273096.350 -        0
+LG+I+R7         -2636090.014 5272336.028 -        0 5272336.110 -        0 5273109.835 -        0
+LG+I+R5         -2636194.232 5272536.464 -        0 5272536.538 -        0 5273270.589 -        0
+LG+R5           -2636252.939 5272651.878 -        0 5272651.950 -        0 5273376.082 -        0
+Q.PFAM+R6       -2636499.948 5273149.896 -        0 5273149.972 -        0 5273893.942 -        0
+LG+I+R4         -2636739.031 5273622.062 -        0 5273622.132 -        0 5274336.346 -        0
+LG+R4           -2637086.052 5274314.104 -        0 5274314.172 -        0 5275018.467 -        0
+LG+I+R3         -2638252.275 5276644.550 -        0 5276644.616 -        0 5277338.993 -        0
+MTREV+F+R6      -2639493.685 5279175.370 -        0 5279175.489 -        0 5280107.907 -        0
+LG+R3           -2640218.101 5280574.202 -        0 5280574.266 -        0 5281258.724 -        0
+LG+I+G4         -2641431.167 5282996.334 -        0 5282996.395 -        0 5283661.015 -        0
+LG+G4           -2641917.834 5283967.668 -        0 5283967.727 -        0 5284622.428 -        0
+MTMET+F+R6      -2645505.894 5291199.788 -        0 5291199.907 -        0 5292132.325 -        0
+LG+I+R2         -2647617.539 5295371.078 -        0 5295371.140 -        0 5296045.679 -        0
+MTZOA+F+R6      -2648060.018 5296308.036 -        0 5296308.155 -        0 5297240.573 -        0
+Q.MAMMAL+F+R6   -2650692.659 5301573.318 -        0 5301573.437 -        0 5302505.855 -        0
+RTREV+R6        -2652709.929 5305569.858 -        0 5305569.934 -        0 5306313.904 -        0
+JTT+R6          -2654281.311 5308712.622 -        0 5308712.698 -        0 5309456.668 -        0
+JTTDCMUT+R6     -2654387.367 5308924.734 -        0 5308924.810 -        0 5309668.780 -        0
+Q.PLANT+F+R6    -2658076.972 5316341.944 -        0 5316342.063 -        0 5317274.481 -        0
+LG+R2           -2658518.618 5317171.236 -        0 5317171.297 -        0 5317835.917 -        0
+DCMUT+R6        -2664390.368 5328930.736 -        0 5328930.812 -        0 5329674.782 -        0
+DAYHOFF+R6      -2664871.257 5329892.514 -        0 5329892.590 -        0 5330636.560 -        0
+FLU+F+R6        -2671865.522 5343919.044 -        0 5343919.163 -        0 5344851.581 -        0
+MTART+F+R6      -2673168.671 5346525.342 -        0 5346525.461 -        0 5347457.879 -        0
+Q.BIRD+F+R6     -2683309.415 5366806.830 -        0 5366806.949 -        0 5367739.367 -        0
+Q.PLANT+R6      -2690032.943 5380215.886 -        0 5380215.962 -        0 5380959.932 -        0
+HIVB+F+R6       -2697462.593 5395113.186 -        0 5395113.305 -        0 5396045.723 -        0
+MTVER+F+R6      -2698833.551 5397855.102 -        0 5397855.221 -        0 5398787.639 -        0
+FLU+R6          -2699123.000 5398396.000 -        0 5398396.076 -        0 5399140.046 -        0
+Q.MAMMAL+R6     -2706789.068 5413728.136 -        0 5413728.212 -        0 5414472.182 -        0
+LG+I            -2711330.442 5422792.884 -        0 5422792.943 -        0 5423447.644 -        0
+MTINV+R6        -2714693.343 5429536.686 -        0 5429536.762 -        0 5430280.732 -        0
+MTMAM+F+R6      -2726435.806 5453059.612 -        0 5453059.731 -        0 5453992.149 -        0
+MTMET+R6        -2728181.892 5456513.784 -        0 5456513.860 -        0 5457257.830 -        0
+Q.BIRD+R6       -2735205.227 5470560.454 -        0 5470560.530 -        0 5471304.500 -        0
+HIVB+R6         -2742217.016 5484584.032 -        0 5484584.108 -        0 5485328.078 -        0
+FLAVI+F+R6      -2744064.330 5488316.660 -        0 5488316.779 -        0 5489249.197 -        0
+MTZOA+R6        -2745830.881 5491811.762 -        0 5491811.838 -        0 5492555.808 -        0
+HIVW+F+R6       -2749791.498 5499770.996 -        0 5499771.115 -        0 5500703.533 -        0
+MTREV+R6        -2752628.710 5505407.420 -        0 5505407.496 -        0 5506151.466 -        0
+LG              -2766253.759 5532637.518 -        0 5532637.575 -        0 5533282.358 -        0
+MTART+R6        -2776052.847 5552255.694 -        0 5552255.770 -        0 5552999.740 -        0
+HIVW+R6         -2796383.812 5592917.624 -        0 5592917.700 -        0 5593661.670 -        0
+MTVER+R6        -2802462.678 5605075.356 -        0 5605075.432 -        0 5605819.402 -        0
+FLAVI+R6        -2804712.098 5609574.196 -        0 5609574.272 -        0 5610318.242 -        0
+MTMAM+R6        -2838007.391 5676164.782 -        0 5676164.858 -        0 5676908.828 -        0
+
+AIC, w-AIC   : Akaike information criterion scores and weights.
+AICc, w-AICc : Corrected AIC scores and weights.
+BIC, w-BIC   : Bayesian information criterion scores and weights.
+
+Plus signs denote the 95% confidence sets.
+Minus signs denote significant exclusion.
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: PMB+F+R6
+
+State frequencies: (empirical counts from alignment)
+
+  pi(A) = 0.0536
+  pi(R) = 0.0348
+  pi(N) = 0.0645
+  pi(D) = 0.0644
+  pi(C) = 0.0134
+  pi(Q) = 0.0227
+  pi(E) = 0.0744
+  pi(G) = 0.0621
+  pi(H) = 0.0167
+  pi(I) = 0.0910
+  pi(L) = 0.0920
+  pi(K) = 0.0967
+  pi(M) = 0.0220
+  pi(F) = 0.0435
+  pi(P) = 0.0303
+  pi(S) = 0.0614
+  pi(T) = 0.0480
+  pi(W) = 0.0046
+  pi(Y) = 0.0422
+  pi(V) = 0.0617
+
+Model of rate heterogeneity: FreeRate with 6 categories
+Site proportion and rates:  (0.2622,0.0708) (0.3227,0.5186) (0.2602,1.2415) (0.1191,2.5525) (0.0331,4.6977) (0.0026,12.1973)
+
+ Category  Relative_rate  Proportion
+  1         0.0708         0.2622
+  2         0.5186         0.3227
+  3         1.2415         0.2602
+  4         2.5525         0.1191
+  5         4.6977         0.0331
+  6         12.1973        0.0026
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -2567100.4254 (s.e. 6713.9966)
+Unconstrained log-likelihood (without tree): -1599643.2491
+Number of free parameters (#branches + #model parameters): 94
+Akaike information criterion (AIC) score: 5134388.8508
+Corrected Akaike information criterion (AICc) score: 5134388.9697
+Bayesian information criterion (BIC) score: 5135321.3880
+
+Total tree length (sum of branch lengths): 5.8914
+Sum of internal branch lengths: 2.7822 (47.2252% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Alouatta_pigra_W_Sa23_CTFW' is drawn at root
+Numbers in parentheses are SH-aLRT support (%) / ultrafast bootstrap support (%)
+
++--Alouatta_pigra_W_Sa23_CTFW
+|
+|  +--Alouatta_pigra_W_Sa23_FXST
++--| (100/100)
+|  |          +-------------------Alouatta_pigra_W_Sa23_JRBZ
+|  +----------| (100/100)
+|             |                     +--------Homo_sapiens_H_Ca23_0Z5N
+|             |          +----------| (100/100)
+|             |          |          |        +--Papio_cynocephalus_W_Sa23_2CZF
+|             |          |          |     +--| (100/100)
+|             |          |          |     |  |     +---Papio_cynocephalus_W_Sa23_5SCA
+|             |          |          |     |  |  +--| (100/100)
+|             |          |          |     |  |  |  +--Papio_cynocephalus_W_Sa23_VRSD
+|             |          |          |     |  +--| (100/100)
+|             |          |          |     |     +--Papio_cynocephalus_W_Sa23_Y7RV
+|             |          |          +-----| (100/100)
+|             |          |                +--Papio_cynocephalus_W_Sa23_CC41
+|             |       +--| (100/99)
+|             |       |  |                    +--Pan_paniscus_W_Sa23_59KR
+|             |       |  |                 +--| (100/100)
+|             |       |  |                 |  |  +--Pan_paniscus_W_Sa23_E72M
+|             |       |  |                 |  +--| (100/100)
+|             |       |  |                 |     +--Pan_paniscus_W_Sa23_HB01
+|             |       |  |           +-----| (100/100)
+|             |       |  |           |     |  +--Pan_troglodytes_W_Sa23_58MS
+|             |       |  |           |     +--| (100/100)
+|             |       |  |           |        +--Pan_troglodytes_W_Sa23_6ATJ
+|             |       |  +-----------| (100/100)
+|             |       |              |            +--Papio_cynocephalus_W_Sa23_E9BA
+|             |       |              |         +--| (100/89)
+|             |       |              |         |  +--Papio_cynocephalus_W_Sa23_VNXV
+|             |       |              |      +--| (100/89)
+|             |       |              |      |  |        +--Papio_cynocephalus_W_Sa23_F3JM
+|             |       |              |      |  |     +--| (100/99)
+|             |       |              |      |  |     |  +--Papio_cynocephalus_W_Sa23_HWTD
+|             |       |              |      |  |  +--| (100/100)
+|             |       |              |      |  |  |  +--Papio_cynocephalus_W_Sa23_M4YY
+|             |       |              |      |  +--| (100/100)
+|             |       |              |      |     +--Papio_cynocephalus_W_Sa23_G2C6
+|             |       |              +------| (100/100)
+|             |       |                     +--Papio_cynocephalus_W_Sa23_NX5K
+|             |  +----| (100/100)
+|             |  |    |  +------------------Homo_sapiens_H_Ca23_9B1D
+|             |  |    +--| (48.5/66)
+|             |  |       |                         +--Pan_troglodytes_W_Sa23_1DRS
+|             |  |       |                     +---| (100/100)
+|             |  |       |                     |   |     +--Pan_troglodytes_W_Sa23_GAN3
+|             |  |       |                     |   |  +--| (100/100)
+|             |  |       |                     |   |  |  +--Pan_troglodytes_W_Sa23_ZZG2
+|             |  |       |                     |   +--| (100/100)
+|             |  |       |                     |      +--Pan_troglodytes_W_Sa23_ZJBT
+|             |  |       |                  +--| (100/100)
+|             |  |       |                  |  |  +--Pan_troglodytes_W_Sa23_216D
+|             |  |       |                  |  +--| (100/100)
+|             |  |       |                  |     +--------------Pan_troglodytes_W_Sa23_P2M6
+|             |  |       |               +--| (100/100)
+|             |  |       |               |  +--Pan_troglodytes_W_Sa23_GE20
+|             |  |       +---------------| (100/100)
+|             |  |                       +--------Pan_troglodytes_W_Sa23_9WNC
+|             +--| (100/100)
+|                |      +-----------Pan_troglodytes_W_Sa23_44XZ
+|                +------| (100/100)
+|                       |         +--Pan_troglodytes_W_Sa23_TBAQ
+|                       +---------| (100/100)
+|                                 +--Pan_troglodytes_W_Sa23_YFKJ
+|
++--Alouatta_pigra_W_Sa23_N679
+
+Tree in newick format:
+
+(Alouatta_pigra_W_Sa23_CTFW:0.0698724698,(Alouatta_pigra_W_Sa23_FXST:0.0529703348,(Alouatta_pigra_W_Sa23_JRBZ:0.4391658658,((((Homo_sapiens_H_Ca23_0Z5N:0.2059034682,((Papio_cynocephalus_W_Sa23_2CZF:0.0219015177,((Papio_cynocephalus_W_Sa23_5SCA:0.0953982468,Papio_cynocephalus_W_Sa23_VRSD:0.0370000833)100/100:0.0184849384,Papio_cynocephalus_W_Sa23_Y7RV:0.0246859395)100/100:0.0160213575)100/100:0.0126605294,Papio_cynocephalus_W_Sa23_CC41:0.0100797717)100/100:0.1457663042)100/100:0.2385337854,(((Pan_paniscus_W_Sa23_59KR:0.0490422140,(Pan_paniscus_W_Sa23_E72M:0.0694579843,Pan_paniscus_W_Sa23_HB01:0.0569291412)100/100:0.0320491191)100/100:0.0353688156,(Pan_troglodytes_W_Sa23_58MS:0.0584656675,Pan_troglodytes_W_Sa23_6ATJ:0.0285166379)100/100:0.0634277628)100/100:0.1333521433,(((Papio_cynocephalus_W_Sa23_E9BA:0.0270205795,Papio_cynocephalus_W_Sa23_VNXV:0.0215647174)100/89:0.0143225783,(((Papio_cynocephalus_W_Sa23_F3JM:0.0449815603,Papio_cynocephalus_W_Sa23_HWTD:0.0250295056)100/99:0.0137562689,Papio_cynocephalus_W_Sa23_M4YY:0.0377335778)100/100:0.0100658634,Papio_cynocephalus_W_Sa23_G2C6:0.0572250216)100/100:0.0217278067)100/89:0.0213310492,Papio_cynocephalus_W_Sa23_NX5K:0.0175635946)100/100:0.1556112115)100/100:0.2724634569)100/99:0.0535334688,(Homo_sapiens_H_Ca23_9B1D:0.4089042208,((((Pan_troglodytes_W_Sa23_1DRS:0.0257385755,((Pan_troglodytes_W_Sa23_GAN3:0.0646366422,Pan_troglodytes_W_Sa23_ZZG2:0.0755154308)100/100:0.0365782417,Pan_troglodytes_W_Sa23_ZJBT:0.0853400723)100/100:0.0558920225)100/100:0.0977083367,(Pan_troglodytes_W_Sa23_216D:0.0333924002,Pan_troglodytes_W_Sa23_P2M6:0.3237285684)100/100:0.0260820606)100/100:0.0435276807,Pan_troglodytes_W_Sa23_GE20:0.0494251765)100/100:0.0226244414,Pan_troglodytes_W_Sa23_9WNC:0.2006273558)100/100:0.3437706434)48.5/66:0.0583724506)100/100:0.1177594883,(Pan_troglodytes_W_Sa23_44XZ:0.2641253342,(Pan_troglodytes_W_Sa23_TBAQ:0.0510408137,Pan_troglodytes_W_Sa23_YFKJ:0.0386377569)100/100:0.2171743635)100/100:0.1527095987)100/100:0.0840655150)100/100:0.2410830203)100/100:0.0264175023,Alouatta_pigra_W_Sa23_N679:0.0375683906);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -2567100.42420787
+Robinson-Foulds distance between ML tree and consensus tree: 0
+
+Branches with support >0.00000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++--Alouatta_pigra_W_Sa23_CTFW
+|
+|  +--Alouatta_pigra_W_Sa23_FXST
++--| (100)
+|  |          +-------------------Alouatta_pigra_W_Sa23_JRBZ
+|  +----------| (100)
+|             |                     +--------Homo_sapiens_H_Ca23_0Z5N
+|             |          +----------| (100)
+|             |          |          |        +--Papio_cynocephalus_W_Sa23_2CZF
+|             |          |          |     +--| (100)
+|             |          |          |     |  |     +---Papio_cynocephalus_W_Sa23_5SCA
+|             |          |          |     |  |  +--| (100)
+|             |          |          |     |  |  |  +--Papio_cynocephalus_W_Sa23_VRSD
+|             |          |          |     |  +--| (100)
+|             |          |          |     |     +--Papio_cynocephalus_W_Sa23_Y7RV
+|             |          |          +-----| (100)
+|             |          |                +--Papio_cynocephalus_W_Sa23_CC41
+|             |       +--| (99)
+|             |       |  |                    +--Pan_paniscus_W_Sa23_59KR
+|             |       |  |                 +--| (100)
+|             |       |  |                 |  |  +--Pan_paniscus_W_Sa23_E72M
+|             |       |  |                 |  +--| (100)
+|             |       |  |                 |     +--Pan_paniscus_W_Sa23_HB01
+|             |       |  |           +-----| (100)
+|             |       |  |           |     |  +--Pan_troglodytes_W_Sa23_58MS
+|             |       |  |           |     +--| (100)
+|             |       |  |           |        +--Pan_troglodytes_W_Sa23_6ATJ
+|             |       |  +-----------| (100)
+|             |       |              |            +--Papio_cynocephalus_W_Sa23_E9BA
+|             |       |              |         +--| (89)
+|             |       |              |         |  +--Papio_cynocephalus_W_Sa23_VNXV
+|             |       |              |      +--| (89)
+|             |       |              |      |  |        +--Papio_cynocephalus_W_Sa23_F3JM
+|             |       |              |      |  |     +--| (99)
+|             |       |              |      |  |     |  +--Papio_cynocephalus_W_Sa23_HWTD
+|             |       |              |      |  |  +--| (100)
+|             |       |              |      |  |  |  +--Papio_cynocephalus_W_Sa23_M4YY
+|             |       |              |      |  +--| (100)
+|             |       |              |      |     +--Papio_cynocephalus_W_Sa23_G2C6
+|             |       |              +------| (100)
+|             |       |                     +--Papio_cynocephalus_W_Sa23_NX5K
+|             |  +----| (100)
+|             |  |    |  +------------------Homo_sapiens_H_Ca23_9B1D
+|             |  |    +--| (66)
+|             |  |       |                         +--Pan_troglodytes_W_Sa23_1DRS
+|             |  |       |                     +---| (100)
+|             |  |       |                     |   |     +--Pan_troglodytes_W_Sa23_GAN3
+|             |  |       |                     |   |  +--| (100)
+|             |  |       |                     |   |  |  +--Pan_troglodytes_W_Sa23_ZZG2
+|             |  |       |                     |   +--| (100)
+|             |  |       |                     |      +--Pan_troglodytes_W_Sa23_ZJBT
+|             |  |       |                  +--| (100)
+|             |  |       |                  |  |  +--Pan_troglodytes_W_Sa23_216D
+|             |  |       |                  |  +--| (100)
+|             |  |       |                  |     +--------------Pan_troglodytes_W_Sa23_P2M6
+|             |  |       |               +--| (100)
+|             |  |       |               |  +--Pan_troglodytes_W_Sa23_GE20
+|             |  |       +---------------| (100)
+|             |  |                       +--------Pan_troglodytes_W_Sa23_9WNC
+|             +--| (100)
+|                |      +-----------Pan_troglodytes_W_Sa23_44XZ
+|                +------| (100)
+|                       |         +--Pan_troglodytes_W_Sa23_TBAQ
+|                       +---------| (100)
+|                                 +--Pan_troglodytes_W_Sa23_YFKJ
+|
++--Alouatta_pigra_W_Sa23_N679
+
+
+Consensus tree in newick format: 
+
+(Alouatta_pigra_W_Sa23_CTFW:0.0698801574,(Alouatta_pigra_W_Sa23_FXST:0.0529747706,(Alouatta_pigra_W_Sa23_JRBZ:0.4392179939,((((Homo_sapiens_H_Ca23_0Z5N:0.2059323932,((Papio_cynocephalus_W_Sa23_2CZF:0.0219048531,((Papio_cynocephalus_W_Sa23_5SCA:0.0954128862,Papio_cynocephalus_W_Sa23_VRSD:0.0370057862)100:0.0184872946,Papio_cynocephalus_W_Sa23_Y7RV:0.0246896463)100:0.0160235771)100:0.0126626607,Papio_cynocephalus_W_Sa23_CC41:0.0100805348)100:0.1457900890)100:0.2385694416,(((Pan_paniscus_W_Sa23_59KR:0.0490501440,(Pan_paniscus_W_Sa23_E72M:0.0694698266,Pan_paniscus_W_Sa23_HB01:0.0569393095)100:0.0320543749)100:0.0353747606,(Pan_troglodytes_W_Sa23_58MS:0.0584758500,Pan_troglodytes_W_Sa23_6ATJ:0.0285217390)100:0.0634379905)100:0.1333779742,(((Papio_cynocephalus_W_Sa23_E9BA:0.0270255654,Papio_cynocephalus_W_Sa23_VNXV:0.0215693420)89:0.0143246255,(((Papio_cynocephalus_W_Sa23_F3JM:0.0449904419,Papio_cynocephalus_W_Sa23_HWTD:0.0250345779)99:0.0137583627,Papio_cynocephalus_W_Sa23_M4YY:0.0377411962)100:0.0100673174,Papio_cynocephalus_W_Sa23_G2C6:0.0572365275)100:0.0217320241)89:0.0213348344,Papio_cynocephalus_W_Sa23_NX5K:0.0175666488)100:0.1556333151)100:0.2725060997)99:0.0535403993,(Homo_sapiens_H_Ca23_9B1D:0.4089448146,((((Pan_troglodytes_W_Sa23_1DRS:0.0257397383,((Pan_troglodytes_W_Sa23_GAN3:0.0646396429,Pan_troglodytes_W_Sa23_ZZG2:0.0755195271)100:0.0365802668,Pan_troglodytes_W_Sa23_ZJBT:0.0853453959)100:0.0558943113)100:0.0977146123,(Pan_troglodytes_W_Sa23_216D:0.0333947897,Pan_troglodytes_W_Sa23_P2M6:0.3237508915)100:0.0260824554)100:0.0435314479,Pan_troglodytes_W_Sa23_GE20:0.0494276328)100:0.0226300068,Pan_troglodytes_W_Sa23_9WNC:0.2006388423)100:0.3438042762)66:0.0583656570)100:0.1177708048,(Pan_troglodytes_W_Sa23_44XZ:0.2641554611,(Pan_troglodytes_W_Sa23_TBAQ:0.0510460376,Pan_troglodytes_W_Sa23_YFKJ:0.0386429768)100:0.2172034932)100:0.1527239747)100:0.0840687655)100:0.2411144287)100:0.0264207009,Alouatta_pigra_W_Sa23_N679:0.0375728217);
+
+ALISIM COMMAND
+--------------
+To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
+
+--alisim simulated_MSA -t /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Onthovivens__T20__l40s_cx/cpu.treefile -m "PMB+F+R6{0.26219,0.0708281,0.32273,0.518596,0.26024,1.24149,0.119139,2.55248,0.0331448,4.69769,0.00255562,12.1973}" --length 150333
+
+To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Onthovivens/concat_alignment.faa --alisim mimicked_MSA
+
+To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Onthovivens/concat_alignment.faa --alisim mimicked_MSA --num-alignments 100
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Sat Sep  5 23:25:50 2026
+Total CPU time used: 264310.0956 seconds (73h:25m:10s)
+Total wall-clock time used: 13392.44884 seconds (3h:43m:12s)
+

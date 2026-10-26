@@ -1,0 +1,252 @@
+IQ-TREE 3.1.3 built Jul 22 2026
+
+Input file name: /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n30/aln.phy
+Type of analysis: tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 1
+
+REFERENCES
+----------
+
+To cite IQ-TREE 3 please use:
+
+Thomas K.F. Wong, Nhan Ly-Trong, Huaiyan Ren, Piyumal Demotte, Hector Banos,
+Andrew J. Roger, Edward Susko, Chris Bielow, Nicola De Maio, Nick Goldman,
+Matthew W. Hahn, Mario dos Reis, Le Sy Vinh, Gavin Huttley, Robert Lanfear, Bui Quang Minh (2026)
+IQ-TREE 3: Phylogenomic Inference Software using Complex Evolutionary Models.
+Molecular Biology and Evolution, msag117.
+https://doi.org/10.1093/molbev/msag117
+
+Since you used ultrafast bootstrap (UFBoot) please also cite: 
+
+Diep Thi Hoang, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh,
+and Le Sy Vinh (2018) UFBoot2: Improving the ultrafast bootstrap
+approximation. Mol. Biol. Evol., 35:518–522.
+https://doi.org/10.1093/molbev/msx281
+
+SEQUENCE ALIGNMENT
+------------------
+
+NOTE: Alignment sequence type is auto-detected. If in doubt, specify it via -st option.
+Input data: 30 sequences with 3972289 nucleotide sites
+Number of constant sites: 798994 (= 20.1142% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 798994 (= 20.1142% of all sites)
+Number of parsimony informative sites: 2585293
+Number of distinct site patterns: 2051474
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: GTR+F+G4
+
+Rate parameter R:
+
+  A-C: 1.0018
+  A-G: 2.4994
+  A-T: 1.2023
+  C-G: 0.8992
+  C-T: 2.8035
+  G-T: 1.0000
+
+State frequencies: (empirical counts from alignment)
+
+  pi(A) = 0.2799
+  pi(C) = 0.2201
+  pi(G) = 0.22
+  pi(T) = 0.28
+
+Rate matrix Q:
+
+  A   -0.9417    0.1876    0.4677    0.2864
+  C    0.2385    -1.075    0.1683    0.6679
+  G     0.595    0.1684    -1.002    0.2382
+  T    0.2862     0.525    0.1871   -0.9983
+
+Model of rate heterogeneity: Gamma with 4 categories
+Gamma shape alpha: 0.6998
+
+ Category  Relative_rate  Proportion
+  1         0.07415        0.25
+  2         0.3634         0.25
+  3         0.9248         0.25
+  4         2.638          0.25
+Relative rates are computed as MEAN of the portion of the Gamma distribution falling in the category.
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -67042350.8143 (s.e. 22003.0764)
+Unconstrained log-likelihood (without tree): -44673821.7130
+Number of free parameters (#branches + #model parameters): 66
+Akaike information criterion (AIC) score: 134084833.6286
+Corrected Akaike information criterion (AICc) score: 134084833.6308
+Bayesian information criterion (BIC) score: 134085704.4889
+
+Total tree length (sum of branch lengths): 5.5902
+Sum of internal branch lengths: 1.5461 (27.6567% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Apodemus_agrarius_W_Bo21_EQ01' is drawn at root
+Numbers in parentheses are SH-aLRT support (%) / ultrafast bootstrap support (%)
+
++----------------Apodemus_agrarius_W_Bo21_EQ01
+|
++----------------Apodemus_flavicollis_W_Bo21_0XZ1
+|
+|                        +---------------Cervus_elaphus_W_Gl21_72VH
+|            +-----------| (100/100)
+|            |           +---------------Pantholops_hodgsonii_W_Li25_EKQZ
+|         +--| (100/100)
+|         |  |     +----------------------Equus_kiang_W_Li25_0BRE
+|         |  |  +--| (100/100)
+|         |  |  |  +--------------------Equus_kiang_W_Li25_0GYB
+|         |  +--| (100/100)
+|         |     |       +--------------------------------Equus_kiang_W_Li25_EC26
+|         |     +-------| (100/100)
+|         |             |    +-------------Equus_kiang_W_Li25_Y3GG
+|         |             +----| (100/100)
+|         |                  |  +---------Pantholops_hodgsonii_W_Li25_AVK8
+|         |                  +--| (100/100)
+|         |                     +--------Pantholops_hodgsonii_W_Li25_SPMZ
+|      +--| (100/100)
+|      |  |        +-------------Pantholops_hodgsonii_W_Li25_30GB
+|      |  |     +--| (100/100)
+|      |  |     |  |     +-----------------Pantholops_hodgsonii_W_Li25_6GMA
+|      |  |     |  |  +--| (100/100)
+|      |  |     |  |  |  |  +-----------Pantholops_hodgsonii_W_Li25_ARYS
+|      |  |     |  |  |  +--| (100/100)
+|      |  |     |  |  |     |      +----Pantholops_hodgsonii_W_Li25_C5A8
+|      |  |     |  |  |     |  +---| (100/100)
+|      |  |     |  |  |     |  |   +------Pantholops_hodgsonii_W_Li25_RGCM
+|      |  |     |  |  |     +--| (100/100)
+|      |  |     |  |  |        +---------Pantholops_hodgsonii_W_Li25_WSM3
+|      |  |     |  +--| (100/100)
+|      |  |     |     |             +--Pantholops_hodgsonii_W_Li25_HG75
+|      |  |     |     +-------------| (100/100)
+|      |  |     |                   +-----Pantholops_hodgsonii_W_Li25_S3MV
+|      |  +-----| (100/100)
+|      |        |     +------Pantholops_hodgsonii_W_Li25_95XY
+|      |        +-----| (100/100)
+|      |              +---------Pantholops_hodgsonii_W_Li25_HYJB
+|  +---| (100/100)
+|  |   |               +---------Homo_sapiens_H_Ca23_H7PE
+|  |   |          +----| (100/100)
+|  |   |          |    +--Homo_sapiens_H_Ca23_SSW9
+|  |   +----------| (100/100)
+|  |              |  +-----Homo_sapiens_H_Ca23_RPT4
+|  |              +--| (100/100)
+|  |                 |            +---Pan_troglodytes_W_Sa23_A3AG
+|  |                 |         +--| (100/100)
+|  |                 |         |  +--Papio_cynocephalus_W_Sa23_AKKS
+|  |                 |      +--| (100/100)
+|  |                 |      |  +--Papio_cynocephalus_W_Sa23_GRZ7
+|  |                 +------| (100/100)
+|  |                        |     +**Papio_cynocephalus_W_Sa23_8YAQ
+|  |                        |  +--| (100/100)
+|  |                        |  |  +--Papio_cynocephalus_W_Sa23_R6B0
+|  |                        +--| (100/100)
+|  |                           +--Papio_cynocephalus_W_Sa23_VRKZ
++--| (100/100)
+   +----------------Microtus_arvalis_W_Bo21_KM74
+
+Tree in newick format:
+
+(Apodemus_agrarius_W_Bo21_EQ01:0.2176936522,Apodemus_flavicollis_W_Bo21_0XZ1:0.2211563597,(((((Cervus_elaphus_W_Gl21_72VH:0.2053157872,Pantholops_hodgsonii_W_Li25_EKQZ:0.2074988078)100/100:0.1581407213,((Equus_kiang_W_Li25_0BRE:0.2937274541,Equus_kiang_W_Li25_0GYB:0.2675720011)100/100:0.0438592141,(Equus_kiang_W_Li25_EC26:0.4283583253,(Equus_kiang_W_Li25_Y3GG:0.1775057178,(Pantholops_hodgsonii_W_Li25_AVK8:0.1378269686,Pantholops_hodgsonii_W_Li25_SPMZ:0.1229263255)100/100:0.0325374432)100/100:0.0690078673)100/100:0.1101240207)100/100:0.0475580156)100/100:0.0475546277,((Pantholops_hodgsonii_W_Li25_30GB:0.1855301936,((Pantholops_hodgsonii_W_Li25_6GMA:0.2349838109,(Pantholops_hodgsonii_W_Li25_ARYS:0.1551222970,((Pantholops_hodgsonii_W_Li25_C5A8:0.0757472121,Pantholops_hodgsonii_W_Li25_RGCM:0.0989670881)100/100:0.0536927373,Pantholops_hodgsonii_W_Li25_WSM3:0.1360799478)100/100:0.0252888557)100/100:0.0205055587)100/100:0.0328688079,(Pantholops_hodgsonii_W_Li25_HG75:0.0351624722,Pantholops_hodgsonii_W_Li25_S3MV:0.0777523252)100/100:0.1787693093)100/100:0.0298490497)100/100:0.0344556251,(Pantholops_hodgsonii_W_Li25_95XY:0.0895915683,Pantholops_hodgsonii_W_Li25_HYJB:0.1337597775)100/100:0.0855405653)100/100:0.0812268882)100/100:0.0342106312,((Homo_sapiens_H_Ca23_H7PE:0.1378759922,Homo_sapiens_H_Ca23_SSW9:0.0181835435)100/100:0.0649708949,(Homo_sapiens_H_Ca23_RPT4:0.0845793678,(((Pan_troglodytes_W_Sa23_A3AG:0.0569619887,Papio_cynocephalus_W_Sa23_AKKS:0.0107142075)100/100:0.0128221792,Papio_cynocephalus_W_Sa23_GRZ7:0.0000044437)100/100:0.0026987398,((Papio_cynocephalus_W_Sa23_8YAQ:0.0000000721,Papio_cynocephalus_W_Sa23_R6B0:0.0103454112)100/100:0.0253259176,Papio_cynocephalus_W_Sa23_VRKZ:0.0030740554)100/100:0.0006803377)100/100:0.0965902710)100/100:0.0221495496)100/100:0.1443018019)100/100:0.0525042718,Microtus_arvalis_W_Bo21_KM74:0.2200816506)100/100:0.0388208069);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -67042350.813533574
+Robinson-Foulds distance between ML tree and consensus tree: 0
+
+Branches with support >0.000000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++----------------Apodemus_agrarius_W_Bo21_EQ01
+|
++----------------Apodemus_flavicollis_W_Bo21_0XZ1
+|
+|                        +---------------Cervus_elaphus_W_Gl21_72VH
+|            +-----------| (100)
+|            |           +---------------Pantholops_hodgsonii_W_Li25_EKQZ
+|         +--| (100)
+|         |  |     +----------------------Equus_kiang_W_Li25_0BRE
+|         |  |  +--| (100)
+|         |  |  |  +--------------------Equus_kiang_W_Li25_0GYB
+|         |  +--| (100)
+|         |     |       +--------------------------------Equus_kiang_W_Li25_EC26
+|         |     +-------| (100)
+|         |             |    +-------------Equus_kiang_W_Li25_Y3GG
+|         |             +----| (100)
+|         |                  |  +---------Pantholops_hodgsonii_W_Li25_AVK8
+|         |                  +--| (100)
+|         |                     +--------Pantholops_hodgsonii_W_Li25_SPMZ
+|      +--| (100)
+|      |  |        +-------------Pantholops_hodgsonii_W_Li25_30GB
+|      |  |     +--| (100)
+|      |  |     |  |     +-----------------Pantholops_hodgsonii_W_Li25_6GMA
+|      |  |     |  |  +--| (100)
+|      |  |     |  |  |  |  +-----------Pantholops_hodgsonii_W_Li25_ARYS
+|      |  |     |  |  |  +--| (100)
+|      |  |     |  |  |     |      +----Pantholops_hodgsonii_W_Li25_C5A8
+|      |  |     |  |  |     |  +---| (100)
+|      |  |     |  |  |     |  |   +------Pantholops_hodgsonii_W_Li25_RGCM
+|      |  |     |  |  |     +--| (100)
+|      |  |     |  |  |        +---------Pantholops_hodgsonii_W_Li25_WSM3
+|      |  |     |  +--| (100)
+|      |  |     |     |             +--Pantholops_hodgsonii_W_Li25_HG75
+|      |  |     |     +-------------| (100)
+|      |  |     |                   +-----Pantholops_hodgsonii_W_Li25_S3MV
+|      |  +-----| (100)
+|      |        |     +------Pantholops_hodgsonii_W_Li25_95XY
+|      |        +-----| (100)
+|      |              +---------Pantholops_hodgsonii_W_Li25_HYJB
+|  +---| (100)
+|  |   |               +---------Homo_sapiens_H_Ca23_H7PE
+|  |   |          +----| (100)
+|  |   |          |    +--Homo_sapiens_H_Ca23_SSW9
+|  |   +----------| (100)
+|  |              |  +-----Homo_sapiens_H_Ca23_RPT4
+|  |              +--| (100)
+|  |                 |            +---Pan_troglodytes_W_Sa23_A3AG
+|  |                 |         +--| (100)
+|  |                 |         |  +--Papio_cynocephalus_W_Sa23_AKKS
+|  |                 |      +--| (100)
+|  |                 |      |  +--Papio_cynocephalus_W_Sa23_GRZ7
+|  |                 +------| (100)
+|  |                        |     +**Papio_cynocephalus_W_Sa23_8YAQ
+|  |                        |  +--| (100)
+|  |                        |  |  +--Papio_cynocephalus_W_Sa23_R6B0
+|  |                        +--| (100)
+|  |                           +--Papio_cynocephalus_W_Sa23_VRKZ
++--| (100)
+   +----------------Microtus_arvalis_W_Bo21_KM74
+
+
+Consensus tree in newick format: 
+
+(Apodemus_agrarius_W_Bo21_EQ01:0.2176944414,Apodemus_flavicollis_W_Bo21_0XZ1:0.2211571954,(((((Cervus_elaphus_W_Gl21_72VH:0.2053165945,Pantholops_hodgsonii_W_Li25_EKQZ:0.2074999465)100:0.1581412754,((Equus_kiang_W_Li25_0BRE:0.2937291481,Equus_kiang_W_Li25_0GYB:0.2675735721)100:0.0438586666,(Equus_kiang_W_Li25_EC26:0.4283601918,(Equus_kiang_W_Li25_Y3GG:0.1775063501,(Pantholops_hodgsonii_W_Li25_AVK8:0.1378273608,Pantholops_hodgsonii_W_Li25_SPMZ:0.1229267846)100:0.0325374690)100:0.0690082171)100:0.1101242301)100:0.0475582870)100:0.0475546891,((Pantholops_hodgsonii_W_Li25_30GB:0.1855312603,((Pantholops_hodgsonii_W_Li25_6GMA:0.2349853627,(Pantholops_hodgsonii_W_Li25_ARYS:0.1551233075,((Pantholops_hodgsonii_W_Li25_C5A8:0.0757475247,Pantholops_hodgsonii_W_Li25_RGCM:0.0989677380)100:0.0536929767,Pantholops_hodgsonii_W_Li25_WSM3:0.1360808266)100:0.0252889144)100:0.0205055127)100:0.0328689309,(Pantholops_hodgsonii_W_Li25_HG75:0.0351623918,Pantholops_hodgsonii_W_Li25_S3MV:0.0777528654)100:0.1787705216)100:0.0298491159)100:0.0344556863,(Pantholops_hodgsonii_W_Li25_95XY:0.0895918491,Pantholops_hodgsonii_W_Li25_HYJB:0.1337605098)100:0.0855409434)100:0.0812273258)100:0.0342106623,((Homo_sapiens_H_Ca23_H7PE:0.1378763909,Homo_sapiens_H_Ca23_SSW9:0.0181835154)100:0.0649711147,(Homo_sapiens_H_Ca23_RPT4:0.0845795530,(((Pan_troglodytes_W_Sa23_A3AG:0.0569621183,Papio_cynocephalus_W_Sa23_AKKS:0.0107142120)100:0.0128221781,Papio_cynocephalus_W_Sa23_GRZ7:0.0000044517)100:0.0026987366,((Papio_cynocephalus_W_Sa23_8YAQ:0.0000000546,Papio_cynocephalus_W_Sa23_R6B0:0.0103454328)100:0.0253259776,Papio_cynocephalus_W_Sa23_VRKZ:0.0030740647)100:0.0006803603)100:0.0965905127)100:0.0221495505)100:0.1443022649)100:0.0525043414,Microtus_arvalis_W_Bo21_KM74:0.2200824589)100:0.0388206444);
+
+ALISIM COMMAND
+--------------
+To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
+
+--alisim simulated_MSA -t /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n30__T20__l40s_cx/gpu.treefile -m "GTR{1.00178,2.49936,1.20233,0.899226,2.80351}+F{0.279855,0.22014,0.219963,0.280042}+G4{0.699825}" --length 3972289
+
+To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n30/aln.phy --alisim mimicked_MSA
+
+To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n30/aln.phy --alisim mimicked_MSA --num-alignments 100
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Sun Aug 30 20:33:12 2026
+Total CPU time used: 15226.58276 seconds (4h:13m:46s)
+Total wall-clock time used: 2573.603109 seconds (0h:42m:53s)
+

@@ -1,0 +1,310 @@
+IQ-TREE 3.1.3 built Jul 22 2026
+
+Input file name: /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/1Thread_g__Lachnospira_n6/concat_alignment.faa
+Type of analysis: ModelFinder + tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 1
+
+REFERENCES
+----------
+
+To cite IQ-TREE 3 please use:
+
+Thomas K.F. Wong, Nhan Ly-Trong, Huaiyan Ren, Piyumal Demotte, Hector Banos,
+Andrew J. Roger, Edward Susko, Chris Bielow, Nicola De Maio, Nick Goldman,
+Matthew W. Hahn, Mario dos Reis, Le Sy Vinh, Gavin Huttley, Robert Lanfear, Bui Quang Minh (2026)
+IQ-TREE 3: Phylogenomic Inference Software using Complex Evolutionary Models.
+Molecular Biology and Evolution, msag117.
+https://doi.org/10.1093/molbev/msag117
+
+Since you used ModelFinder please also cite: 
+
+Subha Kalyaanamoorthy, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler,
+and Lars S Jermiin (2017) ModelFinder: Fast model selection for
+accurate phylogenetic estimates. Nature Methods, 14:587–589.
+https://doi.org/10.1038/nmeth.4285
+
+Since you used ultrafast bootstrap (UFBoot) please also cite: 
+
+Diep Thi Hoang, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh,
+and Le Sy Vinh (2018) UFBoot2: Improving the ultrafast bootstrap
+approximation. Mol. Biol. Evol., 35:518–522.
+https://doi.org/10.1093/molbev/msx281
+
+SEQUENCE ALIGNMENT
+------------------
+
+NOTE: Alignment sequence type is auto-detected. If in doubt, specify it via -st option.
+Input data: 6 sequences with 213975 amino-acid sites
+Number of constant sites: 130491 (= 60.9842% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 130491 (= 60.9842% of all sites)
+Number of parsimony informative sites: 30672
+Number of distinct site patterns: 50424
+
+ModelFinder
+-----------
+
+Best-fit model according to BIC: VT+F+I+R6
+
+List of models sorted by BIC scores: 
+
+Model                  LogL         AIC      w-AIC        AICc     w-AICc         BIC      w-BIC
+VT+F+I+R6       -1295858.652 2591795.304 +     0.51 2591795.319 +    0.511 2592195.975 +        1
+VT+F+I+R7       -1295856.694 2591795.388 +     0.49 2591795.404 +    0.489 2592216.606 - 3.31e-05
+PMB+F+I+R6      -1295961.375 2592000.750 - 1.25e-45 2592000.765 - 1.25e-45 2592401.421 - 2.44e-45
+PMB+F+I+R7      -1295958.467 2591998.934 - 3.09e-45 2591998.950 - 3.09e-45 2592420.152 - 2.09e-49
+BLOSUM62+F+I+R6 -1296294.427 2592666.854 - 2.84e-190 2592666.869 - 2.84e-190 2593067.525 - 5.56e-190
+BLOSUM62+F+I+R7 -1296292.450 2592666.900 - 2.78e-190 2592666.916 - 2.77e-190 2593088.118 - 1.88e-194
+WAG+F+I+R6      -1298686.714 2597451.428 -        0 2597451.443 -        0 2597852.099 -        0
+WAG+F+I+R7      -1298683.987 2597449.974 -        0 2597449.990 -        0 2597871.192 -        0
+Q.PFAM+F+I+R6   -1300749.479 2601576.958 -        0 2601576.973 -        0 2601977.629 -        0
+Q.PFAM+F+I+R7   -1300745.609 2601573.218 -        0 2601573.234 -        0 2601994.436 -        0
+LG+F+I+R6       -1301553.727 2603185.454 -        0 2603185.469 -        0 2603586.125 -        0
+LG+F+I+R7       -1301545.236 2603172.472 -        0 2603172.488 -        0 2603593.690 -        0
+BLOSUM62+I+R6   -1303016.405 2606072.810 -        0 2606072.814 -        0 2606278.282 -        0
+BLOSUM62+I+R7   -1303013.804 2606071.608 -        0 2606071.613 -        0 2606297.628 -        0
+RTREV+F+I+R6    -1302983.605 2606045.210 -        0 2606045.225 -        0 2606445.881 -        0
+RTREV+F+I+R7    -1302983.805 2606049.610 -        0 2606049.626 -        0 2606470.828 -        0
+VT+I+R6         -1303250.853 2606541.706 -        0 2606541.710 -        0 2606747.178 -        0
+VT+I+R7         -1303248.370 2606540.740 -        0 2606540.745 -        0 2606766.760 -        0
+CPREV+F+I+R6    -1303626.132 2607330.264 -        0 2607330.279 -        0 2607730.935 -        0
+CPREV+F+I+R7    -1303626.291 2607334.582 -        0 2607334.598 -        0 2607755.800 -        0
+Q.YEAST+F+I+R6  -1304756.584 2609591.168 -        0 2609591.183 -        0 2609991.839 -        0
+Q.YEAST+F+I+R7  -1304755.913 2609593.826 -        0 2609593.842 -        0 2610015.044 -        0
+Q.INSECT+F+I+R6 -1306456.507 2612991.014 -        0 2612991.029 -        0 2613391.685 -        0
+Q.INSECT+F+I+R7 -1306455.774 2612993.548 -        0 2612993.564 -        0 2613414.766 -        0
+WAG+I+R6        -1306853.342 2613746.684 -        0 2613746.688 -        0 2613952.156 -        0
+WAG+I+R7        -1306851.072 2613746.144 -        0 2613746.149 -        0 2613972.164 -        0
+PMB+I+R6        -1307382.279 2614804.558 -        0 2614804.562 -        0 2615010.030 -        0
+PMB+I+R7        -1307377.913 2614799.826 -        0 2614799.831 -        0 2615025.846 -        0
+JTTDCMUT+F+I+R6 -1307393.171 2614864.342 -        0 2614864.357 -        0 2615265.013 -        0
+JTTDCMUT+F+I+R7 -1307393.028 2614868.056 -        0 2614868.072 -        0 2615289.274 -        0
+JTT+F+I+R6      -1307483.898 2615045.796 -        0 2615045.811 -        0 2615446.467 -        0
+JTT+F+I+R7      -1307480.935 2615043.870 -        0 2615043.886 -        0 2615465.088 -        0
+LG+I+R7         -1307985.218 2616014.436 -        0 2616014.441 -        0 2616240.456 -        0
+LG+I+R6         -1307999.959 2616039.918 -        0 2616039.922 -        0 2616245.390 -        0
+LG+I+R8         -1307975.464 2615998.928 -        0 2615998.934 -        0 2616245.495 -        0
+LG+R7           -1308000.320 2616042.640 -        0 2616042.644 -        0 2616258.386 -        0
+LG+R8           -1307991.384 2616028.768 -        0 2616028.773 -        0 2616265.061 -        0
+LG+R6           -1308016.120 2616070.240 -        0 2616070.244 -        0 2616265.439 -        0
+LG+I+R5         -1308026.242 2616088.484 -        0 2616088.487 -        0 2616273.409 -        0
+LG+R5           -1308046.884 2616127.768 -        0 2616127.771 -        0 2616302.419 -        0
+LG+I+R4         -1308066.121 2616164.242 -        0 2616164.245 -        0 2616328.620 -        0
+LG+R4           -1308121.087 2616272.174 -        0 2616272.176 -        0 2616426.278 -        0
+LG+I+R3         -1308129.170 2616286.340 -        0 2616286.342 -        0 2616430.171 -        0
+LG+R3           -1308336.562 2616699.124 -        0 2616699.126 -        0 2616832.681 -        0
+LG+I+R2         -1308580.034 2617184.068 -        0 2617184.069 -        0 2617307.351 -        0
+Q.PFAM+I+R6     -1308929.277 2617898.554 -        0 2617898.558 -        0 2618104.026 -        0
+Q.PFAM+I+R7     -1308926.139 2617896.278 -        0 2617896.283 -        0 2618122.298 -        0
+LG+I+G4         -1309015.329 2618052.658 -        0 2618052.659 -        0 2618165.668 -        0
+LG+G4           -1309153.824 2618327.648 -        0 2618327.649 -        0 2618430.384 -        0
+LG+R2           -1309737.726 2619497.452 -        0 2619497.453 -        0 2619610.462 -        0
+DCMUT+F+I+R6    -1310690.577 2621459.154 -        0 2621459.169 -        0 2621859.825 -        0
+DCMUT+F+I+R7    -1310689.417 2621460.834 -        0 2621460.850 -        0 2621882.052 -        0
+DAYHOFF+F+I+R6  -1310782.633 2621643.266 -        0 2621643.281 -        0 2622043.937 -        0
+DAYHOFF+F+I+R7  -1310781.269 2621644.538 -        0 2621644.554 -        0 2622065.756 -        0
+LG+I            -1312512.105 2625044.210 -        0 2625044.211 -        0 2625146.946 -        0
+MTINV+F+I+R6    -1313074.195 2626226.390 -        0 2626226.405 -        0 2626627.061 -        0
+MTINV+F+I+R7    -1313072.799 2626227.598 -        0 2626227.614 -        0 2626648.816 -        0
+Q.YEAST+I+R6    -1314478.488 2628996.976 -        0 2628996.980 -        0 2629202.448 -        0
+Q.YEAST+I+R7    -1314477.890 2628999.780 -        0 2628999.785 -        0 2629225.800 -        0
+Q.INSECT+I+R6   -1314681.241 2629402.482 -        0 2629402.486 -        0 2629607.954 -        0
+Q.INSECT+I+R7   -1314680.697 2629405.394 -        0 2629405.399 -        0 2629631.414 -        0
+CPREV+I+R6      -1315263.500 2630567.000 -        0 2630567.004 -        0 2630772.472 -        0
+CPREV+I+R7      -1315263.596 2630571.192 -        0 2630571.197 -        0 2630797.212 -        0
+JTTDCMUT+I+R6   -1315776.952 2631593.904 -        0 2631593.908 -        0 2631799.376 -        0
+JTTDCMUT+I+R7   -1315776.930 2631597.860 -        0 2631597.865 -        0 2631823.880 -        0
+JTT+I+R6        -1315836.432 2631712.864 -        0 2631712.868 -        0 2631918.336 -        0
+JTT+I+R7        -1315833.782 2631711.564 -        0 2631711.569 -        0 2631937.584 -        0
+Q.PLANT+F+I+R6  -1316852.705 2633783.410 -        0 2633783.425 -        0 2634184.081 -        0
+Q.PLANT+F+I+R7  -1316851.743 2633785.486 -        0 2633785.502 -        0 2634206.704 -        0
+MTREV+F+I+R6    -1318432.636 2636943.272 -        0 2636943.287 -        0 2637343.943 -        0
+MTREV+F+I+R7    -1318430.919 2636943.838 -        0 2636943.854 -        0 2637365.056 -        0
+MTZOA+F+I+R6    -1319049.379 2638176.758 -        0 2638176.773 -        0 2638577.429 -        0
+MTZOA+F+I+R7    -1319047.016 2638176.032 -        0 2638176.048 -        0 2638597.250 -        0
+Q.MAMMAL+F+I+R6 -1319697.960 2639473.920 -        0 2639473.935 -        0 2639874.591 -        0
+Q.MAMMAL+F+I+R7 -1319697.103 2639476.206 -        0 2639476.222 -        0 2639897.424 -        0
+MTMET+F+I+R6    -1320583.043 2641244.086 -        0 2641244.101 -        0 2641644.757 -        0
+MTMET+F+I+R7    -1320580.462 2641242.924 -        0 2641242.940 -        0 2641664.142 -        0
+FLU+F+I+R6      -1321168.541 2642415.082 -        0 2642415.097 -        0 2642815.753 -        0
+FLU+F+I+R7      -1321168.009 2642418.018 -        0 2642418.034 -        0 2642839.236 -        0
+RTREV+I+R6      -1321664.267 2643368.534 -        0 2643368.538 -        0 2643574.006 -        0
+RTREV+I+R7      -1321664.446 2643372.892 -        0 2643372.897 -        0 2643598.912 -        0
+Q.PLANT+I+R6    -1324175.668 2648391.336 -        0 2648391.340 -        0 2648596.808 -        0
+Q.PLANT+I+R7    -1324174.590 2648393.180 -        0 2648393.185 -        0 2648619.200 -        0
+DCMUT+I+R6      -1325839.161 2651718.322 -        0 2651718.326 -        0 2651923.794 -        0
+DCMUT+I+R7      -1325839.177 2651722.354 -        0 2651722.359 -        0 2651948.374 -        0
+DAYHOFF+I+R6    -1325933.882 2651907.764 -        0 2651907.768 -        0 2652113.236 -        0
+DAYHOFF+I+R7    -1325933.642 2651911.284 -        0 2651911.289 -        0 2652137.304 -        0
+MTART+F+I+R6    -1327423.162 2654924.324 -        0 2654924.339 -        0 2655324.995 -        0
+MTART+F+I+R7    -1327423.025 2654928.050 -        0 2654928.066 -        0 2655349.268 -        0
+Q.BIRD+F+I+R6   -1327674.738 2655427.476 -        0 2655427.491 -        0 2655828.147 -        0
+Q.BIRD+F+I+R7   -1327671.672 2655425.344 -        0 2655425.360 -        0 2655846.562 -        0
+HIVB+F+I+R6     -1327931.068 2655940.136 -        0 2655940.151 -        0 2656340.807 -        0
+HIVB+F+I+R7     -1327930.949 2655943.898 -        0 2655943.914 -        0 2656365.116 -        0
+MTVER+F+I+R6    -1333080.510 2666239.020 -        0 2666239.035 -        0 2666639.691 -        0
+MTVER+F+I+R7    -1333073.913 2666229.826 -        0 2666229.842 -        0 2666651.044 -        0
+FLU+I+R6        -1334540.986 2669121.972 -        0 2669121.976 -        0 2669327.444 -        0
+FLU+I+R7        -1334538.281 2669120.562 -        0 2669120.567 -        0 2669346.582 -        0
+LG              -1336148.143 2672314.286 -        0 2672314.287 -        0 2672406.749 -        0
+Q.MAMMAL+I+R6   -1337194.400 2674428.800 -        0 2674428.804 -        0 2674634.272 -        0
+Q.MAMMAL+I+R7   -1337193.784 2674431.568 -        0 2674431.573 -        0 2674657.588 -        0
+MTMAM+F+I+R6    -1340687.916 2681453.832 -        0 2681453.847 -        0 2681854.503 -        0
+MTMAM+F+I+R7    -1340686.866 2681455.732 -        0 2681455.748 -        0 2681876.950 -        0
+FLAVI+F+I+R6    -1341301.225 2682680.450 -        0 2682680.465 -        0 2683081.121 -        0
+FLAVI+F+I+R7    -1341300.490 2682682.980 -        0 2682682.996 -        0 2683104.198 -        0
+Q.BIRD+I+R6     -1342150.490 2684340.980 -        0 2684340.984 -        0 2684546.452 -        0
+Q.BIRD+I+R7     -1342147.937 2684339.874 -        0 2684339.879 -        0 2684565.894 -        0
+HIVB+I+R6       -1342836.743 2685713.486 -        0 2685713.490 -        0 2685918.958 -        0
+HIVB+I+R7       -1342833.866 2685711.732 -        0 2685711.737 -        0 2685937.752 -        0
+HIVW+F+I+R6     -1343595.989 2687269.978 -        0 2687269.993 -        0 2687670.649 -        0
+HIVW+F+I+R7     -1343595.272 2687272.544 -        0 2687272.560 -        0 2687693.762 -        0
+FLAVI+I+R6      -1357565.124 2715170.248 -        0 2715170.252 -        0 2715375.720 -        0
+FLAVI+I+R7      -1357565.039 2715174.078 -        0 2715174.083 -        0 2715400.098 -        0
+HIVW+I+R6       -1370040.667 2740121.334 -        0 2740121.338 -        0 2740326.806 -        0
+HIVW+I+R7       -1370040.666 2740125.332 -        0 2740125.337 -        0 2740351.352 -        0
+MTZOA+I+R6      -1378964.755 2757969.510 -        0 2757969.514 -        0 2758174.982 -        0
+MTZOA+I+R7      -1378964.642 2757973.284 -        0 2757973.289 -        0 2758199.304 -        0
+MTMET+I+R6      -1386166.417 2772372.834 -        0 2772372.838 -        0 2772578.306 -        0
+MTMET+I+R7      -1386166.037 2772376.074 -        0 2772376.079 -        0 2772602.094 -        0
+MTREV+I+R6      -1388620.428 2777280.856 -        0 2777280.860 -        0 2777486.328 -        0
+MTREV+I+R7      -1388620.211 2777284.422 -        0 2777284.427 -        0 2777510.442 -        0
+MTINV+I+R6      -1390902.822 2781845.644 -        0 2781845.648 -        0 2782051.116 -        0
+MTINV+I+R7      -1390902.895 2781849.790 -        0 2781849.795 -        0 2782075.810 -        0
+MTART+I+R6      -1394717.163 2789474.326 -        0 2789474.330 -        0 2789679.798 -        0
+MTART+I+R7      -1394715.330 2789474.660 -        0 2789474.665 -        0 2789700.680 -        0
+MTVER+I+R6      -1404932.396 2809904.792 -        0 2809904.796 -        0 2810110.264 -        0
+MTVER+I+R7      -1404930.470 2809904.940 -        0 2809904.945 -        0 2810130.960 -        0
+MTMAM+I+R6      -1410615.913 2821271.826 -        0 2821271.830 -        0 2821477.298 -        0
+MTMAM+I+R7      -1410614.744 2821273.488 -        0 2821273.493 -        0 2821499.508 -        0
+
+AIC, w-AIC   : Akaike information criterion scores and weights.
+AICc, w-AICc : Corrected AIC scores and weights.
+BIC, w-BIC   : Bayesian information criterion scores and weights.
+
+Plus signs denote the 95% confidence sets.
+Minus signs denote significant exclusion.
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: VT+F+I+R6
+
+State frequencies: (empirical counts from alignment)
+
+  pi(A) = 0.0785
+  pi(R) = 0.0421
+  pi(N) = 0.0480
+  pi(D) = 0.0659
+  pi(C) = 0.0137
+  pi(Q) = 0.0267
+  pi(E) = 0.0753
+  pi(G) = 0.0743
+  pi(H) = 0.0167
+  pi(I) = 0.0792
+  pi(L) = 0.0797
+  pi(K) = 0.0755
+  pi(M) = 0.0309
+  pi(F) = 0.0354
+  pi(P) = 0.0329
+  pi(S) = 0.0550
+  pi(T) = 0.0543
+  pi(W) = 0.0055
+  pi(Y) = 0.0370
+  pi(V) = 0.0733
+
+Model of rate heterogeneity: Invar+FreeRate with 6 categories
+Proportion of invariable sites: 0.3241
+Site proportion and rates:  (0.3550,0.5851) (0.1065,1.7107) (0.1239,1.7112) (0.0304,2.0556) (0.0546,2.0556) (0.0056,39.7923)
+
+ Category  Relative_rate  Proportion
+  0         0              0.3241
+  1         0.5851         0.3550
+  2         1.7107         0.1065
+  3         1.7112         0.1239
+  4         2.0556         0.0304
+  5         2.0556         0.0546
+  6         39.7923        0.0056
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -1295832.9430 (s.e. 2199.9888)
+Unconstrained log-likelihood (without tree): -1655654.5571
+Number of free parameters (#branches + #model parameters): 39
+Akaike information criterion (AIC) score: 2591743.8860
+Corrected Akaike information criterion (AICc) score: 2591743.9006
+Bayesian information criterion (BIC) score: 2592144.5570
+
+Total tree length (sum of branch lengths): 1.6056
+Sum of internal branch lengths: 0.3322 (20.6890% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Homo_sapiens_H_Ca23_0G3Q' is drawn at root
+Numbers in parentheses are SH-aLRT support (%) / ultrafast bootstrap support (%)
+
++-----------------------------------------Homo_sapiens_H_Ca23_0G3Q
+|
+|                              +------------Homo_sapiens_H_Ca23_1RC5
+|                      +-------| (100/100)
+|                      |       +---------------------------Homo_sapiens_H_Ca23_861S
++----------------------| (100/100)
+|                      |           +-----------Pan_paniscus_W_Sa23_478V
+|                      +-----------| (100/100)
+|                                  +----------------Pan_troglodytes_W_Sa23_749Y
+|
++-----------------------------------------------------Homo_sapiens_H_Ca23_CG6K
+
+Tree in newick format:
+
+(Homo_sapiens_H_Ca23_0G3Q:0.3198903345,((Homo_sapiens_H_Ca23_1RC5:0.0990333084,Homo_sapiens_H_Ca23_861S:0.2157252388)100/100:0.0646818426,(Pan_paniscus_W_Sa23_478V:0.0944027334,Pan_troglodytes_W_Sa23_749Y:0.1302532568)100/100:0.0922558332)100/100:0.1752532659,Homo_sapiens_H_Ca23_CG6K:0.4141445183);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -1295832.94302805
+Robinson-Foulds distance between ML tree and consensus tree: 0
+
+Branches with support >0.00000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++-----------------------------------------Homo_sapiens_H_Ca23_0G3Q
+|
+|                              +------------Homo_sapiens_H_Ca23_1RC5
+|                      +-------| (100)
+|                      |       +---------------------------Homo_sapiens_H_Ca23_861S
++----------------------| (100)
+|                      |           +-----------Pan_paniscus_W_Sa23_478V
+|                      +-----------| (100)
+|                                  +----------------Pan_troglodytes_W_Sa23_749Y
+|
++-----------------------------------------------------Homo_sapiens_H_Ca23_CG6K
+
+
+Consensus tree in newick format: 
+
+(Homo_sapiens_H_Ca23_0G3Q:0.3198898700,((Homo_sapiens_H_Ca23_1RC5:0.0990311861,Homo_sapiens_H_Ca23_861S:0.2157235277)100:0.0646814122,(Pan_paniscus_W_Sa23_478V:0.0944017285,Pan_troglodytes_W_Sa23_749Y:0.1302502795)100:0.0922607793)100:0.1752523938,Homo_sapiens_H_Ca23_CG6K:0.4141435772);
+
+ALISIM COMMAND
+--------------
+To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
+
+--alisim simulated_MSA -t /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Lachnospira_n6__T1__l40s_b2/gpu.treefile -m "VT+F+I{0.324065}+R6{0.354975,0.585098,0.106525,1.71068,0.123884,1.71119,0.0303765,2.05557,0.0545585,2.05558,0.00561657,39.7923}" --length 213975
+
+To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/1Thread_g__Lachnospira_n6/concat_alignment.faa --alisim mimicked_MSA
+
+To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/1Thread_g__Lachnospira_n6/concat_alignment.faa --alisim mimicked_MSA --num-alignments 100
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Fri Sep 18 02:09:53 2026
+Total CPU time used: 725.230159 seconds (0h:12m:5s)
+Total wall-clock time used: 728.7157469 seconds (0h:12m:8s)
+

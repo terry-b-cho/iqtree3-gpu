@@ -1,0 +1,15 @@
+data_type,model_search,threads,card,n_runs,n_engaged,speedup_mean,speedup_sd,speedup_n,pct_gpu_mean,util_sm_mean,util_mem_mean,gate_pass_rate,n_gate_evaluated,n_gate_pass
+dna,fixed_model,1,NVIDIA_L40S,25,25,3.095,1.747,25,100,21.01,0.668,1.000,25,25
+dna,fixed_model,20,NVIDIA_A100_80GB_PCIe,4,4,0.695,0.2037,4,100,34.2,1.175,1.000,4,4
+dna,fixed_model,20,NVIDIA_A40,4,4,0.6475,0.1292,4,100,44.67,9.9,1.000,4,4
+dna,fixed_model,20,NVIDIA_L40S,72,72,0.9232,0.3345,72,100,38.47,5.4,1.000,72,72
+dna,fixed_model,20,Quadro_RTX_8000,4,4,0.7275,0.1797,4,100,38.12,6.55,1.000,4,4
+dna,fixed_model,20,Tesla_V100-SXM2-16GB,4,4,0.6875,0.0789,4,100,32.27,4.625,1.000,4,4
+dna,fixed_model,20,Tesla_V100S-PCIE-32GB,4,4,0.7325,0.1977,4,100,31.43,3.975,1.000,4,4
+protein,full_ModelFinder_TESTNEW,1,NVIDIA_L40S,29,29,30.01,11.38,29,100,54.5,6.155,1.000,29,29
+protein,full_ModelFinder_TESTNEW,20,NVIDIA_A100_80GB_PCIe,4,4,5.28,2.164,4,100,63.88,14.78,1.000,4,4
+protein,full_ModelFinder_TESTNEW,20,NVIDIA_A40,4,4,2.167,0.4371,4,100,84.72,27.18,1.000,4,4
+protein,full_ModelFinder_TESTNEW,20,NVIDIA_L40S,60,60,3.652,1.373,60,100,73.6,20.48,0.983,60,59
+protein,full_ModelFinder_TESTNEW,20,Quadro_RTX_8000,4,4,2.135,0.461,4,100,82.82,22.5,1.000,4,4
+protein,full_ModelFinder_TESTNEW,20,Tesla_V100-SXM2-16GB,4,4,5.473,2.207,4,100,60.62,31.33,1.000,4,4
+protein,full_ModelFinder_TESTNEW,20,Tesla_V100S-PCIE-32GB,4,4,5.053,1.886,4,100,62.35,27,1.000,4,4

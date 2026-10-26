@@ -1,0 +1,125 @@
+IQ-TREE version 3.1.3 for Linux x86 64-bit built Jul 22 2026
+Developed by Bui Quang Minh, Thomas Wong, Nhan Ly-Trong, Huaiyan Ren
+Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
+Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
+
+Host:    compute-gc-17-242.o2.rc.hms.harvard.edu (AVX512, FMA3, 502 GB RAM)
+Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa -m LG+G4 -T 1 -gpu -seed 1 --prefix /tmp/roofline_50571639/protein -redo
+Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Sat Aug 15 11:16:08 2026
+Kernel:  AVX+FMA - 1 threads (4 CPU cores detected)
+
+HINT: Use -nt option to specify number of threads because your CPU has 4 cores!
+HINT: -nt AUTO will automatically determine the best number of threads to use.
+
+Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa ... Fasta format detected
+Reading fasta file: done in 0.0183921 secs using 54.98% CPU
+Alignment most likely contains protein sequences
+Constructing alignment: done in 0.061137 secs using 48.77% CPU
+Alignment has 14 sequences with 99220 columns, 49484 distinct patterns
+32504 parsimony-informative, 17973 singleton sites, 48743 constant sites
+                                  Gap/Ambiguity  Composition  p-value
+Analyzing sequences: done in 0.00381517 secs using 96.98% CPU
+   1  Equus_kiang_W_Li25_D9CX            35.78%    failed      0.00%
+   2  Gorilla_gorilla_W_Sa23_TCG0        28.32%    failed      0.00%
+   3  Mus_musculus_W_Bo21_MKBD           28.39%    failed      0.00%
+   4  Mus_musculus_W_Bo21_RK8P           34.26%    failed      0.00%
+   5  Pan_troglodytes_W_Sa23_AXA6        28.63%    failed      0.00%
+   6  Pan_troglodytes_W_Sa23_EATX        33.73%    passed     18.20%
+   7  Pantholops_hodgsonii_W_Li25_0N67   32.84%    failed      3.03%
+   8  Pantholops_hodgsonii_W_Li25_41B5   29.30%    passed      6.62%
+   9  Pantholops_hodgsonii_W_Li25_A7KE   32.39%    failed      0.00%
+  10  Pantholops_hodgsonii_W_Li25_B7XF   35.44%    failed      0.16%
+  11  Pantholops_hodgsonii_W_Li25_C0T8   28.88%    failed      0.00%
+  12  Pantholops_hodgsonii_W_Li25_CQDE   25.76%    failed      0.01%
+  13  Pantholops_hodgsonii_W_Li25_D7AT   31.82%    failed      0.00%
+  14  Pantholops_hodgsonii_W_Li25_S9XW   30.79%    failed      0.11%
+****  TOTAL                              31.17%  12 sequences failed composition chi2 test (p-value<5%; df=19)
+Checking for duplicate sequences: done in 0.00370884 secs using 99.71% CPU
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 0.092 seconds
+==PROF== Connected to process 34129 (/path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3)
+[IQ-TREE3-GPU] GPU acceleration ACTIVE on NVIDIA L40S (sm_89) (one launch per node over all patterns, single host thread).
+[IQ-TREE3-GPU]   accelerated: single-matrix reversible models with +F, +G, +R, +I -- amino acid (LG/WAG/VT/JTT/Q.*) and nucleotide (JC/K80/HKY/TN/GTR and the rest of the reversible DNA set).
+[IQ-TREE3-GPU]   CPU fallback (per call): mixture/profile, non-reversible, +ASC, +E, mixlen, partitioned, and codon/morphological/binary data.
+[IQ-TREE3-GPU]   Equivalence target vs CPU IQ-TREE: logL within 1e-4, RF=0, matching SH-aLRT/UFBoot support (verify: iqtree3-gpu-verify.sh).
+[IQ-TREE3-GPU]   Per-call accounting is reported at exit as 'likelihood calls: N on GPU, M delegated to CPU' plus a GPUSTATS line; --gpu-strict turns any delegation into an error.
+
+NOTE: 428 MB RAM (0 GB) is required!
+Estimate model parameters (epsilon = 0.100)
+==ERROR== ERR_NVGPUCTRPERM - The user does not have permission to access NVIDIA GPU Performance Counters on the target device 0. For instructions on enabling permissions and to get more information see https://developer.nvidia.com/ERR_NVGPUCTRPERM
+[IQ-TREE3-GPU] engine: amino-acid (20 states), 49484 patterns (stride 49504), 4 rate categories (arena sized for up to 10), NORM_LH scaling.
+[IQ-TREE3-GPU] partial slot = 75.5 MB + 0.0 MB counters; pooling 14 slots (IQ-TREE arena 12 + 2 NNI) -> 1.03 GB VRAM at full occupancy.
+1. Initial log-likelihood: -1081217.247
+2. Current log-likelihood: -1052942.218
+3. Current log-likelihood: -1052779.662
+4. Current log-likelihood: -1052778.863
+Optimal log-likelihood: -1052778.860
+Gamma shape alpha: 0.463
+Parameters optimization took 4 rounds (2.554 sec)
+Wrote distance file to... 
+Computing ML distances based on estimated model parameters...
+Calculating distance matrix: done in 0.0564592 secs using 99.09% CPU
+Computing ML distances took 0.084590 sec (of wall-clock time) 0.074868 sec (of CPU time)
+Setting up auxiliary I and S matrices: done in 9.29832e-05 secs
+Constructing RapidNJ tree: done in 0.000134945 secs using 120.8% CPU
+Computing RapidNJ tree took 0.000350 sec (of wall-clock time) 0.000239 sec (of CPU time)
+Log-likelihood of RapidNJ tree: -1054580.788
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Generating 98 parsimony trees... 9.996 second
+Computing log-likelihood of 98 initial trees ... 23.474 seconds
+Current best score: -1052778.860
+
+Do NNI search on 20 best initial trees
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 1: -1052702.290
+Iteration 10 / LogL: -1052729.041 / Time: 0h:1m:4s
+Iteration 20 / LogL: -1052717.628 / Time: 0h:1m:27s
+Finish initializing candidate tree set (2)
+Current best tree score: -1052702.290 / CPU time: 83.198
+Number of iterations: 20
+--------------------------------------------------------------------
+|               OPTIMIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Iteration 30 / LogL: -1052829.134 / Time: 0h:1m:56s (0h:4m:44s left)
+Iteration 40 / LogL: -1052705.864 / Time: 0h:2m:25s (0h:3m:46s left)
+Iteration 50 / LogL: -1052702.342 / Time: 0h:2m:55s (0h:3m:2s left)
+Iteration 60 / LogL: -1052958.250 / Time: 0h:3m:23s (0h:2m:20s left)
+Iteration 70 / LogL: -1052928.294 / Time: 0h:3m:55s (0h:1m:45s left)
+Iteration 80 / LogL: -1053014.671 / Time: 0h:4m:22s (0h:1m:9s left)
+Iteration 90 / LogL: -1052703.822 / Time: 0h:4m:49s (0h:0m:35s left)
+Iteration 100 / LogL: -1052703.011 / Time: 0h:5m:15s (0h:0m:3s left)
+TREE SEARCH COMPLETED AFTER 102 ITERATIONS / Time: 0h:5m:20s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -1052702.290
+Optimal log-likelihood: -1052702.290
+Gamma shape alpha: 0.463
+Parameters optimization took 1 rounds (0.319 sec)
+BEST SCORE FOUND : -1052702.290
+Total tree length: 3.792
+
+Total number of iterations: 102
+CPU time used for tree search: 177.055 sec (0h:2m:57s)
+Wall-clock time used for tree search: 315.919 sec (0h:5m:15s)
+Total CPU time used: 179.848 sec (0h:2m:59s)
+Total wall-clock time used: 320.849 sec (0h:5m:20s)
+
+Analysis results written to: 
+  IQ-TREE report:                /tmp/roofline_50571639/protein.iqtree
+  Maximum-likelihood tree:       /tmp/roofline_50571639/protein.treefile
+  Likelihood distances:          /tmp/roofline_50571639/protein.mldist
+  Screen log file:               /tmp/roofline_50571639/protein.log
+
+Date and Time: Sat Aug 15 11:21:29 2026
+[IQ-TREE3-GPU] likelihood calls: 231860 on GPU, 0 delegated to CPU (100.0% GPU)
+[IQ-TREE3-GPU]   per entry point (gpu/cpu): partial=55351/0 branch=588/0 derv=169341/0 frombuffer=6580/0
+[IQ-TREE3-GPU] context: 1 full rebuilds, 0 rebinds, 0 ncat switches (arena sized for ncat<=10)
+[IQ-TREE3-GPU] GPUSTATS gpu_calls=231860 cpu_calls=0 pct_gpu=100.00 rebuilds=1 rebinds=0 ncat_switches=0 packets_skipped=0 device_errors=0 strict=0
+==PROF== Disconnected from process 34129

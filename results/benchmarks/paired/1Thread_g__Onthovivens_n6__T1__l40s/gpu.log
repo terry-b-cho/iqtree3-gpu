@@ -1,0 +1,179 @@
+IQ-TREE version 3.1.3 for Linux x86 64-bit built Jul 24 2026
+Developed by Bui Quang Minh, Thomas Wong, Nhan Ly-Trong, Huaiyan Ren
+Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
+Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
+
+Host:    compute-g-17-204.o2.rc.hms.harvard.edu (AVX512, FMA3, 502 GB RAM)
+Command: /path/to/builds/gpu_build_graphs/iqtree3_build_newton/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/1Thread_g__Onthovivens_n6/concat_alignment.faa -T 1 -gpu --gpu-strict -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu -redo
+Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Sun Aug  2 01:11:32 2026
+Kernel:  AVX+FMA - 1 threads (4 CPU cores detected)
+
+HINT: Use -nt option to specify number of threads because your CPU has 4 cores!
+HINT: -nt AUTO will automatically determine the best number of threads to use.
+
+Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/1Thread_g__Onthovivens_n6/concat_alignment.faa ... Fasta format detected
+Reading fasta file: done in 0.00827599 secs using 87.87% CPU
+Alignment most likely contains protein sequences
+Constructing alignment: done in 0.070677 secs using 56.35% CPU
+WARNING: 29739 sites contain only gaps or ambiguous characters.
+Alignment has 6 sequences with 150333 columns, 42517 distinct patterns
+25239 parsimony-informative, 40867 singleton sites, 84227 constant sites
+                                Gap/Ambiguity  Composition  p-value
+Analyzing sequences: done in 0.00132298 secs using 99.55% CPU
+   1  Alouatta_pigra_W_Sa23_N679       41.15%    failed      0.00%
+   2  Homo_sapiens_H_Ca23_0Z5N         35.90%    failed      0.00%
+   3  Pan_paniscus_W_Sa23_HB01         39.43%    failed      0.00%
+   4  Pan_troglodytes_W_Sa23_GAN3      35.60%    failed      1.66%
+   5  Pan_troglodytes_W_Sa23_GE20      35.27%    failed      0.11%
+   6  Papio_cynocephalus_W_Sa23_CC41   35.60%    failed      0.00%
+****  TOTAL                            37.16%  6 sequences failed composition chi2 test (p-value<5%; df=19)
+NOTE: minimal branch length is reduced to 0.000000665190 for long alignment
+Checking for duplicate sequences: done in 0.00127077 secs using 99.55% CPU
+
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 0.022 seconds
+Perform fast likelihood tree search using LG+I+G model...
+Estimate model parameters (epsilon = 5.000)
+Perform nearest neighbor interchange...
+Estimate model parameters (epsilon = 1.000)
+1. Initial log-likelihood: -930062.200
+2. Current log-likelihood: -930058.132
+3. Current log-likelihood: -930054.407
+4. Current log-likelihood: -930051.017
+5. Current log-likelihood: -930047.930
+6. Current log-likelihood: -930045.110
+7. Current log-likelihood: -930042.526
+8. Current log-likelihood: -930040.152
+9. Current log-likelihood: -930037.965
+10. Current log-likelihood: -930035.946
+11. Current log-likelihood: -930034.077
+12. Current log-likelihood: -930032.343
+13. Current log-likelihood: -930030.731
+14. Current log-likelihood: -930029.231
+15. Current log-likelihood: -930027.831
+16. Current log-likelihood: -930026.523
+17. Current log-likelihood: -930025.299
+18. Current log-likelihood: -930024.151
+19. Current log-likelihood: -930023.074
+20. Current log-likelihood: -930022.062
+Optimal log-likelihood: -930021.087
+Proportion of invariable sites: 0.141
+Gamma shape alpha: 1.239
+Parameters optimization took 20 rounds (0.346 sec)
+Time for fast ML tree search: 0.951 seconds
+
+NOTE: ModelFinder requires 556 MB RAM!
+ModelFinder will test up to 1232 protein models (sample size: 150333 epsilon: 0.100) ...
+ No. Model         -LnL         df  AIC          AICc         BIC
+Akaike Information Criterion:           VT+F+I+R5
+Corrected Akaike Information Criterion: VT+F+I+R5
+Bayesian Information Criterion:         VT+F+I+R5
+Best-fit model: VT+F+I+R5 chosen according to BIC
+
+All model information printed to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.model.gz
+CPU time for ModelFinder: 467.097 seconds (0h:7m:47s)
+Wall-clock time for ModelFinder: 471.506 seconds (0h:7m:51s)
+Generating 1000 samples for ultrafast bootstrap (seed: 1)...
+
+NOTE: 359 MB RAM (0 GB) is required!
+Estimate model parameters (epsilon = 0.100)
+1. Initial log-likelihood: -914395.325
+2. Current log-likelihood: -913923.324
+3. Current log-likelihood: -913894.172
+4. Current log-likelihood: -913885.921
+5. Current log-likelihood: -913882.548
+6. Current log-likelihood: -913880.927
+7. Current log-likelihood: -913880.000
+8. Current log-likelihood: -913879.411
+9. Current log-likelihood: -913879.033
+10. Current log-likelihood: -913878.804
+11. Current log-likelihood: -913878.615
+12. Current log-likelihood: -913878.474
+13. Current log-likelihood: -913878.363
+14. Current log-likelihood: -913878.262
+Optimal log-likelihood: -913878.168
+Proportion of invariable sites: 0.199
+Site proportion and rates:  (0.378,0.515) (0.262,1.333) (0.083,1.784) (0.072,1.785) (0.006,30.601)
+Parameters optimization took 14 rounds (1.764 sec)
+Wrote distance file to... 
+Computing ML distances based on estimated model parameters...
+Calculating distance matrix: done in 0.00511909 secs using 99.63% CPU
+Computing ML distances took 0.007691 sec (of wall-clock time) 0.007662 sec (of CPU time)
+Setting up auxiliary I and S matrices: done in 3.48091e-05 secs using 97.68% CPU
+Constructing RapidNJ tree: done in 1.90735e-05 secs using 99.61% CPU
+Computing RapidNJ tree took 0.000095 sec (of wall-clock time) 0.000094 sec (of CPU time)
+Log-likelihood of RapidNJ tree: -914020.517
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Generating 98 parsimony trees... 2.536 second
+Computing log-likelihood of 5 initial trees ... 0.045 seconds
+Current best score: -913878.168
+
+Do NNI search on 7 best initial trees
+Finish initializing candidate tree set (7)
+Current best tree score: -913878.168 / CPU time: 4.019
+Number of iterations: 7
+--------------------------------------------------------------------
+|               OPTIMIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Iteration 10 / LogL: -913878.259 / Time: 0h:7m:59s
+Iteration 20 / LogL: -913878.222 / Time: 0h:8m:1s
+UPDATE BEST LOG-LIKELIHOOD: -913878.168
+Iteration 30 / LogL: -913878.224 / Time: 0h:8m:2s (0h:0m:25s left)
+UPDATE BEST LOG-LIKELIHOOD: -913878.168
+Iteration 40 / LogL: -913878.347 / Time: 0h:8m:3s (0h:0m:18s left)
+Iteration 50 / LogL: -913878.168 / Time: 0h:8m:4s (0h:0m:13s left)
+Log-likelihood cutoff on original alignment: -914022.268
+Iteration 60 / LogL: -913986.006 / Time: 0h:8m:5s (0h:0m:9s left)
+Iteration 70 / LogL: -913911.640 / Time: 0h:8m:7s (0h:0m:6s left)
+Iteration 80 / LogL: -913878.281 / Time: 0h:8m:8s (0h:0m:4s left)
+Iteration 90 / LogL: -913891.009 / Time: 0h:8m:9s (0h:0m:2s left)
+Iteration 100 / LogL: -913878.238 / Time: 0h:8m:10s (0h:0m:0s left)
+Log-likelihood cutoff on original alignment: -914022.268
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 1.000
+TREE SEARCH COMPLETED AFTER 101 ITERATIONS / Time: 0h:8m:10s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -913878.168
+Optimal log-likelihood: -913878.167
+Proportion of invariable sites: 0.199
+Site proportion and rates:  (0.378,0.515) (0.262,1.333) (0.083,1.783) (0.072,1.785) (0.006,30.595)
+Parameters optimization took 1 rounds (0.044 sec)
+BEST SCORE FOUND : -913878.167
+
+Testing tree branches by SH-like aLRT with 1000 replicates...
+6.233 sec.
+Creating bootstrap support values...
+Split supports printed to NEXUS file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.splits.nex
+Total tree length: 2.238
+
+Total number of iterations: 101
+CPU time used for tree search: 15.443 sec (0h:0m:15s)
+Wall-clock time used for tree search: 15.345 sec (0h:0m:15s)
+Total CPU time used: 492.789 sec (0h:8m:12s)
+Total wall-clock time used: 497.139 sec (0h:8m:17s)
+
+Computing bootstrap consensus tree...
+Reading input file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.splits.nex...
+6 taxa and 10 splits.
+Consensus tree written to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.contree
+Reading input trees file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.contree
+Log-likelihood of consensus tree: -913878.167
+
+Analysis results written to: 
+  IQ-TREE report:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.iqtree
+  Maximum-likelihood tree:       /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.treefile
+  Likelihood distances:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.mldist
+
+Ultrafast bootstrap approximation results written to:
+  Split support values:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.splits.nex
+  Consensus tree:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.contree
+  Screen log file:               /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/1Thread_g__Onthovivens_n6__T1__l40s/gpu.log
+
+Date and Time: Sun Aug  2 01:19:49 2026

@@ -1,0 +1,326 @@
+IQ-TREE version 3.1.3 for Linux x86 64-bit built Jul 22 2026
+Developed by Bui Quang Minh, Thomas Wong, Nhan Ly-Trong, Huaiyan Ren
+Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
+Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
+
+Host:    compute-g-17-166.o2.rc.hms.harvard.edu (AVX512, FMA3, 502 GB RAM)
+Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Ruminococcoides/concat_alignment.faa -T 20 -gpu --gpu-strict -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu -redo
+Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Mon Sep  7 11:16:34 2026
+Kernel:  AVX+FMA - 20 threads (20 CPU cores detected)
+
+Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Ruminococcoides/concat_alignment.faa ... Fasta format detected
+Reading fasta file: done in 0.142181 secs using 93.45% CPU
+Alignment most likely contains protein sequences
+Constructing alignment: done in 0.348638 secs using 570.8% CPU
+WARNING: 4 sites contain only gaps or ambiguous characters.
+Alignment has 66 sequences with 228101 columns, 169785 distinct patterns
+126736 parsimony-informative, 28774 singleton sites, 72591 constant sites
+                                  Gap/Ambiguity  Composition  p-value
+Analyzing sequences: done in 0.01578 secs using 1351% CPU
+   1  Cervus_elaphus_W_Gl21_1E09         41.01%    failed      0.00%
+   2  Cervus_elaphus_W_Gl21_2BNV         53.70%    failed      0.00%
+   3  Cervus_elaphus_W_Gl21_J61D         39.82%    failed      0.00%
+   4  Equus_kiang_W_Li25_6NWF            44.96%    failed      0.00%
+   5  Equus_kiang_W_Li25_M1G1            50.46%    failed      0.00%
+   6  Homo_sapiens_H_Ca23_7F9S           35.55%    failed      0.40%
+   7  Homo_sapiens_H_Ca23_CNNM           37.11%    failed      0.00%
+   8  Homo_sapiens_H_Ca23_E833           36.31%    failed      0.03%
+   9  Homo_sapiens_H_Ca23_KHQV           34.99%    failed      0.00%
+  10  Homo_sapiens_H_Ca23_W4V8           34.59%    failed      0.38%
+  11  Homo_sapiens_H_Ca23_WGTZ           33.78%    failed      0.00%
+  12  Homo_sapiens_H_Ca23_Y1CA           34.77%    failed      0.65%
+  13  Ochotona_curzoniae_W_Pu23_6CMV     37.33%    failed      0.00%
+  14  Ochotona_curzoniae_W_Pu23_GP4Q     45.26%    failed      0.00%
+  15  Pan_paniscus_W_Sa23_YV03           36.98%    failed      0.00%
+  16  Pan_troglodytes_W_Sa23_06DN        35.08%    failed      0.00%
+  17  Pan_troglodytes_W_Sa23_375R        35.16%    failed      0.00%
+  18  Pan_troglodytes_W_Sa23_6W8P        36.89%    failed      0.00%
+  19  Pan_troglodytes_W_Sa23_AMXN        47.13%    failed      0.00%
+  20  Pan_troglodytes_W_Sa23_B2WY        34.92%    failed      0.00%
+  21  Pan_troglodytes_W_Sa23_BAQ1        35.30%    failed      0.00%
+  22  Pan_troglodytes_W_Sa23_BKW4        37.10%    failed      0.00%
+  23  Pan_troglodytes_W_Sa23_JEAV        34.91%    failed      0.00%
+  24  Pan_troglodytes_W_Sa23_JYX4        36.52%    failed      0.00%
+  25  Pan_troglodytes_W_Sa23_P7RS        35.46%    failed      0.00%
+  26  Pan_troglodytes_W_Sa23_T393        36.07%    failed      0.00%
+  27  Pantholops_hodgsonii_W_Li25_0J3P   43.21%    failed      0.00%
+  28  Pantholops_hodgsonii_W_Li25_19BB   44.90%    failed      0.00%
+  29  Pantholops_hodgsonii_W_Li25_4Z18   43.08%    failed      0.00%
+  30  Pantholops_hodgsonii_W_Li25_5RW1   38.97%    failed      0.00%
+  31  Pantholops_hodgsonii_W_Li25_6AKM   43.13%    failed      0.00%
+  32  Pantholops_hodgsonii_W_Li25_6Q2N   36.27%    failed      0.00%
+  33  Pantholops_hodgsonii_W_Li25_8D2D   43.51%    failed      0.00%
+  34  Pantholops_hodgsonii_W_Li25_8FPX   44.79%    failed      0.00%
+  35  Pantholops_hodgsonii_W_Li25_8MSN   48.10%    failed      0.00%
+  36  Pantholops_hodgsonii_W_Li25_990H   38.17%    failed      0.40%
+  37  Pantholops_hodgsonii_W_Li25_9KXX   45.45%    failed      0.00%
+  38  Pantholops_hodgsonii_W_Li25_ANYP   45.74%    failed      0.00%
+  39  Pantholops_hodgsonii_W_Li25_ASDX   40.71%    failed      0.00%
+  40  Pantholops_hodgsonii_W_Li25_ASPJ   39.98%    failed      0.00%
+  41  Pantholops_hodgsonii_W_Li25_B208   46.97%    failed      0.00%
+  42  Pantholops_hodgsonii_W_Li25_BVH9   42.57%    failed      0.00%
+  43  Pantholops_hodgsonii_W_Li25_D7ZM   44.25%    failed      0.00%
+  44  Pantholops_hodgsonii_W_Li25_E7AB   43.88%    failed      0.00%
+  45  Pantholops_hodgsonii_W_Li25_F9GT   37.32%    failed      0.00%
+  46  Pantholops_hodgsonii_W_Li25_HBBE   40.95%    failed      0.00%
+  47  Pantholops_hodgsonii_W_Li25_JE3B   42.88%    failed      0.00%
+  48  Pantholops_hodgsonii_W_Li25_K9AK   43.97%    failed      0.01%
+  49  Pantholops_hodgsonii_W_Li25_KBY4   41.85%    failed      0.00%
+  50  Pantholops_hodgsonii_W_Li25_NZ23   41.07%    failed      0.00%
+  51  Pantholops_hodgsonii_W_Li25_PKDZ   43.57%    failed      0.00%
+  52  Pantholops_hodgsonii_W_Li25_Q4SP   40.04%    failed      0.00%
+  53  Pantholops_hodgsonii_W_Li25_QAZT   38.65%    failed      1.11%
+  54  Pantholops_hodgsonii_W_Li25_QQ1Z   48.36%    failed      0.00%
+  55  Pantholops_hodgsonii_W_Li25_RAJ3   44.08%    failed      0.00%
+  56  Pantholops_hodgsonii_W_Li25_SF4C   41.39%    failed      0.00%
+  57  Pantholops_hodgsonii_W_Li25_SQSE   50.03%    failed      0.00%
+  58  Pantholops_hodgsonii_W_Li25_TV94   42.29%    failed      0.00%
+  59  Pantholops_hodgsonii_W_Li25_V07P   43.54%    failed      0.00%
+  60  Pantholops_hodgsonii_W_Li25_V3R9   43.32%    failed      0.00%
+  61  Pantholops_hodgsonii_W_Li25_X453   41.21%    failed      0.00%
+  62  Pantholops_hodgsonii_W_Li25_XEKV   43.48%    failed      0.00%
+  63  Pantholops_hodgsonii_W_Li25_Y8ZT   41.11%    failed      0.00%
+  64  Pantholops_hodgsonii_W_Li25_Z6GA   43.73%    failed      0.00%
+  65  Rangifer_tarandus_W_Gl21_JN31      49.83%    failed      0.00%
+  66  Rangifer_tarandus_W_Gl21_PMC7      43.31%    failed      0.00%
+WARNING: 3 sequences contain more than 50% gaps/ambiguity
+****  TOTAL                              41.22%  66 sequences failed composition chi2 test (p-value<5%; df=19)
+NOTE: minimal branch length is reduced to 0.000000438402 for long alignment
+Checking for duplicate sequences: done in 0.053658 secs using 1341% CPU
+
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 4.347 seconds
+Perform fast likelihood tree search using LG+I+G model...
+Estimate model parameters (epsilon = 5.000)
+Perform nearest neighbor interchange...
+Estimate model parameters (epsilon = 1.000)
+1. Initial log-likelihood: -7547200.191
+2. Current log-likelihood: -7547197.105
+Optimal log-likelihood: -7547196.892
+Proportion of invariable sites: 0.159
+Gamma shape alpha: 0.917
+Parameters optimization took 2 rounds (2.514 sec)
+Time for fast ML tree search: 17.291 seconds
+
+NOTE: ModelFinder requires 17962 MB RAM!
+ModelFinder will test up to 1232 protein models (sample size: 228101 epsilon: 0.100) ...
+ No. Model         -LnL         df  AIC          AICc         BIC
+Akaike Information Criterion:           VT+F+R10
+Corrected Akaike Information Criterion: VT+F+R10
+Bayesian Information Criterion:         VT+F+R10
+Best-fit model: VT+F+R10 chosen according to BIC
+
+All model information printed to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.model.gz
+CPU time for ModelFinder: 11481.159 seconds (3h:11m:21s)
+Wall-clock time for ModelFinder: 11450.345 seconds (3h:10m:50s)
+Generating 1000 samples for ultrafast bootstrap (seed: 1)...
+
+NOTE: 17962 MB RAM (17 GB) is required!
+Estimate model parameters (epsilon = 0.100)
+1. Initial log-likelihood: -7453765.957
+2. Current log-likelihood: -7452317.372
+3. Current log-likelihood: -7452299.785
+4. Current log-likelihood: -7452299.569
+5. Current log-likelihood: -7452299.434
+Optimal log-likelihood: -7452299.315
+Site proportion and rates:  (0.196,0.016) (0.154,0.174) (0.181,0.513) (0.194,1.035) (0.160,1.797) (0.085,2.772) (0.023,4.307) (0.005,6.821) (0.001,11.574) (0.000,28.434)
+Parameters optimization took 5 rounds (73.889 sec)
+Wrote distance file to... 
+Computing ML distances based on estimated model parameters...
+Calculating distance matrix: done in 0.082108 secs using 1977% CPU
+Computing ML distances took 0.098337 sec (of wall-clock time) 1.872239 sec (of CPU time)
+Setting up auxiliary I and S matrices: done in 0.000215054 secs using 1875% CPU
+Constructing RapidNJ tree: done in 0.018779 secs using 1252% CPU
+Computing RapidNJ tree took 0.019051 sec (of wall-clock time) 0.240922 sec (of CPU time)
+Log-likelihood of RapidNJ tree: -7472940.929
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Generating 98 parsimony trees... 493.872 second
+Computing log-likelihood of 98 initial trees ... 115.877 seconds
+Current best score: -7452299.315
+
+Do NNI search on 20 best initial trees
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 1: -7452299.244
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 2: -7451293.491
+Iteration 10 / LogL: -7451807.637 / Time: 3h:25m:51s
+Iteration 20 / LogL: -7451713.516 / Time: 3h:29m:30s
+Finish initializing candidate tree set (11)
+Current best tree score: -7451293.491 / CPU time: 1023.713
+Number of iterations: 20
+--------------------------------------------------------------------
+|               OPTIMIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Estimate model parameters (epsilon = 0.100)
+UPDATE BEST LOG-LIKELIHOOD: -7451120.508
+Iteration 30 / LogL: -7451563.215 / Time: 3h:33m:28s (0h:56m:12s left)
+Iteration 40 / LogL: -7451707.336 / Time: 3h:37m:19s (0h:42m:5s left)
+Iteration 50 / LogL: -7451294.626 / Time: 3h:41m:10s (0h:32m:11s left)
+Log-likelihood cutoff on original alignment: -7452299.315
+Estimate model parameters (epsilon = 0.100)
+UPDATE BEST LOG-LIKELIHOOD: -7451084.918
+Iteration 60 / LogL: -7451373.434 / Time: 3h:45m:14s (0h:24m:29s left)
+Iteration 70 / LogL: -7451624.173 / Time: 3h:49m:10s (0h:17m:46s left)
+Iteration 80 / LogL: -7451104.284 / Time: 3h:53m:12s (0h:11m:47s left)
+Iteration 90 / LogL: -7451305.692 / Time: 3h:56m:42s (0h:6m:11s left)
+Iteration 100 / LogL: -7451150.571 / Time: 4h:0m:27s (0h:1m:0s left)
+Log-likelihood cutoff on original alignment: -7451751.181
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 0.930
+NOTE: UFBoot does not converge, continue at least 100 more iterations
+Iteration 110 / LogL: -7451540.304 / Time: 4h:4m:26s (0h:44m:15s left)
+Iteration 120 / LogL: -7451133.074 / Time: 4h:8m:25s (0h:38m:42s left)
+Iteration 130 / LogL: -7451170.215 / Time: 4h:12m:13s (0h:33m:18s left)
+Iteration 140 / LogL: -7451709.224 / Time: 4h:16m:11s (0h:28m:12s left)
+Iteration 150 / LogL: -7451670.946 / Time: 4h:19m:43s (0h:23m:7s left)
+Log-likelihood cutoff on original alignment: -7451751.181
+Iteration 160 / LogL: -7451398.377 / Time: 4h:23m:41s (0h:18m:19s left)
+Iteration 170 / LogL: -7470119.600 / Time: 4h:27m:30s (0h:13m:36s left)
+Iteration 180 / LogL: -7451213.146 / Time: 4h:31m:37s (0h:9m:1s left)
+Iteration 190 / LogL: -7451145.153 / Time: 4h:35m:19s (0h:4m:28s left)
+Iteration 200 / LogL: -7451126.300 / Time: 4h:39m:15s (0h:0m:0s left)
+Log-likelihood cutoff on original alignment: -7451751.181
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 0.999
+TREE SEARCH COMPLETED AFTER 200 ITERATIONS / Time: 4h:39m:15s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -7451084.918
+2. Current log-likelihood: -7451084.818
+3. Current log-likelihood: -7451084.675
+4. Current log-likelihood: -7451084.547
+5. Current log-likelihood: -7451084.428
+6. Current log-likelihood: -7451084.319
+7. Current log-likelihood: -7451084.206
+8. Current log-likelihood: -7451084.085
+9. Current log-likelihood: -7451083.977
+10. Current log-likelihood: -7451083.874
+11. Current log-likelihood: -7451083.765
+12. Current log-likelihood: -7451083.667
+13. Current log-likelihood: -7451083.566
+14. Current log-likelihood: -7451083.471
+15. Current log-likelihood: -7451083.372
+16. Current log-likelihood: -7451083.275
+17. Current log-likelihood: -7451083.172
+18. Current log-likelihood: -7451083.080
+19. Current log-likelihood: -7451082.984
+20. Current log-likelihood: -7451082.894
+21. Current log-likelihood: -7451082.800
+22. Current log-likelihood: -7451082.710
+23. Current log-likelihood: -7451082.618
+24. Current log-likelihood: -7451082.537
+25. Current log-likelihood: -7451082.452
+26. Current log-likelihood: -7451082.363
+27. Current log-likelihood: -7451082.285
+28. Current log-likelihood: -7451082.209
+29. Current log-likelihood: -7451082.134
+30. Current log-likelihood: -7451082.059
+31. Current log-likelihood: -7451081.986
+32. Current log-likelihood: -7451081.913
+33. Current log-likelihood: -7451081.841
+34. Current log-likelihood: -7451081.769
+35. Current log-likelihood: -7451081.698
+36. Current log-likelihood: -7451081.628
+37. Current log-likelihood: -7451081.548
+38. Current log-likelihood: -7451081.468
+39. Current log-likelihood: -7451081.398
+40. Current log-likelihood: -7451081.330
+41. Current log-likelihood: -7451081.262
+42. Current log-likelihood: -7451081.196
+43. Current log-likelihood: -7451081.130
+44. Current log-likelihood: -7451081.064
+45. Current log-likelihood: -7451081.000
+46. Current log-likelihood: -7451080.936
+47. Current log-likelihood: -7451080.872
+48. Current log-likelihood: -7451080.809
+49. Current log-likelihood: -7451080.747
+50. Current log-likelihood: -7451080.699
+51. Current log-likelihood: -7451080.633
+52. Current log-likelihood: -7451080.585
+53. Current log-likelihood: -7451080.522
+54. Current log-likelihood: -7451080.475
+55. Current log-likelihood: -7451080.413
+56. Current log-likelihood: -7451080.367
+57. Current log-likelihood: -7451080.306
+58. Current log-likelihood: -7451080.260
+59. Current log-likelihood: -7451080.201
+60. Current log-likelihood: -7451080.156
+61. Current log-likelihood: -7451080.110
+62. Current log-likelihood: -7451080.052
+63. Current log-likelihood: -7451080.009
+64. Current log-likelihood: -7451079.790
+65. Current log-likelihood: -7451079.718
+66. Current log-likelihood: -7451079.653
+67. Current log-likelihood: -7451079.609
+68. Current log-likelihood: -7451079.564
+69. Current log-likelihood: -7451079.520
+70. Current log-likelihood: -7451079.476
+71. Current log-likelihood: -7451079.431
+72. Current log-likelihood: -7451079.387
+73. Current log-likelihood: -7451079.345
+74. Current log-likelihood: -7451079.302
+75. Current log-likelihood: -7451079.260
+76. Current log-likelihood: -7451079.219
+77. Current log-likelihood: -7451079.178
+78. Current log-likelihood: -7451079.137
+79. Current log-likelihood: -7451079.096
+80. Current log-likelihood: -7451079.056
+81. Current log-likelihood: -7451079.017
+82. Current log-likelihood: -7451078.977
+83. Current log-likelihood: -7451078.938
+84. Current log-likelihood: -7451078.900
+85. Current log-likelihood: -7451078.862
+86. Current log-likelihood: -7451078.824
+87. Current log-likelihood: -7451078.784
+88. Current log-likelihood: -7451078.746
+89. Current log-likelihood: -7451078.709
+90. Current log-likelihood: -7451078.673
+91. Current log-likelihood: -7451078.636
+92. Current log-likelihood: -7451078.600
+93. Current log-likelihood: -7451078.565
+94. Current log-likelihood: -7451078.529
+95. Current log-likelihood: -7451078.494
+96. Current log-likelihood: -7451078.460
+97. Current log-likelihood: -7451078.425
+98. Current log-likelihood: -7451078.391
+99. Current log-likelihood: -7451078.357
+Optimal log-likelihood: -7451078.357
+Site proportion and rates:  (0.194,0.015) (0.150,0.166) (0.176,0.493) (0.191,0.997) (0.161,1.709) (0.094,2.647) (0.026,4.134) (0.006,6.473) (0.001,10.367) (0.000,25.846)
+Parameters optimization took 99 rounds (372.150 sec)
+BEST SCORE FOUND : -7451078.357
+
+Testing tree branches by SH-like aLRT with 1000 replicates...
+17.042 sec.
+Creating bootstrap support values...
+Split supports printed to NEXUS file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.splits.nex
+Total tree length: 12.789
+
+Total number of iterations: 200
+CPU time used for tree search: 14707.297 sec (4h:5m:7s)
+Wall-clock time used for tree search: 5208.727 sec (1h:26m:48s)
+Total CPU time used: 27009.552 sec (7h:30m:9s)
+Total wall-clock time used: 17144.619 sec (4h:45m:44s)
+
+Computing bootstrap consensus tree...
+Reading input file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.splits.nex...
+66 taxa and 150 splits.
+Consensus tree written to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.contree
+Reading input trees file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.contree
+Log-likelihood of consensus tree: -7451117.445
+
+Analysis results written to: 
+  IQ-TREE report:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.iqtree
+  Maximum-likelihood tree:       /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.treefile
+  Likelihood distances:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.mldist
+
+Ultrafast bootstrap approximation results written to:
+  Split support values:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.splits.nex
+  Consensus tree:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.contree
+  Screen log file:               /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcoides__T20__l40s_cx/gpu.log
+
+Date and Time: Mon Sep  7 16:02:39 2026

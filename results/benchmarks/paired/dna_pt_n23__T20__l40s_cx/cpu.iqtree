@@ -1,0 +1,224 @@
+IQ-TREE 3.1.3 built Jul 22 2026
+
+Input file name: /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n23/aln.phy
+Type of analysis: tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 1
+
+REFERENCES
+----------
+
+To cite IQ-TREE 3 please use:
+
+Thomas K.F. Wong, Nhan Ly-Trong, Huaiyan Ren, Piyumal Demotte, Hector Banos,
+Andrew J. Roger, Edward Susko, Chris Bielow, Nicola De Maio, Nick Goldman,
+Matthew W. Hahn, Mario dos Reis, Le Sy Vinh, Gavin Huttley, Robert Lanfear, Bui Quang Minh (2026)
+IQ-TREE 3: Phylogenomic Inference Software using Complex Evolutionary Models.
+Molecular Biology and Evolution, msag117.
+https://doi.org/10.1093/molbev/msag117
+
+Since you used ultrafast bootstrap (UFBoot) please also cite: 
+
+Diep Thi Hoang, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh,
+and Le Sy Vinh (2018) UFBoot2: Improving the ultrafast bootstrap
+approximation. Mol. Biol. Evol., 35:518–522.
+https://doi.org/10.1093/molbev/msx281
+
+SEQUENCE ALIGNMENT
+------------------
+
+NOTE: Alignment sequence type is auto-detected. If in doubt, specify it via -st option.
+Input data: 23 sequences with 5066381 nucleotide sites
+Number of constant sites: 1.2884e+06 (= 25.4303% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 1.2884e+06 (= 25.4303% of all sites)
+Number of parsimony informative sites: 3303817
+Number of distinct site patterns: 1857870
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: GTR+F+G4
+
+Rate parameter R:
+
+  A-C: 0.9970
+  A-G: 2.4987
+  A-T: 1.2016
+  C-G: 0.8996
+  C-T: 2.7976
+  G-T: 1.0000
+
+State frequencies: (empirical counts from alignment)
+
+  pi(A) = 0.28
+  pi(C) = 0.2202
+  pi(G) = 0.2199
+  pi(T) = 0.2799
+
+Rate matrix Q:
+
+  A   -0.9415     0.187    0.4681    0.2864
+  C    0.2378    -1.073    0.1685    0.6669
+  G    0.5959    0.1687    -1.003    0.2384
+  T    0.2866    0.5247    0.1873   -0.9986
+
+Model of rate heterogeneity: Gamma with 4 categories
+Gamma shape alpha: 0.7008
+
+ Category  Relative_rate  Proportion
+  1         0.07436        0.25
+  2         0.3639         0.25
+  3         0.9252         0.25
+  4         2.637          0.25
+Relative rates are computed as MEAN of the portion of the Gamma distribution falling in the category.
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -62273173.6242 (s.e. 18118.0023)
+Unconstrained log-likelihood (without tree): -51085629.5080
+Number of free parameters (#branches + #model parameters): 52
+Akaike information criterion (AIC) score: 124546451.2485
+Corrected Akaike information criterion (AICc) score: 124546451.2496
+Bayesian information criterion (BIC) score: 124547150.0316
+
+Total tree length (sum of branch lengths): 3.9592
+Sum of internal branch lengths: 2.2256 (56.2130% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Alouatta_pigra_W_Sa23_CTFW' is drawn at root
+Numbers in parentheses are SH-aLRT support (%) / ultrafast bootstrap support (%)
+
++--Alouatta_pigra_W_Sa23_CTFW
+|
++--Alouatta_pigra_W_Sa23_N679
+|
+|                                     +----------Homo_sapiens_H_Ca23_0Z5N
+|                         +-----------| (100/100)
+|                         |           |         +--Papio_cynocephalus_W_Sa23_2CZF
+|                         |           |      +--| (100/100)
+|                         |           |      |  +--Papio_cynocephalus_W_Sa23_Y7RV
+|                         |           +------| (100/100)
+|                         |                  +--Papio_cynocephalus_W_Sa23_CC41
+|                      +--| (100/100)
+|                      |  |                        +--Pan_paniscus_W_Sa23_59KR
+|                      |  |                     +--| (100/100)
+|                      |  |                     |  |   +--Pan_troglodytes_W_Sa23_58MS
+|                      |  |                     |  +---| (100/100)
+|                      |  |                     |      +--Pan_troglodytes_W_Sa23_6ATJ
+|                      |  |              +------| (100/100)
+|                      |  |              |      +--Pan_paniscus_W_Sa23_HB01
+|                      |  +--------------| (100/100)
+|                      |                 |             +--Papio_cynocephalus_W_Sa23_E9BA
+|                      |                 |          +--| (100/100)
+|                      |                 |          |  +--Papio_cynocephalus_W_Sa23_G2C6
+|                      |                 |       +--| (100/100)
+|                      |                 |       |  |     +--Papio_cynocephalus_W_Sa23_F3JM
+|                      |                 |       |  |  +--| (100/100)
+|                      |                 |       |  |  |  +--Papio_cynocephalus_W_Sa23_HWTD
+|                      |                 |       |  +--| (100/100)
+|                      |                 |       |     +--Papio_cynocephalus_W_Sa23_M4YY
+|                      |                 +-------| (100/100)
+|                      |                         +--Papio_cynocephalus_W_Sa23_NX5K
+|               +------| (100/100)
+|               |      |                       +---Pan_troglodytes_W_Sa23_1DRS
+|               |      |                    +--| (100/100)
+|               |      |                    |  +---Pan_troglodytes_W_Sa23_ZJBT
+|               |      |                 +--| (100/100)
+|               |      |                 |  +--Pan_troglodytes_W_Sa23_GAN3
+|               |      +-----------------| (100/100)
+|               |                        |  +---------Pan_troglodytes_W_Sa23_9WNC
+|               |                        +--| (100/100)
+|               |                           +--Pan_troglodytes_W_Sa23_GE20
++---------------| (100/100)
+                |       +------------Pan_troglodytes_W_Sa23_44XZ
+                +-------| (100/100)
+                        +--------------Pan_troglodytes_W_Sa23_YFKJ
+
+Tree in newick format:
+
+(Alouatta_pigra_W_Sa23_CTFW:0.0483087529,Alouatta_pigra_W_Sa23_N679:0.0546528370,((((Homo_sapiens_H_Ca23_0Z5N:0.2084740313,((Papio_cynocephalus_W_Sa23_2CZF:0.0195396116,Papio_cynocephalus_W_Sa23_Y7RV:0.0377164110)100/100:0.0145228059,Papio_cynocephalus_W_Sa23_CC41:0.0100794570)100/100:0.1392924044)100/100:0.2255990202,(((Pan_paniscus_W_Sa23_59KR:0.0539575067,(Pan_troglodytes_W_Sa23_58MS:0.0609202836,Pan_troglodytes_W_Sa23_6ATJ:0.0246730064)100/100:0.0803405265)100/100:0.0341772495,Pan_paniscus_W_Sa23_HB01:0.0547062161)100/100:0.1323707845,(((Papio_cynocephalus_W_Sa23_E9BA:0.0281395580,Papio_cynocephalus_W_Sa23_G2C6:0.0502986769)100/100:0.0228809690,((Papio_cynocephalus_W_Sa23_F3JM:0.0469957044,Papio_cynocephalus_W_Sa23_HWTD:0.0209477963)100/100:0.0199638396,Papio_cynocephalus_W_Sa23_M4YY:0.0306288277)100/100:0.0134485898)100/100:0.0194419582,Papio_cynocephalus_W_Sa23_NX5K:0.0195998903)100/100:0.1571558062)100/100:0.2645578170)100/100:0.0537774188,(((Pan_troglodytes_W_Sa23_1DRS:0.0842542496,Pan_troglodytes_W_Sa23_ZJBT:0.0783631356)100/100:0.0545646194,Pan_troglodytes_W_Sa23_GAN3:0.0396496033)100/100:0.0598142251,(Pan_troglodytes_W_Sa23_9WNC:0.1923299367,Pan_troglodytes_W_Sa23_GE20:0.0644567641)100/100:0.0456298485)100/100:0.3177534450)100/100:0.1265524812,(Pan_troglodytes_W_Sa23_44XZ:0.2415024574,Pan_troglodytes_W_Sa23_YFKJ:0.2634401370)100/100:0.1467508617)100/100:0.2970187445);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -62273173.624307871
+Robinson-Foulds distance between ML tree and consensus tree: 0
+
+Branches with support >0.000000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++--Alouatta_pigra_W_Sa23_CTFW
+|
++--Alouatta_pigra_W_Sa23_N679
+|
+|                                     +----------Homo_sapiens_H_Ca23_0Z5N
+|                         +-----------| (100)
+|                         |           |         +--Papio_cynocephalus_W_Sa23_2CZF
+|                         |           |      +--| (100)
+|                         |           |      |  +--Papio_cynocephalus_W_Sa23_Y7RV
+|                         |           +------| (100)
+|                         |                  +--Papio_cynocephalus_W_Sa23_CC41
+|                      +--| (100)
+|                      |  |                        +--Pan_paniscus_W_Sa23_59KR
+|                      |  |                     +--| (100)
+|                      |  |                     |  |   +--Pan_troglodytes_W_Sa23_58MS
+|                      |  |                     |  +---| (100)
+|                      |  |                     |      +--Pan_troglodytes_W_Sa23_6ATJ
+|                      |  |              +------| (100)
+|                      |  |              |      +--Pan_paniscus_W_Sa23_HB01
+|                      |  +--------------| (100)
+|                      |                 |             +--Papio_cynocephalus_W_Sa23_E9BA
+|                      |                 |          +--| (100)
+|                      |                 |          |  +--Papio_cynocephalus_W_Sa23_G2C6
+|                      |                 |       +--| (100)
+|                      |                 |       |  |     +--Papio_cynocephalus_W_Sa23_F3JM
+|                      |                 |       |  |  +--| (100)
+|                      |                 |       |  |  |  +--Papio_cynocephalus_W_Sa23_HWTD
+|                      |                 |       |  +--| (100)
+|                      |                 |       |     +--Papio_cynocephalus_W_Sa23_M4YY
+|                      |                 +-------| (100)
+|                      |                         +--Papio_cynocephalus_W_Sa23_NX5K
+|               +------| (100)
+|               |      |                       +---Pan_troglodytes_W_Sa23_1DRS
+|               |      |                    +--| (100)
+|               |      |                    |  +---Pan_troglodytes_W_Sa23_ZJBT
+|               |      |                 +--| (100)
+|               |      |                 |  +--Pan_troglodytes_W_Sa23_GAN3
+|               |      +-----------------| (100)
+|               |                        |  +---------Pan_troglodytes_W_Sa23_9WNC
+|               |                        +--| (100)
+|               |                           +--Pan_troglodytes_W_Sa23_GE20
++---------------| (100)
+                |       +------------Pan_troglodytes_W_Sa23_44XZ
+                +-------| (100)
+                        +--------------Pan_troglodytes_W_Sa23_YFKJ
+
+
+Consensus tree in newick format: 
+
+(Alouatta_pigra_W_Sa23_CTFW:0.0483076962,Alouatta_pigra_W_Sa23_N679:0.0546533293,((((Homo_sapiens_H_Ca23_0Z5N:0.2084741577,((Papio_cynocephalus_W_Sa23_2CZF:0.0195395694,Papio_cynocephalus_W_Sa23_Y7RV:0.0377163189)100:0.0145227076,Papio_cynocephalus_W_Sa23_CC41:0.0100795422)100:0.1392916760)100:0.2255981934,(((Pan_paniscus_W_Sa23_59KR:0.0539573655,(Pan_troglodytes_W_Sa23_58MS:0.0609201625,Pan_troglodytes_W_Sa23_6ATJ:0.0246729170)100:0.0803402552)100:0.0341771165,Pan_paniscus_W_Sa23_HB01:0.0547062444)100:0.1323698161,(((Papio_cynocephalus_W_Sa23_E9BA:0.0281394433,Papio_cynocephalus_W_Sa23_G2C6:0.0502984432)100:0.0228809042,((Papio_cynocephalus_W_Sa23_F3JM:0.0469954808,Papio_cynocephalus_W_Sa23_HWTD:0.0209477132)100:0.0199637599,Papio_cynocephalus_W_Sa23_M4YY:0.0306286884)100:0.0134485508)100:0.0194420409,Papio_cynocephalus_W_Sa23_NX5K:0.0195997102)100:0.1571560701)100:0.2645566420)100:0.0537772366,(((Pan_troglodytes_W_Sa23_1DRS:0.0842541077,Pan_troglodytes_W_Sa23_ZJBT:0.0783630463)100:0.0545645655,Pan_troglodytes_W_Sa23_GAN3:0.0396495612)100:0.0598139248,(Pan_troglodytes_W_Sa23_9WNC:0.1923296052,Pan_troglodytes_W_Sa23_GE20:0.0644566717)100:0.0456301312)100:0.3177527296)100:0.1265521163,(Pan_troglodytes_W_Sa23_44XZ:0.2415014040,Pan_troglodytes_W_Sa23_YFKJ:0.2634399605)100:0.1467507223)100:0.2970179733);
+
+ALISIM COMMAND
+--------------
+To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
+
+--alisim simulated_MSA -t /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n23__T20__l40s_cx/cpu.treefile -m "GTR{0.997019,2.49866,1.20163,0.899642,2.79757}+F{0.280019,0.220181,0.219941,0.279859}+G4{0.700826}" --length 5066381
+
+To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n23/aln.phy --alisim mimicked_MSA
+
+To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n23/aln.phy --alisim mimicked_MSA --num-alignments 100
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Sun Aug 30 18:10:34 2026
+Total CPU time used: 49407.54475 seconds (13h:43m:27s)
+Total wall-clock time used: 2849.263589 seconds (0h:47m:29s)
+

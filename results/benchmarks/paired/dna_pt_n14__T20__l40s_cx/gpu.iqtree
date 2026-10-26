@@ -1,0 +1,188 @@
+IQ-TREE 3.1.3 built Jul 22 2026
+
+Input file name: /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n14/aln.phy
+Type of analysis: tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 1
+
+REFERENCES
+----------
+
+To cite IQ-TREE 3 please use:
+
+Thomas K.F. Wong, Nhan Ly-Trong, Huaiyan Ren, Piyumal Demotte, Hector Banos,
+Andrew J. Roger, Edward Susko, Chris Bielow, Nicola De Maio, Nick Goldman,
+Matthew W. Hahn, Mario dos Reis, Le Sy Vinh, Gavin Huttley, Robert Lanfear, Bui Quang Minh (2026)
+IQ-TREE 3: Phylogenomic Inference Software using Complex Evolutionary Models.
+Molecular Biology and Evolution, msag117.
+https://doi.org/10.1093/molbev/msag117
+
+Since you used ultrafast bootstrap (UFBoot) please also cite: 
+
+Diep Thi Hoang, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh,
+and Le Sy Vinh (2018) UFBoot2: Improving the ultrafast bootstrap
+approximation. Mol. Biol. Evol., 35:518–522.
+https://doi.org/10.1093/molbev/msx281
+
+SEQUENCE ALIGNMENT
+------------------
+
+NOTE: Alignment sequence type is auto-detected. If in doubt, specify it via -st option.
+Input data: 14 sequences with 1791247 nucleotide sites
+Number of constant sites: 462056 (= 25.7952% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 462056 (= 25.7952% of all sites)
+Number of parsimony informative sites: 1053276
+Number of distinct site patterns: 627458
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: GTR+F+G4
+
+Rate parameter R:
+
+  A-C: 0.9960
+  A-G: 2.4968
+  A-T: 1.2001
+  C-G: 0.8964
+  C-T: 2.8019
+  G-T: 1.0000
+
+State frequencies: (empirical counts from alignment)
+
+  pi(A) = 0.2801
+  pi(C) = 0.2199
+  pi(G) = 0.2198
+  pi(T) = 0.2802
+
+Rate matrix Q:
+
+  A   -0.9408    0.1866    0.4677    0.2865
+  C    0.2377    -1.075    0.1679    0.6689
+  G     0.596    0.1679    -1.003    0.2387
+  T    0.2865    0.5249    0.1873   -0.9986
+
+Model of rate heterogeneity: Gamma with 4 categories
+Gamma shape alpha: 0.7003
+
+ Category  Relative_rate  Proportion
+  1         0.07425        0.25
+  2         0.3637         0.25
+  3         0.925          0.25
+  4         2.637          0.25
+Relative rates are computed as MEAN of the portion of the Gamma distribution falling in the category.
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -19159829.7927 (s.e. 8392.9483)
+Unconstrained log-likelihood (without tree): -16861038.9591
+Number of free parameters (#branches + #model parameters): 34
+Akaike information criterion (AIC) score: 38319727.5853
+Corrected Akaike information criterion (AICc) score: 38319727.5867
+Bayesian information criterion (BIC) score: 38320149.1317
+
+Total tree length (sum of branch lengths): 3.8866
+Sum of internal branch lengths: 1.3995 (36.0089% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Equus_kiang_W_Li25_D9CX' is drawn at root
+Numbers in parentheses are SH-aLRT support (%) / ultrafast bootstrap support (%)
+
++---------------------Equus_kiang_W_Li25_D9CX
+|
+|                         +---Gorilla_gorilla_W_Sa23_TCG0
+|       +-----------------| (100/100)
+|       |                 +--Pan_troglodytes_W_Sa23_AXA6
+|    +--| (100/100)
+|    |  +-------------------Pantholops_hodgsonii_W_Li25_D7AT
++----| (100/100)
+|    |         +------------------Pan_troglodytes_W_Sa23_EATX
+|    |     +---| (100/100)
+|    |     |   +----------------Pantholops_hodgsonii_W_Li25_A7KE
+|    |  +--| (100/100)
+|    |  |  +----------------Pantholops_hodgsonii_W_Li25_CQDE
+|    +--| (100/100)
+|       |           +----------------Pantholops_hodgsonii_W_Li25_C0T8
+|       +-----------| (100/100)
+|                   +-----------Pantholops_hodgsonii_W_Li25_S9XW
+|
+|                                    +--------------------Mus_musculus_W_Bo21_MKBD
+|                 +------------------| (100/100)
+|                 |                  +------------------Mus_musculus_W_Bo21_RK8P
++-----------------| (100/100)
+                  |                              +--------Pantholops_hodgsonii_W_Li25_0N67
+                  |                  +-----------| (100/100)
+                  |                  |           +---------Pantholops_hodgsonii_W_Li25_B7XF
+                  +------------------| (100/100)
+                                     +---------------Pantholops_hodgsonii_W_Li25_41B5
+
+Tree in newick format:
+
+(Equus_kiang_W_Li25_D9CX:0.2573588769,(((Gorilla_gorilla_W_Sa23_TCG0:0.0554978801,Pan_troglodytes_W_Sa23_AXA6:0.0376625485)100/100:0.2168849339,Pantholops_hodgsonii_W_Li25_D7AT:0.2415246132)100/100:0.0311992320,(((Pan_troglodytes_W_Sa23_EATX:0.2241815510,Pantholops_hodgsonii_W_Li25_A7KE:0.2069216782)100/100:0.0537721298,Pantholops_hodgsonii_W_Li25_CQDE:0.2091055894)100/100:0.0421373032,(Pantholops_hodgsonii_W_Li25_C0T8:0.2011169812,Pantholops_hodgsonii_W_Li25_S9XW:0.1484286611)100/100:0.1428220937)100/100:0.0432686695)100/100:0.0588553906,((Mus_musculus_W_Bo21_MKBD:0.2544992979,Mus_musculus_W_Bo21_RK8P:0.2290289111)100/100:0.2283955635,((Pantholops_hodgsonii_W_Li25_0N67:0.1149181861,Pantholops_hodgsonii_W_Li25_B7XF:0.1173623153)100/100:0.1417379988,Pantholops_hodgsonii_W_Li25_41B5:0.1894659524)100/100:0.2301434936)100/100:0.2103021102);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -19159829.792623989
+Robinson-Foulds distance between ML tree and consensus tree: 0
+
+Branches with support >0.000000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++---------------------Equus_kiang_W_Li25_D9CX
+|
+|                         +---Gorilla_gorilla_W_Sa23_TCG0
+|       +-----------------| (100)
+|       |                 +--Pan_troglodytes_W_Sa23_AXA6
+|    +--| (100)
+|    |  +-------------------Pantholops_hodgsonii_W_Li25_D7AT
++----| (100)
+|    |         +------------------Pan_troglodytes_W_Sa23_EATX
+|    |     +---| (100)
+|    |     |   +----------------Pantholops_hodgsonii_W_Li25_A7KE
+|    |  +--| (100)
+|    |  |  +----------------Pantholops_hodgsonii_W_Li25_CQDE
+|    +--| (100)
+|       |           +----------------Pantholops_hodgsonii_W_Li25_C0T8
+|       +-----------| (100)
+|                   +-----------Pantholops_hodgsonii_W_Li25_S9XW
+|
+|                                    +--------------------Mus_musculus_W_Bo21_MKBD
+|                 +------------------| (100)
+|                 |                  +------------------Mus_musculus_W_Bo21_RK8P
++-----------------| (100)
+                  |                              +--------Pantholops_hodgsonii_W_Li25_0N67
+                  |                  +-----------| (100)
+                  |                  |           +---------Pantholops_hodgsonii_W_Li25_B7XF
+                  +------------------| (100)
+                                     +---------------Pantholops_hodgsonii_W_Li25_41B5
+
+
+Consensus tree in newick format: 
+
+(Equus_kiang_W_Li25_D9CX:0.2573607353,(((Gorilla_gorilla_W_Sa23_TCG0:0.0554971846,Pan_troglodytes_W_Sa23_AXA6:0.0376630549)100:0.2168856617,Pantholops_hodgsonii_W_Li25_D7AT:0.2415256038)100:0.0311989968,(((Pan_troglodytes_W_Sa23_EATX:0.2241825550,Pantholops_hodgsonii_W_Li25_A7KE:0.2069227482)100:0.0537725520,Pantholops_hodgsonii_W_Li25_CQDE:0.2091067175)100:0.0421373117,(Pantholops_hodgsonii_W_Li25_C0T8:0.2011173710,Pantholops_hodgsonii_W_Li25_S9XW:0.1484292985)100:0.1428222723)100:0.0432697449)100:0.0588544093,((Mus_musculus_W_Bo21_MKBD:0.2544987481,Mus_musculus_W_Bo21_RK8P:0.2290301855)100:0.2283958796,((Pantholops_hodgsonii_W_Li25_0N67:0.1149176559,Pantholops_hodgsonii_W_Li25_B7XF:0.1173628798)100:0.1417385467,Pantholops_hodgsonii_W_Li25_41B5:0.1894655271)100:0.2301440596)100:0.2103029317);
+
+ALISIM COMMAND
+--------------
+To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
+
+--alisim simulated_MSA -t /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_pt_n14__T20__l40s_cx/gpu.treefile -m "GTR{0.995965,2.49677,1.20007,0.896398,2.80187}+F{0.28013,0.219852,0.219825,0.280192}+G4{0.700273}" --length 1791247
+
+To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n14/aln.phy --alisim mimicked_MSA
+
+To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
+
+iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_pt_n14/aln.phy --alisim mimicked_MSA --num-alignments 100
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Sun Aug 30 17:22:10 2026
+Total CPU time used: 2881.757005 seconds (0h:48m:1s)
+Total wall-clock time used: 339.578685 seconds (0h:5m:39s)
+

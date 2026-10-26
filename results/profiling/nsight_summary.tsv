@@ -1,0 +1,1 @@
+case	kernel	launches	time_ms	dram_gb	fp64_gflop	ai_flop_per_byte	achieved_dram_gbs	achieved_fp64_gflops	pct_fp64_peak	pct_bw	roofline_bound

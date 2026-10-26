@@ -1,0 +1,7 @@
+axes,axes_title,kind,series,x_label,y_label,x,y,width,height_or_value
+0,"fp64 ranks the cards, but the response is far from proportional",scatter,,"nominal fp64 (TFLOP/s, vendor)",GPU-arm wall on the shared datasets (s),7.8,6066.719,,
+0,"fp64 ranks the cards, but the response is far from proportional",scatter,,"nominal fp64 (TFLOP/s, vendor)",GPU-arm wall on the shared datasets (s),0.51,16131.003,,
+0,"fp64 ranks the cards, but the response is far from proportional",scatter,,"nominal fp64 (TFLOP/s, vendor)",GPU-arm wall on the shared datasets (s),8.2,5803.761,,
+0,"fp64 ranks the cards, but the response is far from proportional",scatter,,"nominal fp64 (TFLOP/s, vendor)",GPU-arm wall on the shared datasets (s),0.58,11679.573,,
+0,"fp64 ranks the cards, but the response is far from proportional",scatter,,"nominal fp64 (TFLOP/s, vendor)",GPU-arm wall on the shared datasets (s),1.4,5696.1425,,
+0,"fp64 ranks the cards, but the response is far from proportional",scatter,,"nominal fp64 (TFLOP/s, vendor)",GPU-arm wall on the shared datasets (s),9.7,4312.063,,

@@ -1,0 +1,2 @@
+lifestyle_group	module2_lifestyle_group_safe	GTDB_tk_genus	tree_type	n_MAGs_input	n_MAGs_in_tree	alignment_length	percent_missing_alignment	tree_method	iqtree_model	support_method	gpu_diamond	gpu_iqtree
+W+H+A	W_H_A	g__Coprococcus_C	ML	30	30	214187	31.28	IQ-TREE3	PMB+F+R8 chosen according to BIC	UFBoot1000+SH-aLRT1000	N	N

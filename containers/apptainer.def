@@ -1,0 +1,32 @@
+# =============================================================================
+#  Apptainer/Singularity definition -- the format HPC users actually need, since Docker is rarely
+#  available on a cluster.
+#  PLACEHOLDER STATUS: untested in CI (no GPU runner). Verify at standalone release.
+#
+#    apptainer build iqtree-gpu.sif containers/apptainer.def
+#    apptainer exec --nv iqtree-gpu.sif iqtree3 -gpu --gpu-strict -s aln.faa -m TESTNEW -T 20
+#
+#  --nv is REQUIRED: it binds the host NVIDIA driver into the container. Without it the binary
+#  starts and silently has no device, which --gpu-strict will then correctly refuse.
+# =============================================================================
+Bootstrap: docker
+From: nvidia/cuda:12.8.0-devel-ubuntu24.04
+
+%post
+    apt-get update && apt-get install -y --no-install-recommends \
+        git cmake build-essential libeigen3-dev libboost-dev python3 ca-certificates
+    rm -rf /var/lib/apt/lists/*
+    mkdir -p /opt/iqtree-gpu
+    # PLACEHOLDER: point at the public repository once it exists.
+    # git clone https://github.com/<org>/iqtree-gpu.git /opt/iqtree-gpu
+    # bash /opt/iqtree-gpu/build_iqtree_gpu.sh /opt/iqtree-gpu/build
+
+%environment
+    export PATH="/opt/iqtree-gpu/build:${PATH}"
+
+%runscript
+    exec iqtree3 "$@"
+
+%help
+    IQ-TREE-GPU: an exact GPU likelihood backend for IQ-TREE 3.
+    Run with --nv. Verify your build with: scripts/iqtree3-gpu-verify.sh $(which iqtree3)

@@ -1,0 +1,31 @@
+IQ-TREE-GPU — a GPU likelihood backend for IQ-TREE 3
+=====================================================
+
+This project is a patch/derivative of IQ-TREE 3 and therefore inherits IQ-TREE's license:
+
+    GNU GENERAL PUBLIC LICENSE, Version 2 (GPL-2.0)
+
+The full GPL-2.0 text is distributed with IQ-TREE and is available at
+https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt — it applies in its entirety to this work.
+
+What is covered
+---------------
+- src/iqtree3_gpu.patch and src/gpu_new_files/ (gpu_kernels.cu, gpu_kernels.h, phylotreegpu.cpp)
+  are modifications and additions to IQ-TREE 3 source; the resulting combined binary is GPL-2.0.
+- The benchmark/figure/verification scripts and documentation in this repository are released under
+  the same GPL-2.0 terms for consistency with the tool they support.
+
+Attribution / how to cite
+--------------------------
+If you use this tool, please cite both:
+  - IQ-TREE 3: Minh B.Q. et al. (2020) IQ-TREE 2, Mol. Biol. Evol. 37:1530-1534 (and the IQ-TREE 3
+    release), https://github.com/iqtree/iqtree3
+  - This work (IQ-TREE-GPU): see manuscript/ for the citation, and cite the exact GPU card used, as
+    reported in the figures/tables, when quoting a performance number.
+
+No warranty
+-----------
+This software is provided "as is", without warranty of any kind, as stated in the GPL-2.0. The one
+correctness guarantee we make and verify is scientific equivalence to CPU IQ-TREE (identical
+log-likelihood, topology RF=0, and support); run scripts/iqtree3-gpu-verify.sh to confirm it on your
+hardware before relying on a result.
