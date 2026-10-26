@@ -89,8 +89,8 @@ Four commands, on a machine with an NVIDIA GPU, CUDA 12.x, a matching gcc and CM
 ```bash
 GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/kosticlab/iqtree3-gpu.git && cd iqtree3-gpu   # skips 830 MB of benchmark genomes the tool never reads
 module load gcc/14.2.0 cuda/12.8 cmake/3.31.2                      # Lmod clusters only; gcc first
-./build_iqtree_gpu.sh                                             # fetches IQ-TREE 3, patches it, builds ./iqtree3_gpu_build/iqtree3 (no GPU needed to build)
-bash scripts/iqtree3-gpu-verify.sh ./iqtree3_gpu_build/iqtree3    # on a GPU node, ~30 s: kernel engaged, RF = 0, log-likelihood matches
+./build_iqtree_gpu.sh                                             # fetches IQ-TREE 3, patches it, builds ./iqtree3_gpu_build/iqtree3 (5-8 min on 8 cores; no GPU needed)
+bash scripts/iqtree3-gpu-verify.sh ./iqtree3_gpu_build/iqtree3    # on a GPU node, seconds: kernel engaged, RF = 0, log-likelihood matches
 ```
 
 Then take your usual IQ-TREE command and add `-gpu`:
@@ -100,7 +100,9 @@ Then take your usual IQ-TREE command and add `-gpu`:
 ```
 
 On a cluster the build can run on a login node; the verifier and your analyses need a GPU allocation
-(for example `srun -p gpu --gres=gpu:1 -c 8 --mem 32G --pty bash` on SLURM).
+(for example `srun -p gpu --gres=gpu:1 -c 8 --mem 32G --pty bash` on SLURM). This exact sequence was
+replayed from a fresh clone on an HMS O2 L40S node: clone 30 s, build 5 min, verifier 1 s, worked example
+35 s, and a ModelFinder run on the example alignment 16 s with every likelihood call on the GPU.
 
 ## Setup
 
@@ -134,6 +136,11 @@ module load gcc/14.2.0 cuda/12.8 cmake/3.31.2      # Lmod cluster; gcc first
 ./build_iqtree_gpu.sh                              # multi-arch build -> ./iqtree3_gpu_build/iqtree3
 ./build_iqtree_gpu.sh ./iqtree3_gpu_build 89       # optional: pin one arch for a smaller binary (89 L40S, 86 A6000, 80 A100, 70 V100, 75 RTX 6000/8000)
 ```
+
+The script checks the toolchain first and stops with a one-line hint if anything is missing, clones
+IQ-TREE 3 at the pinned commit, applies the patch, and uses the Eigen and Boost headers already on the
+machine or downloads them once (checksum-verified) into the build tree. Five to eight minutes on eight
+cores; the binary is about 14 MB.
 
 Containers: [`containers/Dockerfile`](containers/Dockerfile) and
 [`containers/apptainer.def`](containers/apptainer.def) (Apptainer needs `--nv`).

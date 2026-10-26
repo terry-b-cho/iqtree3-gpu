@@ -27,7 +27,8 @@ REPO = os.environ.get("REPO_DIR", os.path.dirname(os.path.dirname(os.path.abspat
 
 # Directories that are not part of the distributed tool.
 PRUNE = {".git", ".iqtree3_src", "zenodo_upload_bundle", "__pycache__", "node_modules",
-         "runs", "figures", "profiling", "data", "logs"}
+         "runs", "figures", "profiling", "data", "logs",
+         "iqtree3_gpu_build", "iqtree3_build", "build_graphs", "CMakeFiles"}   # build output is not shipped
 PRUNE_PREFIX = ("xx_archive",)
 
 # Roots that belong to one machine. `/usr`, `/opt`, `/etc`, `/tmp`, `/var` and `/dev` are normal in
@@ -46,8 +47,10 @@ SCAN_EXT = (".sh", ".py", ".R", ".yml", ".yaml", ".md", ".cff", ".example", ".de
 
 def shipped_files():
     for root, dirs, files in os.walk(REPO):
+        # any CMake build tree (a user may build into ./build or a name of their own) is not shipped either
         dirs[:] = [d for d in dirs
-                   if d not in PRUNE and not d.startswith(PRUNE_PREFIX)]
+                   if d not in PRUNE and not d.startswith(PRUNE_PREFIX)
+                   and not os.path.exists(os.path.join(root, d, "CMakeCache.txt"))]
         for f in files:
             if f.endswith(SCAN_EXT) or f == ".gitignore":
                 p = os.path.join(root, f)

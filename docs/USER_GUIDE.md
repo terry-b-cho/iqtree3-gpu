@@ -41,8 +41,9 @@ module load gcc/14.2.0 cuda/12.8 cmake/3.31.2      # on an Lmod cluster; gcc fir
 ```
 
 This clones pristine IQ-TREE 3 at the pinned commit, applies `src/iqtree3_gpu.patch`, drops in
-`src/gpu_new_files/`, and builds `./iqtree3_gpu_build/iqtree3`. (If Eigen/Boost are not auto-found,
-set `EIGEN3_INCLUDE_DIR` and `Boost_INCLUDE_DIR` first.)
+`src/gpu_new_files/`, and builds `./iqtree3_gpu_build/iqtree3` in five to eight minutes on eight
+cores. The Eigen and Boost headers are used if installed and downloaded once into the build tree
+otherwise; set `EIGEN3_INCLUDE_DIR` or `Boost_INCLUDE_DIR` only to force a particular copy.
 
 ## 4. New here? Run the worked example (~2 min)
 

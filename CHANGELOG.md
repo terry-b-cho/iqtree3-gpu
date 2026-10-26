@@ -12,6 +12,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follo
   that generates it. The validation harnesses write to `validation/`.
 - README leads with the two-part layout and a quick start as a new user meets it (clone without
   the benchmark genomes, load the toolchain, build, verify on a GPU node).
+- `build_iqtree_gpu.sh` fetches the Eigen 3.4.0 and Boost 1.87.0 headers (checksum-verified) when
+  none are installed; a fresh clone on a cluster without them used to stop in CMake. Every script
+  with a shebang is now executable in git, so `./build_iqtree_gpu.sh` works from a fresh clone.
+- `scripts/portability.py` ignores CMake build trees, so `run_tests.sh` passes after a build.
 - Containers: the Apptainer recipe now actually clones and builds the tool in `%post` (it was
   commented out); the Docker image ships `rf_logl_check.py`, which the verifier needs.
 - No behavioural change to the binary or the patch.
