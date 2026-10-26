@@ -2,6 +2,7 @@
 #  Apptainer/Singularity definition -- the format HPC users actually need, since Docker is rarely
 #  available on a cluster.
 #  STATUS: untested in CI (no GPU runner); verify with scripts/iqtree3-gpu-verify.sh after building.
+#  Building the image needs network access (it clones IQ-TREE 3 and this repository).
 #
 #    apptainer build iqtree-gpu.sif containers/apptainer.def
 #    apptainer exec --nv iqtree-gpu.sif iqtree3 -gpu --gpu-strict -s aln.faa -m TESTNEW -T 20
@@ -16,10 +17,11 @@ From: nvidia/cuda:12.8.0-devel-ubuntu24.04
     apt-get update && apt-get install -y --no-install-recommends \
         git cmake build-essential libeigen3-dev libboost-dev python3 ca-certificates
     rm -rf /var/lib/apt/lists/*
-    mkdir -p /opt/iqtree-gpu
-    # Build from the public repository:
-    # git clone https://github.com/kosticlab/iqtree3-gpu.git /opt/iqtree-gpu
-    # bash /opt/iqtree-gpu/build_iqtree_gpu.sh /opt/iqtree-gpu/build
+    # Build from the public repository (network access is needed at build time). git-lfs is not
+    # installed, so the benchmark genomes stay as pointer files; the tool never reads them.
+    git clone --depth 1 https://github.com/kosticlab/iqtree3-gpu.git /opt/iqtree-gpu
+    bash /opt/iqtree-gpu/build_iqtree_gpu.sh /opt/iqtree-gpu/build
+    rm -rf /opt/iqtree-gpu/.iqtree3_src /opt/iqtree-gpu/benchmark
 
 %environment
     export PATH="/opt/iqtree-gpu/build:${PATH}"
@@ -29,4 +31,5 @@ From: nvidia/cuda:12.8.0-devel-ubuntu24.04
 
 %help
     IQ-TREE3-GPU: an exact GPU likelihood backend for IQ-TREE 3.
-    Run with --nv. Verify your build with: scripts/iqtree3-gpu-verify.sh $(which iqtree3)
+    Run with --nv. Verify your build with:
+        apptainer exec --nv iqtree-gpu.sif bash /opt/iqtree-gpu/scripts/iqtree3-gpu-verify.sh iqtree3

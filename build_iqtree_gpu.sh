@@ -3,8 +3,9 @@
 # applying this repo's patch + GPU source files. Makes the tool buildable without any external tree.
 # Paths: the repository root is resolved at run time by scripts/lib/paths.sh. Nothing is hardcoded.
 #
-# Requirements: git, cmake >= 3.18, a CUDA toolkit (tested 12.8) + matching gcc (tested 14.2.0),
-# and the Eigen 3.4 + Boost headers (IQ-TREE's usual build deps). On an HMS-O2-like Lmod cluster:
+# Requirements: git, cmake >= 3.18, a CUDA toolkit (tested 12.8) + matching gcc (tested 14.2.0).
+# The Eigen 3.4 and Boost headers IQ-TREE needs are used if installed and fetched otherwise (step 3).
+# On an HMS-O2-like Lmod cluster:
 #   module load gcc/14.2.0 && module load cuda/12.8 cmake/3.31.2   # gcc FIRST
 #
 # Usage:  ./build_iqtree_gpu.sh [BUILD_DIR] [SM_ARCH]
@@ -76,8 +77,55 @@ git apply --whitespace=nowarn "$HERE/src/iqtree3_gpu.patch"
 cp "$HERE/src/gpu_new_files/gpu_kernels.cu" "$HERE/src/gpu_new_files/gpu_kernels.h" \
    "$HERE/src/gpu_new_files/phylotreegpu.cpp" tree/
 
-echo "== 3. configure + build (IQTREE_GPU=ON, sm_$SM) =="
-# EIGEN3_INCLUDE_DIR / Boost_INCLUDE_DIR: point at your Eigen 3.4 and Boost headers if not auto-found.
+echo "== 3. header-only dependencies: Eigen 3.4 and Boost =="
+# IQ-TREE needs the Eigen and Boost HEADERS (no libraries). Many clusters have neither installed and
+# no module for Eigen, so a first build died here with "Eigen3 library not found". If a header set is
+# not already visible (EIGEN3_INCLUDE_DIR / Boost_INCLUDE_DIR / BOOST_ROOT, CPATH, a conda prefix, or
+# /usr/include), the pinned release is downloaded ONCE into .iqtree3_src/_deps/ and used from there.
+DEPS="$SRCDIR/_deps"; mkdir -p "$DEPS"
+_have_header () {  # _have_header relative/header.hpp DIR...   -> prints the first DIR holding it
+  local h="$1"; shift; local d
+  for d in "$@"; do [ -n "$d" ] && [ -f "$d/$h" ] && { printf '%s' "$d"; return 0; }; done; return 1; }
+_cpath_dirs () { printf '%s' "${CPATH:-}:${CPLUS_INCLUDE_PATH:-}" | tr ':' '\n' | grep . ; }
+_fetch () {  # _fetch URL SHA256 OUT   (curl or wget; verifies the checksum)
+  local url="$1" sum="$2" out="$3"
+  if [ ! -f "$out" ]; then
+    if command -v curl >/dev/null 2>&1; then curl -fsSL -o "$out" "$url"
+    elif command -v wget >/dev/null 2>&1; then wget -q -O "$out" "$url"
+    else echo "ERROR: need curl or wget to download $url"; exit 1; fi
+  fi
+  echo "$sum  $out" | sha256sum -c --quiet - || { echo "ERROR: checksum mismatch for $out"; rm -f "$out"; exit 1; }
+}
+# Eigen
+if [ -z "${EIGEN3_INCLUDE_DIR:-}" ]; then
+  EIGEN3_INCLUDE_DIR=$(_have_header Eigen/Core $(_cpath_dirs) "${CONDA_PREFIX:+$CONDA_PREFIX/include/eigen3}" \
+                        /usr/include/eigen3 /usr/local/include/eigen3 "$DEPS/eigen-3.4.0" || true)
+fi
+if [ -z "$EIGEN3_INCLUDE_DIR" ]; then
+  echo "   Eigen headers not found on this machine: fetching Eigen 3.4.0 (2.6 MB) into $DEPS"
+  _fetch https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz \
+         8586084f71f9bde545ee7fa6d00288b264a2b7ac3607b974e54d13e7162c1c72 "$DEPS/eigen-3.4.0.tar.gz"
+  tar -xzf "$DEPS/eigen-3.4.0.tar.gz" -C "$DEPS" eigen-3.4.0/Eigen eigen-3.4.0/unsupported
+  EIGEN3_INCLUDE_DIR="$DEPS/eigen-3.4.0"
+fi
+echo "   Eigen   : $EIGEN3_INCLUDE_DIR"
+# Boost (IQ-TREE uses boost/bimap and boost/math; the headers of the full release are ~150 MB)
+if [ -z "${Boost_INCLUDE_DIR:-}" ]; then
+  Boost_INCLUDE_DIR=$(_have_header boost/version.hpp $(_cpath_dirs) "${BOOST_ROOT:+$BOOST_ROOT/include}" "${BOOST_ROOT:-}" \
+                       "${CONDA_PREFIX:+$CONDA_PREFIX/include}" /usr/include /usr/local/include "$DEPS/boost_1_87_0" || true)
+fi
+if [ -z "$Boost_INCLUDE_DIR" ]; then
+  echo "   Boost headers not found on this machine: fetching Boost 1.87.0 (155 MB, headers only are kept) into $DEPS"
+  _fetch https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz \
+         f55c340aa49763b1925ccf02b2e83f35fdcf634c9d5164a2acb87540173c741d "$DEPS/boost_1_87_0.tar.gz"
+  tar -xzf "$DEPS/boost_1_87_0.tar.gz" -C "$DEPS" boost_1_87_0/boost
+  rm -f "$DEPS/boost_1_87_0.tar.gz"
+  Boost_INCLUDE_DIR="$DEPS/boost_1_87_0"
+fi
+echo "   Boost   : $Boost_INCLUDE_DIR"
+export EIGEN3_INCLUDE_DIR Boost_INCLUDE_DIR
+
+echo "== 4. configure + build (IQTREE_GPU=ON, sm_$SM) =="
 cmake -S "$SRCDIR" -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release -DIQTREE_GPU=ON \
       -DCMAKE_CUDA_ARCHITECTURES="$SM" \
       ${EIGEN3_INCLUDE_DIR:+-DEIGEN3_INCLUDE_DIR=$EIGEN3_INCLUDE_DIR} \

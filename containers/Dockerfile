@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /opt/iqtree-gpu
 COPY src/ ./src/
 COPY build_iqtree_gpu.sh ./
-COPY scripts/iqtree3-gpu-verify.sh ./scripts/
+COPY scripts/iqtree3-gpu-verify.sh scripts/rf_logl_check.py ./scripts/
 COPY examples/ ./examples/
 
 # Clones IQ-TREE 3 at the pinned commit, applies the patch, drops in the CUDA sources and builds.

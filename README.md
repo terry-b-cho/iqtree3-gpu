@@ -24,6 +24,18 @@ checked on every recorded run.** Version 0.1.0 is the version described in the m
 Primary repository: <https://github.com/kosticlab/iqtree3-gpu> (issues and pull requests go there).
 Synchronized mirror: <https://github.com/terry-b-cho/iqtree3-gpu>.
 
+## What is in this repository
+
+Two parts, kept apart. **If you want to build trees, you only need the first.**
+
+| Part | Where | What it holds |
+|---|---|---|
+| **The tool** | repository root | `build_iqtree_gpu.sh`, the patch and CUDA sources (`src/`), a worked example (`examples/`), container recipes (`containers/`), site settings (`config/`), the user guide and dependencies (`docs/`), the verifier and validation harnesses (`scripts/`), and `validation/` for your own harness output |
+| **The published benchmark** | [`benchmark/`](benchmark/README.md) | everything behind the manuscript: inputs (`data/`), the measured record (`runs/`), every figure and table (`figures/`, `runs/`), profiling, and the scripts that regenerate them, with [a map of which script makes which figure and table](benchmark/README.md#which-script-makes-what) |
+
+The two share only `config/site.env.example` and `scripts/lib/paths.sh`. Nothing under `benchmark/`
+is needed to build, verify or use the tool. The full tree is under [Repository structure](#repository-structure).
+
 ## Authors & Contributors
 
 <p align="center">
@@ -71,12 +83,24 @@ rely on GTDB, CheckM2 and AliSim; see [`benchmark/data/README.md`](benchmark/dat
 
 ## Quick start
 
+Four commands, on a machine with an NVIDIA GPU, CUDA 12.x, a matching gcc and CMake (details under
+[Setup](#setup)). On an Lmod cluster such as HMS O2 the second line loads them; elsewhere skip it.
+
 ```bash
-git clone https://github.com/kosticlab/iqtree3-gpu.git && cd iqtree3-gpu
-./build_iqtree_gpu.sh                                             # fetches IQ-TREE 3, patches it, builds ./iqtree3_gpu_build/iqtree3
-bash scripts/iqtree3-gpu-verify.sh ./iqtree3_gpu_build/iqtree3    # 30 s on a GPU: engagement, RF = 0, log-likelihood
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/kosticlab/iqtree3-gpu.git && cd iqtree3-gpu   # skips 830 MB of benchmark genomes the tool never reads
+module load gcc/14.2.0 cuda/12.8 cmake/3.31.2                      # Lmod clusters only; gcc first
+./build_iqtree_gpu.sh                                             # fetches IQ-TREE 3, patches it, builds ./iqtree3_gpu_build/iqtree3 (no GPU needed to build)
+bash scripts/iqtree3-gpu-verify.sh ./iqtree3_gpu_build/iqtree3    # on a GPU node, ~30 s: kernel engaged, RF = 0, log-likelihood matches
+```
+
+Then take your usual IQ-TREE command and add `-gpu`:
+
+```bash
 ./iqtree3_gpu_build/iqtree3 -gpu -T 20 -s aln.faa -m TESTNEW --ufboot 1000 --alrt 1000 --prefix mytree
 ```
+
+On a cluster the build can run on a login node; the verifier and your analyses need a GPU allocation
+(for example `srun -p gpu --gres=gpu:1 -c 8 --mem 32G --pty bash` on SLURM).
 
 ## Setup
 
@@ -98,8 +122,8 @@ and compiles a single binary that runs with or without `-gpu`. If you have no NV
 | CUDA toolkit | 12.8 | 12.x expected to work; the runtime needs `libcudart` and `libcublas` on `LD_LIBRARY_PATH` |
 | GCC | 14.2.0 | must be a version your CUDA release accepts; on an Lmod cluster **load gcc before cuda** |
 | CMake | 3.31.2 | >= 3.18 required |
-| Eigen, Boost | 3.4.0, headers only | set `EIGEN3_INCLUDE_DIR` / `Boost_INCLUDE_DIR` if not auto-found |
-| git, Python 3 | any recent | Python only for the verification and analysis scripts |
+| Eigen, Boost | 3.4.0, 1.87.0, headers only | used if installed; otherwise the build script downloads them once (~160 MB) into the build tree |
+| git, Python 3, curl or wget | any recent | Python only for the verification and analysis scripts |
 
 Exact versions, runtime libraries, compute capabilities and VRAM sizing: [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md).
 
@@ -128,6 +152,19 @@ Expected example output is in [`examples/expected_output/`](examples/expected_ou
 [`examples/README.md`](examples/README.md).
 
 ## Usage
+
+### Your input
+
+The tool takes what IQ-TREE takes: **a multiple sequence alignment** (amino acid or nucleotide, FASTA or
+PHYLIP, one sequence per taxon). It does not take raw genomes. If you start from genome assemblies or
+MAGs, build the alignment first with any standard pipeline, for example the concatenated marker-gene
+alignment that [GTDB-Tk](https://github.com/Ecogenomics/GTDBTk) `align` produces. The bundled
+example alignments were made that way (genes called with Prodigal, markers found with DIAMOND,
+aligned with MAFFT, concatenated; see [`examples/data/PROVENANCE.md`](examples/data/PROVENANCE.md)),
+and [`examples/run_example.sh`](examples/README.md) shows the whole path from such an alignment to a
+tree you can open.
+
+### Run it
 
 Take your normal IQ-TREE command and add `-gpu`. Input, model string, bootstraps, seeds and every output
 file behave exactly as in stock IQ-TREE. With no GPU on the node it prints a notice and runs on the CPU.
@@ -224,6 +261,8 @@ binary. Tree complexity is branches x patterns x rate categories x states^2.
 | Start-up says a model is on CPU fallback | Expected for mixture, codon, `+ASC`, partitioned models; the result is still equivalent, and `GPUSTATS` names the reason |
 | `--gpu-strict FAILED: N of M likelihood calls ran on the CPU` | Not a pure GPU run; drop `--gpu-strict` or choose an eligible model |
 | Slower than the CPU | Expected below about 2e7 tree complexity or with few distinct patterns, where launch latency dominates; judge size by `Number of distinct site patterns` in the `.iqtree` report |
+| Build stops at `MISSING nvcc` or `MISSING cmake` | The toolchain is not on `PATH`: on an Lmod cluster `module load gcc/14.2.0 cuda/12.8 cmake/3.31.2` (gcc first), elsewhere install the CUDA toolkit and CMake >= 3.18 |
+| `Eigen3 library not found` or `Could NOT find Boost` | The build script fetches both when they are absent; if the download is blocked, install them (`apt install libeigen3-dev libboost-dev`, or `conda install -c conda-forge eigen boost-cpp`) or point `EIGEN3_INCLUDE_DIR` / `Boost_INCLUDE_DIR` at the headers |
 | Verifier prints FAIL | Do not use the build; recheck the CUDA and gcc modules, rebuild, and report it |
 
 ## The published benchmark

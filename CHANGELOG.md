@@ -10,6 +10,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follo
   `docs/`) and the published benchmark (`benchmark/`: inputs, measured record, figures, tables and
   the scripts that produce them). `benchmark/README.md` maps every figure and table to the script
   that generates it. The validation harnesses write to `validation/`.
+- README leads with the two-part layout and a quick start as a new user meets it (clone without
+  the benchmark genomes, load the toolchain, build, verify on a GPU node).
+- Containers: the Apptainer recipe now actually clones and builds the tool in `%post` (it was
+  commented out); the Docker image ships `rf_logl_check.py`, which the verifier needs.
 - No behavioural change to the binary or the patch.
 
 ## [0.1.0] - 2026-10-25
