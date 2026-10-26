@@ -1,35 +1,59 @@
 # =============================================================================
 #  Apptainer/Singularity definition -- the format HPC users actually need, since Docker is rarely
 #  available on a cluster.
-#  STATUS: untested in CI (no GPU runner); verify with scripts/iqtree3-gpu-verify.sh after building.
-#  Building the image needs network access (it clones IQ-TREE 3 and this repository).
 #
-#    apptainer build iqtree-gpu.sif containers/apptainer.def
-#    apptainer exec --nv iqtree-gpu.sif iqtree3 -gpu --gpu-strict -s aln.faa -m TESTNEW -T 20
+#  Build FROM THE REPOSITORY ROOT (the %files paths below are relative to where you run the command;
+#  nothing is fetched from GitHub, so the recipe works identically in any clone or fork):
 #
-#  --nv is REQUIRED: it binds the host NVIDIA driver into the container. Without it the binary
-#  starts and silently has no device, which --gpu-strict will then correctly refuse.
+#    apptainer build iqtree3-gpu.sif containers/apptainer.def        # add --fakeroot on a cluster
+#    apptainer exec --nv iqtree3-gpu.sif iqtree3 -gpu --gpu-strict -s aln.faa -m TESTNEW -T 20
+#
+#  --nv is REQUIRED at run time: it binds the host NVIDIA driver into the container. Without it the
+#  binary starts and silently has no device, which --gpu-strict will then correctly refuse.
+#
+#  Building needs network access (the build script clones IQ-TREE 3 at the pinned commit) and takes
+#  10-20 minutes; the image is about 5.5 GB because it carries the CUDA 12.8 toolkit. CI builds it on
+#  every push and runs the worked example inside it on the CPU; GPU verification is yours:
+#
+#    apptainer exec --nv iqtree3-gpu.sif bash /opt/iqtree3-gpu/scripts/iqtree3-gpu-verify.sh iqtree3
+#    ( cd examples && apptainer exec --nv ../iqtree3-gpu.sif ./run_example.sh iqtree3 )   # from your clone
+#
+#  CUDA 12.8 + GCC 13 (Ubuntu 24.04's) is a combination nvcc accepts; the campaign was measured with
+#  GCC 14.2.0 on the cluster, and the kernel is the same source either way.
 # =============================================================================
 Bootstrap: docker
 From: nvidia/cuda:12.8.0-devel-ubuntu24.04
 
+%files
+    build_iqtree_gpu.sh            /opt/iqtree3-gpu/build_iqtree_gpu.sh
+    src                            /opt/iqtree3-gpu/src
+    scripts/iqtree3-gpu-verify.sh  /opt/iqtree3-gpu/scripts/iqtree3-gpu-verify.sh
+    scripts/rf_logl_check.py       /opt/iqtree3-gpu/scripts/rf_logl_check.py
+    LICENSE                        /opt/iqtree3-gpu/LICENSE
+    VERSION                        /opt/iqtree3-gpu/VERSION
+
 %post
+    export DEBIAN_FRONTEND=noninteractive
     apt-get update && apt-get install -y --no-install-recommends \
         git cmake build-essential libeigen3-dev libboost-dev python3 ca-certificates
     rm -rf /var/lib/apt/lists/*
-    # Build from the public repository (network access is needed at build time). git-lfs is not
-    # installed, so the benchmark genomes stay as pointer files; the tool never reads them.
-    git clone --depth 1 https://github.com/kosticlab/iqtree3-gpu.git /opt/iqtree-gpu
-    bash /opt/iqtree-gpu/build_iqtree_gpu.sh /opt/iqtree-gpu/build
-    rm -rf /opt/iqtree-gpu/.iqtree3_src /opt/iqtree-gpu/benchmark
+    # Clones IQ-TREE 3 at the pinned commit, applies the patch, drops in the CUDA sources and builds
+    # a multi-arch binary (sm_70 to sm_89). Eigen and Boost come from the packages installed above.
+    bash /opt/iqtree3-gpu/build_iqtree_gpu.sh /opt/iqtree3-gpu/build
+    rm -rf /opt/iqtree3-gpu/.iqtree3_src /opt/iqtree3-gpu/build/CMakeFiles
 
 %environment
-    export PATH="/opt/iqtree-gpu/build:${PATH}"
+    export PATH="/opt/iqtree3-gpu/build:${PATH}"
 
 %runscript
     exec iqtree3 "$@"
 
+%test
+    iqtree3 --version | head -1
+
 %help
-    IQ-TREE3-GPU: an exact GPU likelihood backend for IQ-TREE 3.
-    Run with --nv. Verify your build with:
-        apptainer exec --nv iqtree-gpu.sif bash /opt/iqtree-gpu/scripts/iqtree3-gpu-verify.sh iqtree3
+    IQ-TREE3-GPU: an exact GPU likelihood backend for IQ-TREE 3 (https://github.com/kosticlab/iqtree3-gpu).
+    Run with --nv. Examples:
+        apptainer exec --nv iqtree3-gpu.sif iqtree3 -gpu -s aln.faa -m TESTNEW --ufboot 1000 --alrt 1000 --prefix mytree
+        apptainer exec --nv iqtree3-gpu.sif bash /opt/iqtree3-gpu/scripts/iqtree3-gpu-verify.sh iqtree3
+        ( cd examples && apptainer exec --nv ../iqtree3-gpu.sif ./run_example.sh iqtree3 )   # from your clone

@@ -142,8 +142,19 @@ IQ-TREE 3 at the pinned commit, applies the patch, and uses the Eigen and Boost 
 machine or downloads them once (checksum-verified) into the build tree. Five to eight minutes on eight
 cores; the binary is about 14 MB.
 
-Containers: [`containers/Dockerfile`](containers/Dockerfile) and
-[`containers/apptainer.def`](containers/apptainer.def) (Apptainer needs `--nv`).
+**Containers.** Both recipes build from your checkout, so run them from the repository root; CI builds
+both on every push and runs the worked example inside each image.
+
+```bash
+docker build -f containers/Dockerfile -t iqtree3-gpu:0.1.0 .                       # Docker (needs the NVIDIA Container Toolkit to run with --gpus all)
+docker run --rm --gpus all -v "$PWD":/data iqtree3-gpu:0.1.0 iqtree3 -gpu -s /data/aln.faa -m TESTNEW --prefix /data/mytree
+apptainer build --fakeroot iqtree3-gpu.sif containers/apptainer.def                 # Apptainer/Singularity, the HPC form; 10-20 min, ~5.5 GB
+apptainer exec --nv iqtree3-gpu.sif iqtree3 -gpu -s aln.faa -m TESTNEW --prefix mytree   # --nv binds the host driver; without it there is no GPU
+```
+
+Verify an image the same way as a build: `apptainer exec --nv iqtree3-gpu.sif bash /opt/iqtree3-gpu/scripts/iqtree3-gpu-verify.sh iqtree3`,
+or the Docker equivalent with `--gpus all`. Some clusters only run images placed under an approved
+path; ask your research-computing team where that is.
 
 ### Verify on your GPU
 
@@ -228,8 +239,8 @@ a generated file that is authoritative over anything typed here. Your own valida
 ## When it pays off
 
 <div align="center">
-  <img src="benchmark/figures/previews/PREVIEW_Fig02.png" alt="Figure 2: speedup versus tree complexity at 20 threads (a) and 1 thread (b), and the single- to 20-thread speedup per dataset (c)" width="860"/>
-  <p><em>Figure 2. (a) Speedup vs complexity, 20 threads. (b) Speedup vs complexity, 1 thread. (c) Single- to 20-thread speedup per dataset.</em></p>
+  <img src="benchmark/figures/previews/PREVIEW_Fig02.png" alt="Figure 2: speedup versus tree complexity at 20 threads (a) and 1 thread (b)" width="860"/>
+  <p><em>Figure 2. (a) Speedup vs complexity, 20 threads. (b) Speedup vs complexity, 1 thread.</em></p>
 </div>
 
 Speedup is CPU wall time / GPU wall time, both arms on the same node, in the same job, from the same

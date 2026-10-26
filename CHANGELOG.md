@@ -16,8 +16,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follo
   none are installed; a fresh clone on a cluster without them used to stop in CMake. Every script
   with a shebang is now executable in git, so `./build_iqtree_gpu.sh` works from a fresh clone.
 - `scripts/portability.py` ignores CMake build trees, so `run_tests.sh` passes after a build.
-- Containers: the Apptainer recipe now actually clones and builds the tool in `%post` (it was
-  commented out); the Docker image ships `rf_logl_check.py`, which the verifier needs.
+- Containers: both recipes now build from the checkout (`%files` / `COPY`) instead of cloning
+  GitHub, so they work in any clone or fork; the Apptainer recipe previously had its build
+  commented out and the Docker image lacked `rf_logl_check.py`. CI builds both images and runs
+  the worked example inside each on the CPU.
+- Benchmark figures and tables cut to the core story. Fig. 1 keeps the log-likelihood histogram
+  alone; Fig. 2 drops the thread-slope panel; Fig. 3 is now the cost law at 20 threads and at one
+  thread, with the explained variation of every fit on the panel; Fig. 6 keeps memory sizing and
+  informativeness. The secondary mechanistic analyses (old Fig. 1B-C, 2C, 3B-D, 6B-C, Supplementary
+  Figs. S1, S5, S8, S9B) are removed together with their derived quantities, the run-table column
+  they used, and the harness experiment behind them. Supplementary figures renumbered S1-S8 (the two
+  replicate-spread figures are one two-panel figure); the two replicate tables are one Supplementary
+  Data sheet; a new Supplementary Data 0 lists source accession and citation for all 435 MAGs. Panel
+  file stems of Figs. 5 and 6 now match their manuscript letters. `benchmark/FIGURE_MAP.md` maps
+  every panel to the function that draws it, its row filter and its inputs.
 - No behavioural change to the binary or the patch.
 
 ## [0.1.0] - 2026-10-25
