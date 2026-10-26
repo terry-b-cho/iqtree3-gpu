@@ -34,10 +34,10 @@ Run `bash scripts/run_tests.sh --quick` before opening a PR; `--gpu` if you have
   (`pct_gpu = 100`, `cpu_calls = 0`), which is what `--gpu-strict` enforces.
 - **Benchmark timings come from IQ-TREE's own wall clock**, never from SLURM queue time, and both
   arms must run in one job on one node from one binary.
-- **Never overwrite a successful measurement.** `results/benchmarks/paired/<cell>/` is irreplaceable;
+- **Never overwrite a successful measurement.** `benchmark/runs/paired/<cell>/` is irreplaceable;
   the harness refuses to overwrite a cell whose `RESULT.tsv` has `gate_pass=TRUE` unless `FORCE=1`.
 - **Do not hand-edit numbers into the documentation.** They are generated into
-  `results/benchmarks/KEY_NUMBERS.md` by `scripts/key_numbers.py`.
+  `benchmark/runs/KEY_NUMBERS.md` by `benchmark/scripts/key_numbers.py`.
 
 ## Style
 

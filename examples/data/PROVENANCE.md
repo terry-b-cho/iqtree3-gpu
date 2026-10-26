@@ -11,7 +11,7 @@ works. **Several genera are provided** so you can try more than one tree.
 | `example_Lachnospira.faa` | Lachnospira | 8 | 3,620 | 25 taxa x 213,975 cols | 51% |
 
 **Source (real, public data):** concatenated marker-gene alignments from this repository's benchmark
-set (`data/protein/<genus>/concat_alignment.faa`), produced by the upstream marker-gene pipeline (Prodigal gene
+set (`benchmark/data/protein/<genus>/concat_alignment.faa`), produced by the upstream marker-gene pipeline (Prodigal gene
 calling -> DIAMOND marker search -> MAFFT alignment -> concatenation) on metagenome-assembled genomes
 (MAGs) classified with **GTDB-Tk** against the **GTDB** taxonomy and quality-controlled with
 **CheckM2**. Tip labels record the host species and sample the genome came from, e.g.
@@ -23,7 +23,7 @@ after which all-gap columns are dropped.
 
 **Validity:** the residues are unmodified real sequence data; only the number of taxa and columns is
 reduced. These are *demonstration* datasets for learning the interface and verifying an installation.
-The paper's benchmarks use the full-size alignments in `data/protein/`.
+The paper's benchmarks use the full-size alignments in `benchmark/data/protein/`.
 
 **A note on the trees:** these are **bacterial** phylogenies whose tips happen to be labelled by host.
 Do not expect tips to group by host species: gut symbiont clades may or may not track host relatedness,

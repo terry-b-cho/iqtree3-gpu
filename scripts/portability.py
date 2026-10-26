@@ -27,7 +27,7 @@ REPO = os.environ.get("REPO_DIR", os.path.dirname(os.path.dirname(os.path.abspat
 
 # Directories that are not part of the distributed tool.
 PRUNE = {".git", ".iqtree3_src", "zenodo_upload_bundle", "__pycache__", "node_modules",
-         "results", "data", "logs"}
+         "runs", "figures", "profiling", "data", "logs"}
 PRUNE_PREFIX = ("xx_archive",)
 
 # Roots that belong to one machine. `/usr`, `/opt`, `/etc`, `/tmp`, `/var` and `/dev` are normal in
@@ -37,7 +37,7 @@ BAD_ROOT = re.compile(r"(?<![\w.])/(?:n/scratch|n/app|home|net|cluster|scratch)(
 # Files that may legitimately contain the patterns: the guards themselves.
 EXEMPT = {
     os.path.join("scripts", "portability.py"),
-    os.path.join("scripts", "crosscheck.py"),
+    os.path.join("benchmark", "scripts", "crosscheck.py"),
     os.path.join("scripts", "run_tests.sh"),
 }
 
@@ -84,7 +84,7 @@ def check_sbatch_directives():
 
 
 def check_root_depth():
-    """A file at scripts/x.py needs two dirname levels; scripts/dev/x.py needs three.
+    """A file at scripts/x.py needs two dirname levels; benchmark/scripts/x.py needs three.
 
     The Python idiom starts from the FILE (`abspath(__file__)`), so it needs one `dirname` per path
     component including the file itself. The R idiom starts from the file's DIRECTORY
@@ -116,8 +116,11 @@ def check_relocation():
     tmp = tempfile.mkdtemp(prefix="iqtree_gpu_reloc_")
     try:
         dest = os.path.join(tmp, "relocated-clone")
-        os.makedirs(os.path.join(dest, "results", "benchmarks"))   # the second root marker
+        os.makedirs(dest)
+        shutil.copy2(os.path.join(REPO, "build_iqtree_gpu.sh"), dest)   # the second root marker
         shutil.copytree(os.path.join(REPO, "scripts"), os.path.join(dest, "scripts"),
+                        ignore=shutil.ignore_patterns("__pycache__"))
+        shutil.copytree(os.path.join(REPO, "benchmark", "scripts"), os.path.join(dest, "benchmark", "scripts"),
                         ignore=shutil.ignore_patterns("__pycache__"))
         shutil.copytree(os.path.join(REPO, "config"), os.path.join(dest, "config"))
         fails = []
@@ -132,7 +135,7 @@ def check_relocation():
 
         # every Python entry point must agree, from the copy, with REPO_DIR unset
         for name in ("key_numbers.py", "aggregate_runs.py", "crosscheck.py"):
-            f = os.path.join(dest, "scripts", name)
+            f = os.path.join(dest, "benchmark", "scripts", name)
             if not os.path.exists(f):
                 continue
             code = ("import os,re,sys\n"
@@ -143,7 +146,11 @@ def check_relocation():
                     "        ns={'os':os,'__file__':sys.argv[1]}; exec(s,ns); print(ns['REPO']); break\n"
                     "    if s.startswith(('_HERE =','_HERE=')) and 'abspath(__file__)' in s:\n"
                     "        ns={'os':os,'__file__':sys.argv[1]}; exec(s,ns)\n"
-                    "        print(os.path.dirname(ns['_HERE'])); break\n")
+                    "        for l2 in src.split(chr(10)):\n"
+                    "            s2=l2.strip()\n"
+                    "            if s2.startswith(('REPO =','REPO=')) and '_HERE' in s2:\n"
+                    "                exec(s2,ns); print(ns['REPO']); break\n"
+                    "        break\n")
             rr = subprocess.run([sys.executable, "-c", code, f], cwd="/", env=env,
                                 capture_output=True, text=True)
             got = rr.stdout.strip()

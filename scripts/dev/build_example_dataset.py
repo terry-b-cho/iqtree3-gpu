@@ -50,7 +50,7 @@ def read_fasta(p):
 
 
 def build_one(src_genus, is_default):
-    SRC = f"{REPO}/data/protein/{src_genus}/concat_alignment.faa"
+    SRC = f"{REPO}/benchmark/data/protein/{src_genus}/concat_alignment.faa"
     short = src_genus.replace("g__", "")
     OUT = f"{OUTDIR}/example_{short}.faa"
     if not os.path.exists(SRC):
@@ -115,7 +115,7 @@ def main():
             {rows}
 
             **Source (real, public data):** concatenated marker-gene alignments from this repository's
-            benchmark set (`data/protein/<genus>/concat_alignment.faa`), produced by the upstream marker-gene pipeline
+            benchmark set (`benchmark/data/protein/<genus>/concat_alignment.faa`), produced by the upstream marker-gene pipeline
             (Prodigal gene calling -> DIAMOND marker search -> MAFFT alignment -> concatenation) on
             metagenome-assembled genomes (MAGs) classified with **GTDB-Tk** against the **GTDB**
             taxonomy and quality-controlled with **CheckM2**. Tip labels record the host species and
@@ -128,7 +128,7 @@ def main():
             **Validity:** the residues are unmodified real sequence data; only the number of taxa and
             columns is reduced. These are *demonstration* datasets for learning the interface and
             verifying an installation. The paper's benchmarks use the full-size alignments in
-            `data/protein/`.
+            `benchmark/data/protein/`.
 
             **A note on the trees:** these are **bacterial** phylogenies whose tips happen to be
             labelled by host. Do not expect tips to group by host species: gut symbiont clades may or

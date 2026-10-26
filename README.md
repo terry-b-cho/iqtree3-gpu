@@ -10,7 +10,7 @@
   [![CUDA](https://img.shields.io/badge/CUDA-12.8-76B900.svg)](docs/DEPENDENCIES.md)
   [![GCC](https://img.shields.io/badge/GCC-14.2.0-blue.svg)](docs/DEPENDENCIES.md)
   [![CMake](https://img.shields.io/badge/CMake-3.31.2-064F8C.svg)](docs/DEPENDENCIES.md)
-  [![SLURM](https://img.shields.io/badge/SLURM-Compatible-orange.svg)](scripts/benchmark/README.md)
+  [![SLURM](https://img.shields.io/badge/SLURM-Compatible-orange.svg)](benchmark/scripts/harness/README.md)
   [![Mirror](https://img.shields.io/badge/mirror-terry--b--cho%2Fiqtree3--gpu-lightgrey.svg)](https://github.com/terry-b-cho/iqtree3-gpu)
 </div>
 
@@ -67,7 +67,7 @@ If you use IQ-TREE3-GPU, please cite **both** of the following
 </details>
 
 When quoting a performance number, also state the exact GPU card used. The benchmark inputs additionally
-rely on GTDB, CheckM2 and AliSim; see [`data/README.md`](data/README.md).
+rely on GTDB, CheckM2 and AliSim; see [`benchmark/data/README.md`](benchmark/data/README.md).
 
 ## Quick start
 
@@ -177,13 +177,14 @@ The contract is **algorithmic equivalence to CPU IQ-TREE 3, not bit-identity** (
 bit-reproducible against itself across thread counts). Across the 182 paired CPU-vs-GPU runs on the
 reported build: topology differed in 0, 100 log-likelihoods were bit-identical and the other 82 differed
 by at most 1.9e-6 relative. Every run carries both arms' logs, trees and support files under
-`results/benchmarks/paired/`. Numbers: [`results/benchmarks/KEY_NUMBERS.md`](results/benchmarks/KEY_NUMBERS.md),
-a generated file that is authoritative over anything typed here.
+[`benchmark/runs/paired/`](benchmark/runs/). Numbers: [`benchmark/runs/KEY_NUMBERS.md`](benchmark/runs/KEY_NUMBERS.md),
+a generated file that is authoritative over anything typed here. Your own validation runs
+(`scripts/equivalence_matrix.sh`, `scripts/differential.sh`) write to [`validation/`](validation/README.md).
 
 ## When it pays off
 
 <div align="center">
-  <img src="results/figures/previews/PREVIEW_Fig02.png" alt="Figure 2: speedup versus tree complexity at 20 threads (a) and 1 thread (b), and the single- to 20-thread speedup per dataset (c)" width="860"/>
+  <img src="benchmark/figures/previews/PREVIEW_Fig02.png" alt="Figure 2: speedup versus tree complexity at 20 threads (a) and 1 thread (b), and the single- to 20-thread speedup per dataset (c)" width="860"/>
   <p><em>Figure 2. (a) Speedup vs complexity, 20 threads. (b) Speedup vs complexity, 1 thread. (c) Single- to 20-thread speedup per dataset.</em></p>
 </div>
 
@@ -225,74 +226,69 @@ binary. Tree complexity is branches x patterns x rate categories x states^2.
 | Slower than the CPU | Expected below about 2e7 tree complexity or with few distinct patterns, where launch latency dominates; judge size by `Number of distinct site patterns` in the `.iqtree` report |
 | Verifier prints FAIL | Do not use the build; recheck the CUDA and gcc modules, rebuild, and report it |
 
-## Reproducing the published results
+## The published benchmark
 
-| Tier | Reproduces | Needs | Time |
-|---|---|---|---|
-| 1. Quick test | that your build is exact | clone + a GPU | ~2 min |
-| 2. All figures and tables | every figure and number in the paper | clone only, **no GPU** | ~4 min |
-| 3. The measurements | every row of `RUNS.tsv` | clone + a GPU + SLURM; large DNA inputs from Zenodo or regenerated | days |
+Everything behind the manuscript lives in [`benchmark/`](benchmark/README.md), separately from the
+tool: the inputs, the measured record, every figure and table, and the scripts that produce them.
+Nothing in it is needed to build, verify or use the tool.
+
+| What | Where |
+|---|---|
+| Which script produces which figure and table | [`benchmark/README.md`](benchmark/README.md) |
+| Inputs with provenance: 435 genomes (Git LFS), 35 amino-acid and 26 nucleotide alignments | [`benchmark/data/`](benchmark/data/README.md) |
+| Measured record: `RUNS.tsv` (226 rows, 182 on the reported build), per-cell evidence, `KEY_NUMBERS.md` | [`benchmark/runs/`](benchmark/runs/KEY_NUMBERS.md) |
+| Figures: panels, lettered composites, previews, Source Data, manifest | [`benchmark/figures/`](benchmark/figures/README.md) |
+| Column dictionary for the run table | [`benchmark/BENCHMARK_SCHEMA.md`](benchmark/BENCHMARK_SCHEMA.md) |
+| Reproduction, in three tiers | [`benchmark/REPRODUCING.md`](benchmark/REPRODUCING.md) |
 
 ```bash
-# Tier 1
-bash scripts/iqtree3-gpu-verify.sh ./iqtree3_gpu_build/iqtree3 && ( cd examples && ./run_example.sh )
-# Tier 2: rewrites results/figures/ and KEY_NUMBERS.md from RUNS.tsv (Python, numpy, matplotlib)
-bash scripts/refresh_all.sh && bash scripts/run_tests.sh --quick
-# Tier 3: the 14 large simulated DNA alignments (~2.4 GB) come from the Zenodo deposit, or regenerate them:
-bash scripts/dev/build_complexity_datasets.sh && sha256sum -c data/dna/CHECKSUMS.sha256
-bash scripts/benchmark/submit.sh && bash scripts/benchmark/submit_complexity.sh go
+bash benchmark/scripts/refresh_all.sh      # regenerate every figure, table and number from RUNS.tsv (no GPU, ~4 min)
+bash scripts/run_tests.sh --quick          # repository invariants, figure contract, map and cross-checks
 ```
 
-Site settings (SLURM partition, modules, binaries) live in one place: copy `config/site.env.example` to
-`config/site.env`. The harness runs both arms in one job on one node from one binary and refuses to
-overwrite a successful cell unless `FORCE=1`. Details: [`docs/REPRODUCING.md`](docs/REPRODUCING.md).
-
-## Data availability
-
-Every benchmark input ships in the repository with provenance ([`data/README.md`](data/README.md)): 435
-metagenome-assembled genomes from 8 published studies (`data/genomes/`, Git LFS, about 830 MB; set
-`GIT_LFS_SKIP_SMUDGE=1` on clone to skip them), the 35 amino-acid alignments built from them
-(`data/protein/`), and the 26 simulated nucleotide alignments (`data/dna/`; 12 tracked, 14 above GitHub's
-file limit and regenerable from their recorded recipe). `results/` holds the measured record: `RUNS.tsv`
-(226 rows, 182 on the reported build), per-cell evidence for both arms, profiling, and every figure with
-its Source Data. A Zenodo deposit of the complete record accompanies the manuscript; its DOI will be
-added to [`docs/REPRODUCING.md`](docs/REPRODUCING.md) and [`assets/CITATION.cff`](assets/CITATION.cff) on deposit.
+Set `GIT_LFS_SKIP_SMUDGE=1` on clone to skip the 830 MB of genomes. A Zenodo deposit of the complete
+record accompanies the manuscript; its DOI will be added to
+[`benchmark/REPRODUCING.md`](benchmark/REPRODUCING.md) and [`assets/CITATION.cff`](assets/CITATION.cff) on deposit.
 
 ## Repository structure
 
+Two parts, kept apart: the **tool** at the root and the **published benchmark** under `benchmark/`.
+
 ```
 iqtree3-gpu/
-├── README.md
-├── CHANGELOG.md · VERSION · LICENSE   # 0.1.0; GPL-2.0 inherited from IQ-TREE
+├── README.md · CHANGELOG.md · VERSION · LICENSE    # 0.1.0; GPL-2.0 inherited from IQ-TREE
 ├── build_iqtree_gpu.sh                # one-command build: clone upstream at the pinned commit, patch, compile
-├── docs/
-│   ├── USER_GUIDE.md                  # full user guide: flags, GPU coverage, performance guidance, memory sizing
-│   ├── DEPENDENCIES.md                # exact versions, runtime libraries, tested GPUs, supported models
-│   ├── REPRODUCING.md                 # the three reproduction tiers in detail
-│   ├── BENCHMARK_SCHEMA.md            # column dictionary for every results table
-│   ├── CONTRIBUTING.md                # the equivalence rule every change must satisfy
-│   └── CODE_OF_CONDUCT.md
-├── assets/                            # CITATION.cff, logo, author cards
-├── config/site.env.example            # SLURM partition, modules, binaries
-├── containers/                        # Dockerfile, apptainer.def
-├── data/                              # genomes/ (LFS), protein/, dna/ (data/README.md)
+├── src/
+│   ├── iqtree3_gpu.patch              # the patch applied to IQ-TREE 3 at commit 6401e06
+│   ├── gpu_new_files/                 # gpu_kernels.cu, gpu_kernels.h, phylotreegpu.cpp, gpu_kernels_test.cu
+│   └── GPU_KERNEL_DESIGN.md           # kernel design note
 ├── examples/                          # run_example.sh, three small alignments, expected_output/
-├── results/
-│   ├── benchmarks/                    # RUNS.tsv, KEY_NUMBERS.md, replicate and phase tables, paired/ evidence
-│   ├── figures/                       # panels/, previews/, Source Data, FIGURE_MANIFEST.tsv
-│   ├── profiling/                     # Nsight and launch-latency records
-│   └── validation/
+├── containers/                        # Dockerfile, apptainer.def
+├── config/site.env.example            # site settings: SLURM partition, modules, binaries
+├── docs/                              # USER_GUIDE, DEPENDENCIES, CONTRIBUTING, CODE_OF_CONDUCT
 ├── scripts/
 │   ├── iqtree3-gpu-verify.sh          # 30-second gate for your build
 │   ├── rf_logl_check.py               # equivalence verdict for any CPU/GPU pair of runs
-│   ├── run_tests.sh · refresh_all.sh  # repository invariants; regenerate every table, number and figure
-│   ├── benchmark/                     # paired_benchmark.sh, submitters, card sweep, profiling (scripts/benchmark/README.md)
-│   ├── dev/                           # dataset builders, Zenodo packaging, author cards (scripts/dev/README.md)
-│   └── lib/                           # paths.sh, figure style
-└── src/
-    ├── iqtree3_gpu.patch              # the patch applied to IQ-TREE 3 at commit 6401e06
-    ├── gpu_new_files/                 # gpu_kernels.cu, gpu_kernels.h, phylotreegpu.cpp, gpu_kernels_test.cu
-    └── GPU_KERNEL_DESIGN.md           # kernel design note
+│   ├── kernel_unit_test.sh · differential.sh · equivalence_matrix.sh   # deeper validation (SLURM)
+│   ├── run_tests.sh                   # every repository invariant, for the tool and the benchmark
+│   ├── lib/paths.sh                   # the one place the repository root is resolved
+│   └── dev/                           # example-dataset builder, author cards (scripts/dev/README.md)
+├── validation/                        # where the validation harnesses write YOUR results
+├── assets/                            # CITATION.cff, logo, author cards
+│
+└── benchmark/                         # THE PUBLISHED BENCHMARK (not needed to use the tool)
+    ├── README.md                      # the map: every figure and table -> the script that makes it
+    ├── REPRODUCING.md · BENCHMARK_SCHEMA.md
+    ├── data/                          # genomes/ (LFS), protein/, dna/ (data/README.md)
+    ├── runs/                          # RUNS.tsv, KEY_NUMBERS.md, phase and replicate tables, paired/ evidence, Supplementary Data
+    ├── figures/                       # panels/, composites/, previews/, source_data/, Source_Data.xlsx, FIGURE_MANIFEST.tsv
+    ├── profiling/                     # Nsight and launch-latency records
+    └── scripts/
+        ├── refresh_all.sh             # regenerate every table, number, figure and workbook, in order
+        ├── *.py                       # one generator per figure or table (benchmark/README.md)
+        ├── harness/                   # the paired SLURM benchmark (harness/README.md)
+        ├── lib/                       # figdata, figstyle, headline: shared analysis and style
+        └── dev/                       # dataset builders, Zenodo packaging (dev/README.md)
 ```
 
 ## Contributing

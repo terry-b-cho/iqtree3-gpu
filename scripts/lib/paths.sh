@@ -11,7 +11,7 @@
 #  compute node and execs the copy, so inside a job BASH_SOURCE is
 #      /var/spool/slurmd/job<ID>/slurm_script
 #  and a walk-up from there resolves the repository root to the node's spool directory. The benchmark
-#  then computes OUT=$REPO/results/benchmarks/paired/<cell>, `rm -rf`s it and writes a measurement
+#  then computes OUT=$REPO/benchmark/runs/paired/<cell>, `rm -rf`s it and writes a measurement
 #  into node-local scratch that disappears when the job ends. That is the exact failure this file
 #  exists to prevent, so the rule here is: NEVER GUESS. Resolve from an authoritative source or
 #  exit loudly.
@@ -29,7 +29,7 @@
 # =============================================================================
 
 _i3g_is_root() {            # $1 is the repository root iff both markers are present
-  [ -n "${1:-}" ] && [ -f "$1/scripts/lib/paths.sh" ] && [ -d "$1/results/benchmarks" ]
+  [ -n "${1:-}" ] && [ -f "$1/scripts/lib/paths.sh" ] && [ -f "$1/build_iqtree_gpu.sh" ]
 }
 
 _i3g_walk_up() {            # print the nearest ancestor of $1 that is the repository root
@@ -126,7 +126,7 @@ IQTREE_CPU_BIN="${IQTREE_CPU_BIN:-$IQTREE_BUILD_ROOT/iqtree3_build/iqtree3}"
 GPUBIN="$IQTREE_GPU_BIN"      # legacy names kept so existing scripts need no edit
 STOCK="$IQTREE_CPU_BIN"
 CHECK="$REPO/scripts/rf_logl_check.py"
-AGG="$REPO/scripts/aggregate_runs.py"
+AGG="$REPO/benchmark/scripts/aggregate_runs.py"
 export IQTREE_GPU_BIN IQTREE_CPU_BIN GPUBIN STOCK CHECK AGG
 
 # ---- introspection ----------------------------------------------------------------------------

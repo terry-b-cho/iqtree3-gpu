@@ -174,7 +174,7 @@ to 4.6e-02 while the *total* logL agreed to 6.5e-08.
 Speed is **actual algorithm runtime** — IQ-TREE's own "Total wall-clock time used" plus per-phase
 timings — never cluster queue or wait time.
 
-The benchmark (`scripts/benchmark/paired_benchmark.sh`, submitted via `submit.sh`) is **paired**:
+The benchmark (`benchmark/scripts/harness/paired_benchmark.sh`, submitted via `submit.sh`) is **paired**:
 
 - both arms run **in one job on one node**, so CPU, memory and node are identical by construction;
 - both arms run the **same binary**, differing only by `-gpu` (without the flag the swap block never
@@ -203,14 +203,14 @@ sits at a tree complexity of **1.1e7** (95% CI 3.3e6-2.1e7) for amino acid with 
 **1.0e9** (7.4e8-1.7e9) for nucleotide under a fixed model. Across six cards nominal double-precision
 throughput ranks them only loosely (r^2 = 0.75): an L40S finishes within **1.22x of an A100** at one
 seventh its fp64 rate. Current numbers:
-[`results/benchmarks/KEY_NUMBERS.md`](results/benchmarks/KEY_NUMBERS.md); figures:
-[`results/figures/panels/`](../results/figures/panels/).
+[`benchmark/runs/KEY_NUMBERS.md`](../benchmark/runs/KEY_NUMBERS.md); figures:
+[`benchmark/figures/panels/`](../benchmark/figures/panels/).
 
 **Choosing hardware.** The kernel is fp64 throughout and, now that it is coalesced, compute-bound in
 fp64 for protein (arithmetic intensity ~5 FLOP/B against an L40S balance point of ~1.6). The design
 analysis therefore predicts fp64-strong cards (A100 ~9.7 TFLOPS, V100S ~8.2) should beat fp64-weak
 ones (L40S ~1.4 TFLOPS, 1/64 rate) by only ~25-30% (Amdahl-capped by the 27.9% device-kernel share). **That prediction has now been MEASURED** — the
-card sweep (`scripts/benchmark/card_sweep.sh`) is complete on 6 cards. It will not
+card sweep (`benchmark/scripts/harness/card_sweep.sh`) is complete on 6 cards. It will not
 transfer to DNA, whose arithmetic intensity is ~1.04 FLOP/B and therefore memory/launch-bound
 (`src/` carries the kernel design notes).
 
@@ -218,7 +218,7 @@ transfer to DNA, whose arithmetic intensity is ~1.04 FLOP/B and therefore memory
 
 This section moved here from the manuscript's Discussion (round 8), because it is operational
 advice rather than a result. Every number is a key in
-[`results/benchmarks/KEY_NUMBERS.md`](results/benchmarks/KEY_NUMBERS.md).
+[`benchmark/runs/KEY_NUMBERS.md`](../benchmark/runs/KEY_NUMBERS.md).
 
 ### When to use it, and when not to
 
@@ -262,7 +262,7 @@ A100's nominal double-precision rate, finished within 1.22-fold of it on the sha
 ahead of two cards whose double-precision rates are comparable to the A100's; a 19-fold spread in
 the specification produced a 3.7-fold spread in measured wall time. For this workload the
 datacentre part buys proportionally little. Vendor specifications used here are in
-`scripts/benchmark/card_specs.tsv`, one source per row.
+`benchmark/scripts/harness/card_specs.tsv`, one source per row.
 
 **Device memory.** The engine's arena is
 
@@ -308,38 +308,43 @@ reduced capacity, in which case the engine allocates the model's count regardles
 | `-gpu requested but no CUDA device is visible` | No GPU allocated; request `--gres=gpu:1` or run without `-gpu`. |
 | Start-up says a model is on CPU fallback | Expected for mixture / DNA / codon / `+ASC` / partitioned; the result is still equivalent. `GPUSTATS` at exit names the reason. |
 | `--gpu-strict FAILED: N of M likelihood calls ran on the CPU` | The run was not a pure GPU measurement. The reason lines above it say which condition failed; either drop `--gpu-strict` or choose an eligible model. |
-| Slower than the CPU below ~2e7 tree complexity (branches x patterns x rate categories x states^2) - measured for BOTH alphabets; 2e7-1e9 returns ~1-2x, above 1e9 protein returns 3.3-4.7x and DNA 1.1-1.6x | Expected - the GPU cannot amortise launch latency on small problems (an empty kernel launch and synchronisation on the L40S was measured directly; see `results/profiling/launch_latency_l40s.tsv` and Supplementary Fig. S18 for the per-invocation view) |
+| Slower than the CPU below ~2e7 tree complexity (branches x patterns x rate categories x states^2) - measured for BOTH alphabets; 2e7-1e9 returns ~1-2x, above 1e9 protein returns 3.3-4.7x and DNA 1.1-1.6x | Expected - the GPU cannot amortise launch latency on small problems (an empty kernel launch and synchronisation on the L40S was measured directly; see `benchmark/profiling/launch_latency_l40s.tsv` and Supplementary Fig. S18 for the per-invocation view) |
 | Slower than the CPU on an alignment with few distinct patterns | Expected: when patterns are few the per-node launch latency dominates the kernel work (this is the memory/launch-bound regime DNA lives in). Judge size by `Number of distinct site patterns` in the `.iqtree` report, not by the site count. |
 | Verifier prints FAIL | Do not use the build; recheck the build and the CUDA/gcc modules, and report it. |
 
 ## 12. Where things are
 
+The repository has two parts. The root is the tool; `benchmark/` is the published benchmark behind
+the manuscript and is not needed to build, verify or use the tool.
+
 ```
-README.md · docs/                        what it is, how to use it, what it needs, how to
-                                         reproduce the published numbers (USER_GUIDE, DEPENDENCIES, REPRODUCING, BENCHMARK_SCHEMA)
+README.md · docs/                        the tool: what it is, how to use it, what it needs
 build_iqtree_gpu.sh                      one-command build (clone upstream + patch + compile)
-config/site.env.example                  the ONE place site settings live (partition, modules, deps)
+src/                                     the GPU patch, new CUDA sources, and the kernel design note
 examples/                                bundled small dataset + live worked example  <- start here
-src/                                     the GPU patch, new CUDA sources, and the kernel design docs
-scripts/                                 verify, equivalence checks, the figure pipeline
+scripts/                                 verify (iqtree3-gpu-verify.sh), equivalence checks, run_tests.sh
 scripts/lib/paths.sh                     the ONE place the repository root is resolved
-scripts/benchmark/                       the SLURM benchmarking harness (published for transparency)
-scripts/dev/                             dataset builders and maintainer utilities
-data/protein/ · data/dna/                  benchmark alignments (public MAG data; simulated DNA sweep)
-results/benchmarks/                      RUNS.tsv, the per-run record, and the derived tables
-results/figures/panels/                  every published figure, with FIGURE_MANIFEST.tsv
+config/site.env.example                  the ONE place site settings live (partition, modules, deps)
+validation/                              where the validation harnesses write YOUR results
+containers/                              Dockerfile, apptainer.def
+benchmark/README.md                      the published benchmark: which script makes which figure and table
+benchmark/data/                          benchmark alignments (public MAG data; simulated DNA sweep)
+benchmark/runs/                          RUNS.tsv, the per-run record, KEY_NUMBERS.md and the derived tables
+benchmark/figures/                       every published figure, its Source Data, FIGURE_MANIFEST.tsv
+benchmark/scripts/                       the figure and table generators; harness/ is the SLURM benchmark
 logs/                                    SLURM job logs land here (gitignored)
 ```
 
 ## Reproducing the published benchmarks
 
-See [`REPRODUCING.md`](REPRODUCING.md). In short:
+See [`benchmark/REPRODUCING.md`](../benchmark/REPRODUCING.md) and the figure and table map in
+[`benchmark/README.md`](../benchmark/README.md). In short:
 
 - **Quick test** - `scripts/iqtree3-gpu-verify.sh` and `examples/run_example.sh` ship in the
   repository and run in minutes.
-- **All figures** - `bash scripts/refresh_all.sh` regenerates every figure from the
+- **All figures** - `bash benchmark/scripts/refresh_all.sh` regenerates every figure from the
   measured record, which ships in full. No GPU needed.
 - **The measurements** - 12 DNA alignments and all 35 amino-acid alignments ship in the
   repository. Fourteen larger simulated DNA alignments (~2.4 GB; 11 of them above GitHub's
   100 MB per-file limit) are deposited on Zenodo as one folder, or can be regenerated locally
-  from the recipe in each `data/dna/<set>/PROVENANCE.md`.
+  from the recipe in each `benchmark/data/dna/<set>/PROVENANCE.md`.

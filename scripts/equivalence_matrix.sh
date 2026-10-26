@@ -59,9 +59,9 @@ _d=$(_i3g_try "${REPO_DIR:-}") \
 BIN=$IQTREE_BUILD_ROOT/iqtree3_gpu_build/iqtree3
 CHECK=$REPO/scripts/rf_logl_check.py
 GENUS=${GENUS:-g__CAG-269}
-ALN=$REPO/data/protein/$GENUS/concat_alignment.faa
-OUT=$REPO/results/validation/equivalence/$GENUS
-TSV=$REPO/results/validation/equivalence_matrix.tsv
+ALN=$REPO/benchmark/data/protein/$GENUS/concat_alignment.faa
+OUT=$REPO/validation/equivalence/$GENUS
+TSV=$REPO/validation/equivalence_matrix.tsv
 mkdir -p "$OUT" "$(dirname "$TSV")"
 
 [ -f "$ALN" ] || { echo "ERROR: no alignment $ALN"; exit 1; }

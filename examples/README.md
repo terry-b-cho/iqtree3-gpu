@@ -108,7 +108,7 @@ correctly on my machine, and does it give me the same tree as the CPU-only IQ-TR
 The answer should be `rf_dist=0`.
 
 For what the speedup actually is on realistic data, see the measured benchmarks in
-[`../results/`](../results/) — reported honestly, per genus, with the exact GPU card, and never
+[`../benchmark/`](../benchmark/README.md) — reported honestly, per genus, with the exact GPU card, and never
 including cluster queue time.
 
 ## Your output

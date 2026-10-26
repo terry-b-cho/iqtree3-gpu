@@ -11,7 +11,7 @@
  *   - 4 states (DNA), 183 patterns, 19 tip rows, STATE_UNKNOWN 18
  * Both the reference and the driver are templates on the state count, so the two runs cannot
  * drift apart -- which is the reason the DNA suite is not a copy of the protein one. 183 is
- * the real distinct-pattern count of data/dna/dna_n04 and gives nine padding lanes out of
+ * the real distinct-pattern count of benchmark/data/dna/dna_n04 and gives nine padding lanes out of
  * a 192-wide stride, the largest padding fraction available anywhere in this repository.
  *
  * Checked, to a relative tolerance of 1e-12 unless noted:
@@ -1849,7 +1849,7 @@ int main(void) {
        support must not cost AA coverage. */
     run_suite<20>("amino acid", /*NPAT=*/100, /*NROWS=*/24, /*UNKNOWN=*/23);
 
-    /* DNA: 183 patterns, the real distinct-pattern count of data/dna/dna_n04 (195 456 sites
+    /* DNA: 183 patterns, the real distinct-pattern count of benchmark/data/dna/dna_n04 (195 456 sites
        collapsing to 183 patterns, because the number of distinct DNA site patterns is bounded
        by 4^n and n = 4). Stride 192, so nine of 192 lanes are padding -- 4.7%, far above any
        protein case, which is exactly where a padding bug is visible. 19 tip rows. */

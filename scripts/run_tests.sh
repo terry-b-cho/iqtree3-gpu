@@ -31,12 +31,13 @@ echo "   repository: $REPO"
 # ---------------------------------------------------------------- quick (no GPU)
 echo; echo "-- syntax --"
 n=0; b=0
-for f in "$REPO"/scripts/*.sh "$REPO"/scripts/*/*.sh "$REPO"/*.sh "$REPO"/examples/*.sh; do
+for f in "$REPO"/scripts/*.sh "$REPO"/scripts/*/*.sh "$REPO"/benchmark/scripts/*.sh "$REPO"/benchmark/scripts/*/*.sh \
+         "$REPO"/benchmark/scripts/*/*/*.sh "$REPO"/*.sh "$REPO"/examples/*.sh; do
   [ -f "$f" ] || continue; n=$((n+1)); bash -n "$f" 2>/dev/null || { bad "bash -n $(basename "$f")"; b=1; }
 done
 [ $b -eq 0 ] && ok "bash -n on $n shell scripts"
 n=0; b=0
-for f in "$REPO"/scripts/*.py "$REPO"/scripts/*/*.py; do
+for f in "$REPO"/scripts/*.py "$REPO"/scripts/*/*.py "$REPO"/benchmark/scripts/*.py "$REPO"/benchmark/scripts/*/*.py; do
   [ -f "$f" ] || continue; n=$((n+1))
   python3 -c "import ast,sys;ast.parse(open(sys.argv[1]).read())" "$f" 2>/dev/null \
     || { bad "python syntax $(basename "$f")"; b=1; }
@@ -44,7 +45,7 @@ done
 [ $b -eq 0 ] && ok "python parses on $n scripts"
 
 echo; echo "-- path resolution --"
-[ -n "${REPO:-}" ] && [ -d "$REPO/results/benchmarks" ] && ok "repository root resolves" || bad "repository root"
+[ -n "${REPO:-}" ] && [ -f "$REPO/build_iqtree_gpu.sh" ] && ok "repository root resolves" || bad "repository root"
 ( cd / && env -u REPO_DIR -u SLURM_SUBMIT_DIR bash -c ". $REPO/scripts/lib/paths.sh" >/dev/null 2>&1 )
 [ $? -eq 0 ] && ok "paths.sh resolves from an unrelated CWD" || bad "paths.sh from unrelated CWD"
 # Portability is checked by scripts/portability.py, not by a grep here. The two greps this
@@ -70,7 +71,7 @@ if [ -f "$REPO/examples/expected_output/gpu.treefile" ]; then
 else note "examples/expected_output absent - checker self-test skipped"; fi
 
 echo; echo "-- data invariants --"
-R="$REPO/results/benchmarks/RUNS.tsv"
+R="$REPO/benchmark/runs/RUNS.tsv"
 if [ -s "$R" ]; then
   rows=$(( $(wc -l < "$R") - 1 ))
   crows=$(( $(wc -l < "${R%.tsv}.csv") - 1 ))
@@ -78,27 +79,27 @@ if [ -s "$R" ]; then
   nz=$(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++)h[$i]=i;next} $(h["rf_dist"])+0!=0{n++} END{print n+0}' "$R")
   [ "$nz" = 0 ] && ok "RF=0 in all $rows recorded runs" || bad "$nz run(s) have RF != 0"
   orphan=0
-  while IFS= read -r c; do [ -f "$REPO/results/benchmarks/paired/$c/RESULT.tsv" ] || orphan=$((orphan+1)); done \
+  while IFS= read -r c; do [ -f "$REPO/benchmark/runs/paired/$c/RESULT.tsv" ] || orphan=$((orphan+1)); done \
     < <(awk -F'\t' 'NR>1{print $1}' "$R")
   [ "$orphan" = 0 ] && ok "every RUNS.tsv row has its cell directory" || bad "$orphan row(s) missing a cell dir"
 
   # ---- build provenance -------------------------------------------------------------------
   # Every published figure and number must come from ONE build. The filter lives in
-  # scripts/lib/headline.py; these invariants are what stop it being silently lost in a later edit.
+  # benchmark/scripts/lib/headline.py; these invariants are what stop it being silently lost in a later edit.
   nbuild=$(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++)h[$i]=i;next}{print substr($(h["binary_sha256"]),1,8)}' "$R" | sort -u | grep -c .)
   [ "$nbuild" -le 2 ] && ok "RUNS.tsv spans $nbuild binary build(s)" \
     || bad "$nbuild distinct builds in RUNS.tsv - a third build has entered the record"
   cur=$(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++)h[$i]=i;next} substr($(h["binary_sha256"]),1,8)!="07c70cae"{n++} END{print n+0}' "$R")
-  K="$REPO/results/benchmarks/KEY_NUMBERS.tsv"
+  K="$REPO/benchmark/runs/KEY_NUMBERS.tsv"
   if [ -s "$K" ]; then
     kn=$(awk -F'\t' '$1=="total_rows"{print $2}' "$K")
     [ "$kn" = "$cur" ] && ok "KEY_NUMBERS reports the current-build count ($cur of $rows rows)" \
       || bad "KEY_NUMBERS total_rows=$kn but $cur rows are current-build - the build filter is not applied"
   fi
   unfiltered=0
-  for f in "$REPO"/scripts/*.py; do
+  for f in "$REPO"/benchmark/scripts/*.py; do
     grep -q "RUNS.tsv" "$f" 2>/dev/null || continue
-    case "$(basename "$f")" in aggregate_runs.py|phase_extract.py|verify_data.py) continue ;; esac   # aggregator + log parser see every row by design
+    case "$(basename "$f")" in aggregate_runs.py|phase_extract.py|verify_data.py|benchmark_map.py) continue ;; esac   # aggregator + log parser see every row by design; the map only names the table
     # Both lib/headline.py and lib/figdata.py apply the build filter (figdata.load defaults to
     # current_build_only=True), so either import satisfies the invariant.
     grep -qE "headline|figdata" "$f" 2>/dev/null || { echo "       $(basename "$f") reads RUNS.tsv without a build filter"; unfiltered=$((unfiltered+1)); }
@@ -110,8 +111,8 @@ else bad "RUNS.tsv missing"; fi
 echo; echo "-- figure contract --"
 # Enforced, not asserted. After the previous pass I reported every text element was 6 pt and the
 # theme uniform; both were false, because I had checked the embedded font FAMILY and never the SIZE.
-if [ -d "$REPO/results/figures/panels" ]; then
-  if out=$(python3 "$REPO/scripts/panels.py" 2>&1); then
+if [ -d "$REPO/benchmark/figures/panels" ]; then
+  if out=$(python3 "$REPO/benchmark/scripts/panels.py" 2>&1); then
     ok "$(echo "$out" | tail -2 | head -1 | sed 's/^ *//')"
   else
     bad "panel audit failed"; echo "$out" | grep FAIL | head -8 | sed 's/^/       /'
@@ -123,8 +124,8 @@ fi
 echo; echo "-- manuscript cross-check --"
 # The board applies these four checks before accepting a resubmission; applying them here means a
 # dangling figure reference or an untraceable abstract number fails the build, not the review.
-if [ -f "$REPO/results/figures/FIGURE_MANIFEST.tsv" ]; then
-  out=$(python3 "$REPO/scripts/crosscheck.py" 2>&1) || true
+if [ -f "$REPO/benchmark/figures/FIGURE_MANIFEST.tsv" ]; then
+  out=$(python3 "$REPO/benchmark/scripts/crosscheck.py" 2>&1) || true
   # NOT piped into `while`: a pipeline runs the loop in a subshell, so every ok/bad call would
   # increment a counter that is discarded when the subshell exits, and four passing checks would
   # print but not be counted.
@@ -160,7 +161,7 @@ if [ "$TIER" = "--full" ]; then
     note "submit manually and check the job logs:"
     note "  sbatch scripts/kernel_unit_test.sh          # kernel unit test"
     note "  GENUS=n14_g__Nanosyncoccus sbatch scripts/equivalence_matrix.sh"
-    note "  sbatch scripts/benchmark/fresh_build_accept.sh   # clone -> patch -> build -> verify"
+    note "  sbatch benchmark/scripts/harness/fresh_build_accept.sh   # clone -> patch -> build -> verify"
   else bad "no sbatch: cannot run the full tier"; fi
 fi
 

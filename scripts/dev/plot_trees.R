@@ -8,11 +8,11 @@
 #
 #   Rscript scripts/dev/plot_trees.R --single <tree.newick> <out_prefix>
 #
-# It writes ONLY to the prefix it is given and never into results/figures/.
+# It writes ONLY to the prefix it is given and never into benchmark/figures/.
 #
 # This script previously had a second, default "grid" mode that drew every
 # benchmark genus into one grid figure under the results tree. That output was
-# superseded by scripts/trees.py, which emits the tree record
+# superseded by benchmark/scripts/trees.py, which emits the tree record
 # under the naming contract (FigS04a, FigS04b, FigS05a_p01..p06) with a row in
 # FIGURE_MANIFEST.tsv. The grid mode has been removed; the original full version
 # is kept outside the public tree for provenance.

@@ -64,8 +64,8 @@ _d=$(_i3g_try "${REPO_DIR:-}") \
 . "$_d/scripts/lib/paths.sh"
 BIN=$IQTREE_BUILD_ROOT/iqtree3_gpu_build/iqtree3
 GENUS=${GENUS:-g__CAG-269}
-ALN=$REPO/data/protein/$GENUS/concat_alignment.faa
-OUT=$REPO/results/validation/differential/${GENUS}
+ALN=$REPO/benchmark/data/protein/$GENUS/concat_alignment.faa
+OUT=$REPO/validation/differential/${GENUS}
 rm -rf "$OUT"; mkdir -p "$OUT"
 
 echo "== differential harness: $GENUS on $(hostname) =="

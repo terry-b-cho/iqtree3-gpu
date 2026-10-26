@@ -1,0 +1,30 @@
+# SHA256 checksums for the simulated DNA benchmark inputs.
+# Generated 2026-09-16 18:33 UTC. Verify a regenerated file with:
+#     sha256sum -c benchmark/data/dna/CHECKSUMS.sha256
+#
+750382c4d0202a94265387c32ad1ceef06619e1b4e1d91d32cce26ce8ce5450c  benchmark/data/dna/dna_hc_n100_L2M/aln.phy
+d051b45e1cbc81ccf466811f0c09d2cfb4cf3ae5f75bb1032bf8013f6743ee26  benchmark/data/dna/dna_hc_n30_L1M/aln.phy
+b8bd160f79e0d8173a54a6e2e1f40f45d022091329742817a19d09898aa71c08  benchmark/data/dna/dna_hc_n30_L3M/aln.phy
+45ea32309e4e39322d66869bd4422b868ffa0e582d5aa1b50822d477e37f61f6  benchmark/data/dna/dna_hc_n60_L2M/aln.phy
+25a1367c55046624c33afbd94e44004324767cef206a929d7d3165948d035fae  benchmark/data/dna/dna_hc_n60_L4M/aln.phy
+4e958baf879f82ba42503bf2962f2d45be4b377d02f2c0c8009ac50963e8f10e  benchmark/data/dna/dna_n04/aln.phy
+b1e7f6e07aa8cb40700b991a56a081289f60b03361d0e977d7b0c36152dc2644  benchmark/data/dna/dna_n06/aln.phy
+b135597778a305f5050856712c51d1f020ffc4cca22d868ebc38c62ed59c0f37  benchmark/data/dna/dna_n08/aln.phy
+2f3ac2c58ed5c4eca48978a8bc38599c48508c63558687a0a5a88d457f5a1525  benchmark/data/dna/dna_n10/aln.phy
+e0b66924d6e5020f285acfb07daac7994170d59b314eba8c4fb090847fec5dee  benchmark/data/dna/dna_n12/aln.phy
+f06ca5d4cb68e7436d41d8beb80d967bf38b3f52c2d37c396249bf094f28b935  benchmark/data/dna/dna_n14/aln.phy
+c9f5a33c2291a93b4178bc0d70503937816d33ecac689151c2073f71599a57df  benchmark/data/dna/dna_n17/aln.phy
+e783972bd0cc179a3cec4ae5297920760ee12bba4442375d4b3787b3f3c5e336  benchmark/data/dna/dna_n20/aln.phy
+24d277c1ee5de4ba5304e4a10647a1e48275ca511fb7c1795afdc37f9fbddea0  benchmark/data/dna/dna_n23/aln.phy
+a693eaaddb388663ba76bf1672219bc6da39f6c1b33dc23d075becc7cec616bd  benchmark/data/dna/dna_n26/aln.phy
+cbe95774d102665ff7b65e02687f651db0dfabc3476b04b3cd48f3ad2c8bbb44  benchmark/data/dna/dna_n28/aln.phy
+d797e9dc10a258c606e5e6e8765c8f7a9c2d7ed51292faafd83babd3b8046260  benchmark/data/dna/dna_n30/aln.phy
+3e18cf6c61f527eb19dee6d34fc53344a0b7ff12dbf359e7bb55f366887c9e30  benchmark/data/dna/dna_pt_n14/aln.phy
+bafba6c52f01442f0ab5f2aaa2bb3f2e1cfbbd4480b8717ff298604beb9fd577  benchmark/data/dna/dna_pt_n17/aln.phy
+28af97fff9daefdf7d41d64b8c2eab0992b16baceef988c71c54bf2131f83870  benchmark/data/dna/dna_pt_n20/aln.phy
+11b1fd7c267e6b0a550bb3a3c3c396605c916fdbbe752ea0634cbabc0304d67b  benchmark/data/dna/dna_pt_n23/aln.phy
+e91c0c5137cab269f62030243d4c303a0d0c981314148eeb2b165fafa1533c1c  benchmark/data/dna/dna_pt_n26/aln.phy
+aca9cc581ed1291b1233fbd60972e0427aff3f293e2277992e1d538e9af3727c  benchmark/data/dna/dna_pt_n28/aln.phy
+24badb0da3d81629a6d414d4e6ff83d25af6793bfadbbb49d21a39a4a77c3ffe  benchmark/data/dna/dna_pt_n30/aln.phy
+06d8fad8fcc9bbf916ede61b8765b0700f59f249bcb90e53c591f778f0907718  benchmark/data/dna/dna_ux_n100_L4M/aln.phy
+78895d93556d59b243e4df2cd637d4ee6ec77af92ff229eca50496564eb6f94b  benchmark/data/dna/dna_ux_n60_L6M/aln.phy

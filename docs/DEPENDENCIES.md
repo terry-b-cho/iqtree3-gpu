@@ -2,8 +2,8 @@
 
 Everything needed to build and run IQ-TREE3-GPU, with the **exact versions this tool was built and
 validated against**. Where a version is known to matter, that is stated; where a range is fine, that
-is stated too. Nothing here is aspirational — every version below was used to produce the results in
-`results/`.
+is stated too. Nothing here is aspirational — every version below was used to produce the measured
+record in `benchmark/runs/`.
 
 ---
 
@@ -60,7 +60,7 @@ Any line reading `not found` means the CUDA (or GCC) libraries are not on `LD_LI
 |---|---|---|
 | python3 | 3.9.25 | the exactness checker — **standard library only**, no pip installs |
 | R + `ape` | R 4.4.2 | drawing tree figures only; everything else works without R |
-| git-lfs | any | only to fetch the benchmark alignments in `data/protein/` |
+| git-lfs | any | only to fetch the source genomes in `benchmark/data/genomes/` (the alignments are ordinary files) |
 
 ---
 
@@ -123,7 +123,7 @@ but an L40S finishes within 1.22x of it at one seventh the nominal fp64 rate, an
 cards (A40, RTX 8000) are 2.4-3.2x slower. A 19x spread in nominal fp64 produces only a 3.7x spread
 in measured wall time (r^2 = 0.75), so the datasheet number is a poor purchasing rule. Nucleotide
 work under a fixed model is at or below parity at 20 threads on every card
-(`results/figures/panels/Fig05a_wall_vs_fp64.png`).
+(`benchmark/figures/panels/Fig05a_wall_vs_fp64.png`).
 
 ### How much VRAM do I need?
 The device arena is approximately:
@@ -159,7 +159,7 @@ Accelerated (identical result to CPU IQ-TREE):
 > median is 3.19x. **Above roughly 1e9 tree complexity it does pay**, reaching 1.57x, which is where
 > the fitted break-even sits (95% CI 7.4e8-1.7e9). Nucleotide is memory- and launch-bound, so the
 > fp64-strong-hardware argument does not transfer from protein
-> (`results/figures/panels/Fig02a_decision_t20.png`).
+> (`benchmark/figures/panels/Fig02a_decision_t20.png`).
 
 Falls back to the CPU kernel automatically — still correct, just not accelerated:
 
