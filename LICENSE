@@ -26,7 +26,7 @@ If you use this tool, please cite both:
   - This work: Cho B., Kostic A.D. (2026) IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic
     tree inference for complex amino acid substitution models. Version 0.1.0.
     https://github.com/kosticlab/iqtree3-gpu (mirror: https://github.com/terry-b-cho/iqtree3-gpu).
-    Machine-readable citation metadata are in CITATION.cff. When quoting a performance number, also
+    Citation metadata are in assets/CITATION.cff. When quoting a performance number, also
     cite the exact GPU card used, as reported in the figures/tables.
 
 No warranty

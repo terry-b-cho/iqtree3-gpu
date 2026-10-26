@@ -55,7 +55,7 @@ METADATA = {
         "and the scoping-review packet of Supplementary Note 1 is distributed with the code repository; neither is "
         "part of this record. MANIFEST.sha256 lists every file of the unpacked record with its checksum; "
         "ARCHIVES.sha256 covers the archives themselves.</p>"
-        "<p><b>Reproducing.</b> Unpack 06, follow REPRODUCING.md to build the binary from the IQ-TREE 3 source at "
+        "<p><b>Reproducing.</b> Unpack 06, follow docs/REPRODUCING.md to build the binary from the IQ-TREE 3 source at "
         "the recorded commit with the patch, then run the paired benchmark on the alignments of 01 and 02; "
         "scripts/refresh_all.sh regenerates every table, key number and figure from the run outputs.</p>"
         "<p>The data are released under CC BY 4.0; the code archive (06) is GPL-2.0-only as stated in its LICENSE.</p>"

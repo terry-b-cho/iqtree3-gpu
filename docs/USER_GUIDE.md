@@ -23,7 +23,7 @@ leaves the tree search untouched.
 
 The equivalence target is **algorithmic**, not bit-level. Bit-identity is unattainable here: CPU
 IQ-TREE is not bit-reproducible against *itself* across thread counts, because its derivative
-accumulates under an OpenMP reduction. Design details: [`src/GPU_KERNEL_DESIGN.md`](src/GPU_KERNEL_DESIGN.md).
+accumulates under an OpenMP reduction. Design details: [`src/GPU_KERNEL_DESIGN.md`](../src/GPU_KERNEL_DESIGN.md).
 
 ## 2. Requirements
 
@@ -53,7 +53,7 @@ proves the two trees are identical (RF = 0), and draws the tree:
 ( cd examples && ./run_example.sh )
 ```
 
-Walkthrough with an annotated transcript: [`examples/README.md`](examples/README.md).
+Walkthrough with an annotated transcript: [`examples/README.md`](../examples/README.md).
 
 ## 5. Verify on YOUR GPU (30 seconds)
 
@@ -204,7 +204,7 @@ sits at a tree complexity of **1.1e7** (95% CI 3.3e6-2.1e7) for amino acid with 
 throughput ranks them only loosely (r^2 = 0.75): an L40S finishes within **1.22x of an A100** at one
 seventh its fp64 rate. Current numbers:
 [`results/benchmarks/KEY_NUMBERS.md`](results/benchmarks/KEY_NUMBERS.md); figures:
-[`results/figures/panels/`](results/figures/panels/).
+[`results/figures/panels/`](../results/figures/panels/).
 
 **Choosing hardware.** The kernel is fp64 throughout and, now that it is coalesced, compute-bound in
 fp64 for protein (arithmetic intensity ~5 FLOP/B against an L40S balance point of ~1.6). The design
@@ -315,8 +315,8 @@ reduced capacity, in which case the engine allocates the model's count regardles
 ## 12. Where things are
 
 ```
-README.md · USER_GUIDE.md · DEPENDENCIES.md · REPRODUCING.md   what it is, how to use it, what it
-                                         needs, how to reproduce the published numbers
+README.md · docs/                        what it is, how to use it, what it needs, how to
+                                         reproduce the published numbers (USER_GUIDE, DEPENDENCIES, REPRODUCING, BENCHMARK_SCHEMA)
 build_iqtree_gpu.sh                      one-command build (clone upstream + patch + compile)
 config/site.env.example                  the ONE place site settings live (partition, modules, deps)
 examples/                                bundled small dataset + live worked example  <- start here

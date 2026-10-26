@@ -51,8 +51,8 @@ for f in results/benchmarks/RUNS.tsv results/benchmarks/RUNS.csv results/benchma
          results/benchmarks/REPLICATES_protein20T.tsv results/benchmarks/REPLICATES_dna20T.tsv \
          results/benchmarks/KEY_NUMBERS.tsv results/benchmarks/KEY_NUMBERS.md results/benchmarks/Supplementary_Data_benchmark.xlsx \
          results/benchmarks/cpu_production_scaling.tsv \
-         README.md USER_GUIDE.md REPRODUCING.md BENCHMARK_SCHEMA.md DEPENDENCIES.md CHANGELOG.md \
-         CITATION.cff LICENSE VERSION build_iqtree_gpu.sh CONTRIBUTING.md CODE_OF_CONDUCT.md; do stage "$f"; done
+         README.md docs CHANGELOG.md \
+         assets/CITATION.cff LICENSE VERSION build_iqtree_gpu.sh; do stage "$f"; done
 stage results/benchmarks/paired
 stage results/benchmarks/dna_cpu_reference
 find "$B" -name '__pycache__' -type d -prune -exec rm -rf {} + 2>/dev/null
@@ -70,8 +70,8 @@ number quoted in the text (`scripts/`). `MANIFEST.sha256` lists every file; veri
 
 The figure files and the Source Data are supplied with the submission, and the scoping-review
 packet (Supplementary Note 1) is distributed with the code repository; neither is part of this
-record. Reproduction starts at `REPRODUCING.md`. The release version and the DOI of this deposit
-are cited from `CITATION.cff` and the manuscript's Data Availability statement.
+record. Reproduction starts at `docs/REPRODUCING.md`. The release version and the DOI of this deposit
+are cited from `assets/CITATION.cff` and the manuscript's Data Availability statement.
 MD
 
 echo "== hashing =="
@@ -81,4 +81,4 @@ echo "== $n files staged into $B =="
 echo "   apparent size: $(du -sh --apparent-size "$B" | cut -f1)"
 echo "   AA alignments: $(ls -d "$B"/data/protein/*/ | wc -l)   DNA sets: $(ls -d "$B"/data/dna/*/ | wc -l)   paired cells: $(ls -d "$B"/results/benchmarks/paired/*/ | wc -l)"
 echo "   upload '$(basename "$B")' to Zenodo as one deposit; then write the DOI into the manuscript,"
-echo "   CITATION.cff, REPRODUCING.md and USER_GUIDE.md where '[to be inserted on deposit]' stands."
+echo "   assets/CITATION.cff, docs/REPRODUCING.md and docs/USER_GUIDE.md where '[to be inserted on deposit]' stands."

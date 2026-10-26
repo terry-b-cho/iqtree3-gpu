@@ -142,9 +142,9 @@ iqtree3 -gpu -T 20 -s your_alignment.faa -m TESTNEW --ufboot 1000 --alrt 1000 --
 - `-T N` sets threads. It **never changes the result**, but it is **not symmetric** between the
   two arms: on the CPU it runs N workers over disjoint pattern ranges; on the GPU a single launch
   computes all patterns per node, so `-T` drives **host-side work only**. See
-  [USER_GUIDE](../USER_GUIDE.md) — "`-T N` is not symmetric between the two arms".
+  [USER_GUIDE](../docs/USER_GUIDE.md) — "`-T N` is not symmetric between the two arms".
 - Amino-acid **and** DNA/nucleotide single-matrix reversible models are supported. Ineligible models
   (profile/mixture, codon, partitioned, `+ASC`) fall back to the CPU automatically, still exact — so
   `-gpu` is always safe.
 
-See the [USER GUIDE](../USER_GUIDE.md) for the full reference.
+See the [USER GUIDE](../docs/USER_GUIDE.md) for the full reference.

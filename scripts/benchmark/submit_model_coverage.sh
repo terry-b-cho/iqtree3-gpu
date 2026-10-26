@@ -7,7 +7,7 @@
 #  demonstrated on 24 distinct PROTEIN models -- ModelFinder picks a different one per genus -- but
 #  on exactly ONE DNA model: every DNA row in RUNS.tsv is GTR+F+G4. Partitioned models have never
 #  been run at all (mf_flags is "none" in every row). This closes both gaps, converting the
-#  supported-model matrix in DEPENDENCIES.md from a claim into a measurement.
+#  supported-model matrix in docs/DEPENDENCIES.md from a claim into a measurement.
 #
 #  This is a CORRECTNESS-GENERALITY test, not a speed test. The cells are deliberately the cheapest
 #  measured alignments (dna_n06/n08/n10: 2-12 s CPU wall, 340-554 MB peak RAM), because the question

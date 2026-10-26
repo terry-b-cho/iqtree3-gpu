@@ -308,7 +308,7 @@ CS=$(getphase "$OUT/cpu" "Wall-clock time used for tree search: "); GS=$(getphas
 CRC=$(cat "$OUT/cpu.rc" 2>/dev/null); GRC=$(cat "$OUT/gpu.rc" 2>/dev/null)
 
 # =============================================================================
-#  EXTENDED PER-RUN RECORD (BENCHMARK_SCHEMA.md groups A-M). Every field below is
+#  EXTENDED PER-RUN RECORD (docs/BENCHMARK_SCHEMA.md groups A-M). Every field below is
 #  parsed defensively and falls back to NA so the row is always emitted (a cell
 #  missing engagement/equivalence proof is still recorded, just flagged).
 # =============================================================================
@@ -531,7 +531,7 @@ PYD
 [ -z "$ACCELERABLE_FRACTION" ] && ACCELERABLE_FRACTION=NA
 [ -z "$DOMINANT_PHASE" ] && DOMINANT_PHASE=NA
 
-# --- SECOND-WAVE STUBS (deliberately deferred; see BENCHMARK_SCHEMA.md groups I/J/K/L-roofline) ---
+# --- SECOND-WAVE STUBS (deliberately deferred; see docs/BENCHMARK_SCHEMA.md groups I/J/K/L-roofline) ---
 # TODO(second-wave): RAPL cpu_energy_j, smi gpu_power/energy, Nsight achieved_dram/fp64 + roofline_bound,
 # and >=3 timing replicates (wall_sd_s/wall_cv). Emitted now as TODO_2W so the column exists in RUNS.tsv.
 TODO_2W=TODO_2W
@@ -590,7 +590,7 @@ ROW="$ROW\t$TODO_2W\t$TODO_2W\t$TODO_2W\t$TODO_2W\t$TODO_2W\t$TODO_2W\t1\t$TODO_
 { echo -e "$HDR"; echo -e "$ROW"; } > "$OUT/RESULT.tsv"
 echo; echo "== RESULT.tsv ($(head -1 "$OUT/RESULT.tsv" | tr '\t' '\n' | wc -l) columns) =="; column -t -s$'\t' "$OUT/RESULT.tsv" 2>/dev/null | cut -c1-200
 
-# Keep the master current per job (BENCHMARK_SCHEMA.md data-update rule): refresh RUNS.tsv the moment
+# Keep the master current per job (docs/BENCHMARK_SCHEMA.md data-update rule): refresh RUNS.tsv the moment
 # this cell finishes. Best-effort and non-fatal; a single-writer flock (non-blocking) means concurrent
 # cells never collide -- if another job holds the lock it is already aggregating this cell's dir too.
 AGG="$REPO/scripts/aggregate_runs.py"

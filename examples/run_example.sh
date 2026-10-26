@@ -146,5 +146,5 @@ cat <<EOF
     -T never changes the result, but it is NOT symmetric across the two arms: on the CPU
     it runs N workers over disjoint pattern ranges, while on the GPU a single launch
     computes all patterns per node and -T drives host-side work only.
-    See USER_GUIDE.md, "-T N is not symmetric between the two arms".)
+    See docs/USER_GUIDE.md, "-T N is not symmetric between the two arms".)
 EOF

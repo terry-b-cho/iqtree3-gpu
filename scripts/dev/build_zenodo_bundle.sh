@@ -51,4 +51,4 @@ chmod +x "$B/install_into_repo.sh" 2>/dev/null
 echo "== $n alignments staged into $B =="
 echo "   apparent size: $(du -sh --apparent-size "$B" | cut -f1)   (hard-linked: no extra disk)"
 echo "   upload the folder '$(basename "$B")' to Zenodo as a single deposit,"
-echo "   then put the DOI into REPRODUCING.md and USER_GUIDE.md."
+echo "   then put the DOI into docs/REPRODUCING.md and docs/USER_GUIDE.md."

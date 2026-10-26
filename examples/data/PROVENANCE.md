@@ -33,4 +33,4 @@ it either way. Use these runs to confirm the software works, not to draw biologi
 
 **Citation:** please cite GTDB (Parks et al.), CheckM2 (Chklovski et al.), IQ-TREE 3
 (Wong et al. 2026, https://doi.org/10.1093/molbev/msag117), and this work (Cho and Kostic 2026,
-IQ-TREE3-GPU) — see the repository `README.md` Citation section and `CITATION.cff`.
+IQ-TREE3-GPU) — see the repository `README.md` Citation section and `assets/CITATION.cff`.

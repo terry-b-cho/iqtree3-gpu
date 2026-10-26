@@ -4,7 +4,7 @@
 # =============================================================================
 # Paths: the repository root is resolved at run time by scripts/lib/paths.sh. Nothing is hardcoded.
 #  Same genus, same thread count, same seed, same binary; ONLY the GPU model changes. When the
-#  card is the variable, a reader needs (schema BENCHMARK_SCHEMA.md section J):
+#  card is the variable, a reader needs (schema docs/BENCHMARK_SCHEMA.md section J):
 #    (a) the card's STATIC intrinsic specs, to explain WHY it wins/loses - protein tracks
 #        fp64_tflops (compute-bound), DNA tracks mem_bandwidth_gbs (memory-bound);
 #    (b) proof it ran at FULL clocks (sustained sm/mem clock, temp, throttle flag) - a throttled

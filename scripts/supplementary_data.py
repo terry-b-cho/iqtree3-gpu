@@ -8,7 +8,7 @@ Data (machine-readable files). The scoping review's tables are Supplementary Tab
 Supplementary Note 1 and travel in their own workbook. This workbook holds the tables behind the
 main text and Supplementary Note 2, numbered Supplementary Data 1-12, one sheet each, from the
 archived record's files without alteration, plus a README sheet and a column dictionary for the run
-table taken from BENCHMARK_SCHEMA.md. Data 7 (the engine's arena report per run) is assembled here
+table taken from docs/BENCHMARK_SCHEMA.md. Data 7 (the engine's arena report per run) is assembled here
 from every run's gpu.stdout with the same parser the key numbers use. After writing, the workbook is
 read back and every cell compared with its source; any difference fails the build.
 
@@ -67,10 +67,10 @@ def arena_table():
 
 
 def column_dictionary():
-    """The run table's column dictionary, from BENCHMARK_SCHEMA.md, restricted to columns present."""
+    """The run table's column dictionary, from docs/BENCHMARK_SCHEMA.md, restricted to columns present."""
     runs_cols = list(read_tsv(os.path.join(REPO, "results", "benchmarks", "RUNS.tsv")).columns)
     rows, group = [], ""
-    for line in open(os.path.join(REPO, "BENCHMARK_SCHEMA.md")):
+    for line in open(os.path.join(REPO, "docs", "docs/BENCHMARK_SCHEMA.md")):
         m = re.match(r"^### ([A-M])\. (.*)$", line.strip())
         if m: group = f"{m.group(1)}. {m.group(2)}"
         m = re.match(r"^\| ([a-z_0-9]+) \| ([^|]*) \| ([^|]*) \| (.*) \|\s*$", line.rstrip("\n"))
@@ -79,7 +79,7 @@ def column_dictionary():
     seen = {r["column"] for r in rows}
     for c in runs_cols:
         if c not in seen:
-            rows.append(dict(column=c, schema_group="", source="", status="", definition="(present in RUNS.tsv; see BENCHMARK_SCHEMA.md)"))
+            rows.append(dict(column=c, schema_group="", source="", status="", definition="(present in RUNS.tsv; see docs/BENCHMARK_SCHEMA.md)"))
     return pd.DataFrame(rows, dtype=str)
 
 
@@ -127,7 +127,7 @@ def main():
             "Machine-readable tables behind the main text and Supplementary Note 2 of the IQ-TREE3-GPU manuscript, one sheet per item, numbered Supplementary Data 1-12.",
             "The scoping review's tables (Supplementary Tables S1-S32) are in Supplementary Note 1 and its own workbook, not here.",
             "Each sheet is the archived record's file without alteration: a cell holds a number only when every value in its column is a number; identifiers, checksums, model strings and command lines are text. Empty cells are empty in the source as well.",
-            "The last sheet, RUNS_columns, defines every column of Data 1 (from BENCHMARK_SCHEMA.md in the record).",
+            "The last sheet, RUNS_columns, defines every column of Data 1 (from docs/BENCHMARK_SCHEMA.md in the record).",
         ]})
         head.to_excel(xw, sheet_name="README", index=False)
         readme.to_excel(xw, sheet_name="README", index=False, startrow=len(head) + 2)

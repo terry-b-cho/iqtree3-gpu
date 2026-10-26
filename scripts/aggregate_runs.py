@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """aggregate_runs.py - assemble the master benchmark record from per-run cells.
 
-BENCHMARK_SCHEMA.md rule: every benchmark job is one fully-recorded row. This aggregator scans every
+docs/BENCHMARK_SCHEMA.md rule: every benchmark job is one fully-recorded row. This aggregator scans every
 results/benchmarks/paired/<cell>/RESULT.tsv (the row emitted by paired_benchmark.sh) plus its
 companion PHASES.tsv, then:
 

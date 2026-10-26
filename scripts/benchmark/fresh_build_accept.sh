@@ -48,7 +48,7 @@ echo "== $(hostname)  $(nvidia-smi --query-gpu=name --format=csv,noheader|head -
 
 echo; echo "=== [build] build_iqtree_gpu.sh from shippable src/ into a fresh dir (arch 89=L40S) ==="
 # A fresh clone needs Eigen 3.4 + Boost headers; build_iqtree_gpu.sh reads these env vars for them.
-# (Public-repo TODO: document this dependency in DEPENDENCIES.md / vendor the headers.)
+# (Public-repo TODO: document this dependency in docs/DEPENDENCIES.md / vendor the headers.)
 export EIGEN3_INCLUDE_DIR=$IQTREE_BUILD_ROOT/deps/eigen-3.4.0
 export Boost_INCLUDE_DIR=$IQTREE_BUILD_ROOT/deps/boostenv/include
 bash $REPO/build_iqtree_gpu.sh "$W/build" 89 2>&1 | tail -8

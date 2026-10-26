@@ -24,4 +24,4 @@ assumes a SLURM cluster with NVIDIA GPUs; expect to adapt the submitters for a d
 | `gpu_engagement_check.sh`, `validate_gpu_engaged.sh` | engagement probes (GPUSTATS-based) |
 | `fresh_build_accept.sh` | release acceptance: fresh clone -> build -> protein + DNA correctness |
 
-Methodology rules and the full column dictionary: `../../BENCHMARK_SCHEMA.md`.
+Methodology rules and the full column dictionary: `../../docs/BENCHMARK_SCHEMA.md`.

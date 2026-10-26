@@ -49,4 +49,4 @@ regeneration can be diagnosed against a known-good copy.
 ## Citation
 
 Cite the IQ-TREE3-GPU paper and the Zenodo DOI for this deposit. IQ-TREE itself must also be cited —
-see `CITATION.cff` in the repository.
+see `assets/CITATION.cff` in the repository.

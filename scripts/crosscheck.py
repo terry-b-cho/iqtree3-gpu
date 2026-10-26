@@ -58,10 +58,10 @@ def _sections(d):
 FILES = _sections(SUB)
 
 # The PUBLIC tree. Scanning only the manuscript is what let four stale figure citations survive in
-# README.md, USER_GUIDE.md and DEPENDENCIES.md through an entire revision: those files are what a
+# README.md, docs/USER_GUIDE.md and docs/DEPENDENCIES.md through an entire revision: those files are what a
 # reader sees first, and nothing was checking them.
-PUBLIC_DOCS = ["README.md", "USER_GUIDE.md", "REPRODUCING.md", "DEPENDENCIES.md",
-               "BENCHMARK_SCHEMA.md", "CHANGELOG.md", "CONTRIBUTING.md",
+PUBLIC_DOCS = ["README.md", "docs/USER_GUIDE.md", "docs/REPRODUCING.md", "docs/DEPENDENCIES.md",
+               "docs/BENCHMARK_SCHEMA.md", "CHANGELOG.md", "docs/CONTRIBUTING.md",
                "results/figures/README.md", "results/validation/README.md",
                "data/protein/README.md", "data/dna/README.md", "examples/README.md",
                "scripts/dev/README.md", "scripts/benchmark/README.md"]
@@ -269,7 +269,7 @@ def check_public_tree():
     # Exemptions, each for a stated reason rather than a blanket skip.
     exempt = {
         os.path.join(REPO, "scripts", "crosscheck.py"),   # this file lists the names
-        os.path.join(REPO, "REPRODUCING.md"),                    # names the archives to explain an absence
+        os.path.join(REPO, "docs", "REPRODUCING.md"),            # names the archives to explain an absence
         os.path.join(REPO, "scripts", "key_numbers.py"),   # documents a bug it already fixed
     }
     bad = []

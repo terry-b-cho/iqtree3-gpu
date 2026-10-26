@@ -1,5 +1,5 @@
 # Citation metadata for IQ-TREE3-GPU (Citation File Format 1.2.0).
-# GitHub renders this as the "Cite this repository" button. Validate with: cffconvert --validate
+# Validate with: cffconvert --validate
 cff-version: 1.2.0
 message: >-
   If you use IQ-TREE3-GPU, please cite this work (see preferred-citation) together with the
