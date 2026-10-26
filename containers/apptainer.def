@@ -34,6 +34,9 @@ From: nvidia/cuda:12.8.0-devel-ubuntu24.04
 
 %post
     export DEBIAN_FRONTEND=noninteractive
+    # Only Ubuntu packages are needed; NVIDIA's apt repository (configured by the base image) is
+    # dropped because a mid-sync mirror would fail apt-get update.
+    rm -f /etc/apt/sources.list.d/cuda*.list
     apt-get update && apt-get install -y --no-install-recommends \
         git cmake build-essential libeigen3-dev libboost-dev python3 ca-certificates
     rm -rf /var/lib/apt/lists/*

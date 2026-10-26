@@ -20,7 +20,10 @@
 # =============================================================================
 FROM nvidia/cuda:12.8.0-devel-ubuntu24.04
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Only Ubuntu packages are needed. The base image also configures NVIDIA's apt repository, whose
+# mirror is occasionally mid-sync and then fails apt-get update for everyone; it is dropped here.
+RUN rm -f /etc/apt/sources.list.d/cuda*.list \
+    && apt-get update && apt-get install -y --no-install-recommends \
         git cmake build-essential libeigen3-dev libboost-dev python3 ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
