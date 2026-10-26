@@ -12,7 +12,7 @@ repository itself.
 
 ```bash
 # from inside this folder, pointing at your clone
-bash install_into_repo.sh /path/to/iqtree-gpu
+bash install_into_repo.sh /path/to/iqtree3-gpu
 ```
 
 The installer copies each `aln.phy` into the matching `benchmark/data/dna/<set>/` directory of your clone
@@ -22,17 +22,17 @@ already present and correct.
 Or do it by hand:
 
 ```bash
-rsync -av benchmark/data/dna/ /path/to/iqtree-gpu/data/dna/
-cd /path/to/iqtree-gpu && sha256sum -c benchmark/data/dna/CHECKSUMS.sha256
+rsync -av data/dna/ /path/to/iqtree3-gpu/benchmark/data/dna/
+cd /path/to/iqtree3-gpu && sha256sum -c benchmark/data/dna/CHECKSUMS.sha256
 ```
 
 ## What is here
 
 | | |
 |---|---|
-| `benchmark/data/dna/<set>/aln.phy` | the alignment (the part too large for GitHub) |
-| `benchmark/data/dna/<set>/PROVENANCE.md` | taxa, sites, guide tree, exact model string, seed, full AliSim command |
-| `benchmark/data/dna/<set>/aln.treefile` | the guide tree, where the set used one |
+| `data/dna/<set>/aln.phy` | the alignment (the part too large for GitHub) |
+| `data/dna/<set>/PROVENANCE.md` | taxa, sites, guide tree, exact model string, seed, full AliSim command |
+| `data/dna/<set>/aln.treefile` | the guide tree, where the set used one |
 | `CHECKSUMS.sha256` | SHA256 for every alignment, including the 12 that ship in the repo |
 
 Three families: `dna_hc_*` (high-complexity ladder), `dna_pt_*` (DNA simulated on our own inferred

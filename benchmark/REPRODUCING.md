@@ -32,7 +32,7 @@ the benchmark. `dna_n04` through `dna_n12` each complete in under 20 seconds per
 
 ```bash
 GENUS=dna_n06 THREADS=20 CARD=mytest MODEL=GTR+F+G4 \
-  ALN_OVERRIDE="$PWD/data/dna/dna_n06/aln.phy" \
+  ALN_OVERRIDE="$PWD/benchmark/data/dna/dna_n06/aln.phy" \
   sbatch benchmark/scripts/harness/paired_benchmark.sh
 ```
 
