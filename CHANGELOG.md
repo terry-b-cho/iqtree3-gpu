@@ -75,8 +75,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follo
   S2 and S3 the tree montages; S4 model coverage. The presentation tier is consolidated into
   `benchmark/figures_tables/` (`figures.py`, `tables.py`, `lib/`, `refresh_all.sh`), separate from
   the benchmark harness in `benchmark/scripts/`; every output was verified byte-identical across
-  the move. The assembled previews are retired. Each composite is also written as an SVG
-  (text as outlines), which the README embeds in place of a raster image.
+  the move. The assembled previews are retired. The README embeds a vector SVG of Figure 2
+  (`assets/readme/`); publication figures stay PDF and PNG.
   Fig. 3A fits every 20-thread run with all six cards pooled (no separate L40S fit or grey
   reference), on fixed axes (10^7 to 10^17 work units, wall time up to 10^8 s) shared with 3B;
   the cost-law key numbers use the same stratum. The campaign-coverage figure returns as Supplementary Fig. S10 with one mark per run;

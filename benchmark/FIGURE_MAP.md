@@ -45,7 +45,7 @@ section (`figures.py (decision)`).
 | | `supp_ported` | Supplementary Fig. S1C and `runs/REPLICATES_20T.tsv` |
 | | `supplementary` | Fig. 1A, Fig. 3A, Supplementary Figs. S1A, S1B, S4 |
 | | `trees` | Supplementary Figs. S2, S3 (Letter pages) |
-| | `composites` | `figures/composites/` (the lettered figures: PDF, and per page a PNG and an SVG) |
+| | `composites` | `figures/composites/` (the lettered figures: PDF and per-page PNG; an SVG of each README figure in `assets/readme/`) |
 | | `audit` | the figure-contract audit (naming, 5/6/7/8 pt only, no DejaVu, manifest agreement) |
 | `tables.py` | `key_numbers` | `runs/KEY_NUMBERS.tsv`, `runs/KEY_NUMBERS.md` |
 | | `source_data` | `figures/Source_Data.xlsx` |

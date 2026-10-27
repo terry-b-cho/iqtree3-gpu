@@ -241,7 +241,7 @@ a generated file that is authoritative over anything typed here. Your own valida
 ## When it pays off
 
 <div align="center">
-  <img src="benchmark/figures/composites/Figure_2.svg" alt="Figure 2: (A) speedup versus tree complexity at 20 threads and at one thread, with each workflow's break-even; (B) wall time of IQ-TREE3 and IQ-TREE3-GPU against likelihood workload at 20 threads and at one thread" width="640"/>
+  <img src="assets/readme/Figure_2.svg" alt="Figure 2: (A) speedup versus tree complexity at 20 threads and at one thread, with each workflow's break-even; (B) wall time of IQ-TREE3 and IQ-TREE3-GPU against likelihood workload at 20 threads and at one thread" width="640"/>
   <p><em>Figure 2. (A) Speedup against tree complexity at 20 host threads (left) and one (right); the ring on the parity line is each workflow's break-even, the band its 95% bootstrap interval. (B) Wall time of IQ-TREE3 (open, dashed) and IQ-TREE3-GPU (filled, solid) against likelihood workload, same two thread counts; the legend gives each fit's slope at the smallest and the largest workload.</em></p>
 </div>
 

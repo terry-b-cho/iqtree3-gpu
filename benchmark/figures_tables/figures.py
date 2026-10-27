@@ -1772,9 +1772,9 @@ def build_page(spec, rows, first_letter, fixed_scale, letters_on, out_stem):
 
 def build(name, spec, out_stem):
     """-> (page_w, page_h, scale, n_panels, n_pages) of the first page; writes <out_stem>.pdf (all
-    pages) and, per page, a 300 dpi PNG and an SVG (<out_stem>.png/.svg, or <out_stem>_p1.png/.svg
-    ... for a multi-page figure). The SVG is the PDF page converted by pdftocairo with its text
-    as outlines, so it renders identically everywhere (the README embeds it) and stays vector."""
+    pages) and, per page, a 300 dpi PNG (<out_stem>.png, or <out_stem>_p1.png ... for a
+    multi-page figure). PDF and PNG are the publication formats; README figures get an SVG copy
+    in assets/readme/ (see README_SVG)."""
     from pypdf import PdfWriter
     pages = _spec_pages(spec) or [spec["rows"]]
     letters_on = lettered(spec, all_items(spec))
@@ -1790,15 +1790,23 @@ def build(name, spec, out_stem):
     with open(out_stem + ".pdf", "wb") as fh:
         w.write(fh)
     for old in [f for f in os.listdir(os.path.dirname(out_stem))
-                if re.fullmatch(re.escape(os.path.basename(out_stem)) + r"(_p\d+)?\.(png|svg)", f)]:
+                if re.fullmatch(re.escape(os.path.basename(out_stem)) + r"(_p\d+)?\.png", f)]:
         os.remove(os.path.join(os.path.dirname(out_stem), old))
     for i in range(1, len(pages) + 1):
         stem = out_stem if len(pages) == 1 else f"{out_stem}_p{i}"
         subprocess.run(["pdftoppm", "-png", "-r", "300", "-singlefile", "-f", str(i), "-l", str(i),
                         out_stem + ".pdf", stem], check=True)
-        subprocess.run(["pdftocairo", "-svg", "-f", str(i), "-l", str(i),
-                        out_stem + ".pdf", stem + ".svg"], check=True)
+    if os.path.basename(out_stem) in README_SVG:
+        # vector copy for the repository README only (text as outlines, renders sharp on GitHub)
+        os.makedirs(README_SVG_DIR, exist_ok=True)
+        subprocess.run(["pdftocairo", "-svg", "-f", "1", "-l", "1", out_stem + ".pdf",
+                        os.path.join(README_SVG_DIR, os.path.basename(out_stem) + ".svg")], check=True)
     return (*first, len(pages))
+
+
+# Composites the repository README embeds; each gets an SVG in assets/readme/ (not a publication format)
+README_SVG = {"Figure_2"}
+README_SVG_DIR = os.path.join(REPO, "assets", "readme")
 
 
 def main():

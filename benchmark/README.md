@@ -38,7 +38,7 @@ benchmark/
 │                           number), PHASE_STEPS.tsv, REPLICATES_20T.tsv, Supplementary_Data_benchmark.xlsx,
 │                           and paired/<cell>/ with both arms' logs, trees and support behind every row
 ├── figures/                panels/ (one PDF + PNG per panel, the submission unit), composites/ (the lettered
-│                           figures: PDF + PNG + SVG), source_data/ + Source_Data.xlsx, FIGURE_MANIFEST.tsv
+│                           figures: PDF + PNG), source_data/ + Source_Data.xlsx, FIGURE_MANIFEST.tsv
 ├── profiling/              Nsight and launch-latency records
 ├── figures_tables/         figures.py · tables.py · lib/ · refresh_all.sh      the presentation tier
 └── scripts/                aggregate_runs.py · phase_extract.py · harness/ · dev/   the benchmark tier
