@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  IQ-TREE3-GPU — worked example  (takes ~1-2 minutes)
+#  IQ-TREE3-GPU — worked example  (takes about a minute)
 # =============================================================================
 # Paths: the repository root is resolved at run time by scripts/lib/paths.sh. Nothing is hardcoded.
 #  What this does, in order:
@@ -44,7 +44,7 @@ EOF
   exit 1
 fi
 
-# Model choice: LG+G4 is fixed (fast) so the example finishes in ~1-2 min. On real data you would
+# Model choice: LG+G4 is fixed (fast) so the example finishes in about a minute. On real data you would
 # normally let ModelFinder choose the model with -m TESTNEW (see the note printed at the end).
 MODEL="LG+G4"
 BOOT="-B 1000"          # ultrafast bootstrap, 1000 replicates

@@ -158,12 +158,13 @@ path; ask your research-computing team where that is.
 
 ### Verify on your GPU
 
-Run once per machine and after every rebuild. It checks engagement first (the kernel actually ran), then
-equivalence (`rf_dist: 0`, matching log-likelihood).
+Run once per machine and after every rebuild, on a node with a GPU. The verifier checks engagement
+first (the kernel actually ran), then equivalence (`rf_dist: 0`, matching log-likelihood); the worked
+example then does the same on a real 8-taxon alignment and leaves the tree in `examples/out/`.
 
 ```bash
 bash scripts/iqtree3-gpu-verify.sh ./iqtree3_gpu_build/iqtree3
-( cd examples && ./run_example.sh )     # ~2 min worked example: GPU and CPU trees on a small real alignment, RF = 0, tree plot
+( cd examples && ./run_example.sh )     # ~1 min worked example: GPU and CPU trees on a small real alignment, RF = 0, tree plot
 ```
 
 Expected example output is in [`examples/expected_output/`](examples/expected_output/); walkthrough in
@@ -174,13 +175,12 @@ Expected example output is in [`examples/expected_output/`](examples/expected_ou
 ### Your input
 
 The tool takes what IQ-TREE takes: **a multiple sequence alignment** (amino acid or nucleotide, FASTA or
-PHYLIP, one sequence per taxon). It does not take raw genomes. If you start from genome assemblies or
-MAGs, build the alignment first with any standard pipeline, for example the concatenated marker-gene
-alignment that [GTDB-Tk](https://github.com/Ecogenomics/GTDBTk) `align` produces. The bundled
-example alignments were made that way (genes called with Prodigal, markers found with DIAMOND,
-aligned with MAFFT, concatenated; see [`examples/data/PROVENANCE.md`](examples/data/PROVENANCE.md)),
-and [`examples/run_example.sh`](examples/README.md) shows the whole path from such an alignment to a
-tree you can open.
+PHYLIP, one sequence per taxon). It does not take raw genomes. Starting from genome assemblies or MAGs,
+build the alignment first with any standard pipeline, for example the concatenated marker-gene
+alignment from [GTDB-Tk](https://github.com/Ecogenomics/GTDBTk) `align`. The bundled examples were made
+that way (Prodigal, DIAMOND, MAFFT, concatenation; see
+[`examples/data/PROVENANCE.md`](examples/data/PROVENANCE.md)), and
+[`examples/run_example.sh`](examples/README.md) takes such an alignment all the way to a tree.
 
 ### Run it
 

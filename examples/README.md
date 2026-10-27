@@ -1,4 +1,4 @@
-# Worked example — check the tool works, in ~2 minutes
+# Worked example — check the tool works, in about a minute
 
 **Purpose: confirm the GPU plug-in runs correctly on your machine and produces the same tree as
 standard CPU IQ-TREE.** This is a *functional* check, not a speed test — see

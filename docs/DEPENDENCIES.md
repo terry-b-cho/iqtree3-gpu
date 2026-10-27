@@ -15,8 +15,8 @@ record in `benchmark/runs/`.
 | **CMake** | 3.31.2 | **>= 3.18 required** (needs `CMAKE_CUDA_ARCHITECTURES`) |
 | **CUDA toolkit** | 12.8 (`nvcc` V12.8.61) | 12.x expected to work; 11.x untested |
 | **C++ compiler** | GCC 14.2.0 | must be a version your CUDA release accepts — see the pitfall below |
-| **Eigen** | 3.4.0 | header-only; IQ-TREE's usual dependency |
-| **Boost** | headers only | header-only use; no compiled Boost libraries needed |
+| **Eigen** | 3.4.0 | header-only; used if installed, otherwise `build_iqtree_gpu.sh` downloads it (2.6 MB, checksum-verified) |
+| **Boost** | 1.87.0, headers only | header-only; used if installed, otherwise downloaded by the build script (155 MB once); no compiled Boost libraries needed |
 | [**IQ-TREE 3 source**](https://github.com/iqtree/iqtree3) | commit `6401e06905f65a11ccd6e45f369a1987d657d600` | pinned by `build_iqtree_gpu.sh`; the patch is made against exactly this commit |
 
 Resulting binary: `IQ-TREE version 3.1.3 for Linux x86 64-bit`.
@@ -30,7 +30,8 @@ Lmod cluster load **gcc first, then cuda**, so the CUDA module resolves against 
 module load gcc/14.2.0 cuda/12.8 cmake/3.31.2     # gcc FIRST
 ```
 
-`build_iqtree_gpu.sh` checks all of the above before cloning anything and names whatever is missing.
+`build_iqtree_gpu.sh` checks git, CMake, nvcc and g++ before cloning anything and names whatever is
+missing; Eigen and Boost are located or fetched after the clone.
 
 ---
 
@@ -70,12 +71,13 @@ Any line reading `not found` means the CUDA (or GCC) libraries are not on `LD_LI
 that is not a tuning choice: log-likelihoods here are of order 1e6 and the equivalence gate is 1e-4
 absolute, which fp32 (~7 significant digits) cannot hold.
 
-### Compute capability — build for YOUR card
-The build takes the target architecture as an argument:
+### Compute capability
+By default the build covers every card below (`70;75;80;86;89`), so one binary runs natively on any
+of them. Pass a single architecture for a smaller, faster-compiling binary:
 
 ```bash
-./build_iqtree_gpu.sh ./iqtree3_gpu_build 89        # single arch
-./build_iqtree_gpu.sh ./iqtree3_gpu_build "70;75;80;86;89"   # portable multi-arch build
+./build_iqtree_gpu.sh                               # default: multi-arch, ~14 MB binary
+./build_iqtree_gpu.sh ./iqtree3_gpu_build 89        # one card family (L40S here)
 ```
 
 | Card | Compute capability | Pass |
@@ -133,10 +135,11 @@ slots x patterns x categories x states x 8 bytes,   slots ~ (taxa - 2) + 2
 (states = 20 for amino acid, 4 for nucleotide -- so a DNA arena is ~5x smaller for the same tree)
 ```
 
-For scale: 30 taxa x 233k patterns x 10 rate categories is about **10 GB**. If the arena will not fit
-in 70% of device memory the run falls back to the CPU kernel rather than failing — correct results,
-no acceleration. There is **no hard limit on taxa, sites, or alignment size**; the arena is sized from
-IQ-TREE's own `max_lh_slots`.
+For scale: 30 taxa x 233k patterns x 10 rate categories is about **10 GB**. The engine keeps the arena
+within 70% of device memory by lowering the rate-category capacity one step at a time (never below the
+model's own count) and prints a line saying so; if even that does not fit, the run falls back to the CPU
+kernel rather than failing — correct results, no acceleration. There is **no hard limit on taxa, sites,
+or alignment size**; the arena is sized from IQ-TREE's own `max_lh_slots`.
 
 ---
 
