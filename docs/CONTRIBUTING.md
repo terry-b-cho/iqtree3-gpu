@@ -37,7 +37,7 @@ Run `bash scripts/run_tests.sh --quick` before opening a PR; `--gpu` if you have
 - **Never overwrite a successful measurement.** `benchmark/runs/paired/<cell>/` is irreplaceable;
   the harness refuses to overwrite a cell whose `RESULT.tsv` has `gate_pass=TRUE` unless `FORCE=1`.
 - **Do not hand-edit numbers into the documentation.** They are generated into
-  `benchmark/runs/KEY_NUMBERS.md` by `benchmark/scripts/key_numbers.py`.
+  `benchmark/runs/KEY_NUMBERS.md` by `benchmark/figures_tables/tables.py key_numbers`.
 
 ## Style
 

@@ -125,7 +125,7 @@ but an L40S finishes within 1.22x of it at one seventh the nominal fp64 rate, an
 cards (A40, RTX 8000) are 2.4-3.2x slower. A 19x spread in nominal fp64 produces only a 3.7x spread
 in measured wall time (r^2 = 0.75), so the datasheet number is a poor purchasing rule. Nucleotide
 work under a fixed model is at or below parity at 20 threads on every card (the per-card runs are
-in the run table, `benchmark/runs/RUNS.tsv`, and the within-card speedups in Supplementary Fig. S6).
+in the run table, `benchmark/runs/RUNS.tsv`, and the within-card speedups in Supplementary Fig. S1D).
 
 ### How much VRAM do I need?
 The device arena is approximately:

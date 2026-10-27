@@ -84,3 +84,5 @@ zenodo_upload_bundle/
 
 # --- private archive of material removed from the published benchmark (never distributed) ---
 benchmark/xx_archive_junkyard/
+# Arial TrueType files for the figures: Monotype-licensed, placed locally, never distributed
+benchmark/figures/arial/

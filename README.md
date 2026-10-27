@@ -31,7 +31,7 @@ Two parts, kept apart. **If you want to build trees, you only need the first.**
 | Part | Where | What it holds |
 |---|---|---|
 | **The tool** | repository root | `build_iqtree_gpu.sh`, the patch and CUDA sources (`src/`), a worked example (`examples/`), container recipes (`containers/`), site settings (`config/`), the user guide and dependencies (`docs/`), the verifier and validation harnesses (`scripts/`), and `validation/` for your own harness output |
-| **The published benchmark** | [`benchmark/`](benchmark/README.md) | everything behind the manuscript: inputs (`data/`), the measured record (`runs/`), every figure and table (`figures/`, `runs/`), profiling, and the scripts that regenerate them, with [a map of which script makes which figure and table](benchmark/README.md#which-script-makes-what) |
+| **The published benchmark** | [`benchmark/`](benchmark/README.md) | everything behind the manuscript: inputs (`data/`), the measured record (`runs/`), every figure and table (`figures/`, `runs/`), the harness that produced the record (`scripts/`) and the code that regenerates every figure and table from it (`figures_tables/`), with [a map of which section makes which figure and table](benchmark/README.md#which-section-makes-what) |
 
 The two share only `config/site.env.example` and `scripts/lib/paths.sh`. Nothing under `benchmark/`
 is needed to build, verify or use the tool. The full tree is under [Repository structure](#repository-structure).
@@ -241,8 +241,8 @@ a generated file that is authoritative over anything typed here. Your own valida
 ## When it pays off
 
 <div align="center">
-  <img src="benchmark/figures/previews/PREVIEW_Fig02.png" alt="Figure 2: speedup versus tree complexity at 20 threads (a) and 1 thread (b)" width="860"/>
-  <p><em>Figure 2. (a) Speedup vs complexity, 20 threads. (b) Speedup vs complexity, 1 thread.</em></p>
+  <img src="benchmark/figures/composites/Figure_2.svg" alt="Figure 2: (A) speedup versus tree complexity at 20 threads and at one thread, with each workflow's break-even; (B) wall time of IQ-TREE3 and IQ-TREE3-GPU against likelihood workload at 20 threads and at one thread" width="640"/>
+  <p><em>Figure 2. (A) Speedup against tree complexity at 20 host threads (left) and one (right); the ring on the parity line is each workflow's break-even, the band its 95% bootstrap interval. (B) Wall time of IQ-TREE3 (open, dashed) and IQ-TREE3-GPU (filled, solid) against likelihood workload, same two thread counts; the legend gives each fit's slope at the smallest and the largest workload.</em></p>
 </div>
 
 Speedup is CPU wall time / GPU wall time, both arms on the same node, in the same job, from the same
@@ -263,8 +263,9 @@ binary. Tree complexity is branches x patterns x rate categories x states^2.
 - **Request fewer cores with `-gpu` on amino-acid work.** The GPU arm kept a median of 2.0 cores busy
   (90th percentile 8); for the largest analysis the host arm consumed 348 core-hours and the GPU arm 5.8.
   Do not cut cores for nucleotide work, where the GPU arm kept a median 10.3 cores busy.
-- **Which card.** Nominal fp64 throughput is a poor guide: an L40S finished within 1.22x of an A100 at one
-  seventh its fp64 rate. A 19x spread in specification gave a 3.7x spread in wall time.
+- **Which card.** Speedup rises with complexity on every one of the six cards tested (A100, V100S,
+  V100, L40S, A40, RTX 8000; Supplementary Fig. S1D); the hosts differ, so speedups are compared
+  within a card only.
 - **Device memory.** The arena is `slots x patterns x states x rate-category capacity x 8 B`, with
   capacity 10 under ModelFinder and the model's own count under a fixed model. If that exceeds 70% of card
   memory the engine lowers the capacity, never below the model's own count. On a 48 GB card roughly 0.2 M
@@ -294,15 +295,18 @@ Nothing in it is needed to build, verify or use the tool.
 
 | What | Where |
 |---|---|
-| Which script produces which figure and table | [`benchmark/README.md`](benchmark/README.md) |
+| What was measured, and which section produces which figure and table | [`benchmark/README.md`](benchmark/README.md) |
+| The function behind every panel, its rows and inputs; how to change a panel | [`benchmark/FIGURE_MAP.md`](benchmark/FIGURE_MAP.md) |
 | Inputs with provenance: 435 genomes (Git LFS), 35 amino-acid and 26 nucleotide alignments | [`benchmark/data/`](benchmark/data/README.md) |
 | Measured record: `RUNS.tsv` (226 rows, 182 on the reported build), per-cell evidence, `KEY_NUMBERS.md` | [`benchmark/runs/`](benchmark/runs/KEY_NUMBERS.md) |
-| Figures: panels, lettered composites, previews, Source Data, manifest | [`benchmark/figures/`](benchmark/figures/README.md) |
+| Figures: panels, lettered composites, Source Data, manifest | [`benchmark/figures/`](benchmark/figures/README.md) |
 | Column dictionary for the run table | [`benchmark/BENCHMARK_SCHEMA.md`](benchmark/BENCHMARK_SCHEMA.md) |
+| The harness that produced the record | [`benchmark/scripts/`](benchmark/scripts/README.md) |
+| The code that regenerates every figure and table | [`benchmark/figures_tables/`](benchmark/figures_tables/README.md) |
 | Reproduction, in three tiers | [`benchmark/REPRODUCING.md`](benchmark/REPRODUCING.md) |
 
 ```bash
-bash benchmark/scripts/refresh_all.sh      # regenerate every figure, table and number from RUNS.tsv (no GPU, ~4 min)
+bash benchmark/figures_tables/refresh_all.sh   # regenerate every figure, table and number from RUNS.tsv (no GPU, ~4 min)
 bash scripts/run_tests.sh --quick          # repository invariants, figure contract, map and cross-checks
 ```
 
@@ -341,13 +345,12 @@ iqtree3-gpu/
     ├── REPRODUCING.md · BENCHMARK_SCHEMA.md
     ├── data/                          # genomes/ (LFS), protein/, dna/ (data/README.md)
     ├── runs/                          # RUNS.tsv, KEY_NUMBERS.md, phase and replicate tables, paired/ evidence, Supplementary Data
-    ├── figures/                       # panels/, composites/, previews/, source_data/, Source_Data.xlsx, FIGURE_MANIFEST.tsv
+    ├── figures/                       # panels/, composites/, source_data/, Source_Data.xlsx, FIGURE_MANIFEST.tsv
     ├── profiling/                     # Nsight and launch-latency records
-    └── scripts/
-        ├── refresh_all.sh             # regenerate every table, number, figure and workbook, in order
-        ├── *.py                       # one generator per figure or table (benchmark/README.md)
+    ├── figures_tables/                # figures.py, tables.py, lib/, refresh_all.sh: every figure and table from the record
+    └── scripts/                       # the benchmark itself: record builders, the SLURM harness, dataset builders
+        ├── aggregate_runs.py · phase_extract.py · verify_data.py
         ├── harness/                   # the paired SLURM benchmark (harness/README.md)
-        ├── lib/                       # figdata, figstyle, headline: shared analysis and style
         └── dev/                       # dataset builders, Zenodo packaging (dev/README.md)
 ```
 

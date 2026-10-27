@@ -66,7 +66,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follo
   sizing) is withdrawn with its script and slope keys; the main text has four figures. The tree
   montages are US Letter pages, 4 rows x 4 columns inside 0.8 in margins, 6 pt type with 5 pt
   tip labels: S1 is every amino-acid tree and S2 every nucleotide tree, one per dataset x thread count x
-  card x model (only same-settings replicates collapse). The campaign-coverage figure returns as Supplementary Fig. S10 with one mark per run;
+  card x model (only same-settings replicates collapse). Figures embed Arial when its
+  TrueType files are placed in `benchmark/figures/arial/` (not distributed; Nimbus Sans otherwise).
+- Figures reorganised: Fig. 1 = coverage, support dot plot, log-likelihood ECDF; Fig. 2 = the
+  decision boxes (A, 20 threads and one thread) over the cost-law boxes (B); Fig. 3 = phase-step
+  heatmap, cores kept busy, phase share with processor time, per-phase speedup; Supplementary
+  Fig. S1 = coverage by card (L40S; the five sweep cards), replicate spread, per-card speedup;
+  S2 and S3 the tree montages; S4 model coverage. The presentation tier is consolidated into
+  `benchmark/figures_tables/` (`figures.py`, `tables.py`, `lib/`, `refresh_all.sh`), separate from
+  the benchmark harness in `benchmark/scripts/`; every output was verified byte-identical across
+  the move. The assembled previews are retired. Each composite is also written as an SVG
+  (text as outlines), which the README embeds in place of a raster image.
+  Fig. 3A fits every 20-thread run with all six cards pooled (no separate L40S fit or grey
+  reference), on fixed axes (10^7 to 10^17 work units, wall time up to 10^8 s) shared with 3B;
+  the cost-law key numbers use the same stratum. The campaign-coverage figure returns as Supplementary Fig. S10 with one mark per run;
   four alternative presentations of it are written beside the panel as
   `FigS10a_alternative<k>_<slug>` for a choice to be made; none is in a composite.
 - No behavioural change to the binary or the patch.

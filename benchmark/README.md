@@ -1,101 +1,95 @@
 # The published benchmark
 
 Everything behind the manuscript *IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic tree
-inference for complex amino acid substitution models* (Cho and Kostic, 2026) lives in this directory:
-the inputs, the measured record, every figure and table, and the scripts that produce them. None of it
+inference for complex amino acid substitution models* (Cho and Kostic, 2026): the inputs, the
+measured record, every figure and table, and the code that produced and presents them. None of it
 is needed to build, verify or use the tool, which lives at the repository root.
 
-The rule the whole directory follows: **no number reaches the manuscript that is not a cell in
-`runs/RUNS.tsv`**, and every figure, table and quoted number is regenerated from that record by a
-script named below. Nothing is typed by hand.
+One rule: **every number in the manuscript is a cell of `runs/RUNS.tsv` or is derived from one by a
+script here.** Nothing is typed by hand, and `scripts/run_tests.sh --quick` fails if any figure,
+table or quoted number falls out of step with the record.
+
+## What we did
+
+182 paired runs on the reported build (226 recorded): the same alignment, the same binary, the
+same node, once with `-gpu` and once without, at 20 host threads and at one, on six NVIDIA cards.
+35 amino-acid alignments (real genomes, 4 to 66 taxa, ModelFinder) and 26 nucleotide alignments
+(simulated, 4 to 100 taxa, fixed models). Every pair was checked for the same tree (RF = 0),
+log-likelihood within 1e-4 relative, and bootstrap support; the speedup is CPU wall time over GPU
+wall time. The record is `runs/`; the column dictionary is `BENCHMARK_SCHEMA.md`.
+
+## Two tiers, two directories
+
+| tier | directory | what it is |
+|---|---|---|
+| **The benchmark** | [`scripts/`](scripts/README.md) | the code that PRODUCED the record: the paired SLURM harness (`harness/`), the dataset builders (`dev/`), and the two record builders `aggregate_runs.py` and `phase_extract.py`. Needs SLURM, Lmod and GPUs. |
+| **The presentation** | [`figures_tables/`](figures_tables/README.md) | the code that PRESENTS the record: `figures.py` (every panel, the lettered composites, the figure-contract audit), `tables.py` (key numbers, both workbooks, this map, the cross-checks), `lib/`, and `refresh_all.sh`. Needs only Python. |
 
 ## Layout
 
 ```
 benchmark/
-├── README.md                   this file: which script makes which figure and table
-├── FIGURE_MAP.md               every panel: the function that draws it, its row filter and its inputs
-├── REPRODUCING.md              the three reproduction tiers (quick test, all figures, the measurements)
-├── BENCHMARK_SCHEMA.md         column dictionary for the run table
-├── data/                       inputs with provenance: genomes/ (Git LFS; metadata + study citations), protein/, dna/
-├── runs/                       the measured record
-│   ├── RUNS.tsv · RUNS_summary.tsv      one row per paired run; per-stratum summary
-│   ├── KEY_NUMBERS.md · KEY_NUMBERS.tsv every number quoted in the text, generated
-│   ├── PHASE_STEPS.tsv · REPLICATES_20T.tsv
-│   ├── Supplementary_Data_benchmark.xlsx  the manuscript's tables, one sheet each
-│   └── paired/<cell>/          both arms' logs, trees, support, RESULT.tsv: the evidence behind each row
-├── figures/                    panels/ (the submission unit), composites/ (lettered figures),
-│                               previews/, source_data/ + Source_Data.xlsx, FIGURE_MANIFEST.tsv
-├── profiling/                  Nsight and launch-latency records
-└── scripts/
-    ├── refresh_all.sh          regenerates everything below, in dependency order
-    ├── aggregate_runs.py · key_numbers.py · phase_extract.py          tables and numbers
-    ├── equivalence.py · decision.py · mechanism.py · phases_cost.py                           main figures
-    ├── supp_ported.py · supplementary.py · trees.py                    supplementary figures
-    ├── assemble.py · composites.py · panels.py                         previews, composites, figure contract
-    ├── source_data.py · supplementary_data.py · style_workbooks.py     the two workbooks
-    ├── crosscheck.py · verify_data.py · benchmark_map.py               checks; this map
-    ├── harness/                the paired SLURM benchmark that produced runs/ (harness/README.md)
-    ├── lib/                    figdata (the one analysis layer), figstyle (the one style), headline (the build filter)
-    └── dev/                    dataset builders and Zenodo packaging (dev/README.md)
+├── README.md               this file, with the generated map of which section makes which figure and table
+├── FIGURE_MAP.md           every panel: the function that draws it, its row filter, its inputs; how to change a panel
+├── REPRODUCING.md          the three reproduction tiers: quick test, every figure, the measurements themselves
+├── BENCHMARK_SCHEMA.md     column dictionary for the run table and the methodology rules
+├── data/                   inputs with provenance: genomes/ (435 MAGs, Git LFS), protein/ (35), dna/ (26)
+├── runs/                   THE RECORD: RUNS.tsv (one row per paired run), KEY_NUMBERS.tsv/.md (every quoted
+│                           number), PHASE_STEPS.tsv, REPLICATES_20T.tsv, Supplementary_Data_benchmark.xlsx,
+│                           and paired/<cell>/ with both arms' logs, trees and support behind every row
+├── figures/                panels/ (one PDF + PNG per panel, the submission unit), composites/ (the lettered
+│                           figures: PDF + PNG + SVG), source_data/ + Source_Data.xlsx, FIGURE_MANIFEST.tsv
+├── profiling/              Nsight and launch-latency records
+├── figures_tables/         figures.py · tables.py · lib/ · refresh_all.sh      the presentation tier
+└── scripts/                aggregate_runs.py · phase_extract.py · harness/ · dev/   the benchmark tier
 ```
 
-## Regenerating
+## Regenerating every figure, table and number (no GPU, about 4 minutes)
 
-From the repository root, with Python, numpy, matplotlib and pypdf (pandas and openpyxl for the two
-workbooks); no GPU:
+From the repository root, with Python, numpy, matplotlib, pypdf and Biopython (pandas and openpyxl
+for the two workbooks):
 
 ```bash
-bash benchmark/scripts/refresh_all.sh     # ~4 min
-bash scripts/run_tests.sh --quick         # invariants, figure contract, cross-checks, this map
+bash benchmark/figures_tables/refresh_all.sh   # record builders, key numbers, panels, composites, audit, workbooks, this map
+bash scripts/run_tests.sh --quick              # every invariant, the figure contract, the cross-checks
 ```
 
-The order is the dependency order: `aggregate_runs.py` publishes `RUNS.tsv` from the per-cell
-`RESULT.tsv` files; `key_numbers.py` derives every quoted number from it; `phase_extract.py` parses
-each cell's IQ-TREE logs into `PHASE_STEPS.tsv`; the figure generators write the panels and their
-Source Data; `assemble.py` and `composites.py` set them into previews and the lettered figures;
-`panels.py` enforces the figure contract; the two workbooks are assembled and styled; this map is
-rewritten. Every generator applies the build filter in `lib/headline.py`, so the 44 rows recorded
-with a superseded binary are kept in `RUNS.tsv` for provenance but enter no figure or statistic.
+One section at a time: `python3 benchmark/figures_tables/figures.py decision` redraws Fig. 2A;
+`python3 benchmark/figures_tables/tables.py key_numbers` rederives the numbers. The sections, the
+function behind every panel and how to change one are in [`FIGURE_MAP.md`](FIGURE_MAP.md).
 
-## Which script makes what
+## Which section makes what
 
-The tables below are generated by `scripts/benchmark_map.py` from `figures/FIGURE_MANIFEST.tsv`,
-`scripts/composites.py` and `scripts/supplementary_data.py`; `crosscheck.py` fails the build if
-they are stale.
+Generated by `tables.py benchmark_map`; `tables.py crosscheck` fails the build if it is stale.
 
-<!-- map:begin  generated by benchmark/scripts/benchmark_map.py from FIGURE_MANIFEST.tsv, composites.py and supplementary_data.py; do not edit by hand -->
+<!-- map:begin  generated by benchmark/figures_tables/tables.py (benchmark_map) from FIGURE_MANIFEST.tsv and the composites and supplementary_data sections; do not edit by hand -->
 
 ### Figures
 
-Every panel is written by one generator to `figures/panels/` (PDF + PNG) with a row in `figures/FIGURE_MANIFEST.tsv`; `composites.py` then sets the panels into the lettered figure the journal receives, in `figures/composites/`. Source tables are relative to `benchmark/`.
+Every panel is written by one generator to `figures/panels/` (PDF + PNG) with a row in `figures/FIGURE_MANIFEST.tsv`; `figures.py composites` then sets the panels into the lettered figure the journal receives, in `figures/composites/`. Source tables are relative to `benchmark/`.
 
-| Figure | Title | Composite (`figures/composites/`) | Panels (`figures/panels/`) | Generated by (`scripts/`) | Source table |
+| Figure | Title | Composite (`figures/composites/`) | Panels (`figures/panels/`) | Generated by (`figures_tables/`, section) | Source table |
 |---|---|---|---|---|---|
-| Figure 1 | IQ-TREE3-GPU returns the same answer as IQ-TREE3 | `Figure_1.pdf` | A: `Fig01a_logl_reldiff_ecdf`, B: `Fig01b_support_diff_dotplot` | `equivalence.py` | `runs/RUNS.tsv` |
-| Figure 2 | Acceleration against workload and thread count | `Figure_2.pdf` | A: `Fig02a_decision_t20`, B: `Fig02b_decision_t1` | `decision.py` | `runs/RUNS.tsv` |
-| Figure 3 | Runtime scaling with total likelihood workload | `Figure_3.pdf` | A: `Fig03a_cost_law`, B: `Fig03b_cost_law_t1` | `mechanism.py` | `runs/RUNS.tsv` |
-| Figure 4 | Phases and cost | `Figure_4.pdf` | A: `Fig04a_phase_share_cpu_time`, B: `Fig04b_phase_speedup_complexity`, C: `Fig04c_cores_busy` | `phases_cost.py` | `runs/PHASE_STEPS.tsv` |
-| Supplementary Fig. S1 | Every amino-acid inference | `Supplementary_Figure_S1.pdf` | pages `FigS01a_trees_aa_p01`, `FigS01a_trees_aa_p02`, `FigS01a_trees_aa_p03`, `FigS01a_trees_aa_p04` | `trees.py` | `runs/RUNS.tsv` |
-| Supplementary Fig. S2 | Every nucleotide inference | `Supplementary_Figure_S2.pdf` | pages `FigS02a_trees_nt_p01`, `FigS02a_trees_nt_p02`, `FigS02a_trees_nt_p03`, `FigS02a_trees_nt_p04`, `FigS02a_trees_nt_p05` | `trees.py` | `runs/RUNS.tsv` |
-| Supplementary Fig. S3 | Model classes exercised, from the data | `Supplementary_Figure_S3.pdf` | `FigS03a_model_coverage_data` | `supplementary.py` | `runs/RUNS.tsv` |
-| Supplementary Fig. S4 | Replicate spread at 20 threads | `Supplementary_Figure_S4.pdf` | `FigS04a_replicates` | `supp_ported.py` | `runs/RUNS.tsv` |
-| Supplementary Fig. S5 | Phase-step decomposition, step by cell | `Supplementary_Figure_S5.pdf` | `FigS05a_phase_step_heatmap` | `supplementary.py` | `runs/PHASE_STEPS.tsv` |
-| Supplementary Fig. S6 | IQ-TREE3-GPU across six cards | `Supplementary_Figure_S6.pdf` | `FigS06a_card_facet_speedup` | `hardware.py` | `runs/RUNS.tsv` |
-| Supplementary Fig. S7 | Campaign coverage | `Supplementary_Figure_S7.pdf` | A: `FigS07a_coverage_stacked_bars`, B: `FigS07b_coverage_by_card` | `supplementary.py` | `runs/RUNS.tsv` |
+| Figure 1 | Campaign coverage and equivalence of the two builds | `Figure_1.pdf` | A: `Fig01a_coverage_stacked_bars`, B: `Fig01b_support_diff_dotplot`, C: `Fig01c_logl_reldiff_ecdf` | `figures.py (equivalence)`, `figures.py (supplementary)` | `runs/RUNS.tsv` |
+| Figure 2 | Acceleration and runtime scaling at 20 threads and one thread | `Figure_2.pdf` | A: `Fig02a_decision_t20`, `Fig02a_decision_t1`, B: `Fig02b_cost_law_t20`, `Fig02b_cost_law_t1` | `figures.py (decision)`, `figures.py (mechanism)` | `runs/RUNS.tsv` |
+| Figure 3 | Where the time goes, and what it costs | `Figure_3.pdf` | A: `Fig03a_phase_step_heatmap`, B: `Fig03b_cores_busy`, C: `Fig03c_phase_share_cpu_time`, D: `Fig03d_phase_speedup_complexity` | `figures.py (phases_cost)`, `figures.py (supplementary)` | `runs/PHASE_STEPS.tsv` |
+| Supplementary Fig. S1 | Coverage by card, replicate spread and per-card speedup | `Supplementary_Figure_S1.pdf` | A: `FigS01a_coverage_l40s`, B: `FigS01b_coverage_sweep`, C: `FigS01c_replicates`, D: `FigS01d_card_facet_speedup` | `figures.py (hardware)`, `figures.py (supp_ported)`, `figures.py (supplementary)` | `runs/RUNS.tsv` |
+| Supplementary Fig. S2 | Every amino-acid inference | `Supplementary_Figure_S2.pdf` | pages `FigS02a_trees_aa_p01`, `FigS02a_trees_aa_p02`, `FigS02a_trees_aa_p03`, `FigS02a_trees_aa_p04` | `figures.py (trees)` | `runs/RUNS.tsv` |
+| Supplementary Fig. S3 | Every nucleotide inference | `Supplementary_Figure_S3.pdf` | pages `FigS03a_trees_nt_p01`, `FigS03a_trees_nt_p02`, `FigS03a_trees_nt_p03`, `FigS03a_trees_nt_p04`, `FigS03a_trees_nt_p05` | `figures.py (trees)` | `runs/RUNS.tsv` |
+| Supplementary Fig. S4 | Model classes exercised, from the data | `Supplementary_Figure_S4.pdf` | `FigS04a_model_coverage_data` | `figures.py (supplementary)` | `runs/RUNS.tsv` |
 
 ### Tables
 
-The manuscript's machine-readable tables are the sheets of `runs/Supplementary_Data_benchmark.xlsx`, assembled by `supplementary_data.py` from the files below without alteration (every cell is read back and compared). Column dictionary for the run table: `BENCHMARK_SCHEMA.md`.
+The manuscript's machine-readable tables are the sheets of `runs/Supplementary_Data_benchmark.xlsx`, assembled by `tables.py supplementary_data` from the files below without alteration (every cell is read back and compared). Column dictionary for the run table: `BENCHMARK_SCHEMA.md`.
 
 | Supplementary Data | Sheet | Contents | Source file (relative to `benchmark/`) | Source produced by | Cited in |
 |---|---|---|---|---|---|
 | Data 0 | `MAG_SOURCES` | Source genomes | `data/genomes/genome_metadata.tsv`; `data/genomes/study_citations.tsv` | curated source-genome metadata (`data/genomes/PROVENANCE.md`); citations hand-maintained in `data/genomes/study_citations.tsv` | Methods (data); Supplementary Note 2 |
-| Data 1 | `RUNS` | Run table | `runs/RUNS.tsv` | `aggregate_runs.py` | Methods; Results; Note 2 §1, §11.1 |
-| Data 2 | `RUNS_summary` | Run-table summary | `runs/RUNS_summary.tsv` | `aggregate_runs.py` | Note 2 §11.1 |
-| Data 3 | `KEY_NUMBERS` | Key numbers | `runs/KEY_NUMBERS.tsv` | `key_numbers.py` | Note 2 §10, §11.2 |
-| Data 4 | `PHASE_STEPS` | Phase steps | `runs/PHASE_STEPS.tsv` | `phase_extract.py` | Results (Fig. 4); Supplementary Fig. S5; Note 2 §11.1 |
-| Data 5 | `REPLICATES_20T` | Replicate sets | `runs/REPLICATES_20T.tsv` | `supp_ported.py` | Results; Supplementary Fig. S4 |
+| Data 1 | `RUNS` | Run table | `runs/RUNS.tsv` | `scripts/aggregate_runs.py` | Methods; Results; Note 2 §1, §11.1 |
+| Data 2 | `RUNS_summary` | Run-table summary | `runs/RUNS_summary.tsv` | `scripts/aggregate_runs.py` | Note 2 §11.1 |
+| Data 3 | `KEY_NUMBERS` | Key numbers | `runs/KEY_NUMBERS.tsv` | `figures_tables/tables.py key_numbers` | Note 2 §10, §11.2 |
+| Data 4 | `PHASE_STEPS` | Phase steps | `runs/PHASE_STEPS.tsv` | `scripts/phase_extract.py` | Results (Fig. 3); Note 2 §11.1 |
+| Data 5 | `REPLICATES_20T` | Replicate sets | `runs/REPLICATES_20T.tsv` | `figures_tables/figures.py supp_ported` | Results; Supplementary Fig. S1 |
 | Data 6 | `ARENA_REPORTS` | Device-arena reports | `runs/paired/<cell>/gpu.stdout`; `runs/RUNS.tsv` | `harness/paired_benchmark.sh` (the engine's own arena report per run) | Results (device-memory demand); Methods (implementation); Note 2 §7 |
 | Data 7 | `LAUNCH_LATENCY` | Empty-kernel launch latency | `profiling/launch_latency_l40s.tsv` | `harness/launch_latency.sh` | Methods (profiling); Note 2 §8 |
 | Data 8 | `NSYS_KERNEL_SUMMARY` | Nsight Systems kernel attribution | `profiling/nsys_kernel_summary.tsv` | `harness/nsys_kernel_time.sh` | Methods (profiling); Note 2 §8 |
@@ -105,18 +99,17 @@ The manuscript's machine-readable tables are the sheets of `runs/Supplementary_D
 
 | Product | Where | Written by |
 |---|---|---|
-| Every number quoted in the text, as key-value pairs and as a readable page | `runs/KEY_NUMBERS.tsv`, `runs/KEY_NUMBERS.md` | `key_numbers.py` |
-| The run table (one row per paired run) and its per-stratum summary | `runs/RUNS.tsv` (+ `.csv`), `runs/RUNS_summary.tsv` | `aggregate_runs.py`, from `runs/paired/<cell>/RESULT.tsv` |
-| Per-step wall and CPU time, both arms, every cell | `runs/PHASE_STEPS.tsv` | `phase_extract.py`, from each cell's IQ-TREE logs |
-| Source Data: the values behind every mark of every panel | `figures/source_data/<panel>.csv`, `figures/Source_Data.xlsx` | the panel writer (`lib/figstyle.py`) at panel time; the workbook by `source_data.py` |
-| Panel inventory: file, figure, panel, title, script, source table, rows used, data date | `figures/FIGURE_MANIFEST.tsv` | the panel writer; audited by `panels.py` |
-| Assembled previews and the greyscale proof sheet (reading copies, not the submission unit) | `figures/previews/` | `assemble.py` |
-| Workbook presentation (README sheet, headers, widths; values untouched and verified) | both `.xlsx` | `style_workbooks.py` |
-| This map | `README.md` (this block) | `benchmark_map.py` |
+| Every number quoted in the text, as key-value pairs and as a readable page | `runs/KEY_NUMBERS.tsv`, `runs/KEY_NUMBERS.md` | `tables.py key_numbers` |
+| The run table (one row per paired run) and its per-stratum summary | `runs/RUNS.tsv` (+ `.csv`), `runs/RUNS_summary.tsv` | `scripts/aggregate_runs.py`, from `runs/paired/<cell>/RESULT.tsv` |
+| Per-step wall and CPU time, both arms, every cell | `runs/PHASE_STEPS.tsv` | `scripts/phase_extract.py`, from each cell's IQ-TREE logs |
+| Source Data: the values behind every mark of every panel | `figures/source_data/<panel>.csv`, `figures/Source_Data.xlsx` | the panel writer (`lib/figstyle.py`) at panel time; the workbook by `tables.py source_data` |
+| Panel inventory: file, figure, panel, title, script, source table, rows used, data date | `figures/FIGURE_MANIFEST.tsv` | the panel writer; audited by `figures.py audit` |
+| Workbook presentation (README sheet, headers, widths; values untouched and verified) | both `.xlsx` | `tables.py style_workbooks` |
+| This map | `README.md` (this block) | `tables.py benchmark_map` |
 
 <!-- map:end -->
 
 ## What is not here
 
-The manuscript text and team-internal working material are not distributed. Nothing in this
-directory depends on them: the figures, tables and numbers regenerate from `runs/` alone.
+The manuscript text and team-internal working material are not distributed. Nothing here depends
+on them: every figure, table and number regenerates from `runs/` alone.

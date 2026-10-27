@@ -31,13 +31,14 @@ echo "   repository: $REPO"
 # ---------------------------------------------------------------- quick (no GPU)
 echo; echo "-- syntax --"
 n=0; b=0
-for f in "$REPO"/scripts/*.sh "$REPO"/scripts/*/*.sh "$REPO"/benchmark/scripts/*.sh "$REPO"/benchmark/scripts/*/*.sh \
+for f in "$REPO"/scripts/*.sh "$REPO"/scripts/*/*.sh "$REPO"/benchmark/scripts/*/*.sh "$REPO"/benchmark/figures_tables/*.sh \
          "$REPO"/benchmark/scripts/*/*/*.sh "$REPO"/*.sh "$REPO"/examples/*.sh; do
   [ -f "$f" ] || continue; n=$((n+1)); bash -n "$f" 2>/dev/null || { bad "bash -n $(basename "$f")"; b=1; }
 done
 [ $b -eq 0 ] && ok "bash -n on $n shell scripts"
 n=0; b=0
-for f in "$REPO"/scripts/*.py "$REPO"/scripts/*/*.py "$REPO"/benchmark/scripts/*.py "$REPO"/benchmark/scripts/*/*.py; do
+for f in "$REPO"/scripts/*.py "$REPO"/scripts/*/*.py "$REPO"/benchmark/scripts/*.py "$REPO"/benchmark/scripts/*/*.py \
+         "$REPO"/benchmark/figures_tables/*.py "$REPO"/benchmark/figures_tables/lib/*.py; do
   [ -f "$f" ] || continue; n=$((n+1))
   python3 -c "import ast,sys;ast.parse(open(sys.argv[1]).read())" "$f" 2>/dev/null \
     || { bad "python syntax $(basename "$f")"; b=1; }
@@ -85,7 +86,7 @@ if [ -s "$R" ]; then
 
   # ---- build provenance -------------------------------------------------------------------
   # Every published figure and number must come from ONE build. The filter lives in
-  # benchmark/scripts/lib/headline.py; these invariants are what stop it being silently lost in a later edit.
+  # benchmark/figures_tables/lib/headline.py; these invariants are what stop it being silently lost in a later edit.
   nbuild=$(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++)h[$i]=i;next}{print substr($(h["binary_sha256"]),1,8)}' "$R" | sort -u | grep -c .)
   [ "$nbuild" -le 2 ] && ok "RUNS.tsv spans $nbuild binary build(s)" \
     || bad "$nbuild distinct builds in RUNS.tsv - a third build has entered the record"
@@ -97,9 +98,9 @@ if [ -s "$R" ]; then
       || bad "KEY_NUMBERS total_rows=$kn but $cur rows are current-build - the build filter is not applied"
   fi
   unfiltered=0
-  for f in "$REPO"/benchmark/scripts/*.py; do
+  for f in "$REPO"/benchmark/scripts/*.py "$REPO"/benchmark/figures_tables/*.py; do
     grep -q "RUNS.tsv" "$f" 2>/dev/null || continue
-    case "$(basename "$f")" in aggregate_runs.py|phase_extract.py|verify_data.py|benchmark_map.py) continue ;; esac   # aggregator + log parser see every row by design; the map only names the table
+    case "$(basename "$f")" in aggregate_runs.py|phase_extract.py|verify_data.py) continue ;; esac   # aggregator + log parser see every row by design
     # Both lib/headline.py and lib/figdata.py apply the build filter (figdata.load defaults to
     # current_build_only=True), so either import satisfies the invariant.
     grep -qE "headline|figdata" "$f" 2>/dev/null || { echo "       $(basename "$f") reads RUNS.tsv without a build filter"; unfiltered=$((unfiltered+1)); }
@@ -112,7 +113,7 @@ echo; echo "-- figure contract --"
 # Enforced, not asserted. After the previous pass I reported every text element was 6 pt and the
 # theme uniform; both were false, because I had checked the embedded font FAMILY and never the SIZE.
 if [ -d "$REPO/benchmark/figures/panels" ]; then
-  if out=$(python3 "$REPO/benchmark/scripts/panels.py" 2>&1); then
+  if out=$(python3 "$REPO/benchmark/figures_tables/figures.py" audit 2>&1); then
     ok "$(echo "$out" | tail -2 | head -1 | sed 's/^ *//')"
   else
     bad "panel audit failed"; echo "$out" | grep FAIL | head -8 | sed 's/^/       /'
@@ -125,7 +126,7 @@ echo; echo "-- cross-check --"
 # Cross-file checks on the public tree (archived references, loose figure files, panel-title
 # literals, card sources, the README map); a stale pointer fails the build, not the reader.
 if [ -f "$REPO/benchmark/figures/FIGURE_MANIFEST.tsv" ]; then
-  out=$(python3 "$REPO/benchmark/scripts/crosscheck.py" 2>&1) || true
+  out=$(python3 "$REPO/benchmark/figures_tables/tables.py" crosscheck 2>&1) || true
   # NOT piped into `while`: a pipeline runs the loop in a subshell, so every ok/bad call would
   # increment a counter that is discarded when the subshell exits, and four passing checks would
   # print but not be counted.

@@ -1,8 +1,9 @@
 # Reproducing the benchmarks
 
-Everything in `benchmark/figures/` and `benchmark/runs/` can be reproduced. There are three tiers,
-and the first two need **nothing beyond a `git clone`**. All commands are run from the repository
-root; the map of which script produces which figure and table is in [`README.md`](README.md).
+Everything in `benchmark/figures/` and `benchmark/runs/` can be reproduced. There are three tiers;
+tier 2 needs nothing beyond a `git clone` and Python. All commands are run from the repository
+root; the map of which section produces which figure and table is in [`README.md`](README.md), and
+the function behind every panel in [`FIGURE_MAP.md`](FIGURE_MAP.md).
 
 | Tier | What it reproduces | Needs | Time |
 |---|---|---|---|
@@ -48,14 +49,15 @@ columns, of which the 182 measured with the released binary are the ones analyse
 arms' inferred trees. Every figure derives from those files alone.
 
 ```bash
-bash benchmark/scripts/refresh_all.sh
+bash benchmark/figures_tables/refresh_all.sh
 ```
 
-This rewrites all of `benchmark/figures/` (the 24 panels as PDF+PNG, the composites, the assembled
-previews, the Source Data and the manifest) and regenerates `KEY_NUMBERS.md`, from which every number
-quoted in the documentation is taken, then the Supplementary Data workbook and the figure map in
-`benchmark/README.md`. It needs Python with numpy, matplotlib and pypdf; the two workbooks additionally
-need pandas and openpyxl and are skipped with a notice when those are absent.
+This rewrites all of `benchmark/figures/` (the 25 panels as PDF+PNG, the 7 composites, the Source
+Data and the manifest), regenerates `runs/KEY_NUMBERS.md` (every number quoted in the text), then
+the Supplementary Data workbook and the map in `benchmark/README.md`. It needs Python with numpy,
+matplotlib, pypdf and Biopython; the two workbooks additionally need pandas and openpyxl and are
+skipped with a notice when those are absent. The output is deterministic: the same record gives
+byte-identical panels, Source Data and tables (the PDFs differ only in their creation date).
 
 ## Tier 3 — Re-run the benchmarks themselves
 
@@ -103,5 +105,5 @@ measurement unless `FORCE=1`.
 
 The manuscript text and team-internal working material are not distributed here. **Nothing in
 `benchmark/figures/` or `benchmark/runs/` depends on them**: every figure, table and number
-regenerates from `benchmark/runs/RUNS.tsv` and the per-cell record with the scripts in
-`benchmark/scripts/`.
+regenerates from `benchmark/runs/RUNS.tsv` and the per-cell record with
+`benchmark/figures_tables/`.
