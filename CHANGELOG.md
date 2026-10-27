@@ -21,15 +21,54 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follo
   commented out and the Docker image lacked `rf_logl_check.py`. CI builds both images and runs
   the worked example inside each on the CPU.
 - Benchmark figures and tables cut to the core story. Fig. 1 keeps the log-likelihood histogram
-  alone; Fig. 2 drops the thread-slope panel; Fig. 3 is now the cost law at 20 threads and at one
-  thread, with the explained variation of every fit on the panel; Fig. 6 keeps memory sizing and
-  informativeness. The secondary mechanistic analyses (old Fig. 1B-C, 2C, 3B-D, 6B-C, Supplementary
-  Figs. S1, S5, S8, S9B) are removed together with their derived quantities, the run-table column
-  they used, and the harness experiment behind them. Supplementary figures renumbered S1-S8 (the two
-  replicate-spread figures are one two-panel figure); the two replicate tables are one Supplementary
-  Data sheet; a new Supplementary Data 0 lists source accession and citation for all 435 MAGs. Panel
-  file stems of Figs. 5 and 6 now match their manuscript letters. `benchmark/FIGURE_MAP.md` maps
-  every panel to the function that draws it, its row filter and its inputs.
+  and the support-difference histogram; Fig. 2 drops the thread-slope panel; Fig. 3 is now the cost
+  law at 20 threads and at one thread, with the explained variation of every fit on the panel; the
+  six-card hardware figure moves to the supplement (Supplementary Fig. S9) and the memory figure
+  becomes Fig. 5 (memory sizing, informativeness). The secondary mechanistic analyses (old Fig. 1B,
+  2C, 3B-D, 6B-C, Supplementary Figs. S1, S5, S8, S9B) are removed together with their derived
+  quantities, the run-table column they used, and the harness experiment behind them. Supplementary
+  figures renumbered S1-S9 (the two replicate-spread figures are one two-panel figure); the two
+  replicate tables are one Supplementary Data sheet; a new Supplementary Data 0 lists source
+  accession and citation for all 435 MAGs. Panel file stems match their manuscript letters.
+  `benchmark/FIGURE_MAP.md` maps every panel to the function that draws it, its row filter and its
+  inputs.
+- Figure presentation: no panel carries a narrative title any more; the title slot holds the
+  thread count and n only (`figstyle.stratum`), and every plotting box is a 40 x 40 mm square
+  (`figstyle.square_axes`, `square_grid`; the tree montages excepted), asserted on save. Fig. 1A
+  is now an ECDF of the relative log-likelihood difference per alphabet (difference on the
+  vertical axis) and Fig. 1B a dot plot of the per-run maximum support difference (colour =
+  alphabet, marker = thread count), re-read from the stored consensus trees and asserted against
+  the run table; neither draws a support tolerance. Both histograms and the other drafts were
+  retired. Fig. 2A and 2B share one x and y range, mark each workflow's break-even on the parity
+  line with its complexity value written at the axis foot, and key the shaded band as the 95%
+  bootstrap CI; the absolute-time notes and the 2x/5x target rings are gone. Fig. 3A and 3B
+  likewise share one x and y range; their marks are circles only (open + dashed = IQ-TREE3,
+  filled + solid = IQ-TREE3-GPU, hue = alphabet) with the key and the fit table under each panel.
+  The cost law is now a quadratic log-log fit: every series is concave-up on that scale, so the
+  exponent is reported at the smallest and the largest measured workload (e.g. 0.28 to 0.91)
+  instead of one straight-line average; `KEY_NUMBERS` carries both forms
+  (`costlaw_*_exponent`, `costlaw_*_exponent_smallest`/`_largest`, curvature, paired
+  differences at both ends). Every label that said CPU arm or GPU arm now says IQ-TREE3 or
+  IQ-TREE3-GPU. Fig. 4 is three panels: the phase hues are now bluish green and reddish purple
+  (Okabe-Ito, distinct from the alphabet pair); 4B separates tree search on amino acid from tree
+  search on nucleotide, with work-unit and complexity abscissae as drafts; 4A is two boxes, the
+  wall share by phase beside a violin of the per-run processor time consumed (IQ-TREE3 /
+  IQ-TREE3-GPU, the old 4C) as two half-width boxes in one square; 4B is the per-phase speedup
+  against tree complexity with each series' break-even and shaded 95% bootstrap CI; 4C is a
+  violin-plus-jitter panel of cores kept busy per build (the old 4D). Fig. 5 is the memory-sizing
+  panel alone. The supplement is trimmed to S1-S8: the pattern-saturation, build-regression,
+  nominal-fp64, nominal-bandwidth and per-card wall panels are withdrawn with their key numbers
+  and the CARD_SPECS sheet (Supplementary Data is now 0-9); the phase-step heatmap carries the
+  mean share of every step per alphabet, and campaign coverage is stacked bars (all runs; then
+  L40S beside the five sweep cards stacked by card, with the alphabet as fill pattern). The
+  sampled-utilisation figure and the device-energy panel are withdrawn with the energy keys, and
+  the two replicate-spread panels are one axis, so the supplement is S1-S7. Figure 5 (memory
+  sizing) is withdrawn with its script and slope keys; the main text has four figures. The tree
+  montages are US Letter pages, 4 rows x 4 columns inside 0.8 in margins, 6 pt type with 5 pt
+  tip labels: S1 is every amino-acid tree and S2 every nucleotide tree, one per dataset x thread count x
+  card x model (only same-settings replicates collapse). The campaign-coverage figure returns as Supplementary Fig. S10 with one mark per run;
+  four alternative presentations of it are written beside the panel as
+  `FigS10a_alternative<k>_<slug>` for a choice to be made; none is in a composite.
 - No behavioural change to the binary or the patch.
 
 ## [0.1.0] - 2026-10-25

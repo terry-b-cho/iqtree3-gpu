@@ -3,7 +3,7 @@
 
 # Key numbers
 
-_Derived from `benchmark/runs/RUNS.tsv` on 2026-10-26 13:52 UTC._
+_Derived from `benchmark/runs/RUNS.tsv` on 2026-10-27 03:40 UTC._
 
 **182 paired runs** on the reported build, of which **175** enter fits and speedup summaries (182 - 1 gate failure - 6 `__mdl_*` correctness cells). 6 GPUs, 20 nodes, 6 host CPU models, taxa 4-100.
 

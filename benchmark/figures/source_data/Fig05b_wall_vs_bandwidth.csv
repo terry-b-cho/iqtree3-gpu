@@ -1,7 +1,0 @@
-axes,axes_title,kind,series,x_label,y_label,x,y,width,height_or_value
-0,Nominal bandwidth orders the cards no better; six cards cannot separate one specification from another,scatter,,"nominal memory bandwidth (GB/s, vendor)",GPU-arm wall on the shared datasets (s),900.0,6066.719,,
-0,Nominal bandwidth orders the cards no better; six cards cannot separate one specification from another,scatter,,"nominal memory bandwidth (GB/s, vendor)",GPU-arm wall on the shared datasets (s),672.0,16131.003,,
-0,Nominal bandwidth orders the cards no better; six cards cannot separate one specification from another,scatter,,"nominal memory bandwidth (GB/s, vendor)",GPU-arm wall on the shared datasets (s),1134.0,5803.761,,
-0,Nominal bandwidth orders the cards no better; six cards cannot separate one specification from another,scatter,,"nominal memory bandwidth (GB/s, vendor)",GPU-arm wall on the shared datasets (s),696.0,11679.573,,
-0,Nominal bandwidth orders the cards no better; six cards cannot separate one specification from another,scatter,,"nominal memory bandwidth (GB/s, vendor)",GPU-arm wall on the shared datasets (s),864.0,5696.1425,,
-0,Nominal bandwidth orders the cards no better; six cards cannot separate one specification from another,scatter,,"nominal memory bandwidth (GB/s, vendor)",GPU-arm wall on the shared datasets (s),1935.0,4312.063,,

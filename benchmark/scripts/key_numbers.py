@@ -262,7 +262,7 @@ def main():
         add("gate_failure_speedup", "%.2f" % (num(gf[0]["speedup"]) or 0))
     add("support_gate_tolerance", "%.1f" % F.SUPPORT_GATE_TOL)
     add("logl_contract", "%.0e" % F.LOGL_CONTRACT)
-    # how far the largest observed difference sits below the tolerance (Fig. 1A title, R12)
+    # how far the largest observed difference sits below the tolerance (quoted in the text, R12)
     add("logl_margin_fold", "%.1f" % (F.LOGL_CONTRACT / max(rel)))
 
     # ---- replicate determinism (the board's item 2) --------------------------------
@@ -344,8 +344,8 @@ def main():
         add("crossover_ratio_dna_over_protein_t20", "%.1f" % ratio)
         add("crossover_ratio_dna_over_protein_t20_1sf", "%.0f" % float("%.1g" % ratio))
     # ---- cost law, T20 / L40S stratum ------------------------------------------------
-    # The abscissa is WORK UNITS (invocations x m k^2 r), which is what Figure 3a plots -- NOT
-    # `complexity`, which carries the 2n-3 branch term and no invocation count and is the abscissa
+    # The abscissa is WORK UNITS (likelihood calls x m k^2 r), which is what Figure 3a plots -- NOT
+    # `complexity`, which carries the 2n-3 branch term and no call count and is the abscissa
     # of Figure 2a. Fitting against the two gives different exponents (0.81 vs 1.08 for the
     # amino-acid CPU arm), so quoting one as the other would put a number in the text that no
     # figure shows. Both definitions live in figdata so they cannot drift.
@@ -353,13 +353,27 @@ def main():
     for dt in ("protein", "dna"):
         sub = [r for r in L if r["data_type"] == dt]
         for arm in ("cpu", "gpu"):
-            f = F.loglog_fit([(r["_work_units"], num(r[f"{arm}_wall_s"])) for r in sub])
+            pts = [(r["_work_units"], num(r[f"{arm}_wall_s"])) for r in sub]
+            # straight log-log fit: ONE average exponent over the measured range
+            f = F.loglog_fit(pts)
             if f:
                 add(f"costlaw_{dt}_{arm}_exponent", "%.3f" % f["slope"])
                 add(f"costlaw_{dt}_{arm}_ci_lo", "%.3f" % f["ci"][0])
                 add(f"costlaw_{dt}_{arm}_ci_hi", "%.3f" % f["ci"][1])
                 add(f"costlaw_{dt}_{arm}_r2", "%.3f" % f["r2"])
                 add(f"costlaw_{dt}_{arm}_n", f["n"])
+            # quadratic log-log fit: the LOCAL exponent at the smallest and the largest workload,
+            # which is what Fig. 3 draws and tabulates (every series is concave-up on this scale)
+            qf = F.quadratic_fit(pts)
+            if qf:
+                add(f"costlaw_{dt}_{arm}_exponent_smallest", "%.3f" % qf["slope_lo"])
+                add(f"costlaw_{dt}_{arm}_exponent_smallest_ci_lo", "%.3f" % qf["ci_lo"][0])
+                add(f"costlaw_{dt}_{arm}_exponent_smallest_ci_hi", "%.3f" % qf["ci_lo"][1])
+                add(f"costlaw_{dt}_{arm}_exponent_largest", "%.3f" % qf["slope_hi"])
+                add(f"costlaw_{dt}_{arm}_exponent_largest_ci_lo", "%.3f" % qf["ci_hi"][0])
+                add(f"costlaw_{dt}_{arm}_exponent_largest_ci_hi", "%.3f" % qf["ci_hi"][1])
+                add(f"costlaw_{dt}_{arm}_curvature", "%+.4f" % qf["curvature"])
+                add(f"costlaw_{dt}_{arm}_r2_quadratic", "%.3f" % qf["r2"])
         pa = [(r["_work_units"], num(r["cpu_wall_s"])) for r in sub]
         pb = [(r["_work_units"], num(r["gpu_wall_s"])) for r in sub]
         pa, pb = zip(*[(a, b) for a, b in zip(pa, pb) if a[0] and a[1] and b[1]]) if pa else ((), ())
@@ -370,28 +384,20 @@ def main():
             add(f"costlaw_{dt}_paired_diff_ci_lo", "%+.3f" % d["ci"][0])
             add(f"costlaw_{dt}_paired_diff_ci_hi", "%+.3f" % d["ci"][1])
             add(f"costlaw_{dt}_paired_diff_n", d["n"])
+            # the same paired difference for the LOCAL exponents at the two ends of the range
+            e = F.end_slope_difference(pa, pb)
+            add(f"costlaw_{dt}_paired_diff_smallest", "%+.3f" % e["diff_lo"])
+            add(f"costlaw_{dt}_paired_diff_smallest_ci_lo", "%+.3f" % e["ci_lo"][0])
+            add(f"costlaw_{dt}_paired_diff_smallest_ci_hi", "%+.3f" % e["ci_lo"][1])
+            add(f"costlaw_{dt}_paired_diff_largest", "%+.3f" % e["diff_hi"])
+            add(f"costlaw_{dt}_paired_diff_largest_ci_lo", "%+.3f" % e["ci_hi"][0])
+            add(f"costlaw_{dt}_paired_diff_largest_ci_hi", "%+.3f" % e["ci_hi"][1])
     add("costlaw_stratum", "20 threads, NVIDIA_L40S")
-    add("costlaw_abscissa", "work units = invocations x patterns x states^2 x rate categories")
+    add("costlaw_abscissa", "work units = likelihood calls x patterns x states^2 x rate categories")
 
     # k^p comparison -- shows the k^2 weighting is a definition, not a fitted result
     for (p, arm), r2 in sorted(kexp_table(fits).items()):
         add(f"kexp_p{p}_{arm}_r2", "%.3f" % r2)
-
-    # ---- outer-loop demand -----------------------------------------------------------
-    # STRATUM: the 20-thread set, matching Fig. 3B (mechanism.panel_b). This fit used to
-    # run over all thread counts here while the panel restricted to 20 threads, so the manuscript
-    # quoted 1.632/n=91 against a panel showing 1.61/n=78. Both sides now call F.at_threads.
-    outer_rows = F.at_threads(fits)
-    add("outer_stratum_n", len(outer_rows))
-    for ms in sorted({r["model_search"] for r in outer_rows}):
-        f = F.loglog_fit([(num(r["taxa"]), num(r["gpu_calls"])) for r in outer_rows
-                          if r["model_search"] == ms])
-        if f:
-            add(f"outer_{ms}_exponent", "%.3f" % f["slope"])
-            add(f"outer_{ms}_ci_lo", "%.3f" % f["ci"][0])
-            add(f"outer_{ms}_ci_hi", "%.3f" % f["ci"][1])
-            add(f"outer_{ms}_r2", "%.3f" % f["r2"])
-            add(f"outer_{ms}_n", f["n"])
 
     # ---- run strata, so every denominator the prose quotes has a key -------------------
     add("runs_current_build", len(rows))
@@ -489,50 +495,6 @@ def main():
         add("card_host_cpu_spread_max", "%.2f" % max(sp))
         add("card_host_cpu_spread_median", "%.2f" % st.median(sp))
 
-    # ---- card specifications: the reference table, and how well it orders the cards ---------
-    # card_specs.tsv is authoritative (R21); the spec columns in RUNS.tsv are the snapshot each
-    # card-sweep row was written with. Keys are emitted per card so Note 2 quotes the table.
-    SPEC_KEY = {"NVIDIA_A100_80GB_PCIe": "a100", "Tesla_V100S-PCIE-32GB": "teslaV100s",
-                "Tesla_V100-SXM2-16GB": "teslaV100", "NVIDIA_L40S": "l40s",
-                "NVIDIA_A40": "a40", "Quadro_RTX_8000": "rtx8000"}
-    specs = {}
-    with open(os.path.join(REPO, "benchmark", "scripts", "harness", "card_specs.tsv")) as fh:
-        hdr = None
-        for line in fh:
-            if line.startswith("#") or not line.strip():
-                continue
-            parts = line.rstrip("\n").split("\t")
-            if parts[0] == "card":
-                hdr = parts; continue
-            specs[parts[0]] = dict(zip(hdr, parts))
-    cards_run = sorted({r["card"] for r in fits if r["card"] in SPEC_KEY})
-    for c in cards_run:
-        k = SPEC_KEY[c]
-        add(f"spec_fp64_tflops_{k}", specs[k]["fp64_tflops"])
-        add(f"spec_bandwidth_gbs_{k}", specs[k]["mem_bandwidth_gbs"])
-        add(f"spec_vram_gb_{k}", specs[k]["vram_gb"])
-        add(f"spec_tdp_w_{k}", specs[k]["tdp_w"])
-        add(f"spec_derived_{k}", specs[k]["derived"])
-    # same shared-dataset basis as Fig. 5A/5B: summed median GPU-arm wall per card vs the spec
-    by = {}
-    for r in fits:
-        if r["data_type"] != "protein" or r["threads"] != "20" or r["card"] not in SPEC_KEY:
-            continue
-        by.setdefault(r["card"], {}).setdefault(r["genus"], []).append(num(r.get("gpu_wall_s")))
-    common = set.intersection(*[set(v) for v in by.values()]) if by else set()
-    if common and len(by) >= 3:
-        walls = {c: sum(st.median([w for w in v[g] if w]) for g in common) for c, v in by.items()}
-        for field, tag in (("fp64_tflops", "fp64"), ("mem_bandwidth_gbs", "bandwidth")):
-            xs = [math.log10(float(specs[SPEC_KEY[c]][field])) for c in walls]
-            ys = [math.log10(walls[c]) for c in walls]
-            n = len(xs); mx = sum(xs) / n; my = sum(ys) / n
-            sx = math.sqrt(sum((a - mx) ** 2 for a in xs)); sy = math.sqrt(sum((b - my) ** 2 for b in ys))
-            r = sum((a - mx) * (b - my) for a, b in zip(xs, ys)) / (sx * sy) if sx and sy else float("nan")
-            add(f"card_{tag}_r2", "%.2f" % (r * r))
-            add(f"card_{tag}_spread", "%.1f" % (10 ** (max(xs) - min(xs))))
-        add("card_wall_spread", "%.1f" % (max(walls.values()) / min(walls.values())))
-        add("card_spec_n", len(walls))
-
     # ---- memory ------------------------------------------------------------------------
     bpe, bpe_sel, reps = bytes_per_entry(fits)
     if bpe:
@@ -564,24 +526,7 @@ def main():
                 for taxa in (50, 100, 200):
                     ent = gb * 1e9 * ARENA_FRACTION / ((taxa + 2) * states * cap * 8.0)
                     add(f"capacity_{gb}gb_{tag}_n{taxa}_patterns_m", "%.2f" % (ent / 1e6))
-        # Fitted scaling of both memories with the per-slot likelihood array (Fig. 6A), 20 threads
-        for name, col in (("host", "peak_ram_mb"), ("vram", "peak_vram_mb")):
-            pts = []
-            for r in fits:
-                if r.get("threads") != "20":
-                    continue
-                m, k = num(r.get("patterns")) or 0, num(r.get("num_states")) or 0
-                y = num(r.get(col))
-                if m and k and y and y > 0:
-                    pts.append((m * k * F.rate_cats(r.get("model")), y))
-            f = F.loglog_fit(pts)
-            if f:
-                add(f"memory_{name}_slope", "%.3f" % f["slope"])
-                add(f"memory_{name}_slope_ci_lo", "%.3f" % f["ci"][0])
-                add(f"memory_{name}_slope_ci_hi", "%.3f" % f["ci"][1])
-                add(f"memory_{name}_r2", "%.2f" % f["r2"])
-                add(f"memory_{name}_fit_n", f["n"])
-        # Fig. 6B population: arena parsed, footprint above 0.00 GB, sampled peak VRAM present
+        # arena population (Supplementary Data 6): arena parsed, footprint above 0.00 GB, sampled peak VRAM present
         b6 = [r for r in fits if r["cell"] in reps and reps[r["cell"]]["footprint_gb"] > 0
               and (num(r.get("peak_vram_mb")) or 0) > 0]
         add("fig6b_n", len(b6))
@@ -617,21 +562,6 @@ def main():
 
     # ---- alignment properties -----------------------------------------------------------
     for dt in ("protein", "dna"):
-        fr = []
-        for r in fits:
-            inf, sites = num(r.get("informative_sites")), num(r.get("sites"))
-            if inf is not None and sites:
-                fr.append(inf / sites)
-        if dt == "protein":
-            pass
-    for dt in ("protein", "dna"):
-        fr = [num(r["informative_sites"]) / num(r["sites"]) for r in fits
-              if r["data_type"] == dt and num(r.get("informative_sites")) is not None
-              and num(r.get("sites"))]
-        if fr:
-            add(f"informative_fraction_{dt}_min", "%.3f" % min(fr))
-            add(f"informative_fraction_{dt}_max", "%.3f" % max(fr))
-            add(f"informative_fraction_{dt}_spread", "%.1f" % (max(fr) / min(fr)) if min(fr) else "NA")
         gp = [num(r["gap_ambiguity_pct"]) for r in fits
               if r["data_type"] == dt and num(r.get("gap_ambiguity_pct")) is not None]
         if gp:
@@ -666,12 +596,6 @@ def main():
         add("gpu_calls_min", "%.2e" % min(gc))
         add("gpu_calls_max", "%.2e" % max(gc))
     add("cpu_calls_max_host_fallbacks", "%.0f" % max(num(r.get("cpu_calls")) or 0 for r in fits))
-    af = [num(r.get("accelerable_fraction")) for r in fits
-          if num(r.get("accelerable_fraction")) is not None]
-    if af:
-        add("accelerable_fraction_min", "%.3f" % min(af))
-        add("accelerable_fraction_max", "%.3f" % max(af))
-
     # profiling: n = 1 per alphabet, from the nsys reports
     prof = os.path.join(REPO, "benchmark", "profiling", "nsys_kernel_summary.tsv")
     if os.path.exists(prof):
@@ -698,48 +622,17 @@ def main():
         if "launch_latency_us_l40s_median" in d and "nsys_protein_mean_kernel_us" in d:
             add("launch_latency_ratio_to_aa_kernel", "%.3f" % (float(d["launch_latency_us_l40s_median"]) / float(d["nsys_protein_mean_kernel_us"])))
 
-    # energy: GPU-side only, card sweep only
-    en = [(r["card"], num(r.get("gpu_energy_j"))) for r in rows if num(r.get("gpu_energy_j"))]
-    if en:
-        add("energy_rows", len(en))
-        byc = {}
-        for c, j in en:
-            byc.setdefault(c, []).append(j)
-        for c, v in byc.items():
-            add(f"energy_kj_median_{c}", "%.1f" % (st.median(v) / 1000.0))
 
-    for stem, tag in (("protein20T", "protein"), ("dna20T", "dna")):
-        f = os.path.join(REPO, "benchmark", "runs", f"REPLICATES_{stem}.tsv")
-        if not os.path.exists(f):
-            continue
-        cv = [float(x["speedup_cv"]) for x in csv.DictReader(open(f), delimiter="\t")
-              if x.get("speedup_cv")]
+    # replicate dispersion, from the merged replicate table (one row per alphabet x size)
+    f = os.path.join(REPO, "benchmark", "runs", "REPLICATES_20T.tsv")
+    reps = list(csv.DictReader(open(f), delimiter="\t")) if os.path.exists(f) else []
+    for tag in ("protein", "dna"):
+        cv = [float(x["speedup_cv"]) for x in reps if x.get("data_type") == tag and x.get("speedup_cv")]
         if cv:
             add(f"replicate_cv_{tag}_min", "%.2f" % min(cv))
             add(f"replicate_cv_{tag}_max", "%.2f" % max(cv))
             add(f"replicate_cv_{tag}_median", "%.2f" % st.median(cv))
             add(f"replicate_cv_{tag}_n_sizes", len(cv))
-
-    # superseded vs current build on the 44 shared cells (S09)
-    pair = {}
-    for r in all_rows:
-        pair.setdefault(r["cell"].rsplit("__", 1)[0], {})[
-            "old" if (r.get("binary_sha256") or "").startswith(H.SUPERSEDED_SHA_PREFIX)
-            else "new"] = r
-    pair = {k: v for k, v in pair.items() if "old" in v and "new" in v}
-    add("build_regression_shared_cells", len(pair))
-    for dt in ("protein", "dna"):
-        w = [num(v["new"]["gpu_wall_s"]) / num(v["old"]["gpu_wall_s"]) for v in pair.values()
-             if v["new"]["data_type"] == dt and num(v["old"].get("gpu_wall_s"))
-             and num(v["new"].get("gpu_wall_s"))]
-        c = [num(v["new"]["gpu_calls"]) / num(v["old"]["gpu_calls"]) for v in pair.values()
-             if v["new"]["data_type"] == dt and num(v["old"].get("gpu_calls"))
-             and num(v["new"].get("gpu_calls"))]
-        if w:
-            add(f"build_regression_{dt}_wall_ratio_median", "%.3f" % st.median(w))
-            add(f"build_regression_{dt}_n", len(w))
-        if c:
-            add(f"build_regression_{dt}_call_ratio_median", "%.3f" % st.median(c))
 
     # ---- complexity coverage, hardware ---------------------------------------------------
     span = {}

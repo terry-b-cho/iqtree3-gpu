@@ -1,0 +1,9 @@
+dataset	paper_id	citation	doi	genome_deposit
+Li_X_al_2025	Li25	Li X et al. 2025, Microbiome 13:236	10.1186/s40168-025-02232-5	NGDC Genome Warehouse (one GWH accession per SGB); reads and contigs under CNGB project CNP0001390
+Sanders_et_al_2023	Sa23	Sanders JG et al. 2023, Nature Microbiology 8:1039	10.1038/s41564-023-01388-w	Pan MAGs: Dryad doi:10.5061/dryad.00000006x (ChimpMAGs.tar); non-Pan primate MAGs: Sonnenburg-lab cohort assemblies, reads at ENA PRJEB35610
+Carter_et_al_2023	Ca23	Carter MM et al. 2023, Nature 621:122	10.1038/s41586-023-06370-2	ENA per-MAG assemblies (GCA / ERZ) under BioProjects PRJEB27517 (Hadza) and PRJEB29137 (Nepal Chepang)
+Bowerman_et_al_2021	Bo21	Bowerman KL et al. 2021, ISME Communications 1:49	10.1038/s43705-021-00053-9	Zenodo doi:10.5281/zenodo.5039598 (rodent_microbiome_MAGs.tar.gz)
+Glendinning_et_al_2021	Gl21	Glendinning L et al. 2021, Scientific Reports 11:1990	10.1038/s41598-021-81668-9	Edinburgh DataShare doi:10.7488/ds/2640 (Rumen_RUGs.zip); per-RUG ENA WGS sets under PRJEB34458
+Svartstrom_et_al_2017	Sv17	Svartström O et al. 2017, ISME Journal 11:2538	10.1038/ismej.2017.108	ENA BioProject PRJEB12797 (per-sample GCA assemblies, split back into MAGs by contig name)
+Pu_et_al_2023	Pu23	Pu J et al. 2023, Microbiology Spectrum	10.1128/spectrum.03495-22	NCBI GenBank, one GCA assembly per SGB under BioProject PRJNA692773
+Wibowo_et_al_2021	Wi21	Wibowo MC et al. 2021, Nature 594:234	10.1038/s41586-021-03532-0	MetaGEM output archive, Zenodo doi:10.5281/zenodo.7414438 (dna_bins); reads at BioProject PRJNA561510

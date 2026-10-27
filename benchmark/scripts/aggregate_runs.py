@@ -31,6 +31,11 @@ SUMMARY = os.path.join(REPO, "benchmark", "runs", "RUNS_summary.tsv")
 # Values that mean "not a number" for aggregation purposes (schema uses NA; second-wave stubs TODO_2W).
 _NULLS = {"", "NA", "N/A", "NONE", "NULL", "TODO_2W", "TODO"}
 
+# Columns that older per-cell RESULT.tsv files carry but the published run table does not. The
+# per-cell files are raw evidence and are left as written; the column is dropped here, at ingest,
+# so it enters neither RUNS.tsv nor anything derived from it.
+DROPPED_COLUMNS = {"accelerable_fraction"}
+
 
 def to_float(x):
     """Return float(x) or None for any null/placeholder token. Never raises."""
@@ -129,6 +134,8 @@ def collect_cells():
         # compares measurements only.
         if (r.get("data_type") or "").lower() == "dna":
             r["data_source"] = "alisim_simulated"
+        for k in DROPPED_COLUMNS:
+            r.pop(k, None)
         cells.append(r)
     return cells
 
@@ -254,6 +261,8 @@ def main():
     for key, old in prev.items():
         cellname = key[1] if isinstance(key, tuple) else key
         old["row_status"] = "archived"          # provisional; flipped to current if still on disk
+        for k in DROPPED_COLUMNS:
+            old.pop(k, None)
         index[cellname] = old
     skipped_legacy = 0
     for r in cells:

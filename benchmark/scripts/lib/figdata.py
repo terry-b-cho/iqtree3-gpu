@@ -355,6 +355,75 @@ def support_max_absdiff(path_a, path_b):
     return max(d) if d else 0.0
 
 
+def quadratic_fit(pts, B=2000, seed=1):
+    """Fit log10(y) ~ a + b u + c u^2 with u = log10(x) - mean(log10 x). The exponent is then LOCAL,
+    d log y / d log x = b + 2 c u, and the fit reports it at the SMALLEST and the LARGEST x in the
+    data, each with a 95% CI from resampling the paired observations, together with the curvature
+    c, R^2, n and the coefficients for drawing the curve.
+
+    WHY. The straight log-log fit (loglog_fit) returns one average exponent, but every cost-law
+    series is concave-up on the log-log scale: small jobs scale more gently than large ones and the
+    local exponent rises towards 1 at the largest workloads. A single number hides that; the pair
+    of end exponents is what Figure 3 reports.
+    """
+    import numpy as np
+    pts = [(a, c) for a, c in pts if a and c and a > 0 and c > 0]
+    if len(pts) < 5:
+        return None
+    x = np.log10([a for a, _ in pts]); y = np.log10([c for _, c in pts])
+    m = float(x.mean()); u = x - m
+    co = np.polyfit(u, y, 2)
+    pred = np.polyval(co, u)
+    r2 = float(1 - ((y - pred) ** 2).sum() / ((y - y.mean()) ** 2).sum())
+    ulo, uhi = float(u.min()), float(u.max())
+    sl = lambda c, v: float(2 * c[0] * v + c[1])
+    rng = np.random.default_rng(seed)
+    lo, hi = [], []
+    for _ in range(B):
+        i = rng.integers(0, len(u), len(u))
+        if len(set(u[i].tolist())) < 3:
+            continue
+        cb = np.polyfit(u[i], y[i], 2)
+        lo.append(sl(cb, ulo)); hi.append(sl(cb, uhi))
+    pct = lambda v: tuple(float(q) for q in np.percentile(v, [2.5, 97.5]))
+    return dict(slope_lo=sl(co, ulo), slope_hi=sl(co, uhi), ci_lo=pct(lo), ci_hi=pct(hi),
+                curvature=float(co[0]), coef=co, mean=m, xmin=float(10 ** x.min()),
+                xmax=float(10 ** x.max()), r2=r2, n=len(pts))
+
+
+def quadratic_curve(f, k=60):
+    """(x, y) of a quadratic_fit over its data range, for drawing."""
+    import numpy as np
+    xr = np.logspace(math.log10(f["xmin"]), math.log10(f["xmax"]), k)
+    return xr, 10 ** np.polyval(f["coef"], np.log10(xr) - f["mean"])
+
+
+def end_slope_difference(pts_a, pts_b, B=3000, seed=1):
+    """95% CIs on (local exponent of a - local exponent of b) at the smallest and the largest x,
+    when both quadratic fits share the SAME cells. As in slope_difference, the CELLS are resampled
+    and both arms refitted on each resample, because the two arms share the run-to-run variation.
+
+    pts_a and pts_b must be aligned: element i of each is the same cell.
+    """
+    import numpy as np
+    assert len(pts_a) == len(pts_b)
+    x = np.log10([a for a, _ in pts_a]); ya = np.log10([b for _, b in pts_a]); yb = np.log10([b for _, b in pts_b])
+    m = float(x.mean()); u = x - m; ulo, uhi = float(u.min()), float(u.max())
+    sl = lambda c, v: float(2 * c[0] * v + c[1])
+    def ends(uu, y1, y2):
+        c1, c2 = np.polyfit(uu, y1, 2), np.polyfit(uu, y2, 2)
+        return sl(c1, ulo) - sl(c2, ulo), sl(c1, uhi) - sl(c2, uhi)
+    d_lo, d_hi = ends(u, ya, yb)
+    rng = np.random.default_rng(seed); blo, bhi = [], []
+    for _ in range(B):
+        i = rng.integers(0, len(u), len(u))
+        if len(set(u[i].tolist())) < 3:
+            continue
+        a, b = ends(u[i], ya[i], yb[i]); blo.append(a); bhi.append(b)
+    pct = lambda v: tuple(float(q) for q in np.percentile(v, [2.5, 97.5]))
+    return dict(diff_lo=d_lo, diff_hi=d_hi, ci_lo=pct(blo), ci_hi=pct(bhi), n=len(u))
+
+
 def slope_difference(pts_a, pts_b, B=3000, seed=1):
     """95% CI on (slope_a - slope_b) when both fits share the SAME cells.
 

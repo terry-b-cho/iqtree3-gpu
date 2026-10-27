@@ -62,6 +62,12 @@ def assemble(key, items, grey=False):
 def main():
     os.makedirs(OUT, exist_ok=True)
     g = groups()
+    # a retired or renumbered figure must not leave a stale preview behind
+    live = {f"PREVIEW_Fig{'S' if k[0] else ''}{k[1]:02d}" for k in g}
+    for old in os.listdir(OUT):
+        stem = old.rsplit(".", 1)[0]
+        if stem.startswith("PREVIEW_") and stem not in live:
+            os.remove(os.path.join(OUT, old))
     n = 0
     for key, items in sorted(g.items()):
         fig = assemble(key, items)

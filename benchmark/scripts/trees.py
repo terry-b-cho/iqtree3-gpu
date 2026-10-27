@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""trees.py - S04 and S05: the inferred trees, under the naming contract.
+"""trees.py - Supplementary Figs. S1 and S2: the inferred trees, under the naming contract.
 
-S04  one curated montage per alphabet, the 12-rung 20-thread size ladder, ORDERED BY TAXON COUNT
+S1   one curated montage per alphabet, the 12-rung 20-thread size ladder, ORDERED BY TAXON COUNT
      with the complexity printed in each panel label. (Ordering by complexity, as an earlier draft
      did, produced a taxon order of 4, 6, 14, 10, 8, ... which reads as an error even though it is
      deliberate; taxa order with complexity printed conveys the same fact without the double-take.)
 
-S05  the complete per-run record, every current-build cell, as a multipage montage using the
+S2   the complete per-run record, every current-build cell, as a multipage montage using the
      contract's `_p{NN}` suffix. Page 1 states that the 44 superseded-build runs are excluded.
 
 ONE TREE PER DATASET. The CPU and GPU arms returned identical topologies in all 182 runs, so a
@@ -29,8 +29,17 @@ from Bio import Phylo
 
 SRC = "benchmark/runs/RUNS.tsv"
 PAIRED = os.path.join(REPO, "benchmark", "runs", "paired")
-PANEL_IN = 3.0          # matches the retired generator; 2.4 crowded the labels
-PER_PAGE = 12
+# Every montage is one US Letter page: 4 rows x 4 columns of trees inside 0.8 in margins, with
+# the stratum line in the top margin. Type is 6 pt, tip labels 5 pt (the journal floor), so a
+# tree whose tips would not fit at 5 pt in its cell is drawn with its tips unlabelled (and says so).
+# A labelled tree keeps a quarter of its cell for the labels; an unlabelled tree fills the cell.
+PAGE_IN = (8.5, 11.0)
+MARGIN_IN = 0.8
+NROW, NCOL = 4, 4
+PER_PAGE = NROW * NCOL
+CELL_H_IN = (PAGE_IN[1] - 2 * MARGIN_IN - 0.25) / NROW      # 0.25 in kept for the stratum line
+TIP_PT = 5.0            # the journal floor, permitted for tip labels only (figstyle)
+MAX_LABELLED_TIPS = int((CELL_H_IN - 0.45) * 72 / (TIP_PT * 1.05))   # cell minus scale-bar room
 
 
 def si(x):
@@ -90,11 +99,8 @@ def draw(ax, treefile, dt, title):
     # Tip-label size scales with tip count but is CLAMPED AT THE 5 pt JOURNAL FLOOR. Beyond ~30
     # tips even 5 pt collides in a panel this size, so labels are dropped and the panel says so
     # rather than printing an unreadable smear.
-    show_labels = ntip <= 30
-    # DISCRETE sizes only. A continuous clamp emits arbitrary values (5.11, 5.75, ...) which are
-    # not in the permitted type set and which the panel audit rejects, correctly: "roughly 6 pt"
-    # is not a typographic specification.
-    fs = 6.0 if ntip <= 8 else 5.0
+    show_labels = ntip <= MAX_LABELLED_TIPS
+    fs = TIP_PT
     old = plt.rcParams["font.size"]
     plt.rcParams["font.size"] = fs
     Phylo.draw(tree, axes=ax, do_show=False, show_confidence=False,
@@ -113,6 +119,16 @@ def draw(ax, treefile, dt, title):
     # substitution-rate scale bar, below the last tip (Bio.Phylo lays tips top-down on an inverted
     # y-axis, so the spare room is at larger y)
     depth = max((tree.distance(t) for t in tree.get_terminals()), default=0.1)
+    # compact: an unlabelled tree spans the cell; a labelled tree keeps exactly the room its
+    # longest tip label needs (6 pt Helvetica averages about 0.042 in per character), measured
+    # against the cell's width on the page, so no label is cut and no room is wasted
+    cell_in = ax.get_position().width * ax.figure.get_size_inches()[0]
+    if show_labels:
+        longest = max((len(short_label(t.name or "")) for t in tree.get_terminals()), default=0)
+        label_in = min(0.042 * longest + 0.08, 0.6 * cell_in)
+        ax.set_xlim(-0.02 * depth, depth * cell_in / (cell_in - label_in))
+    else:
+        ax.set_xlim(-0.02 * depth, depth * 1.03)
     sb = nice_scale(depth)
     x0, x1 = ax.get_xlim()
     xs = x0 + 0.04 * (x1 - x0)
@@ -132,29 +148,44 @@ def _priority(r):
             1 if H.is_headline(r) else 0)
 
 
+CARD_SHORT = {"NVIDIA_A100_80GB_PCIe": "A100", "Tesla_V100S-PCIE-32GB": "V100S",
+              "Tesla_V100-SXM2-16GB": "V100", "NVIDIA_L40S": "L40S", "NVIDIA_A40": "A40",
+              "Quadro_RTX_8000": "RTX 8000"}
+
+
 def datasets(rows):
-    """dataset -> the cell whose tree we draw, plus its annotation."""
+    """(dataset, thread count, card, model) -> the cell whose tree we draw, plus its annotation.
+
+    Every distinct analysis is drawn once: a dataset re-run on another card, at one thread or
+    under another substitution model is a different inference and gets its own tree. Only
+    same-settings replicates (same dataset, threads, card and model) collapse to one tree, the
+    headline run by preference (_priority); their trees are identical.
+    """
     out, rank = {}, {}
     for r in rows:
-        g = r.get("genus") or r["cell"]
+        # The model is a SETTING only in the __mdl_ cells (a fixed model chosen for the run);
+        # elsewhere it is ModelFinder's outcome, so two replicates that selected different
+        # models are still the same analysis and collapse.
+        model_setting = r.get("model", "") if "__mdl_" in r["cell"] else ""
+        g = (r.get("genus") or r["cell"], r["threads"], r["card"], model_setting)
         p = _priority(r)
         if g in out and p <= rank[g]:
             continue
         rank[g] = p
         out[g] = dict(cell=r["cell"], dt=r["data_type"], taxa=int(r["taxa"]),
                       cx=r["_complexity"], sp=r["_speedup"], model=r.get("model", ""),
-                      thr=r["threads"], head=H.is_headline(r))
+                      thr=r["threads"], card=CARD_SHORT.get(r["card"], r["card"]),
+                      head=H.is_headline(r))
     return out
 
 
 def montage(items, dt, page=None, npages=None, note=None):
     n = len(items)
-    # Cap the column count at the number of items. Without this a final page holding a single tree
-    # still built a 3-wide grid, so the tree rendered into one third of a page-wide figure with two
-    # empty columns beside it -- which is what the last page of the S05 record looked like.
-    ncol = min(4 if n > 6 else 3, n)
-    nrow = math.ceil(n / ncol)
-    fig, axes = plt.subplots(nrow, ncol, figsize=(PANEL_IN * ncol, PANEL_IN * nrow))
+    # A fixed 4 x 4 grid on a Letter page; a short last page keeps the grid and leaves cells empty
+    fig = plt.figure(figsize=PAGE_IN)
+    l, b = MARGIN_IN / PAGE_IN[0], MARGIN_IN / PAGE_IN[1]
+    axes = fig.subplots(NROW, NCOL, gridspec_kw=dict(
+        left=l, right=1 - l, bottom=b, top=1 - b - 0.35 / PAGE_IN[1], wspace=0.12, hspace=0.22))
     # np.atleast_1d(...).ravel() handles every shape subplots() can return. The previous
     # special-case wrapped the whole ndarray in a list when n == 1, so the last page -- which can
     # hold a single tree -- crashed.
@@ -167,17 +198,19 @@ def montage(items, dt, page=None, npages=None, note=None):
         if not os.path.exists(tf):
             continue
         ax.axis("on")
-        draw(ax, tf, d["dt"], f"n={d['taxa']}  {d.get('model','')}\ncomplexity {si(d['cx'])}"
+        # the title names what distinguishes this inference: taxa and model always, the card
+        # when it is not the L40S, and the thread count when it is not 20
+        tag = "".join([f"  {d['card']}" if d["card"] != "L40S" else "",
+                       f"  {d['thr']}T" if d["thr"] != "20" else ""])
+        draw(ax, tf, d["dt"], f"n={d['taxa']}  {d.get('model','')}{tag}\ncomplexity {si(d['cx'])}"
                               + (f"  |  {d['sp']:.2f}x" if d.get("sp") else ""))
-    kind = "amino acid" if dt == "protein" else ("nucleotide" if dt == "dna" else "all runs")
-    ttl = f"Inferred maximum-likelihood trees - {kind}"
+    # The montage carries the stratum line only (alphabet, thread count, n trees, page); the
+    # ordering, the one-tree-per-dataset rule and the identical-topology result are legend text.
+    kind = "amino acid" if dt == "protein" else ("nucleotide" if dt == "dna" else "all datasets")
+    ttl = f"{kind}, " + FS.stratum({d["thr"] for d in items}, n, "trees")
     if page:
         ttl += f"   (page {page} of {npages})"
-    ttl += "\nordered by taxon count; one tree per dataset - the CPU and GPU arms returned identical topologies"
-    if note:
-        ttl += f"\n{note}"
-    fig.suptitle(ttl, y=0.995, fontweight="bold")
-    fig.tight_layout(rect=[0, 0, 1, 0.965])
+    fig.text(l, 1 - b + 0.05 / PAGE_IN[1], ttl, ha="left", va="bottom")   # the stratum line, in the top margin
     return fig
 
 
@@ -185,34 +218,21 @@ def main():
     rows = FD.load(REPO)
     date = max((r.get("datetime_utc") or "")[:10] for r in rows)
     ds = datasets(rows)
-
-    # ---- S04: the curated 20-thread ladder, one montage per alphabet -------------------------
-    for dt, num in (("protein", 2), ("dna", 2)):
-        items = sorted([d for d in ds.values()
-                        if d["dt"] == dt and d["head"] and d["thr"] == "20"],
-                       key=lambda d: d["taxa"])
-        if not items:
-            continue
-        fig = montage(items, dt)
-        letter = "a" if dt == "protein" else "b"
-        stem = FS.save_panel(fig, num, letter, f"tree_ladder_{'aa' if dt=='protein' else 'nt'}",
-                             f"Tree montage, {'amino acid' if dt=='protein' else 'nucleotide'} ladder",
-                             os.path.basename(__file__), SRC, len(items), supp=True, data_date=date)
-        plt.close(fig); print(f"  wrote {stem}  ({len(items)} trees)")
-
-    # ---- S05: every current-build dataset, multipage ------------------------------------------
-    allds = sorted(ds.values(), key=lambda d: (d["dt"], d["taxa"], d["cell"]))
-    pages = math.ceil(len(allds) / PER_PAGE)
-    for i in range(pages):
-        chunk = allds[i * PER_PAGE:(i + 1) * PER_PAGE]
-        note = ("every dataset measured on the reported build; the 44 runs made with the superseded "
-                "binary are excluded" if i == 0 else None)
-        fig = montage(chunk, "all", page=i + 1, npages=pages, note=note)
-        stem = FS.save_panel(fig, 3, "a", "tree_record_all", "Complete per-run tree record",
-                             os.path.basename(__file__), SRC, len(chunk), supp=True,
-                             page=i + 1, data_date=date)
-        plt.close(fig)
-    print(f"  wrote FigS03a_tree_record_all_p01..p{pages:02d}  ({len(allds)} datasets)")
+    # S1: every amino-acid inference; S2: every nucleotide inference (one tree per dataset x
+    # thread count x card x model; same-settings replicates collapse), 16 to a Letter page.
+    for dt, num, tag in (("protein", 1, "aa"), ("dna", 2, "nt")):
+        items = sorted([d for d in ds.values() if d["dt"] == dt],
+                       key=lambda d: (d["taxa"], d["model"], d["thr"] != "20", d["card"] != "L40S", d["cell"]))
+        pages = math.ceil(len(items) / PER_PAGE)
+        for i in range(pages):
+            chunk = items[i * PER_PAGE:(i + 1) * PER_PAGE]
+            fig = montage(chunk, dt, page=i + 1, npages=pages)
+            stem = FS.save_panel(fig, num, "a", f"trees_{tag}",
+                                 f"Every {'amino-acid' if dt == 'protein' else 'nucleotide'} inference (dataset x threads x card x model)",
+                                 os.path.basename(__file__), SRC, len(chunk), supp=True,
+                                 page=i + 1, data_date=date, square=False, full_page=True)
+            plt.close(fig)
+        print(f"  wrote FigS{num:02d}a_trees_{tag}_p01..p{pages:02d}  ({len(items)} trees)")
     FS.write_manifest(os.path.join(REPO, "benchmark", "figures", "FIGURE_MANIFEST.tsv"))
 
 

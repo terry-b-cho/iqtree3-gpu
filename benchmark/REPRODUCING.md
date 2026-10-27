@@ -42,7 +42,7 @@ with the two checks above.
 
 ## Tier 2 — Regenerate every figure and table (no GPU required)
 
-The complete measured record ships in the repository: `benchmark/runs/RUNS.tsv` (226 runs x 123
+The complete measured record ships in the repository: `benchmark/runs/RUNS.tsv` (226 runs x 122
 columns, of which the 182 measured with the released binary are the ones analysed -- see
 `binary_sha256`) plus, for all 226 cells, the per-cell `RESULT.tsv`, `PHASES.tsv`, `equivalence.kv` and both
 arms' inferred trees. Every figure derives from those files alone.
@@ -51,7 +51,7 @@ arms' inferred trees. Every figure derives from those files alone.
 bash benchmark/scripts/refresh_all.sh
 ```
 
-This rewrites all of `benchmark/figures/` (the 43 panels as PDF+PNG, the composites, the assembled
+This rewrites all of `benchmark/figures/` (the 24 panels as PDF+PNG, the composites, the assembled
 previews, the Source Data and the manifest) and regenerates `KEY_NUMBERS.md`, from which every number
 quoted in the documentation is taken, then the Supplementary Data workbook and the figure map in
 `benchmark/README.md`. It needs Python with numpy, matplotlib and pypdf; the two workbooks additionally

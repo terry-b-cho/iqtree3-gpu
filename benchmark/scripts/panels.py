@@ -82,7 +82,7 @@ def main():
         fails.append("manifest: FIGURE_MANIFEST.tsv missing")
     # source-side: the overrides that defeat the shared style
     for f in [f"{REPO}/benchmark/scripts/{n}" for n in ("equivalence.py", "decision.py", "mechanism.py", "phases_cost.py",
-                                               "hardware.py", "memory.py", "supplementary.py")]:
+                                               "hardware.py", "supplementary.py")]:
         src = open(f).read()
         for pat, msg in ((r"fontsize\s*=\s*[0-9]", "literal fontsize="),
                          (r"\.grid\(True", ".grid(True)")):

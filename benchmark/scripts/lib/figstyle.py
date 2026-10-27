@@ -65,9 +65,14 @@ def alphabet_marker(dt):
     return ALPHABET_MARKER.get(dt, "o")
 
 # Phase / step hues, in fixed order. Never cycled; a 5th step folds into "other".
+# Phases must NOT reuse the alphabet pair: a reader who has learned blue = amino acid would read a
+# blue "model selection" bar as amino acid. The two phase hues are the remaining Okabe-Ito
+# colours with the widest separation from #0072B2 / #D55E00 and from each other: bluish green
+# (model selection) and reddish purple (tree search); they also differ in lightness, so the pair
+# survives greyscale. "other" (untimed) is a neutral grey.
 PHASE_ORDER  = ["modelfinder", "tree_search", "initial", "other"]
-PHASE_COLORS = {"modelfinder": "#0072B2", "tree_search": "#E69F00",
-                "initial": "#009E73", "other": "#CC79A7"}
+PHASE_COLORS = {"modelfinder": "#009E73", "tree_search": "#CC79A7",
+                "initial": "#56B4E9", "other": "#D9D9D9"}
 LABEL_REQUIRED = {"#E69F00", "#56B4E9"}   # below 3:1 on white -> must carry a visible label
 
 # Ordinal ramp for SIZE (taxa / complexity). Validated monotone in lightness.
@@ -170,6 +175,119 @@ def apply(strict_font=True):
 
 
 # ================================================================================================
+#  PANEL GEOMETRY: one plotting box, the same physical size in every panel
+# ================================================================================================
+#  Every panel's plotting area (the box the four spines enclose, excluding tick labels, axis
+#  labels, legends and the stratum line) is a square of AX_MM x AX_MM millimetres. Titles, labels and
+#  legends hang off that box; the canvas is cropped to them on save (savefig.bbox = "tight" crops,
+#  it never rescales), so the box keeps its size whatever decorations a panel carries. A facet grid
+#  places every facet at the same AX_MM square. The only panels outside this rule are the tree
+#  montages (Supplementary Figs. S1 and S2), which save_panel accepts with square=False.
+#
+#  The box is PRE-POSITIONED, never fitted afterwards: tight_layout() and constrained layout resize
+#  axes to fill a canvas, which is exactly what this rule forbids, so no generator calls them.
+AX_MM = 40.0
+AX_IN = AX_MM / 25.4
+_MARGIN_IN = (0.85, 0.65, 0.35, 0.40)     # left, bottom, right, top: generous, the save crops them
+_GRID_GAP_IN = 0.16                       # between facets of a grid
+
+
+def square_axes():
+    """-> (fig, ax) with the plotting box exactly AX_IN x AX_IN inches."""
+    l, b, r, t = _MARGIN_IN
+    fig = plt.figure(figsize=(l + AX_IN + r, b + AX_IN + t))
+    fw, fh = fig.get_size_inches()
+    ax = fig.add_axes([l / fw, b / fh, AX_IN / fw, AX_IN / fh])
+    ax._square_box = True
+    return fig, ax
+
+
+def square_grid(nrow, ncol, sharex=True, sharey=True, gap=_GRID_GAP_IN):
+    """-> (fig, axes[nrow][ncol]); every facet is an AX_IN square, gaps fixed in inches.
+    `gap` is the space between facets: the default suits shared axes; a grid whose boxes carry
+    their own y-axis labels needs about 0.9 in."""
+    import numpy as np
+    l, b, r, t = _MARGIN_IN
+    gw = ncol * AX_IN + (ncol - 1) * gap
+    gh = nrow * AX_IN + (nrow - 1) * gap
+    fig = plt.figure(figsize=(l + gw + r, b + gh + t))
+    fw, fh = fig.get_size_inches()
+    axes = np.empty((nrow, ncol), dtype=object)
+    for i in range(nrow):
+        for j in range(ncol):
+            x = l + j * (AX_IN + gap)
+            y = b + (nrow - 1 - i) * (AX_IN + gap)
+            kw = {}
+            if sharex and (i or j):
+                kw["sharex"] = axes[0, 0]
+            if sharey and (i or j):
+                kw["sharey"] = axes[0, 0]
+            ax = fig.add_axes([x / fw, y / fh, AX_IN / fw, AX_IN / fh], **kw)
+            ax._square_box = True
+            if sharex and i < nrow - 1:
+                ax.tick_params(axis="x", labelbottom=False)
+            if sharey and j:
+                ax.tick_params(axis="y", labelleft=False)
+            axes[i, j] = ax
+    return fig, axes
+
+
+def split_axes(ncol=2, gap=0.75):
+    """-> (fig, [ax, ...]): `ncol` boxes side by side that TOGETHER fill one AX_IN square, each
+    AX_IN / ncol wide and AX_IN tall, `gap` inches apart so every box can carry its own y axis.
+    For a panel that shows two quantities of the same stratum in one square of page area."""
+    l, b, r, t = _MARGIN_IN
+    w = AX_IN / ncol
+    fig = plt.figure(figsize=(l + ncol * w + (ncol - 1) * gap + r, b + AX_IN + t))
+    fw, fh = fig.get_size_inches()
+    axes = []
+    for j in range(ncol):
+        ax = fig.add_axes([(l + j * (w + gap)) / fw, b / fh, w / fw, AX_IN / fh])
+        ax._square_box = True; ax._box_fraction = 1.0 / ncol
+        axes.append(ax)
+    return fig, axes
+
+
+def grid_note(fig, axes, text):
+    """The stratum line of a facet grid, set above its top-left facet (grids have no title)."""
+    top = max(ax.get_position().y1 for ax in axes.flat)
+    left = min(ax.get_position().x0 for ax in axes.flat)
+    fh = fig.get_size_inches()[1]
+    fig.text(left, top + 0.26 / fh, text, ha="left", va="bottom", color=INK)
+
+
+def stratum(threads, n, unit="runs"):
+    """The ONLY text a panel carries in its title slot: thread count and n.
+
+    `threads` is a thread count or an iterable of the thread counts the panel pools. The n passed
+    here is the n recorded in the manifest, so the two cannot disagree.
+    """
+    if isinstance(threads, (str, int)):
+        threads = [threads]
+    th = sorted({int(t) for t in threads})
+    if not th:
+        lab = ""
+    elif len(th) == 1:
+        lab = f"{th[0]} thread{'s' if th[0] != 1 else ''}, "
+    else:
+        lab = " and ".join(str(t) for t in th) + " threads, "
+    return f"{lab}n = {n}" + (f" {unit}" if unit and unit != "runs" else "")
+
+
+def assert_square(fig):
+    """Every plotting box of the figure is an AX_IN square, to a tenth of a point."""
+    boxes = [ax for ax in fig.axes if getattr(ax, "_square_box", False)]
+    assert boxes, "no square plotting box: build the panel with square_axes() or square_grid()"
+    fw, fh = fig.get_size_inches()
+    for ax in boxes:
+        x0, y0, w, h = ax.get_position().bounds
+        wi, hi = w * fw, h * fh
+        want = AX_IN * getattr(ax, "_box_fraction", 1.0)      # split boxes share one square
+        assert abs(wi - want) < 1e-3 and abs(hi - AX_IN) < 1e-3, \
+            f"plotting box is {wi*25.4:.2f} x {hi*25.4:.2f} mm, not {want*25.4:.0f} x {AX_MM}"
+
+
+# ================================================================================================
 #  PANEL OUTPUT: naming contract + manifest
 # ================================================================================================
 #  The production office identifies panels by filename alone, so the pattern is fixed and enforced:
@@ -202,12 +320,17 @@ _MANIFEST = []
 
 
 def save_panel(fig, figure, panel, slug, title, source_script, source_table, n_rows,
-               outdir=None, supp=False, page=None, data_date=None):
+               outdir=None, supp=False, page=None, data_date=None, square=True, full_page=False):
     """Write one panel as vector PDF + 300 dpi PNG under the naming contract, and record it.
 
     `figure` is an int, `panel` a single lowercase letter. Returns the stem actually written.
+    `square` enforces the AX_MM plotting box (assert_square); only the tree montages pass False.
+    `full_page` writes the figure at its own canvas size instead of cropping to the artists: the
+    tree montages are laid out as whole US Letter pages and must keep their margins.
     """
     import os, re, datetime
+    if square:
+        assert_square(fig)
     assert isinstance(figure, int) and 1 <= figure <= 99, f"bad figure number {figure!r}"
     assert re.fullmatch(r"[a-z]", panel or ""), f"panel must be one lowercase letter, got {panel!r}"
     assert re.fullmatch(r"[a-z0-9_]+", slug or ""), f"bad slug {slug!r}"
@@ -216,8 +339,22 @@ def save_panel(fig, figure, panel, slug, title, source_script, source_table, n_r
         stem += f"_p{page:02d}"
     outdir = outdir or os.environ.get("PANEL_DIR", "benchmark/figures/panels")
     os.makedirs(outdir, exist_ok=True)
-    fig.savefig(os.path.join(outdir, stem + ".pdf"))
-    fig.savefig(os.path.join(outdir, stem + ".png"), dpi=300)
+    # The tight crop measures every axis LABEL with its width collapsed to the axis centre
+    # (matplotlib's for_layout_only rule), so a label wider than its axis was cut at the canvas
+    # edge. Naming the labels as extra artists restores their full extent to the crop. The list
+    # REPLACES the default extra-artist list of every axes (annotations, legends, texts), so
+    # those defaults are carried along explicitly or they would be cropped instead.
+    extra = [t for ax in fig.axes for t in (ax.xaxis.label, ax.yaxis.label) if t.get_text()]
+    extra += [a for ax in fig.axes for a in ax.get_default_bbox_extra_artists()]
+    extra += list(fig.get_default_bbox_extra_artists())
+    if full_page:       # bbox_inches=None would fall back to rcParams' "tight": give the page bbox
+        from matplotlib.transforms import Bbox
+        fw, fh = fig.get_size_inches()
+        kw = dict(bbox_inches=Bbox([[0, 0], [fw, fh]]), pad_inches=0)
+    else:
+        kw = dict(bbox_extra_artists=extra)
+    fig.savefig(os.path.join(outdir, stem + ".pdf"), **kw)
+    fig.savefig(os.path.join(outdir, stem + ".png"), dpi=300, **kw)
     write_source_data(fig, stem, os.path.join(os.path.dirname(outdir.rstrip("/")), "source_data"))
     _MANIFEST.append(dict(
         file=stem, figure=("S%d" % figure) if supp else str(figure), panel=panel, title=title,

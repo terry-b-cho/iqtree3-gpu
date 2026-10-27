@@ -187,7 +187,7 @@ if each run carries the numbers that show *which regime it is in*. The key instr
 ### M. Per-phase decomposition (which step costs the most, and which the GPU helps the most)
 
 A single run is several phases with very different cost and very different GPU benefit. The overall
-speedup is an Amdahl average over them, so the decomposition is what makes the headline number
+speedup is a wall-time-weighted average over them, so the decomposition is what makes the headline number
 *explainable and extrapolatable*. Emit one sub-row per phase (long form) per arm, phases:
 `setup | modelfinder | tree_search | branch_opt | bootstrap | alrt`.
 
@@ -204,8 +204,6 @@ speedup is an Amdahl average over them, so the decomposition is what makes the h
 Run-level derived from the decomposition:
 | column | source | why it matters |
 |---|---|---|
-| accelerable_fraction | derived | (CPU-arm ModelFinder wall + CPU-arm tree-search wall) / CPU-arm total wall, from `cpu.log` (paired_benchmark.sh lines ~502-525); fixed-model runs have no ModelFinder phase, which contributes 0. It is a WALL-TIME share of the CPU arm, not a CPU-time share, and is the Amdahl ceiling on overall speedup |
-| amdahl_predicted_speedup | derived | 1 / (serial + accel/phase_speedup); predicted vs measured overall is a consistency check |
 | dominant_phase / best_speedup_phase | derived | the one-line answer to "what costs most" and "what the GPU helps most" |
 | n_likelihood_evals (per arm) | iqlog | hardware-independent work count; equal across arms == apples-to-apples search |
 | n_iterations / n_trees_evaluated | iqlog | search-trajectory length; if CPU and GPU differ, the "same operation" claim needs the RF=0 + logL tie to carry it |

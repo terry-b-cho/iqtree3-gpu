@@ -33,14 +33,12 @@ PRODUCER = {
     "RUNS_summary.tsv": "`aggregate_runs.py`",
     "KEY_NUMBERS.tsv": "`key_numbers.py`",
     "PHASE_STEPS.tsv": "`phase_extract.py`",
-    "REPLICATES_protein20T.tsv": "`supp_ported.py`",
-    "REPLICATES_dna20T.tsv": "`supp_ported.py`",
+    "REPLICATES_20T.tsv": "`supp_ported.py`",
+    "genome_metadata.tsv": "curated source-genome metadata (`data/genomes/PROVENANCE.md`); citations hand-maintained in `data/genomes/study_citations.tsv`",
     "gpu.stdout": "`harness/paired_benchmark.sh` (the engine's own arena report per run)",
-    "card_specs.tsv": "hand-maintained in `harness/card_specs.tsv`, one vendor source per row",
     "launch_latency_l40s.tsv": "`harness/launch_latency.sh`",
     "nsys_kernel_summary.tsv": "`harness/nsys_kernel_time.sh`",
     "nsight_summary.tsv": "`harness/roofline_profile.sh`",
-    "cpu_production_scaling.tsv": "recorded production CPU runs (a record, not regenerated)",
 }
 
 

@@ -1,6 +1,0 @@
-axes,axes_title,kind,series,x_label,y_label,x,y,width,height_or_value
-0,Model selection dominates amino-acid runtime and does not exist for nucleotide,bar,,,share of CPU-arm wall time (%),-0.25,0,0.5,88.05185737283625
-0,Model selection dominates amino-acid runtime and does not exist for nucleotide,bar,,,share of CPU-arm wall time (%),-0.25,88.05185737283625,0.5,10.7916000300402
-0,Model selection dominates amino-acid runtime and does not exist for nucleotide,bar,,,share of CPU-arm wall time (%),-0.25,98.84345740287645,0.5,1.156542597123547
-0,Model selection dominates amino-acid runtime and does not exist for nucleotide,bar,,,share of CPU-arm wall time (%),0.75,0.0,0.5,88.83901750401908
-0,Model selection dominates amino-acid runtime and does not exist for nucleotide,bar,,,share of CPU-arm wall time (%),0.75,88.83901750401908,0.5,11.160982495980917

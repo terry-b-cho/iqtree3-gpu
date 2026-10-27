@@ -17,7 +17,8 @@ amino-acid alignment, from 8 published studies and 23 host species. `genome_meta
 row per genome (42 columns): study, source file, BioProject, BioSample, assembly accession, host,
 sampling metadata, GTDB-Tk taxonomy, CheckM2 quality, md5, and which alignments carry it.
 `PROVENANCE.md` explains every column, the identifier scheme, and the eight studies with their
-papers and deposits. A genome's file name is also its tip label in every alignment.
+papers and deposits; `study_citations.tsv` holds those eight citations (paper, DOI, deposit) as a
+table, which Supplementary Data 0 joins to the metadata so every MAG carries its source and citation. A genome's file name is also its tip label in every alignment.
 
 ## `protein/` — the amino-acid benchmark inputs
 

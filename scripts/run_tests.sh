@@ -121,9 +121,9 @@ else
   echo "  ---- panel audit skipped (no panels yet)"
 fi
 
-echo; echo "-- manuscript cross-check --"
-# The board applies these four checks before accepting a resubmission; applying them here means a
-# dangling figure reference or an untraceable abstract number fails the build, not the review.
+echo; echo "-- cross-check --"
+# Cross-file checks on the public tree (archived references, loose figure files, panel-title
+# literals, card sources, the README map); a stale pointer fails the build, not the reader.
 if [ -f "$REPO/benchmark/figures/FIGURE_MANIFEST.tsv" ]; then
   out=$(python3 "$REPO/benchmark/scripts/crosscheck.py" 2>&1) || true
   # NOT piped into `while`: a pipeline runs the loop in a subshell, so every ok/bad call would

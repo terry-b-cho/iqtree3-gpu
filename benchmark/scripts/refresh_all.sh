@@ -41,7 +41,7 @@ echo "== 2. per-step wall + CPU time from each per-run IQ-TREE logs -> PHASE_STE
 run phase_extract
 echo "== 3. main-text figure panels (benchmark/figures/panels/) =="
 for s in equivalence decision mechanism \
-         phases_cost hardware memory; do run "$s"; done
+         phases_cost hardware; do run "$s"; done
 echo "== 4. supplementary panels + replicate tables =="
 for s in supp_ported supplementary trees; do run "$s"; done
 echo "== 4b. assembled previews + greyscale proof =="

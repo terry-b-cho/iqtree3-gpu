@@ -13,7 +13,8 @@ every mark stays vector and byte-for-byte what the panel generator produced. The
 overlay drawn on top.
 
 THE SCALE RULE, which is the whole design of this file. Every panel is authored at 6 pt (figstyle
-FONT_PT) at a fixed 2.75 x 2.15 in. Placing a panel at scale s therefore prints its type at 6*s pt --
+FONT_PT) around a fixed 40 x 40 mm plotting box (figstyle AX_MM; the decorations around it set the
+panel's outer size). Placing a panel at scale s therefore prints its type at 6*s pt --
 scaling a panel silently rewrites its font size. A naive "stretch each row to fill the page width"
 layout gave one figure 8 pt in its top row and 3.8 pt in the row below it, which is both illegible and
 obviously amateur. So:
@@ -26,8 +27,8 @@ obviously amateur. So:
     cannot be printed in the band is refused with a message naming the figure, rather than shipped
     at 3.8 pt.
 
-Row assignments below follow from that rule. The two per-card facet grids in Figure 6 are 139 mm
-wide at natural size, so they take a row each; pairing them would force the page to 0.64 scale.
+Row assignments below follow from that rule. The per-card facet grid in Supplementary Fig. S6 is
+139 mm wide at natural size, so it stands alone.
 """
 import os, re, subprocess, sys
 import importlib.util as ilu
@@ -47,75 +48,63 @@ MAX_H = 240.0 * MM               # text-block height
 MIN_PT, MAX_PT = min(FS.PERMITTED_PT), max(FS.PERMITTED_PT)
 
 # figure number -> rows of panel stems. Panels keep their authored size; a row's height is the
-# tallest panel in it.
+# tallest panel in it. These layouts ARE the manuscript's figure numbering and lettering; the panel
+# stems are named to match (FigS07b is Supplementary Fig. S7B).
 FIGURES = {
-    1: dict(dir=PANELS, title="The GPU returns the same answer", rows=[
-            ["Fig01a_logl_reldiff_hist", "Fig01b_logl_absdiff_vs_magnitude",
-             "Fig01c_support_diff_hist"]]),
-    # Round 8 (R15): the per-invocation panel (old 2D) restates 2A per call and moved to
-    # Supplementary Fig. S18; the composite title is descriptive rather than a conclusion.
+    1: dict(dir=PANELS, title="IQ-TREE3-GPU returns the same answer as IQ-TREE3", rows=[
+            ["Fig01a_logl_reldiff_ecdf", "Fig01b_support_diff_dotplot"]]),
     2: dict(dir=PANELS, title="Acceleration against workload and thread count", rows=[
-            ["Fig02a_decision_t20", "Fig02b_decision_t1"],
-            ["Fig02c_thread_slope"]]),
-    3: dict(dir=PANELS, title="Launch overhead, not arithmetic", rows=[
-            ["Fig03a_cost_law", "Fig03b_outer_demand"],
-            ["Fig03c_amdahl", "Fig03d_nsys_profile"]]),
+            ["Fig02a_decision_t20", "Fig02b_decision_t1"]]),
+    3: dict(dir=PANELS, title="Runtime scaling with total likelihood workload", rows=[
+            ["Fig03a_cost_law", "Fig03b_cost_law_t1"]]),
     4: dict(dir=PANELS, title="Phases and cost", rows=[
-            ["Fig04a_phase_share", "Fig04b_phase_speedup"],
-            ["Fig04c_cpu_time_ratio", "Fig04d_parallel_efficiency"]]),
-    # The three one-point-per-card summaries share the top row; the two per-card facet grids are
-    # 139 mm wide at natural size and take a row each. This regroups the panels relative to the
-    # old standalone order -- energy was 5e and is now 6C -- so the text references move with it.
-    5: dict(dir=PANELS, title="GPU-arm performance across six cards", rows=[
-            ["Fig05a_wall_vs_fp64", "Fig05b_wall_vs_bandwidth", "Fig05e_energy_per_card"],
-            ["Fig05c_card_facet_wall"],
-            ["Fig05d_card_facet_speedup"]]),
-    6: dict(dir=PANELS, title="Memory and alignment properties", rows=[
-            ["Fig06a_memory_sizing", "Fig06b_vram_guard"],
-            ["Fig06c_gap_ambiguity", "Fig06d_informativeness"]]),
+            ["Fig04a_phase_share_cpu_time", "Fig04b_phase_speedup_complexity"],
+            ["Fig04c_cores_busy"]]),
 }
+
+def _pages(stem):
+    """The page stems of a multipage panel, in page order, from the files present."""
+    import glob
+    return sorted(os.path.basename(f)[:-4] for f in glob.glob(os.path.join(PANELS, stem + "_p*.pdf")))
+
 
 # Supplementary figures. Every supplementary figure in the submission gets one file here, so the
 # master supplementary-figures document can be assembled from this directory alone. Three kinds:
 #   rows=[...]            the lettered single-page composite used for the main figures;
 #   pages=[[rows], ...]   one page per entry at NATURAL size (scale 1.0), because the tree panels are
 #                         ~300 mm wide and shrinking a tree plot is what destroyed the tip labels once
-#                         already: S2 is two pages (A, B), S3 six pages (no letters: its legend speaks
+#                         already: S1 and S2 are multipage (no letters: their legends speak
 #                         of pages, not panels);
-#   a single panel        is placed without a letter; the legends of S1, S4-S8 and S10-S13 name
-#                         no panel letter, and a lone "A" on a one-panel figure is a journal error.
-# Numbering is the order of first citation (S1-S13); the greyscale proof sheet is a production check
+#   a single panel        is placed without a letter; the legends of S3 and S5-S8 name no panel
+#                         letter, and a lone "A" on a one-panel figure is a journal error.
+# Numbering is the order of first citation (S1-S7); the greyscale proof sheet is a production check
 # and is not a supplementary figure.
 SUPP = {
-    1: dict(dir=PANELS, title="Campaign coverage", rows=[["FigS01a_coverage_grid"]]),
-    2: dict(dir=PANELS, title="Inferred trees, size ladder",
-            pages=[[["FigS02a_tree_ladder_aa"]], [["FigS02b_tree_ladder_nt"]]]),
-    3: dict(dir=PANELS, title="Complete tree record, pages 1 to 6", letters=False,
-            pages=[[[f"FigS03a_tree_record_all_p{i:02d}"]] for i in range(1, 7)]),
-    4: dict(dir=PANELS, title="Model classes exercised, from the data", rows=[["FigS04a_model_coverage_data"]]),
-    5: dict(dir=PANELS, title="Production-scale phylogenomic cost", rows=[["FigS05a_production_memory"]]),
-    6: dict(dir=PANELS, title="Replicate spread, amino acid", rows=[["FigS06a_replicates_protein"]]),
-    7: dict(dir=PANELS, title="Replicate spread, nucleotide", rows=[["FigS07a_replicates_nucleotide"]]),
-    8: dict(dir=PANELS, title="Wall time per device invocation, by arm and workflow", rows=[
-             ["FigS08a_per_invocation_cost"]]),
-    9: dict(dir=PANELS, title="Cost law at one thread, and node effects", rows=[
-             ["FigS09a_cost_law_t1", "FigS09b_node_effects"]]),
-    10: dict(dir=PANELS, title="Occupancy does not explain the sub-parity runs", rows=[["FigS10a_pattern_saturation"]]),
-    11: dict(dir=PANELS, title="Sampled device utilisation", rows=[["FigS11a_gpu_utilisation"]]),
-    12: dict(dir=PANELS, title="Superseded build against current build", rows=[["FigS12a_build_regression"]]),
-    13: dict(dir=PANELS, title="Phase-step decomposition, step by cell", rows=[["FigS13a_phase_step_heatmap"]]),
+    1: dict(dir=PANELS, title="Every amino-acid inference", letters=False,
+            pages=[[[s]] for s in _pages("FigS01a_trees_aa")]),
+    2: dict(dir=PANELS, title="Every nucleotide inference", letters=False,
+            pages=[[[s]] for s in _pages("FigS02a_trees_nt")]),
+    3: dict(dir=PANELS, title="Model classes exercised, from the data", rows=[["FigS03a_model_coverage_data"]]),
+    4: dict(dir=PANELS, title="Replicate spread at 20 threads", rows=[["FigS04a_replicates"]]),
+    5: dict(dir=PANELS, title="Phase-step decomposition, step by cell", rows=[["FigS05a_phase_step_heatmap"]]),
+    # the per-card facet grid is 139 mm wide at natural size
+    6: dict(dir=PANELS, title="IQ-TREE3-GPU across six cards", rows=[["FigS06a_card_facet_speedup"]]),
+    7: dict(dir=PANELS, title="Campaign coverage", rows=[
+            ["FigS07a_coverage_stacked_bars"],
+            ["FigS07b_coverage_by_card"]]),
 }
 
 LETTERS = "ABCDEFGHIJKL"
 
 
+
 def reference_index():
     """-> {figure label: {panel letter: panel stem}} for every composite.
 
-    These layouts ARE the manuscript's figure numbering: which panel is Fig. 6C is decided by the
-    row assignments above, not by the panel file names, which still carry the old Fig05e-style
-    stems. The cross-check resolves manuscript references against this rather than keeping a second
-    copy that could drift out of step.
+    These layouts ARE the manuscript's figure numbering: which panel is Fig. 1B is decided by the
+    row assignments above. The panel stems are named to agree with them, but the cross-check
+    resolves manuscript references against this index rather than against file names, so a
+    renamed stem cannot silently move a reference.
     """
     idx = {}
     for book, pre in ((FIGURES, ""), (SUPP, "S")):
@@ -151,7 +140,9 @@ def layout(name, spec, rows_in=None, first_letter=0, fixed_scale=None, letters_o
     """
     rows_in = spec["rows"] if rows_in is None else rows_in
     sizes = {s: page_size(os.path.join(spec["dir"], s + ".pdf")) for r in rows_in for s in r}
-    label_h = LABEL_H if letters_on else 0.0
+    # A page printed as authored (fixed_scale: the Letter-size tree montages) keeps its exact page
+    # size; its letter is drawn inside the page's own top margin, so no strip is added.
+    label_h = LABEL_H if (letters_on and fixed_scale is None) else 0.0
     rows = [(row,
              sum(sizes[s][0] for s in row) + GAP * (len(row) - 1),
              max(sizes[s][1] for s in row)) for row in rows_in]
@@ -192,8 +183,12 @@ def overlay(W, H, placed, sizes, path):
         if not letter:
             continue
         top = y + sizes[s][1]
-        fig.text(x / W, min(top + 0.6, H - 0.5) / H, letter, fontsize=8.0, fontweight="bold",
-                 va="bottom", ha="left", color=FS.INK)
+        if top + 0.6 + 8.0 > H:          # no strip above this panel: letter inside its top margin
+            fig.text((x + 0.25 * 72) / W, (top - 0.25 * 72) / H, letter, fontsize=8.0,
+                     fontweight="bold", va="top", ha="left", color=FS.INK)
+        else:
+            fig.text(x / W, (top + 0.6) / H, letter, fontsize=8.0, fontweight="bold",
+                     va="bottom", ha="left", color=FS.INK)
     # rcParams sets savefig.bbox='tight', which would crop this overlay to the letters alone and
     # then merge them at the page origin. The bbox is given explicitly to keep the full page.
     fig.savefig(path, transparent=True, pad_inches=0,

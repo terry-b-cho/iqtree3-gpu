@@ -12,7 +12,7 @@ reading and for the accessibility check; the individual panels remain the submis
 
 | path | what |
 |---|---|
-| `panels/` | 43 panels x {pdf, png}. Six main figures (Fig01-Fig06) and thirteen supplementary (FigS01-FigS13), numbered in order of first citation. |
+| `panels/` | 24 panels x {pdf, png}: four main figures (Fig01-Fig04) and seven supplementary (FigS01-FigS07), numbered in order of first citation; panel letters in the stems match the manuscript letters. Alternative drafts, when written, use the stem `<panel>_alternative<k>_<slug>`, sit in no composite and have no `Source_Data.xlsx` sheet; none is present at the moment. Every plotting box is a 40 x 40 mm square except the tree montages; the title slot holds only the thread count and n. |
 | `previews/` | One assembled preview per figure, plus the greyscale proof sheet of the main figures (a production check, not a supplementary figure). |
 | `source_data/`, `Source_Data.xlsx` | Source Data: the values behind every mark in every panel, read back from the drawn artists by the panel writer (one CSV per panel; the workbook has one sheet per panel and a README sheet). Written by `benchmark/scripts/source_data.py`. |
 | `FIGURE_MANIFEST.tsv` | One row per panel: file, figure, panel, title, generating script, source table, rows used, data date. Written by the pipeline, never by hand. |
@@ -29,5 +29,4 @@ bash benchmark/scripts/refresh_all.sh
 
 That runs the aggregator, the key-number derivation, the phase extraction, the six main-figure
 generators, the supplementary generators, the preview assembly and the contract audit, in dependency
-order. `bash scripts/run_tests.sh` then re-checks the figure contract and the manuscript's figure
-references.
+order. `bash scripts/run_tests.sh` then re-checks the figure contract and the cross-file checks.

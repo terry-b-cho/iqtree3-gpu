@@ -65,6 +65,31 @@ def arena_table():
     return d
 
 
+def mag_sources_table():
+    """Supplementary Data 0: every source genome with its accession, deposit and citation.
+
+    Built from the curated metadata table (one row per MAG) joined to the hand-maintained study
+    citation table on `dataset`; nothing is inferred to fill a blank, so a blank accession means
+    the study's public deposit does not supply that identifier (see PROVENANCE.md)."""
+    G = os.path.join(REPO, "benchmark", "data", "genomes")
+    meta = read_tsv(os.path.join(G, "genome_metadata.tsv"))
+    cites = read_tsv(os.path.join(G, "study_citations.tsv")).set_index("dataset")
+    missing = sorted(set(meta["dataset"]) - set(cites.index))
+    if missing:
+        sys.exit(f"  study_citations.tsv has no row for dataset(s) {missing}")
+    cols = ["stable_genome_id", "GTDB_tk_genus", "GTDB_tk_species", "dataset", "citation", "doi",
+            "genome_deposit", "genome_id", "source_filename", "source_accession", "source_sample",
+            "source_bioproject", "source_biosample", "genome_assembly_accession", "host_species",
+            "host_common_name_group", "checkm2_completeness", "checkm2_contamination",
+            "checkm2_genome_size_bp", "md5_fna", "alignments"]
+    d = meta.copy()
+    for c in ("citation", "doi", "genome_deposit"):
+        d[c] = d["dataset"].map(cites[c])
+    d = d[cols].sort_values(["GTDB_tk_genus", "stable_genome_id"]).reset_index(drop=True)
+    assert len(d) == 435 and d["GTDB_tk_genus"].nunique() == 14, (len(d), d["GTDB_tk_genus"].nunique())
+    return d.astype(str).replace({"nan": "", "None": ""})
+
+
 def column_dictionary():
     """The run table's column dictionary, from benchmark/BENCHMARK_SCHEMA.md, restricted to columns present."""
     runs_cols = list(read_tsv(os.path.join(REPO, "benchmark", "runs", "RUNS.tsv")).columns)
@@ -105,25 +130,23 @@ def to_number(col):
 def main():
     B = os.path.join(REPO, "benchmark", "runs"); P = os.path.join(REPO, "benchmark", "profiling")
     items = [
+        (0, "MAG_SOURCES", "Source genomes", "The 435 metagenome-assembled genomes (MAGs) across 14 bacterial genera from which every amino-acid alignment was built: one row per genome with its GTDB genus and species, the study it was published in with the citation and DOI, the public deposit the file was taken from, the source accession, sample, BioProject, BioSample and per-MAG assembly accession where the deposit supplies them, host, CheckM2 quality, file checksum, and which benchmark alignments carry it. Column meanings in benchmark/data/genomes/PROVENANCE.md.", mag_sources_table(), "benchmark/data/genomes/genome_metadata.tsv; benchmark/data/genomes/study_citations.tsv", "Methods (data); Supplementary Note 2"),
         (1, "RUNS", "Run table", "One row per paired run (226: the 182 runs of the reported build and the 44 runs of the superseded build, identified by binary_sha256, whose checksum begins 07c70cae): dataset, workflow, thread count, card, node, host CPU, driver, binary checksum, selected model, both arms' timings and log-likelihoods, the equivalence outcome, the engine's engagement counters and the sampled device metrics. Column dictionary in the last sheet.", read_tsv(f"{B}/RUNS.tsv"), "benchmark/runs/RUNS.tsv", "Methods; Results; Note 2 §1, §11.1"),
         (2, "RUNS_summary", "Run-table summary", "Mean and s.d. of speedup and device utilisation per (alphabet, model treatment, thread count, card) stratum, with engagement and gate-pass counts.", read_tsv(f"{B}/RUNS_summary.tsv"), "benchmark/runs/RUNS_summary.tsv", "Note 2 §11.1"),
-        (3, "KEY_NUMBERS", "Key numbers", "Every number quoted in the Abstract, Results and Discussion as key-value pairs (395 keys), regenerated from the run table by benchmark/scripts/key_numbers.py; no number in the manuscript is hand-transcribed.", read_tsv(f"{B}/KEY_NUMBERS.tsv"), "benchmark/runs/KEY_NUMBERS.tsv", "Note 2 §10, §11.2"),
-        (4, "PHASE_STEPS", "Phase steps", "Per-step wall and CPU time for both arms of all 226 recorded cells, with a level column separating the two top-level phases from the setup steps nested inside them.", read_tsv(f"{B}/PHASE_STEPS.tsv"), "benchmark/runs/PHASE_STEPS.tsv", "Results (Fig. 4); Supplementary Fig. S13; Note 2 §11.1"),
-        (5, "REPLICATES_protein20T", "Replicate sets, amino acid", "Replicate sets by size at 20 threads: median, mean, s.d., coefficient of variation and the contributing speedups.", read_tsv(f"{B}/REPLICATES_protein20T.tsv"), "benchmark/runs/REPLICATES_protein20T.tsv", "Results; Supplementary Fig. S6"),
-        (6, "REPLICATES_dna20T", "Replicate sets, nucleotide", "As Data 5, nucleotide.", read_tsv(f"{B}/REPLICATES_dna20T.tsv"), "benchmark/runs/REPLICATES_dna20T.tsv", "Results; Supplementary Fig. S7"),
-        (7, "ARENA_REPORTS", "Device-arena reports", "The engine's own arena report for every recorded run, parsed from gpu.stdout with the parser the key numbers use: selected and allocated rate-category counts, whether the capacity was reduced (the six guard runs) and from what, slot count, per-slot partial-likelihood and counter sizes, arena footprint, the need at the requested capacity, the usable device memory and the 70% budget, with the sampled device peak and the job's peak host memory from the run table.", arena_table(), "benchmark/runs/paired/<cell>/gpu.stdout; benchmark/runs/RUNS.tsv", "Results (device-memory demand; Fig. 6); Methods (implementation); Note 2 §7"),
-        (8, "CARD_SPECS", "Card specifications", "Vendor-nominal specifications per card (fp64, fp32, bandwidth, VRAM, TDP, MSRP) used to order the cards in Fig. 5, with the vendor document named per row and a flag for values derived rather than published.", read_tsv(os.path.join(REPO, "benchmark", "scripts", "harness", "card_specs.tsv")), "benchmark/scripts/harness/card_specs.tsv", "Results (Fig. 5); Note 2 §9"),
-        (9, "LAUNCH_LATENCY", "Empty-kernel launch latency", "Empty-kernel launch cost on the L40S: sync (launch plus synchronise, timed per launch) and async (back-to-back launches, one synchronisation): n, median, quartiles, mean and minimum in microseconds.", read_tsv(f"{P}/launch_latency_l40s.tsv"), "benchmark/profiling/launch_latency_l40s.tsv", "Results (mechanism); Methods (profiling); Note 2 §8"),
-        (10, "NSYS_KERNEL_SUMMARY", "Nsight Systems kernel attribution", "One row per alphabet from the profiled run: wall, kernel and memcpy seconds, launch count, the top kernel and its share.", read_tsv(f"{P}/nsys_kernel_summary.tsv"), "benchmark/profiling/nsys_kernel_summary.tsv", "Results (Fig. 3D); Note 2 §8"),
-        (11, "CPU_PRODUCTION_SCALING", "Production-scale CPU runs", "CPU-only production phylogenomic runs used to characterise the workload (genus, genome count, alignment length, wall time, peak host memory); not paired benchmark measurements.", read_tsv(f"{B}/cpu_production_scaling.tsv"), "benchmark/runs/cpu_production_scaling.tsv", "Supplementary Fig. S5"),
-        (12, "NSIGHT_SUMMARY", "Nsight Compute summary (header only)", "Header-only by design: the Nsight Compute hardware counters were administratively restricted on the cluster, so no kernel rows were collected; the empty table is distributed so that its emptiness is visible.", read_tsv(f"{P}/nsight_summary.tsv"), "benchmark/profiling/nsight_summary.tsv", "Methods (profiling); Note 2 §11.1"),
+        (3, "KEY_NUMBERS", "Key numbers", "Every number quoted in the Abstract, Results and Discussion as key-value pairs, regenerated from the run table by benchmark/scripts/key_numbers.py; no number in the manuscript is hand-transcribed.", read_tsv(f"{B}/KEY_NUMBERS.tsv"), "benchmark/runs/KEY_NUMBERS.tsv", "Note 2 §10, §11.2"),
+        (4, "PHASE_STEPS", "Phase steps", "Per-step wall and CPU time for both arms of all 226 recorded cells, with a level column separating the two top-level phases from the setup steps nested inside them.", read_tsv(f"{B}/PHASE_STEPS.tsv"), "benchmark/runs/PHASE_STEPS.tsv", "Results (Fig. 4); Supplementary Fig. S5; Note 2 §11.1"),
+        (5, "REPLICATES_20T", "Replicate sets", "Replicate sets by alphabet and size at 20 threads: median, mean, s.d., coefficient of variation and the contributing speedups.", read_tsv(f"{B}/REPLICATES_20T.tsv"), "benchmark/runs/REPLICATES_20T.tsv", "Results; Supplementary Fig. S4"),
+        (6, "ARENA_REPORTS", "Device-arena reports", "The engine's own arena report for every recorded run, parsed from gpu.stdout with the parser the key numbers use: selected and allocated rate-category counts, whether the capacity was reduced (the six guard runs) and from what, slot count, per-slot partial-likelihood and counter sizes, arena footprint, the need at the requested capacity, the usable device memory and the 70% budget, with the sampled device peak and the job's peak host memory from the run table.", arena_table(), "benchmark/runs/paired/<cell>/gpu.stdout; benchmark/runs/RUNS.tsv", "Results (device-memory demand); Methods (implementation); Note 2 §7"),
+        (7, "LAUNCH_LATENCY", "Empty-kernel launch latency", "Empty-kernel launch cost on the L40S: sync (launch plus synchronise, timed per launch) and async (back-to-back launches, one synchronisation): n, median, quartiles, mean and minimum in microseconds.", read_tsv(f"{P}/launch_latency_l40s.tsv"), "benchmark/profiling/launch_latency_l40s.tsv", "Methods (profiling); Note 2 §8"),
+        (8, "NSYS_KERNEL_SUMMARY", "Nsight Systems kernel attribution", "One row per alphabet from the profiled run: wall, kernel and memcpy seconds, launch count, the top kernel and its share.", read_tsv(f"{P}/nsys_kernel_summary.tsv"), "benchmark/profiling/nsys_kernel_summary.tsv", "Methods (profiling); Note 2 §8"),
+        (9, "NSIGHT_SUMMARY", "Nsight Compute summary (header only)", "Header-only by design: the Nsight Compute hardware counters were administratively restricted on the cluster, so no kernel rows were collected; the empty table is distributed so that its emptiness is visible.", read_tsv(f"{P}/nsight_summary.tsv"), "benchmark/profiling/nsight_summary.tsv", "Methods (profiling); Note 2 §11.1"),
     ]
     coldict = column_dictionary()
     readme = pd.DataFrame([dict(supplementary_data=f"Supplementary Data {n}", sheet=f"Data {n}", title=t, contents=c, rows=len(d), columns=len(d.columns), source_file=src, cited_in=cit)
                            for n, s, t, c, d, src, cit in items])
     with pd.ExcelWriter(OUT, engine="openpyxl") as xw:
         head = pd.DataFrame({"Supplementary Data": [
-            "Machine-readable tables behind the main text and Supplementary Note 2 of the IQ-TREE3-GPU manuscript, one sheet per item, numbered Supplementary Data 1-12.",
+            "Machine-readable tables behind the main text and Supplementary Note 2 of the IQ-TREE3-GPU manuscript, one sheet per item, numbered Supplementary Data 0-9.",
             "Each sheet is the archived record's file without alteration: a cell holds a number only when every value in its column is a number; identifiers, checksums, model strings and command lines are text. Empty cells are empty in the source as well.",
             "The last sheet, RUNS_columns, defines every column of Data 1 (from benchmark/BENCHMARK_SCHEMA.md in the record).",
         ]})
@@ -142,10 +165,11 @@ def main():
     import openpyxl
     wb = openpyxl.load_workbook(OUT, read_only=True)
     expected = ["README"] + [f"Data {n}" for n, *_ in items] + ["RUNS_columns"]
+    # `n` is 0 for the first sheet, so sheet names are tested with `is not None`, never truthiness.
     problems = [] if wb.sheetnames == expected else [f"sheets {wb.sheetnames}"]
     cells = 0
     for n, s, t, c, d, src, cit in items + [(None, None, None, None, coldict, None, None)]:
-        name = f"Data {n}" if n else "RUNS_columns"
+        name = f"Data {n}" if n is not None else "RUNS_columns"
         rows = list(wb[name].iter_rows(values_only=True))
         hdr = [("" if v is None else str(v)) for v in rows[0]]
         if hdr != list(d.columns): problems.append(f"{name}: header"); continue

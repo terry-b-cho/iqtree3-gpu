@@ -123,7 +123,7 @@ Per node per (pattern, category): ~2400 FLOP against ~480 B of traffic => arithm
 
 **Measured** (protein paired sweep, complete, 12/12 sizes, L40S — an fp64-weak card): 1.58-4.67x over
 the CPU, growing with tree size (n17 = 4.67x). Since the kernel is compute-bound in fp64, fp64-strong
-datacenter cards (A100, V100S) do lead, but only by ~25-30% over the L40S class -- **measured** in the completed 6-card sweep and Amdahl-capped by the 27.9% device-kernel share (nsys). This
+datacenter cards (A100, V100S) do lead, but only by ~25-30% over the L40S class -- **measured** in the completed 6-card sweep and bounded by the 27.9% device-kernel share (nsys). This
 confirms the reversal of the withdrawn consumer-card preference above.
 
 fp64 is required: logL magnitudes are ~1e6 and the gate is 1e-4 absolute, which fp32 (~7 significant

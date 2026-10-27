@@ -27,6 +27,11 @@ def main():
     readme, sheets = [], []
     for _, r in man.iterrows():
         stem = r["file"]; fig = r["figure"]; panel = r["panel"]
+        # Alternative drafts (<panel>_alternative<k>_<slug>) are not published panels: they keep
+        # their per-panel CSV but get no sheet, or the draft that sorts first would take the
+        # published panel's sheet name (Fig1a was the ECDF draft once).
+        if "_alternative" in stem:
+            continue
         sheet = f"Fig{fig}{panel}" + (f"_{stem.rsplit('_p', 1)[1]}" if "_p" in stem[-4:] or stem.rsplit("_", 1)[-1].startswith("p") and stem.rsplit("_", 1)[-1][1:].isdigit() else "")
         sheet = sheet[:31]
         csv_path = os.path.join(SD, stem + ".csv")

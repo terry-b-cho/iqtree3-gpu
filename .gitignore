@@ -81,3 +81,6 @@ benchmark/data/dna/dna_[phu]*_*/aln.log
 
 # --- Zenodo staging area (built by benchmark/scripts/dev/build_zenodo_bundle.sh; never committed) ---
 zenodo_upload_bundle/
+
+# --- private archive of material removed from the published benchmark (never distributed) ---
+benchmark/xx_archive_junkyard/

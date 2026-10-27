@@ -1,7 +1,0 @@
-axes,axes_title,kind,series,x_label,y_label,x,y,width,height_or_value
-0,"Energy to produce the same trees, by card GPU-side only; no host energy was measured (n = 48 card-sweep runs)",bar,,,median device energy per tree (kJ),-0.3,0,0.6,12.63655
-0,"Energy to produce the same trees, by card GPU-side only; no host energy was measured (n = 48 card-sweep runs)",bar,,,median device energy per tree (kJ),0.7,0,0.6,15.0595
-0,"Energy to produce the same trees, by card GPU-side only; no host energy was measured (n = 48 card-sweep runs)",bar,,,median device energy per tree (kJ),1.7,0,0.6,15.978549999999998
-0,"Energy to produce the same trees, by card GPU-side only; no host energy was measured (n = 48 card-sweep runs)",bar,,,median device energy per tree (kJ),2.7,0,0.6,19.428549999999998
-0,"Energy to produce the same trees, by card GPU-side only; no host energy was measured (n = 48 card-sweep runs)",bar,,,median device energy per tree (kJ),3.7,0,0.6,23.209349999999997
-0,"Energy to produce the same trees, by card GPU-side only; no host energy was measured (n = 48 card-sweep runs)",bar,,,median device energy per tree (kJ),4.7,0,0.6,29.68355

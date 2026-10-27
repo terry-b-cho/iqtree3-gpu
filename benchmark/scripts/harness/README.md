@@ -20,7 +20,6 @@ assumes a SLURM cluster with NVIDIA GPUs; expect to adapt the submitters for a d
 | `submit.sh` | submits the size-sweep cells |
 | `card_sweep.sh` | GPU-vs-GPU card sweep: runs paired_benchmark.sh per card + samples group-J fields (clocks, throttle, power) |
 | `card_specs.tsv` | static per-card intrinsic specs (fp64 TFLOPS, bandwidth, ...) joined into each card row |
-| `amdahl_decomposition.sh` | per-phase (ModelFinder / tree search) timing decomposition |
 | `gpu_engagement_check.sh`, `validate_gpu_engaged.sh` | engagement probes (GPUSTATS-based) |
 | `fresh_build_accept.sh` | release acceptance: fresh clone -> build -> protein + DNA correctness |
 

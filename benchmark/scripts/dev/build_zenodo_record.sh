@@ -6,7 +6,7 @@
 #  assembles everything the manuscript's Data Availability statement promises, in one folder:
 #    benchmark/data/protein/            35 amino-acid alignments (+ PROVENANCE.md)
 #    benchmark/data/dna/        all 26 simulated nucleotide sets (aln.phy, PROVENANCE.md, alisim.log, guide tree)
-#    benchmark/runs/ RUNS.tsv/.csv, PHASE_STEPS, REPLICATES_*, KEY_NUMBERS, cpu_production_scaling,
+#    benchmark/runs/ RUNS.tsv/.csv, PHASE_STEPS, REPLICATES_20T, KEY_NUMBERS,
 #                        and every paired cell directory (both arms' logs, trees, support, RESULT.tsv)
 #    benchmark/profiling/  nsys/nsight summaries and the launch-latency measurement
 #    (not staged: benchmark/figures/. The figures and Source Data travel with the submission; they
@@ -48,9 +48,8 @@ echo "== staging the record into $B =="
 for d in benchmark/data benchmark/profiling benchmark/scripts scripts src config containers examples; do stage "$d"; done
 for f in benchmark/runs/RUNS.tsv benchmark/runs/RUNS.csv benchmark/runs/RUNS_summary.tsv \
          benchmark/runs/RUNS_summary.csv benchmark/runs/PHASE_STEPS.tsv \
-         benchmark/runs/REPLICATES_protein20T.tsv benchmark/runs/REPLICATES_dna20T.tsv \
+         benchmark/runs/REPLICATES_20T.tsv \
          benchmark/runs/KEY_NUMBERS.tsv benchmark/runs/KEY_NUMBERS.md benchmark/runs/Supplementary_Data_benchmark.xlsx \
-         benchmark/runs/cpu_production_scaling.tsv \
          README.md docs CHANGELOG.md benchmark/README.md benchmark/REPRODUCING.md benchmark/BENCHMARK_SCHEMA.md \
          assets/CITATION.cff LICENSE VERSION build_iqtree_gpu.sh; do stage "$f"; done
 stage benchmark/runs/paired

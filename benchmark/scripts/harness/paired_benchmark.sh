@@ -192,7 +192,7 @@ run_arm () {  # arm(cpu|gpu)
   # $GPUBIN. Any difference between those two binaries -- inlining, build date, the guarded
   # #ifdef IQTREE_GPU hooks in the CPU path -- would have been silently attributed to "the GPU".
   # Without -gpu the swap block never runs, so $GPUBIN executes the stock CPU kernel: identical code
-  # path, one variable. This is the same control used in the earlier Amdahl experiment; it should
+  # path, one variable. This is the same control used in the earlier phase-decomposition experiment; it should
   # have been here from the start.
   local bin=$GPUBIN
   local gflag=""
@@ -498,8 +498,8 @@ GATE_PASS=$(grep -oP "^gate_pass=\K.*" "$EQ_KV" 2>/dev/null); [ -z "$GATE_PASS" 
 [ "$ENGAGED" = OK ] || GATE_PASS=NA
 
 # --- Groups L + M: derived DNA/AA + phase-decomposition scalars (big-int safe in python) ---
-SINGLETON_SITES=NA; PER_PATTERN_MACS=NA; PATTERN_SATURATION=NA; ACCELERABLE_FRACTION=NA; DOMINANT_PHASE=NA
-read -r SINGLETON_SITES PER_PATTERN_MACS PATTERN_SATURATION ACCELERABLE_FRACTION DOMINANT_PHASE < <(
+SINGLETON_SITES=NA; PER_PATTERN_MACS=NA; PATTERN_SATURATION=NA; DOMINANT_PHASE=NA
+read -r SINGLETON_SITES PER_PATTERN_MACS PATTERN_SATURATION DOMINANT_PHASE < <(
   python3 - "${NSITE:-NA}" "$CONSTANT_SITES" "$INFORMATIVE_SITES" "$NUM_STATES" "$NTAX" "$RATE_CATEGORIES" "${NPAT:-NA}" "$CPU_MODELFINDER_S" "${CS:-NA}" "${CW:-NA}" <<'PYD'
 import sys
 def num(x):
@@ -519,16 +519,14 @@ if pi and si and st and ti:
     except Exception:
         sat = "NA"
 mfv,sv,wv = (num(mf) or 0.0), (num(search) or 0.0), num(wall)
-accel = f"{(mfv+sv)/wv:.4f}" if wv else "NA"
 dom = "modelfinder" if mfv>=sv else "tree_search"
 if not wv: dom = "NA"
-print(singleton, ppm, sat, accel, dom)
+print(singleton, ppm, sat, dom)
 PYD
 )
 [ -z "$SINGLETON_SITES" ] && SINGLETON_SITES=NA
 [ -z "$PER_PATTERN_MACS" ] && PER_PATTERN_MACS=NA
 [ -z "$PATTERN_SATURATION" ] && PATTERN_SATURATION=NA
-[ -z "$ACCELERABLE_FRACTION" ] && ACCELERABLE_FRACTION=NA
 [ -z "$DOMINANT_PHASE" ] && DOMINANT_PHASE=NA
 
 # --- SECOND-WAVE STUBS (deliberately deferred; see benchmark/BENCHMARK_SCHEMA.md groups I/J/K/L-roofline) ---
@@ -582,8 +580,8 @@ ROW="$ROW\t$LOGL_ABSDIFF\t$LOGL_RELDIFF\t$RF_DIST\t$RF_NORM\t$SUPPORT_MAX_ABSDIF
 HDR="$HDR\tnum_states\tper_pattern_macs\tpattern_saturation"
 ROW="$ROW\t$NUM_STATES\t$PER_PATTERN_MACS\t$PATTERN_SATURATION"
 # Group M: run-level phase decomposition (long form in PHASES.tsv)
-HDR="$HDR\taccelerable_fraction\tdominant_phase"
-ROW="$ROW\t$ACCELERABLE_FRACTION\t$DOMINANT_PHASE"
+HDR="$HDR\tdominant_phase"
+ROW="$ROW\t$DOMINANT_PHASE"
 # Second-wave stubs (clearly marked TODO_2W; see note above)
 HDR="$HDR\tcpu_energy_j\tgpu_power_mean_w\tgpu_energy_j\tachieved_dram_gbs\tachieved_fp64_gflops\troofline_bound\tn_replicates\twall_sd_s\twall_cv"
 ROW="$ROW\t$TODO_2W\t$TODO_2W\t$TODO_2W\t$TODO_2W\t$TODO_2W\t$TODO_2W\t1\t$TODO_2W\t$TODO_2W"

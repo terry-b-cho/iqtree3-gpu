@@ -210,7 +210,7 @@ seventh its fp64 rate. Current numbers:
 **Choosing hardware.** The kernel is fp64 throughout and, now that it is coalesced, compute-bound in
 fp64 for protein (arithmetic intensity ~5 FLOP/B against an L40S balance point of ~1.6). The design
 analysis therefore predicts fp64-strong cards (A100 ~9.7 TFLOPS, V100S ~8.2) should beat fp64-weak
-ones (L40S ~1.4 TFLOPS, 1/64 rate) by only ~25-30% (Amdahl-capped by the 27.9% device-kernel share). **That prediction has now been MEASURED** — the
+ones (L40S ~1.4 TFLOPS, 1/64 rate) by only ~25-30% (bounded by the 27.9% device-kernel share). **That prediction has now been MEASURED** — the
 card sweep (`benchmark/scripts/harness/card_sweep.sh`) is complete on 6 cards. It will not
 transfer to DNA, whose arithmetic intensity is ~1.04 FLOP/B and therefore memory/launch-bound
 (`src/` carries the kernel design notes).
@@ -309,7 +309,7 @@ reduced capacity, in which case the engine allocates the model's count regardles
 | `-gpu requested but no CUDA device is visible` | No GPU allocated; request `--gres=gpu:1` or run without `-gpu`. |
 | Start-up says a model is on CPU fallback | Expected for mixture / DNA / codon / `+ASC` / partitioned; the result is still equivalent. `GPUSTATS` at exit names the reason. |
 | `--gpu-strict FAILED: N of M likelihood calls ran on the CPU` | The run was not a pure GPU measurement. The reason lines above it say which condition failed; either drop `--gpu-strict` or choose an eligible model. |
-| Slower than the CPU below ~2e7 tree complexity (branches x patterns x rate categories x states^2) - measured for BOTH alphabets; 2e7-1e9 returns ~1-2x, above 1e9 protein returns 3.3-4.7x and DNA 1.1-1.6x | Expected - the GPU cannot amortise launch latency on small problems (an empty kernel launch and synchronisation on the L40S was measured directly; see `benchmark/profiling/launch_latency_l40s.tsv` and Supplementary Fig. S18 for the per-invocation view) |
+| Slower than the CPU below ~2e7 tree complexity (branches x patterns x rate categories x states^2) - measured for BOTH alphabets; 2e7-1e9 returns ~1-2x, above 1e9 protein returns 3.3-4.7x and DNA 1.1-1.6x | Expected - the GPU cannot amortise launch latency on small problems (an empty kernel launch and synchronisation on the L40S was measured directly; see `benchmark/profiling/launch_latency_l40s.tsv`) |
 | Slower than the CPU on an alignment with few distinct patterns | Expected: when patterns are few the per-node launch latency dominates the kernel work (this is the memory/launch-bound regime DNA lives in). Judge size by `Number of distinct site patterns` in the `.iqtree` report, not by the site count. |
 | Verifier prints FAIL | Do not use the build; recheck the build and the CUDA/gcc modules, and report it. |
 

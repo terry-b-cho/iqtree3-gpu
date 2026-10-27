@@ -1,44 +1,25 @@
 file	figure	panel	title	source_script	source_table	rows_used	data_date
-Fig01a_logl_reldiff_hist	1	a	Relative log-likelihood difference vs tolerance	equivalence.py	benchmark/runs/RUNS.tsv	182	2026-09-17
-Fig01b_logl_absdiff_vs_magnitude	1	b	Absolute logL difference vs magnitude	equivalence.py	benchmark/runs/RUNS.tsv	82	2026-09-17
-Fig01c_support_diff_hist	1	c	UFBoot support difference distribution, with the RF result	equivalence.py	benchmark/runs/RUNS.tsv	182	2026-09-17
-Fig02a_decision_t20	2	a	Speedup vs complexity, 20 threads	decision.py	benchmark/runs/RUNS.tsv	175	2026-09-17
+Fig01a_logl_reldiff_ecdf	1	a	Relative log-likelihood difference vs tolerance, ECDF	equivalence.py	benchmark/runs/RUNS.tsv	182	2026-09-17
+Fig01b_support_diff_dotplot	1	b	UFBoot support difference per run, with the RF result	equivalence.py	benchmark/runs/RUNS.tsv	182	2026-09-17
+Fig02a_decision_t20	2	a	Speedup vs complexity, 20 threads	decision.py	benchmark/runs/RUNS.tsv	145	2026-09-17
 Fig02b_decision_t1	2	b	Speedup vs complexity, 1 thread	decision.py	benchmark/runs/RUNS.tsv	30	2026-09-17
-Fig02c_thread_slope	2	c	Single- to 20-thread speedup per dataset	decision.py	benchmark/runs/RUNS.tsv	18	2026-09-17
-Fig03a_cost_law	3	a	Cost law, stratified by card	mechanism.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-Fig03b_outer_demand	3	b	Kernel invocations vs taxa	mechanism.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-Fig03c_amdahl	3	c	Speedup vs accelerable fraction	mechanism.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-Fig03d_nsys_profile	3	d	Profiled wall decomposition	mechanism.py	benchmark/runs/RUNS.tsv	2	2026-09-17
-Fig04a_phase_share	4	a	Wall-time share by phase	phases_cost.py	benchmark/runs/PHASE_STEPS.tsv	175	2026-09-17
-Fig04b_phase_speedup	4	b	Per-phase speedup vs taxa	phases_cost.py	benchmark/runs/PHASE_STEPS.tsv	175	2026-09-17
-Fig04c_cpu_time_ratio	4	c	Per-run CPU-time ratio	phases_cost.py	benchmark/runs/PHASE_STEPS.tsv	145	2026-09-17
-Fig04d_parallel_efficiency	4	d	Parallel efficiency by arm	phases_cost.py	benchmark/runs/PHASE_STEPS.tsv	175	2026-09-17
-Fig05a_wall_vs_fp64	5	a	GPU wall vs nominal fp64	hardware.py	benchmark/runs/RUNS.tsv	6	2026-09-17
-Fig05b_wall_vs_bandwidth	5	b	GPU wall vs nominal bandwidth	hardware.py	benchmark/runs/RUNS.tsv	6	2026-09-17
-Fig05c_card_facet_wall	5	c	Wall vs complexity, per card	hardware.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-Fig05d_card_facet_speedup	5	d	Speedup vs complexity, per card	hardware.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-Fig05e_energy_per_card	5	e	Device energy per analysis, by card	hardware.py	benchmark/runs/RUNS.tsv	48	2026-09-17
-Fig06a_memory_sizing	6	a	Peak memory vs likelihood-array size	memory.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-Fig06b_vram_guard	6	b	Arena footprint vs sampled VRAM	memory.py	benchmark/runs/RUNS.tsv	159	2026-09-17
-Fig06c_gap_ambiguity	6	c	Speedup vs gap and ambiguity, amino acid	memory.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-Fig06d_informativeness	6	d	Speedup vs parsimony-informative fraction	memory.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-FigS01a_coverage_grid	S1	a	Campaign coverage	supp_ported.py	benchmark/runs/RUNS.tsv	182	2026-09-17
-FigS02a_tree_ladder_aa	S2	a	Tree montage, amino acid ladder	trees.py	benchmark/runs/RUNS.tsv	12	2026-09-17
-FigS02b_tree_ladder_nt	S2	b	Tree montage, nucleotide ladder	trees.py	benchmark/runs/RUNS.tsv	12	2026-09-17
-FigS03a_tree_record_all_p01	S3	a	Complete per-run tree record	trees.py	benchmark/runs/RUNS.tsv	12	2026-09-17
-FigS03a_tree_record_all_p02	S3	a	Complete per-run tree record	trees.py	benchmark/runs/RUNS.tsv	12	2026-09-17
-FigS03a_tree_record_all_p03	S3	a	Complete per-run tree record	trees.py	benchmark/runs/RUNS.tsv	12	2026-09-17
-FigS03a_tree_record_all_p04	S3	a	Complete per-run tree record	trees.py	benchmark/runs/RUNS.tsv	12	2026-09-17
-FigS03a_tree_record_all_p05	S3	a	Complete per-run tree record	trees.py	benchmark/runs/RUNS.tsv	12	2026-09-17
-FigS03a_tree_record_all_p06	S3	a	Complete per-run tree record	trees.py	benchmark/runs/RUNS.tsv	1	2026-09-17
-FigS04a_model_coverage_data	S4	a	Model classes exercised	supplementary.py	benchmark/runs/RUNS.tsv	182	2026-09-17
-FigS05a_production_memory	S5	a	Production memory sizing	supp_ported.py	benchmark/runs/cpu_production_scaling.tsv	42	2026-09-17
-FigS06a_replicates_protein	S6	a	Replicate spread, amino acid	supp_ported.py	benchmark/runs/RUNS.tsv	37	2026-09-17
-FigS07a_replicates_nucleotide	S7	a	Replicate spread, nucleotide	supp_ported.py	benchmark/runs/RUNS.tsv	40	2026-09-17
-FigS08a_per_invocation_cost	S8	a	Wall time per device invocation, by arm and workflow (shared denominator)	decision.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-FigS09a_cost_law_t1	S9	a	Cost law at one thread	supplementary.py	benchmark/runs/RUNS.tsv	30	2026-09-17
-FigS09b_node_effects	S9	b	Cost-law residuals by compute node	supplementary.py	benchmark/runs/RUNS.tsv	210	2026-09-17
-FigS10a_pattern_saturation	S10	a	Speedup vs pattern saturation	supplementary.py	benchmark/runs/RUNS.tsv	145	2026-09-17
-FigS11a_gpu_utilisation	S11	a	Sampled GPU utilisation	supp_ported.py	benchmark/runs/RUNS.tsv	175	2026-09-17
-FigS12a_build_regression	S12	a	Superseded vs current build	supplementary.py	benchmark/runs/RUNS.tsv	44	2026-09-17
-FigS13a_phase_step_heatmap	S13	a	Phase-step share per run	supplementary.py	benchmark/runs/PHASE_STEPS.tsv	175	2026-09-17
+Fig03a_cost_law	3	a	Cost law at 20 threads, stratified by card	mechanism.py	benchmark/runs/RUNS.tsv	145	2026-09-17
+Fig03b_cost_law_t1	3	b	Cost law at one thread	mechanism.py	benchmark/runs/RUNS.tsv	30	2026-09-17
+Fig04a_phase_share_cpu_time	4	a	Wall-time share by phase; processor time consumed, IQ-TREE3 / IQ-TREE3-GPU	phases_cost.py	benchmark/runs/PHASE_STEPS.tsv	145	2026-09-17
+Fig04b_phase_speedup_complexity	4	b	Per-phase speedup vs tree complexity, with break-even	phases_cost.py	benchmark/runs/PHASE_STEPS.tsv	212	2026-09-17
+Fig04c_cores_busy	4	c	Cores kept busy per build	phases_cost.py	benchmark/runs/PHASE_STEPS.tsv	145	2026-09-17
+FigS01a_trees_aa_p01	S1	a	Every amino-acid inference (dataset x threads x card x model)	trees.py	benchmark/runs/RUNS.tsv	16	2026-09-17
+FigS01a_trees_aa_p02	S1	a	Every amino-acid inference (dataset x threads x card x model)	trees.py	benchmark/runs/RUNS.tsv	16	2026-09-17
+FigS01a_trees_aa_p03	S1	a	Every amino-acid inference (dataset x threads x card x model)	trees.py	benchmark/runs/RUNS.tsv	16	2026-09-17
+FigS01a_trees_aa_p04	S1	a	Every amino-acid inference (dataset x threads x card x model)	trees.py	benchmark/runs/RUNS.tsv	12	2026-09-17
+FigS02a_trees_nt_p01	S2	a	Every nucleotide inference (dataset x threads x card x model)	trees.py	benchmark/runs/RUNS.tsv	16	2026-09-17
+FigS02a_trees_nt_p02	S2	a	Every nucleotide inference (dataset x threads x card x model)	trees.py	benchmark/runs/RUNS.tsv	16	2026-09-17
+FigS02a_trees_nt_p03	S2	a	Every nucleotide inference (dataset x threads x card x model)	trees.py	benchmark/runs/RUNS.tsv	16	2026-09-17
+FigS02a_trees_nt_p04	S2	a	Every nucleotide inference (dataset x threads x card x model)	trees.py	benchmark/runs/RUNS.tsv	16	2026-09-17
+FigS02a_trees_nt_p05	S2	a	Every nucleotide inference (dataset x threads x card x model)	trees.py	benchmark/runs/RUNS.tsv	1	2026-09-17
+FigS03a_model_coverage_data	S3	a	Model classes exercised	supplementary.py	benchmark/runs/RUNS.tsv	182	2026-09-17
+FigS04a_replicates	S4	a	Replicate spread at 20 threads, both alphabets	supp_ported.py	benchmark/runs/RUNS.tsv	77	2026-09-17
+FigS05a_phase_step_heatmap	S5	a	Phase-step share per run, with the mean per alphabet	supplementary.py	benchmark/runs/PHASE_STEPS.tsv	175	2026-09-17
+FigS06a_card_facet_speedup	S6	a	Speedup vs complexity, per card	hardware.py	benchmark/runs/RUNS.tsv	145	2026-09-17
+FigS07a_coverage_stacked_bars	S7	a	Campaign coverage: runs per taxon count, stacked	supplementary.py	benchmark/runs/RUNS.tsv	182	2026-09-17
+FigS07b_coverage_by_card	S7	b	Campaign coverage by card	supplementary.py	benchmark/runs/RUNS.tsv	182	2026-09-17
