@@ -15,6 +15,10 @@
 set -euo pipefail
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 BUILD_DIR="${1:-$HERE/iqtree3_gpu_build}"
+# Make it absolute NOW: the script later cd's into the IQ-TREE source, so a relative path such as the
+# README's ./iqtree3_gpu_build would otherwise be resolved there and the binary would land inside
+# .iqtree3_src/ instead of where the user asked.
+case "$BUILD_DIR" in /*) ;; *) BUILD_DIR="$PWD/$BUILD_DIR" ;; esac
 # Default to a MULTI-ARCH build covering every card this tool was tested on, so a binary built on
 # one node runs natively on any of them. Building for a single wrong arch is not an error -- the
 # driver JITs from embedded PTX -- but it is then not native code for the card and pays a JIT cost at
