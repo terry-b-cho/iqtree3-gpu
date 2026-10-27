@@ -1,8 +1,8 @@
 # IQ-TREE3-GPU
 
 <div align="center">
-  <img src="assets/animation/iqtree3-gpu.svg" alt="Animated overview: eight bacterial genomes from the worked example are aligned and become a candidate tree; Felsenstein pruning computes conditional likelihoods from the tips to the root; the same calculation runs on CPU IQ-TREE 3 and on IQ-TREE3-GPU, the GPU finishing first at the measured median speedup of 3.73x; one nearest-neighbour interchange reaches the maximum-likelihood tree, shown with its bootstrap support" width="900"/>
-  <br/><sub>Real numbers from the worked example (8 CAG-269 genomes, LG+G4): the conditional likelihoods and both log-likelihoods are IQ-TREE's. The CPU and GPU timing is scaled to the measured median end-to-end speedup.</sub>
+  <img src="assets/animation/iqtree3-gpu.svg" alt="Animated overview: eight bacterial genomes from the worked example are aligned and become a candidate tree; Felsenstein pruning computes conditional likelihoods from the tips to the root; the same calculation runs on CPU IQ-TREE 3 and on IQ-TREE3-GPU at one thread, the GPU finishing first, 5.31x faster for this example tree; one nearest-neighbour interchange reaches the maximum-likelihood tree, shown with its bootstrap support" width="900"/>
+  <br/><sub>Every number in the animation is for the example genome set shipped in <code>examples/</code> (8 CAG-269 genomes, LG+G4): IQ-TREE's own conditional likelihoods and log-likelihoods, and the speedup measured on that one tree, 5.31× at 1 thread and 0.87× at 20 threads (too small a tree for the GPU to pay off). Across all benchmark runs the median speedup is 1.33× at 20 threads (n = 145) and 6.97× at 1 thread (n = 30).</sub>
 
   [![License: GPL-2.0](https://img.shields.io/badge/License-GPL--2.0-blue.svg)](LICENSE)
   [![Version](https://img.shields.io/badge/version-0.1.0-informational.svg)](CHANGELOG.md)
