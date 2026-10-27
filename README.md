@@ -1,7 +1,8 @@
 # IQ-TREE3-GPU
 
 <div align="center">
-  <img src="assets/logo/iqtree3-gpu_logo.svg" alt="IQ-TREE3-GPU: a phylogenetic tree whose likelihood is computed on a GPU, returning the same tree as CPU IQ-TREE 3" width="760"/>
+  <img src="assets/animation/iqtree3-gpu.svg" alt="Animated overview: eight bacterial genomes from the worked example are aligned and become a candidate tree; Felsenstein pruning computes conditional likelihoods from the tips to the root; the same calculation runs on CPU IQ-TREE 3 and on IQ-TREE3-GPU, the GPU finishing first at the measured median speedup of 3.73x; one nearest-neighbour interchange reaches the maximum-likelihood tree, shown with its bootstrap support" width="900"/>
+  <br/><sub>Real numbers from the worked example (8 CAG-269 genomes, LG+G4): the conditional likelihoods and both log-likelihoods are IQ-TREE's. The CPU and GPU timing is scaled to the measured median end-to-end speedup.</sub>
 
   [![License: GPL-2.0](https://img.shields.io/badge/License-GPL--2.0-blue.svg)](LICENSE)
   [![Version](https://img.shields.io/badge/version-0.1.0-informational.svg)](CHANGELOG.md)
