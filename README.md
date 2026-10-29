@@ -45,10 +45,10 @@ complex amino acid substitution models* (Cho, Kostic; 2026).
 </div>
 
 <p align="center">
-  <a href="#quick-start"><img src="https://img.shields.io/badge/Quick%20start-four%20commands-0072B2?style=for-the-badge&logo=gnubash&logoColor=white" alt="Quick start"/></a>
-  <a href="docs/USER_GUIDE.md"><img src="https://img.shields.io/badge/User%20guide-docs-555555?style=for-the-badge&logo=readthedocs&logoColor=white" alt="User guide"/></a>
-  <a href="examples/README.md"><img src="https://img.shields.io/badge/Worked%20example-two%20minutes-CC79A7?style=for-the-badge&logo=github&logoColor=white" alt="Worked example"/></a>
-  <a href="benchmark/README.md"><img src="https://img.shields.io/badge/Benchmark-record%20%26%20figures-009E73?style=for-the-badge&logo=speedtest&logoColor=white" alt="Benchmark"/></a>
+  <a href="#quick-start"><kbd>&nbsp;&nbsp;🚀&nbsp; Quick start &nbsp;&nbsp;</kbd></a>&nbsp;&nbsp;
+  <a href="docs/USER_GUIDE.md"><kbd>&nbsp;&nbsp;📖&nbsp; User guide &nbsp;&nbsp;</kbd></a>&nbsp;&nbsp;
+  <a href="examples/README.md"><kbd>&nbsp;&nbsp;▶️&nbsp; Worked example &nbsp;&nbsp;</kbd></a>&nbsp;&nbsp;
+  <a href="benchmark/README.md"><kbd>&nbsp;&nbsp;📊&nbsp; Benchmark &nbsp;&nbsp;</kbd></a>
 </p>
 
 ## Authors & Contributors
@@ -59,9 +59,8 @@ complex amino acid substitution models* (Cho, Kostic; 2026).
 </p>
 
 <p align="center">
-  <a href="https://github.com/kosticlab/iqtree3-gpu"><img src="https://img.shields.io/badge/Primary%20repository-kosticlab%2Fiqtree3--gpu-181717?style=for-the-badge&logo=github&logoColor=white" alt="Primary repository: kosticlab/iqtree3-gpu"/></a>
-  <a href="https://github.com/kosticlab/iqtree3-gpu/issues"><img src="https://img.shields.io/badge/Issues%20%26%20pull%20requests-primary%20repository-0072B2?style=for-the-badge&logo=github&logoColor=white" alt="Issues and pull requests"/></a>
-  <a href="https://github.com/terry-b-cho/iqtree3-gpu"><img src="https://img.shields.io/badge/Synchronized%20mirror-terry--b--cho%2Fiqtree3--gpu-555555?style=for-the-badge&logo=github&logoColor=white" alt="Synchronized mirror: terry-b-cho/iqtree3-gpu"/></a>
+  <a href="https://github.com/kosticlab/iqtree3-gpu"><kbd>&nbsp;&nbsp;🏛️&nbsp; Primary repository &middot; issues &amp; pull requests &nbsp;&nbsp;</kbd></a>&nbsp;&nbsp;
+  <a href="https://github.com/terry-b-cho/iqtree3-gpu"><kbd>&nbsp;&nbsp;🔁&nbsp; Synchronized mirror &nbsp;&nbsp;</kbd></a>
 </p>
 
 ## What is in this repository
@@ -292,7 +291,7 @@ a generated file that is authoritative over anything typed here. Your own valida
 ## When it pays off
 
 <div align="center">
-  <img src="assets/readme/Figure_2.svg" alt="Figure 2: (A) speedup versus tree complexity at 20 threads and at one thread, with each workflow's break-even; (B) wall time of IQ-TREE3 and IQ-TREE3-GPU against likelihood workload at 20 threads and at one thread" width="640"/>
+  <img src="assets/readme/Figure-02.svg" alt="Figure 2: (A) speedup versus tree complexity at 20 threads and at one thread, with each workflow's break-even; (B) wall time of IQ-TREE3 and IQ-TREE3-GPU against likelihood workload at 20 threads and at one thread" width="640"/>
   <p><em>Figure 2. (A) Speedup against tree complexity at 20 host threads (left) and one (right); the ring on the parity line is each workflow's break-even, the band its 95% bootstrap interval. (B) Wall time of IQ-TREE3 (open, dashed) and IQ-TREE3-GPU (filled, solid) against likelihood workload, same two thread counts; the legend gives each fit's slope at the smallest and the largest workload.</em></p>
 </div>
 
