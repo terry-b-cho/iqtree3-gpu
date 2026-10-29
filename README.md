@@ -33,6 +33,18 @@ within the predefined relative tolerance of 1e-4 (100 of 182 bit-identical). Ver
 described in the manuscript *IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic tree inference for
 complex amino acid substitution models* (Cho, Kostic; 2026).
 
+## Authors & Contributors
+
+<p align="center">
+<a href="https://github.com/terry-b-cho" title="Byeongyeon (Terry) Cho on GitHub"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-dark-top.svg"><source media="(max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-light-top.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/terry-b-cho-desktop-dark-top.svg"><img width="23%" src="assets/authors/terry-b-cho-desktop-light-top.svg" alt="@terry-b-cho"/></picture></a>&nbsp;<a href="https://github.com/adkostic" title="Aleksandar D. Kostic on GitHub"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/adkostic-phone-dark-top.svg"><source media="(max-width: 600px)" srcset="assets/authors/adkostic-phone-light-top.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/adkostic-desktop-dark-top.svg"><img width="23%" src="assets/authors/adkostic-desktop-light-top.svg" alt="@adkostic"/></picture></a><br/>
+<a href="https://orcid.org/0000-0003-1370-2629" title="Byeongyeon (Terry) Cho on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/terry-b-cho-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/terry-b-cho-desktop-light-bottom.svg" alt="Byeongyeon (Terry) Cho"/></picture></a>&nbsp;<a href="https://orcid.org/0000-0002-0837-4360" title="Aleksandar D. Kostic on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/adkostic-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/adkostic-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/adkostic-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/adkostic-desktop-light-bottom.svg" alt="Aleksandar D. Kostic"/></picture></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/kosticlab/iqtree3-gpu"><img src="https://img.shields.io/badge/Primary%20repository%20%C2%B7%20issues%20%26%20pull%20requests-kosticlab%2Fiqtree3--gpu-181717?style=for-the-badge&logo=github&logoColor=white" alt="Primary repository (issues and pull requests): kosticlab/iqtree3-gpu"/></a>
+  <a href="https://github.com/terry-b-cho/iqtree3-gpu"><img src="https://img.shields.io/badge/Synchronized%20mirror-terry--b--cho%2Fiqtree3--gpu-555555?style=for-the-badge&logo=github&logoColor=white" alt="Synchronized mirror: terry-b-cho/iqtree3-gpu"/></a>
+</p>
+
 <h3 align="center">Benchmark performance</h3>
 
 <div align="center">
@@ -52,18 +64,6 @@ complex amino acid substitution models* (Cho, Kostic; 2026).
   <a href="docs/USER_GUIDE.md"><kbd>&nbsp;User guide&nbsp;</kbd></a>&ensp;
   <a href="examples/README.md"><kbd>&nbsp;Worked example&nbsp;</kbd></a>&ensp;
   <a href="benchmark/README.md"><kbd>&nbsp;Benchmark&nbsp;</kbd></a>
-</p>
-
-## Authors & Contributors
-
-<p align="center">
-<a href="https://github.com/terry-b-cho" title="Byeongyeon (Terry) Cho on GitHub"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-dark-top.svg"><source media="(max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-light-top.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/terry-b-cho-desktop-dark-top.svg"><img width="23%" src="assets/authors/terry-b-cho-desktop-light-top.svg" alt="@terry-b-cho"/></picture></a>&nbsp;<a href="https://github.com/adkostic" title="Aleksandar D. Kostic on GitHub"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/adkostic-phone-dark-top.svg"><source media="(max-width: 600px)" srcset="assets/authors/adkostic-phone-light-top.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/adkostic-desktop-dark-top.svg"><img width="23%" src="assets/authors/adkostic-desktop-light-top.svg" alt="@adkostic"/></picture></a><br/>
-<a href="https://orcid.org/0000-0003-1370-2629" title="Byeongyeon (Terry) Cho on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/terry-b-cho-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/terry-b-cho-desktop-light-bottom.svg" alt="Byeongyeon (Terry) Cho"/></picture></a>&nbsp;<a href="https://orcid.org/0000-0002-0837-4360" title="Aleksandar D. Kostic on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/adkostic-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/adkostic-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/adkostic-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/adkostic-desktop-light-bottom.svg" alt="Aleksandar D. Kostic"/></picture></a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/kosticlab/iqtree3-gpu"><img src="https://img.shields.io/badge/Primary%20repository%20%C2%B7%20issues%20%26%20pull%20requests-kosticlab%2Fiqtree3--gpu-181717?style=for-the-badge&logo=github&logoColor=white" alt="Primary repository (issues and pull requests): kosticlab/iqtree3-gpu"/></a>
-  <a href="https://github.com/terry-b-cho/iqtree3-gpu"><img src="https://img.shields.io/badge/Synchronized%20mirror-terry--b--cho%2Fiqtree3--gpu-555555?style=for-the-badge&logo=github&logoColor=white" alt="Synchronized mirror: terry-b-cho/iqtree3-gpu"/></a>
 </p>
 
 ## What is in this repository
