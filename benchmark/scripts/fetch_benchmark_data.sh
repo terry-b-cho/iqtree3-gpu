@@ -8,6 +8,8 @@
 # Record: https://doi.org/10.5281/zenodo.22942159. Each archive unpacks to the repository path its
 # name spells (benchmark_data_protein.tar.gz -> benchmark/data/protein/). Archives are verified
 # against the record's ARCHIVES.sha256 before unpacking; one already present and correct is reused.
+# Unpacking never overwrites a file that exists in the clone (the tracked provenance files win); to
+# replace a damaged data file, delete it and run again.
 # Figures and tables regenerate from benchmark/runs/ without any of this (see benchmark/REPRODUCING.md).
 set -euo pipefail
 _i3g_try () { local d="${1:-}"; [ -n "$d" ] || return 1; d=$(cd "$d" 2>/dev/null && pwd) || return 1
@@ -50,8 +52,8 @@ for s in $SETS; do
     echo "   downloading $a"; get "$a"
     [ "$(sha256sum "$DL/$a" | cut -d' ' -f1)" = "$want" ] || { echo "checksum mismatch: $a" >&2; exit 1; }
   fi
-  echo "   unpacking $a -> $(echo "$s" | tr '_' '/')/"
-  tar -xzf "$DL/$a" -C "$REPO"
+  echo "   unpacking $a -> $(echo "$s" | tr '_' '/')/  (files already in the clone are kept)"
+  tar -xzf "$DL/$a" -C "$REPO" --skip-old-files
 done
 echo "== verifying =="
 python3 "$REPO/benchmark/scripts/verify_data.py"
