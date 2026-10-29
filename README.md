@@ -1,26 +1,52 @@
 # IQ-TREE3-GPU
 
+<p align="center">
+  <strong>GPU-accelerated maximum-likelihood phylogenetic inference</strong><br/>
+  The IQ-TREE 3 likelihood kernel on NVIDIA GPUs, with the rest of the inference workflow unchanged.
+</p>
+
 <div align="center">
   <img src="assets/animation/iqtree3-gpu.svg" alt="Animated overview: eight bacterial genomes from the worked example are aligned and become a candidate tree; Felsenstein pruning computes conditional likelihoods from the tips to the root; the same calculation runs on CPU IQ-TREE 3 and on IQ-TREE3-GPU for the largest benchmark case, 65 genomes at 20 threads, the GPU finishing 5.12x sooner; one nearest-neighbour interchange reaches the maximum-likelihood tree, shown with its bootstrap support" width="900"/>
-  <br/><sub>Stages 1, 2 and 4 use the example genome set shipped in <code>examples/</code> (8 CAG-269 genomes, LG+G4), with IQ-TREE's own conditional likelihoods and log-likelihoods. Stage 3 is the largest analysis in the benchmark (65 <i>Colicola</i> genomes, 236,088 sites, ModelFinder, 20 threads, L40S): 17.6 h on the CPU, 3.4 h on the GPU, 5.12&times;, same tree. Benchmark medians: 3.73&times; for amino acid + ModelFinder at 20 threads (n = 67); over all datasets 1.33&times; at 20 threads (n = 145) and 6.97&times; at 1 thread (n = 30).</sub>
+  <br/><sub>From alignment to maximum-likelihood tree: the same likelihood calculation on CPU IQ-TREE 3 and on IQ-TREE3-GPU, drawn from the benchmark's own numbers (<a href="assets/animation/README.md">what each stage shows</a>).</sub>
 
   [![License: GPL-2.0](https://img.shields.io/badge/License-GPL--2.0-blue.svg)](LICENSE)
   [![Version](https://img.shields.io/badge/version-0.1.0-informational.svg)](CHANGELOG.md)
   [![CI](https://github.com/kosticlab/iqtree3-gpu/actions/workflows/ci.yml/badge.svg)](https://github.com/kosticlab/iqtree3-gpu/actions/workflows/ci.yml)
   [![IQ-TREE 3](https://img.shields.io/badge/IQ--TREE-3.1.3-1682D4.svg)](https://github.com/iqtree/iqtree3)
   [![CUDA](https://img.shields.io/badge/CUDA-12.8-76B900.svg)](docs/DEPENDENCIES.md)
-  [![GCC](https://img.shields.io/badge/GCC-14.2.0-blue.svg)](docs/DEPENDENCIES.md)
-  [![CMake](https://img.shields.io/badge/CMake-3.31.2-064F8C.svg)](docs/DEPENDENCIES.md)
-  [![SLURM](https://img.shields.io/badge/SLURM-Compatible-orange.svg)](benchmark/scripts/harness/README.md)
-  [![Mirror](https://img.shields.io/badge/mirror-terry--b--cho%2Fiqtree3--gpu-lightgrey.svg)](https://github.com/terry-b-cho/iqtree3-gpu)
 </div>
 
-Software accompanying the manuscript **"IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic
-tree inference for complex amino acid substitution models"** (Cho, Kostic; 2026). IQ-TREE3-GPU moves the
-likelihood kernel of [IQ-TREE 3](https://github.com/iqtree/iqtree3) onto an NVIDIA GPU and leaves everything
-else about an IQ-TREE run unchanged. One flag, `-gpu`. One promise: **the same tree as CPU IQ-TREE 3,
-with identical topology (Robinson-Foulds distance 0) and log-likelihood within 1e-4 relative difference,
-checked on every recorded run.** Version 0.1.0 is the version described in the manuscript.
+IQ-TREE3-GPU integrates a CUDA likelihood backend directly into [IQ-TREE 3](https://github.com/iqtree/iqtree3),
+accelerating computationally intensive phylogenetic inference without replacing its model-selection, tree-search
+or branch-support procedures. Enable it with a single flag: `-gpu`. Across 182 paired CPU-GPU benchmark runs the
+maximum-likelihood tree topology was identical (Robinson-Foulds distance 0) and every final log-likelihood agreed
+within the predefined relative tolerance of 1e-4 (100 of 182 bit-identical). Version 0.1.0 is the version
+described in the manuscript *IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic tree inference for
+complex amino acid substitution models* (Cho, Kostic; 2026).
+
+### Performance at a glance
+
+| Benchmark | Median speedup |
+|---|---|
+| Amino acid + ModelFinder · 20 threads · n = 67 | **3.73×** |
+| All workflows · 20 threads · n = 145 | 1.33× |
+| All workflows · 1 thread · n = 30 | 6.97× |
+
+Speedup = IQ-TREE 3 CPU wall time / IQ-TREE3-GPU wall time, both arms on the same node from the same binary.
+Each median describes its own subset: results depend on workload, CPU allocation and GPU hardware, and the
+single-thread figure is the CPU-GPU ratio under that allocation, not a reason to use one thread.
+Featured run: 65 *Colicola* genomes · 236,088 alignment sites · NVIDIA L40S · 20 host threads: 17.6 h CPU
+to 3.4 h GPU (5.12×), same tree. Details: [When it pays off](#when-it-pays-off) and
+[`benchmark/`](benchmark/README.md).
+
+**Get started:** [Quick start](#quick-start) · [User guide](docs/USER_GUIDE.md) · [Benchmark](benchmark/README.md) · [Worked example](examples/README.md)
+
+## Authors & Contributors
+
+<p align="center">
+<a href="https://github.com/terry-b-cho" title="Byeongyeon (Terry) Cho on GitHub"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-dark-top.svg"><source media="(max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-light-top.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/terry-b-cho-desktop-dark-top.svg"><img width="23%" src="assets/authors/terry-b-cho-desktop-light-top.svg" alt="@terry-b-cho"/></picture></a>&nbsp;<a href="https://github.com/adkostic" title="Aleksandar D. Kostic on GitHub"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/adkostic-phone-dark-top.svg"><source media="(max-width: 600px)" srcset="assets/authors/adkostic-phone-light-top.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/adkostic-desktop-dark-top.svg"><img width="23%" src="assets/authors/adkostic-desktop-light-top.svg" alt="@adkostic"/></picture></a><br/>
+<a href="https://orcid.org/0000-0003-1370-2629" title="Byeongyeon (Terry) Cho on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/terry-b-cho-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/terry-b-cho-desktop-light-bottom.svg" alt="Byeongyeon (Terry) Cho"/></picture></a>&nbsp;<a href="https://orcid.org/0000-0002-0837-4360" title="Aleksandar D. Kostic on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/adkostic-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/adkostic-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/adkostic-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/adkostic-desktop-light-bottom.svg" alt="Aleksandar D. Kostic"/></picture></a>
+</p>
 
 Primary repository: <https://github.com/kosticlab/iqtree3-gpu> (issues and pull requests go there).
 Synchronized mirror: <https://github.com/terry-b-cho/iqtree3-gpu>.
@@ -37,29 +63,25 @@ Two parts, kept apart. **If you want to build trees, you only need the first.**
 The two share only `config/site.env.example` and `scripts/lib/paths.sh`. Nothing under `benchmark/`
 is needed to build, verify or use the tool. The full tree is under [Repository structure](#repository-structure).
 
-## Authors & Contributors
-
-<p align="center">
-<a href="https://github.com/terry-b-cho" title="Byeongyeon (Terry) Cho on GitHub"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-dark-top.svg"><source media="(max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-light-top.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/terry-b-cho-desktop-dark-top.svg"><img width="23%" src="assets/authors/terry-b-cho-desktop-light-top.svg" alt="@terry-b-cho"/></picture></a>&nbsp;<a href="https://github.com/adkostic" title="Aleksandar D. Kostic on GitHub"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/adkostic-phone-dark-top.svg"><source media="(max-width: 600px)" srcset="assets/authors/adkostic-phone-light-top.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/adkostic-desktop-dark-top.svg"><img width="23%" src="assets/authors/adkostic-desktop-light-top.svg" alt="@adkostic"/></picture></a><br/>
-<a href="https://orcid.org/0000-0003-1370-2629" title="Byeongyeon (Terry) Cho on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/terry-b-cho-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/terry-b-cho-desktop-light-bottom.svg" alt="Byeongyeon (Terry) Cho"/></picture></a>&nbsp;<a href="https://orcid.org/0000-0002-0837-4360" title="Aleksandar D. Kostic on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/adkostic-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/adkostic-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/adkostic-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/adkostic-desktop-light-bottom.svg" alt="Aleksandar D. Kostic"/></picture></a>
-</p>
-
 ## Citation
 
-If you use IQ-TREE3-GPU, please cite **both** of the following
-([`assets/CITATION.cff`](assets/CITATION.cff)).
+If you use IQ-TREE3-GPU, please cite both IQ-TREE3-GPU and IQ-TREE 3 ([`assets/CITATION.cff`](assets/CITATION.cff)).
 
-- **This work** (preprint; the DOI will be added here when it is posted): Cho B, Kostic AD. *IQ-TREE3-GPU:
-  GPU-accelerated maximum-likelihood phylogenetic tree inference for complex amino acid substitution
-  models.* 2026. Version 0.1.0. https://github.com/kosticlab/iqtree3-gpu
-- **[IQ-TREE 3](https://github.com/iqtree/iqtree3)** (this tool is a patch against IQ-TREE 3 at commit `6401e06`, reported version 3.1.3):
-  Wong TKF, Ly-Trong N, Ren H, Demotte P, Baños H, Roger AJ, Susko E, Bielow C, De Maio N, Goldman N,
-  Hahn MW, dos Reis M, Vinh LS, Huttley G, Lanfear R, Minh BQ. *IQ-TREE 3: phylogenomic inference
-  software using complex evolutionary models.* Molecular Biology and Evolution. 2026;43(5):msag117.
-  https://doi.org/10.1093/molbev/msag117
+**IQ-TREE3-GPU** (preprint; the DOI will be added here when it is posted)
+
+Cho B, Kostic AD. *IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic tree inference for complex
+amino acid substitution models.* 2026. Version 0.1.0. [Repository](https://github.com/kosticlab/iqtree3-gpu) ·
+[Citation metadata](assets/CITATION.cff)
+
+**IQ-TREE 3** (this tool is a patch against IQ-TREE 3 at commit `6401e06`, reported version 3.1.3)
+
+Wong TKF et al. *IQ-TREE 3: phylogenomic inference software using complex evolutionary models.* Molecular
+Biology and Evolution. 2026;43(5):msag117. [DOI: 10.1093/molbev/msag117](https://doi.org/10.1093/molbev/msag117)
 
 <details>
-<summary>BibTeX for IQ-TREE 3</summary>
+<summary><strong>Show BibTeX citation</strong></summary>
+
+<br/>
 
 ```bibtex
 @article{10.1093/molbev/msag117,
