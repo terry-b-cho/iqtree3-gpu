@@ -1,4 +1,4 @@
-# The README animation
+# Worked Example Animation
 
 `iqtree3-gpu.svg` (and `iqtree3-gpu.png`, a still) is the animated overview at the top of the repository README.
 It shows eight bacterial genomes from the worked example being aligned and becoming a candidate tree; Felsenstein

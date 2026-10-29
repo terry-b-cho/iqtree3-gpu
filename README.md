@@ -12,8 +12,17 @@
   [![License: GPL-2.0](https://img.shields.io/badge/License-GPL--2.0-blue.svg)](LICENSE)
   [![Version](https://img.shields.io/badge/version-0.1.0-informational.svg)](CHANGELOG.md)
   [![CI](https://github.com/kosticlab/iqtree3-gpu/actions/workflows/ci.yml/badge.svg)](https://github.com/kosticlab/iqtree3-gpu/actions/workflows/ci.yml)
+  [![Benchmark data on Zenodo](https://img.shields.io/badge/Zenodo%20data-10.5281%2Fzenodo.22942159-1682D4.svg?logo=zenodo&logoColor=white)](https://doi.org/10.5281/zenodo.22942159)
+  [![Platform](https://img.shields.io/badge/platform-Linux%20x86--64-lightgrey.svg?logo=linux&logoColor=white)](docs/DEPENDENCIES.md)
+  <br/>
   [![IQ-TREE 3](https://img.shields.io/badge/IQ--TREE-3.1.3-1682D4.svg)](https://github.com/iqtree/iqtree3)
-  [![CUDA](https://img.shields.io/badge/CUDA-12.8-76B900.svg)](docs/DEPENDENCIES.md)
+  [![CUDA](https://img.shields.io/badge/CUDA-12.8-76B900.svg?logo=nvidia&logoColor=white)](docs/DEPENDENCIES.md)
+  [![GPU](https://img.shields.io/badge/NVIDIA%20GPU-compute%207.0--8.9-76B900.svg)](docs/DEPENDENCIES.md)
+  [![GCC](https://img.shields.io/badge/GCC-14.2.0-blue.svg?logo=gnu&logoColor=white)](docs/DEPENDENCIES.md)
+  [![CMake](https://img.shields.io/badge/CMake-3.31.2-064F8C.svg?logo=cmake&logoColor=white)](docs/DEPENDENCIES.md)
+  [![Containers](https://img.shields.io/badge/containers-Docker%20%7C%20Apptainer-2496ED.svg?logo=docker&logoColor=white)](containers/)
+  [![SLURM](https://img.shields.io/badge/SLURM-compatible-orange.svg)](benchmark/scripts/harness/README.md)
+  [![Python](https://img.shields.io/badge/analysis-Python%203-3776AB.svg?logo=python&logoColor=white)](benchmark/figures_tables/README.md)
 </div>
 
 IQ-TREE3-GPU integrates a CUDA likelihood backend directly into [IQ-TREE 3](https://github.com/iqtree/iqtree3),
@@ -24,22 +33,23 @@ within the predefined relative tolerance of 1e-4 (100 of 182 bit-identical). Ver
 described in the manuscript *IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic tree inference for
 complex amino acid substitution models* (Cho, Kostic; 2026).
 
-### Performance at a glance
+<h3 align="center">Benchmark performance</h3>
 
-| Benchmark | Median speedup |
-|---|---|
-| Amino acid + ModelFinder · 20 threads · n = 67 | **3.73×** |
-| All workflows · 20 threads · n = 145 | 1.33× |
-| All workflows · 1 thread · n = 30 | 6.97× |
+<div align="center">
+<table>
+  <tr><th>Amino acid + ModelFinder</th><th>Paired runs</th><th>Median speedup</th><th>Range</th></tr>
+  <tr><td>20 host threads</td><td>67</td><td><b>3.73&times;</b></td><td>0.49&ndash;7.75&times;</td></tr>
+  <tr><td>1 host thread</td><td>17</td><td><b>34.2&times;</b></td><td>0.52&ndash;44.6&times;</td></tr>
+</table>
+<sub>Speedup = IQ-TREE 3 CPU wall time / IQ-TREE3-GPU wall time for the same paired run, same node, same binary. The single-thread runs are small alignments (4&ndash;8 taxa); fixed-model nucleotide analyses gained little at 20 threads (median 0.80&times;). Largest analysis: 65 <i>Colicola</i> genomes, 236,088 sites, L40S, 20 threads: 17.6 h on the CPU, 3.4 h on the GPU (5.12&times;), identical tree. Full results in <a href="#when-it-pays-off">When it pays off</a> and <a href="benchmark/README.md">benchmark/</a>.</sub>
+</div>
 
-Speedup = IQ-TREE 3 CPU wall time / IQ-TREE3-GPU wall time, both arms on the same node from the same binary.
-Each median describes its own subset: results depend on workload, CPU allocation and GPU hardware, and the
-single-thread figure is the CPU-GPU ratio under that allocation, not a reason to use one thread.
-Featured run: 65 *Colicola* genomes · 236,088 alignment sites · NVIDIA L40S · 20 host threads: 17.6 h CPU
-to 3.4 h GPU (5.12×), same tree. Details: [When it pays off](#when-it-pays-off) and
-[`benchmark/`](benchmark/README.md).
-
-**Get started:** [Quick start](#quick-start) · [User guide](docs/USER_GUIDE.md) · [Benchmark](benchmark/README.md) · [Worked example](examples/README.md)
+<p align="center">
+  <a href="#quick-start"><img src="https://img.shields.io/badge/Quick%20start-four%20commands-0072B2?style=for-the-badge&logo=gnubash&logoColor=white" alt="Quick start"/></a>
+  <a href="docs/USER_GUIDE.md"><img src="https://img.shields.io/badge/User%20guide-docs-555555?style=for-the-badge&logo=readthedocs&logoColor=white" alt="User guide"/></a>
+  <a href="examples/README.md"><img src="https://img.shields.io/badge/Worked%20example-two%20minutes-CC79A7?style=for-the-badge&logo=github&logoColor=white" alt="Worked example"/></a>
+  <a href="benchmark/README.md"><img src="https://img.shields.io/badge/Benchmark-record%20%26%20figures-009E73?style=for-the-badge&logo=speedtest&logoColor=white" alt="Benchmark"/></a>
+</p>
 
 ## Authors & Contributors
 
@@ -48,8 +58,11 @@ to 3.4 h GPU (5.12×), same tree. Details: [When it pays off](#when-it-pays-off)
 <a href="https://orcid.org/0000-0003-1370-2629" title="Byeongyeon (Terry) Cho on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/terry-b-cho-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/terry-b-cho-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/terry-b-cho-desktop-light-bottom.svg" alt="Byeongyeon (Terry) Cho"/></picture></a>&nbsp;<a href="https://orcid.org/0000-0002-0837-4360" title="Aleksandar D. Kostic on ORCID"><picture><source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/authors/adkostic-phone-dark-bottom.svg"><source media="(max-width: 600px)" srcset="assets/authors/adkostic-phone-light-bottom.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/authors/adkostic-desktop-dark-bottom.svg"><img width="23%" src="assets/authors/adkostic-desktop-light-bottom.svg" alt="Aleksandar D. Kostic"/></picture></a>
 </p>
 
-Primary repository: <https://github.com/kosticlab/iqtree3-gpu> (issues and pull requests go there).
-Synchronized mirror: <https://github.com/terry-b-cho/iqtree3-gpu>.
+<p align="center">
+  <a href="https://github.com/kosticlab/iqtree3-gpu"><img src="https://img.shields.io/badge/Primary%20repository-kosticlab%2Fiqtree3--gpu-181717?style=for-the-badge&logo=github&logoColor=white" alt="Primary repository: kosticlab/iqtree3-gpu"/></a>
+  <a href="https://github.com/kosticlab/iqtree3-gpu/issues"><img src="https://img.shields.io/badge/Issues%20%26%20pull%20requests-primary%20repository-0072B2?style=for-the-badge&logo=github&logoColor=white" alt="Issues and pull requests"/></a>
+  <a href="https://github.com/terry-b-cho/iqtree3-gpu"><img src="https://img.shields.io/badge/Synchronized%20mirror-terry--b--cho%2Fiqtree3--gpu-555555?style=for-the-badge&logo=github&logoColor=white" alt="Synchronized mirror: terry-b-cho/iqtree3-gpu"/></a>
+</p>
 
 ## What is in this repository
 
