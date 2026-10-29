@@ -41,15 +41,18 @@ complex amino acid substitution models* (Cho, Kostic; 2026).
   <tr><td>20 host threads</td><td>67</td><td><b>3.73&times;</b></td><td>0.49&ndash;7.75&times;</td></tr>
   <tr><td>1 host thread</td><td>17</td><td><b>34.2&times;</b></td><td>0.52&ndash;44.6&times;</td></tr>
 </table>
-<sub>Speedup = IQ-TREE 3 CPU wall time / IQ-TREE3-GPU wall time for the same paired run, same node, same binary. The single-thread runs are small alignments (4&ndash;8 taxa); fixed-model nucleotide analyses gained little at 20 threads (median 0.80&times;). Largest analysis: 65 <i>Colicola</i> genomes, 236,088 sites, L40S, 20 threads: 17.6 h on the CPU, 3.4 h on the GPU (5.12&times;), identical tree. Full results in <a href="#when-it-pays-off">When it pays off</a> and <a href="benchmark/README.md">benchmark/</a>.</sub>
+<sub>Speedup = IQ-TREE 3 CPU wall time / IQ-TREE3-GPU wall time for the same paired run, same node, same binary. The single-thread runs are small alignments (4&ndash;8 taxa); fixed-model nucleotide analyses gained little at 20 threads (median 0.80&times;). Largest analysis: 65 <i>Colicola</i> genomes, 236,088 sites, L40S, 20 threads: 17.6 h on the CPU, 3.4 h on the GPU (5.12&times;), identical tree.<br/>
+Full results in <a href="#when-it-pays-off">When it pays off</a> and <a href="benchmark/README.md">benchmark/</a>.</sub>
 </div>
 
-<p align="center">
-  <a href="#quick-start"><kbd>&nbsp;&nbsp;🚀&nbsp; Quick start &nbsp;&nbsp;</kbd></a>&nbsp;&nbsp;
-  <a href="docs/USER_GUIDE.md"><kbd>&nbsp;&nbsp;📖&nbsp; User guide &nbsp;&nbsp;</kbd></a>&nbsp;&nbsp;
-  <a href="examples/README.md"><kbd>&nbsp;&nbsp;▶️&nbsp; Worked example &nbsp;&nbsp;</kbd></a>&nbsp;&nbsp;
-  <a href="benchmark/README.md"><kbd>&nbsp;&nbsp;📊&nbsp; Benchmark &nbsp;&nbsp;</kbd></a>
-</p>
+<div align="center">
+<table><tr>
+  <td align="center"><a href="#quick-start"><kbd>&nbsp;Quick start&nbsp;</kbd></a></td>
+  <td align="center"><a href="docs/USER_GUIDE.md"><kbd>&nbsp;User guide&nbsp;</kbd></a></td>
+  <td align="center"><a href="examples/README.md"><kbd>&nbsp;Worked example&nbsp;</kbd></a></td>
+  <td align="center"><a href="benchmark/README.md"><kbd>&nbsp;Benchmark&nbsp;</kbd></a></td>
+</tr></table>
+</div>
 
 ## Authors & Contributors
 
@@ -59,8 +62,8 @@ complex amino acid substitution models* (Cho, Kostic; 2026).
 </p>
 
 <p align="center">
-  <a href="https://github.com/kosticlab/iqtree3-gpu"><kbd>&nbsp;&nbsp;🏛️&nbsp; Primary repository &middot; issues &amp; pull requests &nbsp;&nbsp;</kbd></a>&nbsp;&nbsp;
-  <a href="https://github.com/terry-b-cho/iqtree3-gpu"><kbd>&nbsp;&nbsp;🔁&nbsp; Synchronized mirror &nbsp;&nbsp;</kbd></a>
+  <a href="https://github.com/kosticlab/iqtree3-gpu"><img src="https://img.shields.io/badge/Primary%20repository%20%C2%B7%20issues%20%26%20pull%20requests-kosticlab%2Fiqtree3--gpu-181717?style=for-the-badge&logo=github&logoColor=white" alt="Primary repository (issues and pull requests): kosticlab/iqtree3-gpu"/></a>
+  <a href="https://github.com/terry-b-cho/iqtree3-gpu"><img src="https://img.shields.io/badge/Synchronized%20mirror-terry--b--cho%2Fiqtree3--gpu-555555?style=for-the-badge&logo=github&logoColor=white" alt="Synchronized mirror: terry-b-cho/iqtree3-gpu"/></a>
 </p>
 
 ## What is in this repository
