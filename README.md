@@ -37,22 +37,22 @@ complex amino acid substitution models* (Cho, Kostic; 2026).
 
 <div align="center">
 <table>
-  <tr><th>Amino acid + ModelFinder</th><th>Paired runs</th><th>Median speedup</th><th>Range</th></tr>
-  <tr><td>20 host threads</td><td>67</td><td><b>3.73&times;</b></td><td>0.49&ndash;7.75&times;</td></tr>
-  <tr><td>1 host thread</td><td>17</td><td><b>34.2&times;</b></td><td>0.52&ndash;44.6&times;</td></tr>
+  <tr><th><sub>Amino acid + ModelFinder</sub></th><th><sub>Paired runs</sub></th><th><sub>Median speedup</sub></th><th><sub>Range</sub></th></tr>
+  <tr><td><sub>20 host threads</sub></td><td align="center"><sub>67</sub></td><td align="center"><sub><b>3.73&times;</b></sub></td><td><sub>0.49&ndash;7.75&times;</sub></td></tr>
+  <tr><td><sub>1 host thread</sub></td><td align="center"><sub>17</sub></td><td align="center"><sub><b>34.2&times;</b></sub></td><td><sub>0.52&ndash;44.6&times;</sub></td></tr>
 </table>
-<sub>Speedup = IQ-TREE 3 CPU wall time / IQ-TREE3-GPU wall time for the same paired run, same node, same binary. The single-thread runs are small alignments (4&ndash;8 taxa); fixed-model nucleotide analyses gained little at 20 threads (median 0.80&times;). Largest analysis: 65 <i>Colicola</i> genomes, 236,088 sites, L40S, 20 threads: 17.6 h on the CPU, 3.4 h on the GPU (5.12&times;), identical tree.<br/>
-Full results in <a href="#when-it-pays-off">When it pays off</a> and <a href="benchmark/README.md">benchmark/</a>.</sub>
 </div>
 
-<div align="center">
-<table><tr>
-  <td align="center"><a href="#quick-start"><kbd>&nbsp;Quick start&nbsp;</kbd></a></td>
-  <td align="center"><a href="docs/USER_GUIDE.md"><kbd>&nbsp;User guide&nbsp;</kbd></a></td>
-  <td align="center"><a href="examples/README.md"><kbd>&nbsp;Worked example&nbsp;</kbd></a></td>
-  <td align="center"><a href="benchmark/README.md"><kbd>&nbsp;Benchmark&nbsp;</kbd></a></td>
-</tr></table>
-</div>
+<sub>Speedup = IQ-TREE 3 CPU wall time / IQ-TREE3-GPU wall time for the same paired run, same node, same binary. The single-thread runs are small alignments (4&ndash;8 taxa); fixed-model nucleotide analyses gained little at 20 threads (median 0.80&times;). Largest analysis: 65 <i>Colicola</i> genomes, 236,088 sites, L40S, 20 threads: 17.6 h on the CPU, 3.4 h on the GPU (5.12&times;), identical tree.</sub>
+
+<sub>Full results in <a href="#when-it-pays-off">When it pays off</a> and <a href="benchmark/README.md">benchmark/</a>.</sub>
+
+<p align="center">
+  <a href="#quick-start"><kbd>&nbsp;Quick start&nbsp;</kbd></a>&ensp;
+  <a href="docs/USER_GUIDE.md"><kbd>&nbsp;User guide&nbsp;</kbd></a>&ensp;
+  <a href="examples/README.md"><kbd>&nbsp;Worked example&nbsp;</kbd></a>&ensp;
+  <a href="benchmark/README.md"><kbd>&nbsp;Benchmark&nbsp;</kbd></a>
+</p>
 
 ## Authors & Contributors
 
@@ -301,12 +301,13 @@ a generated file that is authoritative over anything typed here. Your own valida
 Speedup is CPU wall time / GPU wall time, both arms on the same node, in the same job, from the same
 binary. Tree complexity is branches x patterns x rate categories x states^2.
 
-| Workflow | Host threads | n | Median speedup | Range | Break-even complexity |
-|---|---|---|---|---|---|
-| Amino acid + ModelFinder | 20 | 67 | **3.73x** | 0.49x-7.75x | 1.1e7 |
-| Amino acid + ModelFinder | 1 | 17 | **34.2x** | 0.52x-44.6x | |
-| Nucleotide, fixed model | 20 | 78 | 0.80x | 0.43x-1.57x | 1.0e9 |
-| Nucleotide, fixed model | 1 | 13 | 3.19x | 0.23x-5.28x | |
+<table>
+  <tr><th><sub>Workflow</sub></th><th><sub>Host threads</sub></th><th><sub>n</sub></th><th><sub>Median speedup</sub></th><th><sub>Range</sub></th><th><sub>Break-even complexity</sub></th></tr>
+  <tr><td><sub>Amino acid + ModelFinder</sub></td><td align="center"><sub>20</sub></td><td align="center"><sub>67</sub></td><td align="center"><sub><b>3.73&times;</b></sub></td><td><sub>0.49&ndash;7.75&times;</sub></td><td><sub>1.1 &times; 10<sup>7</sup></sub></td></tr>
+  <tr><td><sub>Amino acid + ModelFinder</sub></td><td align="center"><sub>1</sub></td><td align="center"><sub>17</sub></td><td align="center"><sub><b>34.2&times;</b></sub></td><td><sub>0.52&ndash;44.6&times;</sub></td><td></td></tr>
+  <tr><td><sub>Nucleotide, fixed model</sub></td><td align="center"><sub>20</sub></td><td align="center"><sub>78</sub></td><td align="center"><sub>0.80&times;</sub></td><td><sub>0.43&ndash;1.57&times;</sub></td><td><sub>1.0 &times; 10<sup>9</sup></sub></td></tr>
+  <tr><td><sub>Nucleotide, fixed model</sub></td><td align="center"><sub>1</sub></td><td align="center"><sub>13</sub></td><td align="center"><sub>3.19&times;</sub></td><td><sub>0.23&ndash;5.28&times;</sub></td><td></td></tr>
+</table>
 
 - **Use it for amino-acid analyses with model selection.** The largest gate-passing analysis went from
   17.6 h to 3.4 h. Model selection is both the dominant phase and the one that accelerates most.
