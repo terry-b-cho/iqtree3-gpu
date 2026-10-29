@@ -2,40 +2,41 @@
 # Validate with: cffconvert --validate
 cff-version: 1.2.0
 message: >-
-  If you use IQ-TREE3-GPU, please cite this work (see preferred-citation) together with the
+  If you use IQ-TREE3-GPU, please cite the manuscript under preferred-citation together with the
   IQ-TREE 3 article it builds on (Wong et al. 2026, doi:10.1093/molbev/msag117), listed under
   references. The benchmark data (source genomes, alignments, run record) are archived on Zenodo
   under the DOI listed in identifiers.
 title: "IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic tree inference for complex amino acid substitution models"
 abstract: >-
-  Maximum-likelihood (ML) phylogenetic inference spends much of its computational time evaluating
-  likelihoods via the Felsenstein pruning algorithm. Although previous studies have explored GPU
-  acceleration of these calculations, such efforts have not translated into widely accessible,
-  general-purpose tools that researchers can readily incorporate into existing phylogenetic
-  workflows and computational pipelines. We introduce IQ-TREE3-GPU, which offloads the IQ-TREE 3
-  likelihood kernel to GPUs while leaving the surrounding inference workflow unchanged. We
-  benchmarked the implementation primarily on genome-scale amino-acid alignments constructed from
-  publicly available bacterial metagenome-assembled genomes (MAGs), with complementary nucleotide
-  alignment datasets extending the analysis to substantially larger computational workloads.
-  Inferred topologies were identical across 182 paired CPU based IQ-TREE3 and IQ-TREE3-GPU runs
-  spanning these workloads. For amino-acid phylogenetic inference with ModelFinder, IQ-TREE3-GPU
-  achieved a median 3.73-fold speedup relative to CPU-only IQ-TREE 3 when both used 20 CPU
-  threads, and a 34.2-fold speedup with a single CPU thread. Fixed-model nucleotide analyses
-  yielded a median 0.80-fold speedup at 20 threads, with GPU acceleration becoming advantageous at
-  a much higher tree complexity than in the amino-acid workflow. These results establish
-  IQ-TREE3-GPU as a practical, reusable tool for accelerating computationally intensive amino-acid
-  phylogenetic reconstruction within existing research workflows.
+  Maximum-likelihood (ML) phylogenetic inference requires repeated computationally intensive
+  likelihood calculations, particularly for genome-scale amino-acid alignments and complex
+  evolutionary models. Although graphics processing units (GPUs) can accelerate these calculations,
+  achieving substantial end-to-end acceleration within established phylogenetic inference workflows
+  remains challenging. Here, we introduce IQ-TREE3-GPU, a CUDA likelihood backend integrated directly
+  into IQ-TREE 3 that accelerates Felsenstein's pruning algorithm while retaining its existing
+  model-selection, tree-search and branch-support procedures. We evaluated IQ-TREE3-GPU using
+  computationally demanding phylogenomic datasets constructed from 435 host-associated bacterial
+  metagenome-assembled genomes spanning 14 genera and 23 host species, alongside complementary
+  simulated nucleotide datasets. Across 182 paired CPU-GPU analyses, IQ-TREE3-GPU recovered identical
+  maximum-likelihood tree topologies, with all final log-likelihood differences within a predefined
+  numerical tolerance. For empirical amino-acid phylogenetic inference with ModelFinder, GPU execution
+  achieved a median 3.73-fold end-to-end speedup against a 20-thread CPU baseline, reducing the
+  largest analysis from 17.6 to 3.4 hours. Notably, GPU acceleration increased with tree complexity,
+  demonstrating greater benefits for computationally demanding phylogenetic analyses. GPU execution
+  also reduced host processor-time consumption by a median factor of 37.0, with consistent amino-acid
+  acceleration across the tested NVIDIA GPU configurations. Together, these findings establish
+  IQ-TREE3-GPU as a practical tool for accelerating computationally intensive amino-acid phylogenetic
+  inference, with increasing benefits as computational workload grows.
 type: software
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.22942159
-    description: Benchmark data deposit (source genomes, alignments and the paired CPU-GPU run record)
 version: "0.1.0"
 date-released: 2026-10-25
 license: GPL-2.0-only
 repository-code: "https://github.com/kosticlab/iqtree3-gpu"
 url: "https://github.com/kosticlab/iqtree3-gpu"
 identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22942159
+    description: Benchmark data deposit (source genomes, alignments and the paired CPU-GPU run record)
   - type: url
     value: "https://github.com/terry-b-cho/iqtree3-gpu"
     description: "Synchronized mirror of the primary repository github.com/kosticlab/iqtree3-gpu"
@@ -82,9 +83,9 @@ preferred-citation:
   year: 2026
   url: "https://github.com/kosticlab/iqtree3-gpu"
   notes: >-
-    Preprint in preparation; corresponding author Aleksandar D. Kostic
-    (Aleksandar.Kostic@joslin.harvard.edu). The preprint DOI will be added when it is posted.
-    Software version 0.1.0 is the version described.
+    Unpublished manuscript; corresponding author Aleksandar D. Kostic
+    (Aleksandar.Kostic@joslin.harvard.edu). The DOI will be added on publication. Software
+    version 0.1.0 is the version described.
 references:
   - type: article
     title: "IQ-TREE 3: phylogenomic inference software using complex evolutionary models"

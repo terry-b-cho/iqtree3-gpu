@@ -59,7 +59,9 @@ matplotlib, pypdf and Biopython; the two workbooks additionally need pandas and 
 skipped with a notice when those are absent. From a clone, the composite figures, the run tables and
 the manifest regenerate byte-identically; individual panel PNGs and Source Data CSVs can differ in the
 last floating-point digit or with another font environment, and the PDFs differ only in their creation
-date. One exception: the device-arena report (Supplementary Data 6 and the `arena_*` key numbers) is
+date. The exact package versions are pinned in `benchmark/figures_tables/requirements.txt`
+(`python3 -m pip install -r benchmark/figures_tables/requirements.txt`); PNG rendering of the
+composites needs `pdftoppm` from poppler-utils. One exception: the device-arena report (Supplementary Data 6 and the `arena_*` key numbers) is
 parsed from each run's `gpu.stdout`, which is in neither git nor the Zenodo record, so those regenerate
 only on the authors' copy.
 
@@ -75,7 +77,7 @@ repository root:
 bash benchmark/scripts/fetch_benchmark_data.sh alignments   # downloads, verifies and unpacks into benchmark/data/
 ```
 
-The DOI resolves once the record is published with the paper. The 14 large nucleotide alignments can
+The 14 large nucleotide alignments can
 also be regenerated: each `benchmark/data/dna/<set>/PROVENANCE.md` records the taxa, sites, guide tree,
 exact model string, seed and the literal AliSim command, and the guide trees are in git. To rebuild them all:
 
@@ -99,6 +101,19 @@ appends one row to `RUNS.tsv`. The harness refuses to overwrite a cell that alre
 measurement unless `FORCE=1`.
 
 ---
+
+## Environment
+
+No conda or virtual environment is needed anywhere in this repository. The build and the benchmark
+harness use the compiler toolchain only (`gcc/14.2.0`, `cuda/12.8`, `cmake/3.31.2` as Lmod modules
+on the cluster that produced the record; set in `config/site.env.example`) plus SLURM and the
+standard-library Python 3 that ships with the system. The figure and table code uses the six
+packages pinned in `benchmark/figures_tables/requirements.txt`.
+
+The construction of the amino-acid alignments from the source genomes (GTDB-Tk, CheckM2, Prodigal,
+DIAMOND against the PhyloPhlAn marker database, MAFFT) is described with tool versions in the
+manuscript Methods and is not scripted here; the finished alignments are the inputs of this
+benchmark and are distributed in the Zenodo record above.
 
 ## What is not in the repository
 

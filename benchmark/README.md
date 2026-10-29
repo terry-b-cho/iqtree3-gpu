@@ -46,8 +46,8 @@ benchmark/
 
 ## Regenerating every figure, table and number (no GPU, about 4 minutes)
 
-From the repository root, with Python, numpy, matplotlib, pypdf and Biopython (pandas and openpyxl
-for the two workbooks):
+From the repository root, with the Python packages pinned in `figures_tables/requirements.txt`
+(`python3 -m pip install -r benchmark/figures_tables/requirements.txt`):
 
 ```bash
 bash benchmark/figures_tables/refresh_all.sh   # record builders, key numbers, panels, composites, audit, workbooks, this map

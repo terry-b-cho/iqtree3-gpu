@@ -1,0 +1,11 @@
+# Python packages for benchmark/figures_tables/ (every figure, table and key number), pinned to the
+# versions the committed outputs were produced with, on Python 3.9.25:
+#     python3 -m pip install -r benchmark/figures_tables/requirements.txt
+# PNG rendering of the composites also needs poppler-utils (pdftoppm; 21.01.0 was used), a system
+# package. The benchmark harness itself (benchmark/scripts/) uses only the standard library.
+numpy==2.0.2
+matplotlib==3.9.4
+pypdf==6.19.0
+biopython==1.85
+pandas==2.3.3
+openpyxl==3.1.5
