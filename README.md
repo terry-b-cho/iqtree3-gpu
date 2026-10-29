@@ -70,10 +70,11 @@ complex amino acid substitution models* (Cho, Kostic; 2026).
 
 Two parts, kept apart. **If you want to build trees, you only need the first.**
 
-| Part | Where | What it holds |
-|---|---|---|
-| **The tool** | repository root | `build_iqtree_gpu.sh`, the patch and CUDA sources (`src/`), a worked example (`examples/`), container recipes (`containers/`), site settings (`config/`), the user guide and dependencies (`docs/`), the verifier and validation harnesses (`scripts/`), and `validation/` for your own harness output |
-| **The published benchmark** | [`benchmark/`](benchmark/README.md) | everything behind the manuscript: inputs (`data/`), the measured record (`runs/`), every figure and table (`figures/`, `runs/`), the harness that produced the record (`scripts/`) and the code that regenerates every figure and table from it (`figures_tables/`), with [a map of which section makes which figure and table](benchmark/README.md#which-section-makes-what) |
+<table>
+  <tr><th><sub>Part</sub></th><th><sub>Where</sub></th><th><sub>What it holds</sub></th></tr>
+  <tr><td><sub><b>The tool</b></sub></td><td><sub>repository root</sub></td><td><sub><code>build_iqtree_gpu.sh</code>, the patch and CUDA sources (<code>src/</code>), a worked example (<code>examples/</code>), container recipes (<code>containers/</code>), site settings (<code>config/</code>), the user guide and dependencies (<code>docs/</code>), the verifier and validation harnesses (<code>scripts/</code>), and <code>validation/</code> for your own harness output</sub></td></tr>
+  <tr><td><sub><b>The published benchmark</b></sub></td><td><sub><a href="benchmark/README.md"><code>benchmark/</code></a></sub></td><td><sub>everything behind the manuscript: inputs (<code>data/</code>), the measured record (<code>runs/</code>), every figure and table (<code>figures/</code>, <code>runs/</code>), the harness that produced the record (<code>scripts/</code>) and the code that regenerates every figure and table from it (<code>figures_tables/</code>), with <a href="benchmark/README.md#which-section-makes-what">a map of which section makes which figure and table</a></sub></td></tr>
+</table>
 
 The two share only `config/site.env.example` and `scripts/lib/paths.sh`. Nothing under `benchmark/`
 is needed to build, verify or use the tool. The full tree is under [Repository structure](#repository-structure).
@@ -159,14 +160,15 @@ and compiles a single binary that runs with or without `-gpu`. If you have no NV
 
 ### Requirements
 
-| Need | Version used here | Notes |
-|---|---|---|
-| NVIDIA GPU with fp64 | compute capability 7.0 to 8.9 | tested on V100, V100S, RTX 8000, A100, A40 and L40S |
-| CUDA toolkit | 12.8 | 12.x expected to work; the runtime needs `libcudart` and `libcublas` on `LD_LIBRARY_PATH` |
-| GCC | 14.2.0 | must be a version your CUDA release accepts; on an Lmod cluster **load gcc before cuda** |
-| CMake | 3.31.2 | >= 3.18 required |
-| Eigen, Boost | 3.4.0, 1.87.0, headers only | used if installed; otherwise the build script downloads them once (~160 MB) into the build tree |
-| git, Python 3, curl or wget | any recent | Python only for the verification and analysis scripts |
+<table>
+  <tr><th><sub>Need</sub></th><th><sub>Version used here</sub></th><th><sub>Notes</sub></th></tr>
+  <tr><td><sub>NVIDIA GPU with fp64</sub></td><td><sub>compute capability 7.0 to 8.9</sub></td><td><sub>tested on V100, V100S, RTX 8000, A100, A40 and L40S</sub></td></tr>
+  <tr><td><sub>CUDA toolkit</sub></td><td><sub>12.8</sub></td><td><sub>12.x expected to work; the runtime needs <code>libcudart</code> and <code>libcublas</code> on <code>LD_LIBRARY_PATH</code></sub></td></tr>
+  <tr><td><sub>GCC</sub></td><td><sub>14.2.0</sub></td><td><sub>must be a version your CUDA release accepts; on an Lmod cluster <b>load gcc before cuda</b></sub></td></tr>
+  <tr><td><sub>CMake</sub></td><td><sub>3.31.2</sub></td><td><sub>&gt;= 3.18 required</sub></td></tr>
+  <tr><td><sub>Eigen, Boost</sub></td><td><sub>3.4.0, 1.87.0, headers only</sub></td><td><sub>used if installed; otherwise the build script downloads them once (~160 MB) into the build tree</sub></td></tr>
+  <tr><td><sub>git, Python 3, curl or wget</sub></td><td><sub>any recent</sub></td><td><sub>Python only for the verification and analysis scripts</sub></td></tr>
+</table>
 
 Exact versions, runtime libraries, compute capabilities and VRAM sizing: [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md).
 
@@ -251,12 +253,13 @@ module load gcc/14.2.0 cuda/12.8            # runtime libraries
 
 ### What runs on the GPU
 
-| Model / data | Runs on |
-|---|---|
-| Amino-acid single-matrix reversible models (LG, WAG, JTT, Q.*, ...) with `+F` `+G` `+R` `+I`; ModelFinder (`-m TESTNEW`); `--ufboot`, `--alrt`; `--dating mcmctree` | **GPU** |
-| Nucleotide reversible models (JC, HKY, TN, GTR, ...) with `+F` `+G` `+R` `+I` | **GPU** |
-| Codon, morphological, binary data; profile mixtures (C10-C60, LG+C20, ...); partitioned analyses; tree mixtures; `+ASC`; rooted, non-reversible, site-specific models | CPU fallback, still exact |
-| `-robust-phy`, `-robust-alrt` | refused with a message (per-site order statistics are not a pattern-indexed quantity) |
+<table>
+  <tr><th><sub>Model / data</sub></th><th><sub>Runs on</sub></th></tr>
+  <tr><td><sub>Amino-acid single-matrix reversible models (LG, WAG, JTT, Q.*, ...) with <code>+F</code> <code>+G</code> <code>+R</code> <code>+I</code>; ModelFinder (<code>-m TESTNEW</code>); <code>--ufboot</code>, <code>--alrt</code>; <code>--dating mcmctree</code></sub></td><td><sub><b>GPU</b></sub></td></tr>
+  <tr><td><sub>Nucleotide reversible models (JC, HKY, TN, GTR, ...) with <code>+F</code> <code>+G</code> <code>+R</code> <code>+I</code></sub></td><td><sub><b>GPU</b></sub></td></tr>
+  <tr><td><sub>Codon, morphological, binary data; profile mixtures (C10-C60, LG+C20, ...); partitioned analyses; tree mixtures; <code>+ASC</code>; rooted, non-reversible, site-specific models</sub></td><td><sub>CPU fallback, still exact</sub></td></tr>
+  <tr><td><sub><code>-robust-phy</code>, <code>-robust-alrt</code></sub></td><td><sub>refused with a message (per-site order statistics are not a pattern-indexed quantity)</sub></td></tr>
+</table>
 
 `-gpu` is always safe: eligibility is decided per call and ineligible work falls back to the CPU.
 Full list and untested paths: [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md#4-what-the-gpu-path-supports).
@@ -328,18 +331,19 @@ binary. Tree complexity is branches x patterns x rate categories x states^2.
 
 ## Troubleshooting
 
-| Symptom | Fix |
-|---|---|
-| `error while loading shared libraries: libcudart.so.12` or `libcublas.so.12` | `module load cuda/12.8` before running; `ldd ./iqtree3_gpu_build/iqtree3 \| grep -E 'cudart\|cublas'` must show no `not found` |
-| `GLIBCXX_3.4.31 not found` | `module load gcc/14.2.0` before running |
-| `-gpu requested but no CUDA device is visible` | No GPU allocated: request `--gres=gpu:1`, or run without `-gpu` |
-| `ERROR: You have specified more threads than CPU cores available` | Stock IQ-TREE behaviour: lower `-T` to the cores you were allocated, or use `-T AUTO` |
-| Start-up says a model is on CPU fallback | Expected for mixture, codon, `+ASC`, partitioned models; the result is still equivalent, and `GPUSTATS` names the reason |
-| `--gpu-strict FAILED: N of M likelihood calls ran on the CPU` | Not a pure GPU run; drop `--gpu-strict` or choose an eligible model |
-| Slower than the CPU | Expected below about 2e7 tree complexity or with few distinct patterns, where launch latency dominates; judge size by `Number of distinct site patterns` in the `.iqtree` report |
-| Build stops at `MISSING nvcc` or `MISSING cmake` | The toolchain is not on `PATH`: on an Lmod cluster `module load gcc/14.2.0 cuda/12.8 cmake/3.31.2` (gcc first), elsewhere install the CUDA toolkit and CMake >= 3.18 |
-| `Eigen3 library not found` or `Could NOT find Boost` | The build script fetches both when they are absent; if the download is blocked, install them (`apt install libeigen3-dev libboost-dev`, or `conda install -c conda-forge eigen boost-cpp`) or point `EIGEN3_INCLUDE_DIR` / `Boost_INCLUDE_DIR` at the headers |
-| Verifier prints FAIL | Do not use the build; recheck the CUDA and gcc modules, rebuild, and report it |
+<table>
+  <tr><th><sub>Symptom</sub></th><th><sub>Fix</sub></th></tr>
+  <tr><td><sub><code>error while loading shared libraries: libcudart.so.12</code> or <code>libcublas.so.12</code></sub></td><td><sub><code>module load cuda/12.8</code> before running; <code>ldd ./iqtree3_gpu_build/iqtree3 | grep -E 'cudart|cublas'</code> must show no <code>not found</code></sub></td></tr>
+  <tr><td><sub><code>GLIBCXX_3.4.31 not found</code></sub></td><td><sub><code>module load gcc/14.2.0</code> before running</sub></td></tr>
+  <tr><td><sub><code>-gpu requested but no CUDA device is visible</code></sub></td><td><sub>No GPU allocated: request <code>--gres=gpu:1</code>, or run without <code>-gpu</code></sub></td></tr>
+  <tr><td><sub><code>ERROR: You have specified more threads than CPU cores available</code></sub></td><td><sub>Stock IQ-TREE behaviour: lower <code>-T</code> to the cores you were allocated, or use <code>-T AUTO</code></sub></td></tr>
+  <tr><td><sub>Start-up says a model is on CPU fallback</sub></td><td><sub>Expected for mixture, codon, <code>+ASC</code>, partitioned models; the result is still equivalent, and <code>GPUSTATS</code> names the reason</sub></td></tr>
+  <tr><td><sub><code>--gpu-strict FAILED: N of M likelihood calls ran on the CPU</code></sub></td><td><sub>Not a pure GPU run; drop <code>--gpu-strict</code> or choose an eligible model</sub></td></tr>
+  <tr><td><sub>Slower than the CPU</sub></td><td><sub>Expected below about 2e7 tree complexity or with few distinct patterns, where launch latency dominates; judge size by <code>Number of distinct site patterns</code> in the <code>.iqtree</code> report</sub></td></tr>
+  <tr><td><sub>Build stops at <code>MISSING nvcc</code> or <code>MISSING cmake</code></sub></td><td><sub>The toolchain is not on <code>PATH</code>: on an Lmod cluster <code>module load gcc/14.2.0 cuda/12.8 cmake/3.31.2</code> (gcc first), elsewhere install the CUDA toolkit and CMake &gt;= 3.18</sub></td></tr>
+  <tr><td><sub><code>Eigen3 library not found</code> or <code>Could NOT find Boost</code></sub></td><td><sub>The build script fetches both when they are absent; if the download is blocked, install them (<code>apt install libeigen3-dev libboost-dev</code>, or <code>conda install -c conda-forge eigen boost-cpp</code>) or point <code>EIGEN3_INCLUDE_DIR</code> / <code>Boost_INCLUDE_DIR</code> at the headers</sub></td></tr>
+  <tr><td><sub>Verifier prints FAIL</sub></td><td><sub>Do not use the build; recheck the CUDA and gcc modules, rebuild, and report it</sub></td></tr>
+</table>
 
 ## The published benchmark
 
@@ -347,17 +351,18 @@ Everything behind the manuscript lives in [`benchmark/`](benchmark/README.md), s
 tool: the inputs, the measured record, every figure and table, and the scripts that produce them.
 Nothing in it is needed to build, verify or use the tool.
 
-| What | Where |
-|---|---|
-| What was measured, and which section produces which figure and table | [`benchmark/README.md`](benchmark/README.md) |
-| The function behind every panel, its rows and inputs; how to change a panel | [`benchmark/FIGURE_MAP.md`](benchmark/FIGURE_MAP.md) |
-| Inputs: provenance of the 435 genomes and 61 alignments in git; the files themselves on Zenodo (doi:10.5281/zenodo.22942159) | [`benchmark/data/`](benchmark/data/README.md) |
-| Measured record: `RUNS.tsv` (226 rows, 182 on the reported build), per-cell evidence, `KEY_NUMBERS.md` | [`benchmark/runs/`](benchmark/runs/KEY_NUMBERS.md) |
-| Figures: panels, lettered composites, Source Data, manifest | [`benchmark/figures/`](benchmark/figures/README.md) |
-| Column dictionary for the run table | [`benchmark/BENCHMARK_SCHEMA.md`](benchmark/BENCHMARK_SCHEMA.md) |
-| The harness that produced the record | [`benchmark/scripts/`](benchmark/scripts/README.md) |
-| The code that regenerates every figure and table | [`benchmark/figures_tables/`](benchmark/figures_tables/README.md) |
-| Reproduction, in three tiers | [`benchmark/REPRODUCING.md`](benchmark/REPRODUCING.md) |
+<table>
+  <tr><th><sub>What</sub></th><th><sub>Where</sub></th></tr>
+  <tr><td><sub>What was measured, and which section produces which figure and table</sub></td><td><sub><a href="benchmark/README.md"><code>benchmark/README.md</code></a></sub></td></tr>
+  <tr><td><sub>The function behind every panel, its rows and inputs; how to change a panel</sub></td><td><sub><a href="benchmark/FIGURE_MAP.md"><code>benchmark/FIGURE_MAP.md</code></a></sub></td></tr>
+  <tr><td><sub>Inputs: provenance of the 435 genomes and 61 alignments in git; the files themselves on Zenodo (doi:10.5281/zenodo.22942159)</sub></td><td><sub><a href="benchmark/data/README.md"><code>benchmark/data/</code></a></sub></td></tr>
+  <tr><td><sub>Measured record: <code>RUNS.tsv</code> (226 rows, 182 on the reported build), per-cell evidence, <code>KEY_NUMBERS.md</code></sub></td><td><sub><a href="benchmark/runs/KEY_NUMBERS.md"><code>benchmark/runs/</code></a></sub></td></tr>
+  <tr><td><sub>Figures: panels, lettered composites, Source Data, manifest</sub></td><td><sub><a href="benchmark/figures/README.md"><code>benchmark/figures/</code></a></sub></td></tr>
+  <tr><td><sub>Column dictionary for the run table</sub></td><td><sub><a href="benchmark/BENCHMARK_SCHEMA.md"><code>benchmark/BENCHMARK_SCHEMA.md</code></a></sub></td></tr>
+  <tr><td><sub>The harness that produced the record</sub></td><td><sub><a href="benchmark/scripts/README.md"><code>benchmark/scripts/</code></a></sub></td></tr>
+  <tr><td><sub>The code that regenerates every figure and table</sub></td><td><sub><a href="benchmark/figures_tables/README.md"><code>benchmark/figures_tables/</code></a></sub></td></tr>
+  <tr><td><sub>Reproduction, in three tiers</sub></td><td><sub><a href="benchmark/REPRODUCING.md"><code>benchmark/REPRODUCING.md</code></a></sub></td></tr>
+</table>
 
 ```bash
 bash benchmark/figures_tables/refresh_all.sh   # regenerate every figure, table and number from RUNS.tsv (no GPU, ~4 min)
