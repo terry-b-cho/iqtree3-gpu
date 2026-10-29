@@ -126,7 +126,7 @@ def collect_cells():
         else:
             r["model_search"] = "NA"
             r["mf_flags"] = "NA"
-        # DATA-SOURCE PROVENANCE (round 8, R26). paired_benchmark.sh derives data_source from the alignment path
+        # DATA-SOURCE PROVENANCE. paired_benchmark.sh derives data_source from the alignment path
         # and labels anything outside an "alisim"/"simulated" path as real_MAG; the nucleotide sets
         # live under benchmark/data/dna/dna_* and were all simulated with AliSim (benchmark/data/dna/TRUE_MODEL.txt,
         # PROVENANCE.md per set), so every nucleotide row carried the wrong label. Corrected here at

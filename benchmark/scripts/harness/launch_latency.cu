@@ -1,4 +1,4 @@
-// Empty-kernel launch latency on the benchmark card (author action R14, round 8).
+// Empty-kernel launch latency on the benchmark card.
 //
 // Two quantities are reported, both in microseconds per launch:
 //   sync   one launch of an empty <<<1,1>>> kernel followed by cudaDeviceSynchronize(), timed per

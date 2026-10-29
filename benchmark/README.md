@@ -84,16 +84,16 @@ The manuscript's machine-readable tables are the sheets of `runs/Supplementary_D
 
 | Supplementary Data | Sheet | Contents | Source file (relative to `benchmark/`) | Source produced by | Cited in |
 |---|---|---|---|---|---|
-| Data 0 | `MAG_SOURCES` | Source genomes | `data/genomes/genome_metadata.tsv`; `data/genomes/study_citations.tsv` | curated source-genome metadata (`data/genomes/PROVENANCE.md`); citations hand-maintained in `data/genomes/study_citations.tsv` | Methods (data); Supplementary Note 2 |
-| Data 1 | `RUNS` | Run table | `runs/RUNS.tsv` | `scripts/aggregate_runs.py` | Methods; Results; Note 2 §1, §11.1 |
-| Data 2 | `RUNS_summary` | Run-table summary | `runs/RUNS_summary.tsv` | `scripts/aggregate_runs.py` | Note 2 §11.1 |
-| Data 3 | `KEY_NUMBERS` | Key numbers | `runs/KEY_NUMBERS.tsv` | `figures_tables/tables.py key_numbers` | Note 2 §10, §11.2 |
-| Data 4 | `PHASE_STEPS` | Phase steps | `runs/PHASE_STEPS.tsv` | `scripts/phase_extract.py` | Results (Fig. 3); Note 2 §11.1 |
+| Data 0 | `MAG_SOURCES` | Source genomes | `data/genomes/genome_metadata.tsv`; `data/genomes/study_citations.tsv` | curated source-genome metadata (`data/genomes/PROVENANCE.md`); citations hand-maintained in `data/genomes/study_citations.tsv` | Methods (data) |
+| Data 1 | `RUNS` | Run table | `runs/RUNS.tsv` | `scripts/aggregate_runs.py` | Methods; Results |
+| Data 2 | `RUNS_summary` | Run-table summary | `runs/RUNS_summary.tsv` | `scripts/aggregate_runs.py` | Methods |
+| Data 3 | `KEY_NUMBERS` | Key numbers | `runs/KEY_NUMBERS.tsv` | `figures_tables/tables.py key_numbers` | Abstract; Results; Discussion |
+| Data 4 | `PHASE_STEPS` | Phase steps | `runs/PHASE_STEPS.tsv` | `scripts/phase_extract.py` | Results (Fig. 3) |
 | Data 5 | `REPLICATES_20T` | Replicate sets | `runs/REPLICATES_20T.tsv` | `figures_tables/figures.py supp_ported` | Results; Supplementary Fig. S1 |
-| Data 6 | `ARENA_REPORTS` | Device-arena reports | `runs/paired/<cell>/gpu.stdout`; `runs/RUNS.tsv` | `harness/paired_benchmark.sh` (the engine's own arena report per run) | Results (device-memory demand); Methods (implementation); Note 2 §7 |
-| Data 7 | `LAUNCH_LATENCY` | Empty-kernel launch latency | `profiling/launch_latency_l40s.tsv` | `harness/launch_latency.sh` | Methods (profiling); Note 2 §8 |
-| Data 8 | `NSYS_KERNEL_SUMMARY` | Nsight Systems kernel attribution | `profiling/nsys_kernel_summary.tsv` | `harness/nsys_kernel_time.sh` | Methods (profiling); Note 2 §8 |
-| Data 9 | `NSIGHT_SUMMARY` | Nsight Compute summary (header only) | `profiling/nsight_summary.tsv` | `harness/roofline_profile.sh` | Methods (profiling); Note 2 §11.1 |
+| Data 6 | `ARENA_REPORTS` | Device-arena reports | `runs/paired/<cell>/gpu.stdout`; `runs/RUNS.tsv` | `harness/paired_benchmark.sh` (the engine's own arena report per run) | Methods (implementation) |
+| Data 7 | `LAUNCH_LATENCY` | Empty-kernel launch latency | `profiling/launch_latency_l40s.tsv` | `harness/launch_latency.sh` | Methods (profiling) |
+| Data 8 | `NSYS_KERNEL_SUMMARY` | Nsight Systems kernel attribution | `profiling/nsys_kernel_summary.tsv` | `harness/nsys_kernel_time.sh` | Methods (profiling) |
+| Data 9 | `NSIGHT_SUMMARY` | Nsight Compute summary (header only) | `profiling/nsight_summary.tsv` | `harness/roofline_profile.sh` | Methods (profiling) |
 
 ### Numbers, Source Data and the other products
 

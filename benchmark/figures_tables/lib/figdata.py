@@ -1,13 +1,13 @@
 """figdata.py -- the shared analysis layer behind every published panel.
 
-WHY THIS EXISTS. The board requires that a single treatment of the gate-failure cell be applied
+WHY THIS EXISTS. A single treatment of the gate-failure cell must be applied
 identically in every panel, that every fitted exponent carry n and a bootstrap CI, and that the
 crossover be quoted with a named estimator. Each of those is a decision, not a detail, and a decision
 re-implemented per panel is a decision that will eventually differ between panels. They live here.
 
 THE GATE-FAILURE CELL. `g__Ruminococcoides__T20__l40s_cx` fails the acceptance gate on the SUPPORT
 criterion itself (6.0 points against a 5-point tolerance); its topology is identical (RF = 0) and its
-log-likelihood agrees to 3.611e-07. The treatment, per the board:
+log-likelihood agrees to 3.611e-07. The treatment:
 
     excluded from every FIT and every SPEEDUP SUMMARY,
     but RETAINED AND LABELLED in every EQUIVALENCE panel.
@@ -219,7 +219,7 @@ def aliasing_holds(rows):
 
 
 # --------------------------------------------------------------------------------------------
-# estimators -- each returns its n and a bootstrap CI, because the board requires both
+# estimators -- each returns its n and a bootstrap CI, because every published estimate carries both
 # --------------------------------------------------------------------------------------------
 def _ols(x, y):
     n = len(x)
@@ -258,7 +258,7 @@ def loglog_fit(pts, B=2000, seed=1):
 def crossover(pts, B=2000, seed=1):
     """Complexity at which the fitted speedup curve crosses parity.
 
-    ESTIMATOR, named because the board requires it: ordinary least squares of log10(speedup) on
+    ESTIMATOR, stated explicitly: ordinary least squares of log10(speedup) on
     log10(complexity), crossover taken as the abscissa where the fitted line meets speedup = 1, with
     a 95% interval from 2,000 paired bootstrap resamples.
 

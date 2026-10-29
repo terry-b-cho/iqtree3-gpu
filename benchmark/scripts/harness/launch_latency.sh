@@ -11,7 +11,7 @@
 #SBATCH -o logs/launchlat_%j.out
 #SBATCH -e logs/launchlat_%j.err
 # =============================================================================
-#  Empty-kernel launch latency on the L40S (author action R14, round 8).
+#  Empty-kernel launch latency on the L40S.
 # =============================================================================
 #  Compiles benchmark/scripts/harness/launch_latency.cu with the campaign toolchain and runs it once on one
 #  L40S. Writes benchmark/profiling/launch_latency_l40s.txt (full stdout, with the device header) and

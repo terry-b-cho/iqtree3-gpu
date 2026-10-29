@@ -193,7 +193,7 @@ def bytes_per_entry(rows):
     """Bytes of device arena per conditional-likelihood entry, from the engine's own report.
 
     Denominator = patterns x states x ALLOCATED rate-category capacity, per slot (the slot MB is
-    already a per-slot figure). Round-8 correction (R13): the previous denominator used the
+    already a per-slot figure). Correction: an earlier denominator used the
     selected model's category count, so a +G4 run whose arena was sized for ten categories under
     ModelFinder reported 8 x 10/4 = 20 bytes; the remainder was pre-allocated capacity, not padding.
     Returns (per_entry_bytes, per_selected_entry_bytes) lists, plus the parsed reports."""
@@ -215,7 +215,7 @@ def kexp_table(rows):
 
     k takes only two values (4 and 20), so this 'exponent' is a two-group contrast confounded with
     everything else that differs between the workflows. Reported so the k^2 weighting is visibly a
-    DEFINITION rather than a fitted result -- the board asked for exactly this comparison.
+    DEFINITION rather than a fitted result.
     """
     out = {}
     for p in (0, 1, 2, 3):
@@ -298,7 +298,7 @@ def main():
     # how far the largest observed difference sits below the tolerance (quoted in the text, R12)
     add("logl_margin_fold", "%.1f" % (F.LOGL_CONTRACT / max(rel)))
 
-    # ---- replicate determinism (the board's item 2) --------------------------------
+    # ---- replicate determinism --------------------------------------------------
     if os.environ.get("KEYNUM_SKIP_REPLICATES") != "1":
         rep = replicate_determinism(rows)
         for arm in ("cpu", "gpu"):
@@ -545,7 +545,7 @@ def main():
             add("arena_bytes_per_entry_ge1mb_min", "%.2f" % min(big))
             add("arena_bytes_per_entry_ge1mb_max", "%.2f" % max(big))
             add("arena_bytes_per_entry_ge1mb_n", len(big))
-        # the quantity reported before round 8, kept so the correction can be stated
+        # the quantity reported in an earlier draft, kept so the correction can be stated
         add("arena_bytes_per_selected_entry_median", "%.1f" % st.median(bpe_sel))
         caps = [a["ncat_cap"] for a in reps.values()]
         add("arena_ncat_cap_mode", max(set(caps), key=caps.count))
@@ -553,7 +553,7 @@ def main():
         # Capacity table: arena = slots x patterns x states x capacity x 8 B; slots = taxa + 2 (the
         # engine pools IQ-TREE's own slot count, one per internal node when memory allows, plus two
         # for NNI). Patterns (millions) that fit the 70% budget; the 0.70 bounds only the category
-        # HEADROOM in the engine, so this is a planning figure, not a guarantee (R13/R17).
+        # HEADROOM in the engine, so this is a planning figure, not a guarantee.
         for gb in (16, 24, 48, 80):
             for tag, states, cap in (("aa_cap10", 20, 10), ("aa_cap4", 20, 4), ("nt_cap4", 4, 4)):
                 for taxa in (50, 100, 200):
@@ -641,7 +641,7 @@ def main():
             add(f"nsys_{dt}_mean_kernel_us", "%.2f" % (k / nk * 1e6))
         add("nsys_runs_per_alphabet", 1)
 
-    # empty-kernel launch latency on the L40S (R14), from benchmark/scripts/harness/launch_latency.sh
+    # empty-kernel launch latency on the L40S, from benchmark/scripts/harness/launch_latency.sh
     ll = os.path.join(REPO, "benchmark", "profiling", "launch_latency_l40s.tsv")
     if os.path.exists(ll):
         for r in csv.DictReader(open(ll), delimiter="\t"):
@@ -837,7 +837,7 @@ def main():
         if r["source_script"] == TREE_SCRIPT:
             df = pd.DataFrame({"note": [f"Tree drawings; the plotted objects are the maximum-likelihood tree files of the "
                                         f"{r['rows_used']} datasets shown, distributed per cell in the archived record "
-                                        f"(Supplementary Note 2, §11.3: <cell>/gpu.treefile and <cell>/cpu.treefile)."]})
+                                        f"(<cell>/gpu.treefile and <cell>/cpu.treefile)."]})
             kind = "tree files (see note)"
         elif os.path.exists(csv_path):
             df = pd.read_csv(csv_path); kind = f"{len(df)} plotted values"
@@ -880,7 +880,7 @@ source_data_main = main
 #
 # Nature Communications distinguishes Supplementary Tables (in the SI document) from Supplementary
 # Data (machine-readable files). This workbook holds the tables behind the main text and
-# Supplementary Note 2, numbered Supplementary Data 1-12, one sheet each, from the archived
+# the Supplementary Figures, numbered Supplementary Data 0-9, one sheet each, from the archived
 # record's files without alteration, plus a README sheet and a column dictionary for the run
 # table taken from benchmark/BENCHMARK_SCHEMA.md. Data 7 (the engine's arena report per run) is assembled here
 # from every run's gpu.stdout with the same parser the key numbers use. After writing, the workbook is
@@ -997,23 +997,23 @@ def to_number(col):
 def main():
     B = os.path.join(REPO, "benchmark", "runs"); P = os.path.join(REPO, "benchmark", "profiling")
     items = [
-        (0, "MAG_SOURCES", "Source genomes", "The 435 metagenome-assembled genomes (MAGs) across 14 bacterial genera from which every amino-acid alignment was built: one row per genome with its GTDB genus and species, the study it was published in with the citation and DOI, the public deposit the file was taken from, the source accession, sample, BioProject, BioSample and per-MAG assembly accession where the deposit supplies them, host, CheckM2 quality, file checksum, and which benchmark alignments carry it. Column meanings in benchmark/data/genomes/PROVENANCE.md.", mag_sources_table(), "benchmark/data/genomes/genome_metadata.tsv; benchmark/data/genomes/study_citations.tsv", "Methods (data); Supplementary Note 2"),
-        (1, "RUNS", "Run table", "One row per paired run (226: the 182 runs of the reported build and the 44 runs of an earlier build, identified by binary_sha256, whose checksum begins 07c70cae): dataset, workflow, thread count, card, node, host CPU, driver, binary checksum, selected model, both arms' timings and log-likelihoods, the equivalence outcome, the engine's engagement counters and the sampled device metrics. Column dictionary in the last sheet.", read_tsv(f"{B}/RUNS.tsv"), "benchmark/runs/RUNS.tsv", "Methods; Results; Note 2 §1, §11.1"),
-        (2, "RUNS_summary", "Run-table summary", "Mean and s.d. of speedup and device utilisation per (alphabet, model treatment, thread count, card) stratum, with engagement and gate-pass counts.", read_tsv(f"{B}/RUNS_summary.tsv"), "benchmark/runs/RUNS_summary.tsv", "Note 2 §11.1"),
-        (3, "KEY_NUMBERS", "Key numbers", "Every number quoted in the Abstract, Results and Discussion as key-value pairs, regenerated from the run table by benchmark/figures_tables/tables.py (key_numbers); no number in the manuscript is hand-transcribed.", read_tsv(f"{B}/KEY_NUMBERS.tsv"), "benchmark/runs/KEY_NUMBERS.tsv", "Note 2 §10, §11.2"),
-        (4, "PHASE_STEPS", "Phase steps", "Per-step wall and CPU time for both arms of all 226 recorded cells, with a level column separating the two top-level phases from the setup steps nested inside them.", read_tsv(f"{B}/PHASE_STEPS.tsv"), "benchmark/runs/PHASE_STEPS.tsv", "Results (Fig. 3); Note 2 §11.1"),
+        (0, "MAG_SOURCES", "Source genomes", "The 435 metagenome-assembled genomes (MAGs) across 14 bacterial genera from which every amino-acid alignment was built: one row per genome with its GTDB genus and species, the study it was published in with the citation and DOI, the public deposit the file was taken from, the source accession, sample, BioProject, BioSample and per-MAG assembly accession where the deposit supplies them, host, CheckM2 quality, file checksum, and which benchmark alignments carry it. Column meanings in benchmark/data/genomes/PROVENANCE.md.", mag_sources_table(), "benchmark/data/genomes/genome_metadata.tsv; benchmark/data/genomes/study_citations.tsv", "Methods (data)"),
+        (1, "RUNS", "Run table", "One row per paired run (226: the 182 runs of the reported build and the 44 runs of an earlier build, identified by binary_sha256, whose checksum begins 07c70cae): dataset, workflow, thread count, card, node, host CPU, driver, binary checksum, selected model, both arms' timings and log-likelihoods, the equivalence outcome, the engine's engagement counters and the sampled device metrics. Column dictionary in the last sheet.", read_tsv(f"{B}/RUNS.tsv"), "benchmark/runs/RUNS.tsv", "Methods; Results"),
+        (2, "RUNS_summary", "Run-table summary", "Mean and s.d. of speedup and device utilisation per (alphabet, model treatment, thread count, card) stratum, with engagement and gate-pass counts.", read_tsv(f"{B}/RUNS_summary.tsv"), "benchmark/runs/RUNS_summary.tsv", "Methods"),
+        (3, "KEY_NUMBERS", "Key numbers", "Every number quoted in the Abstract, Results and Discussion as key-value pairs, regenerated from the run table by benchmark/figures_tables/tables.py (key_numbers); no number in the manuscript is hand-transcribed.", read_tsv(f"{B}/KEY_NUMBERS.tsv"), "benchmark/runs/KEY_NUMBERS.tsv", "Abstract; Results; Discussion"),
+        (4, "PHASE_STEPS", "Phase steps", "Per-step wall and CPU time for both arms of all 226 recorded cells, with a level column separating the two top-level phases from the setup steps nested inside them.", read_tsv(f"{B}/PHASE_STEPS.tsv"), "benchmark/runs/PHASE_STEPS.tsv", "Results (Fig. 3)"),
         (5, "REPLICATES_20T", "Replicate sets", "Replicate sets by alphabet and size at 20 threads: median, mean, s.d., coefficient of variation and the contributing speedups.", read_tsv(f"{B}/REPLICATES_20T.tsv"), "benchmark/runs/REPLICATES_20T.tsv", "Results; Supplementary Fig. S1"),
-        (6, "ARENA_REPORTS", "Device-arena reports", "The engine's own arena report for every recorded run, parsed from gpu.stdout with the parser the key numbers use: selected and allocated rate-category counts, whether the capacity was reduced (the six guard runs) and from what, slot count, per-slot partial-likelihood and counter sizes, arena footprint, the need at the requested capacity, the usable device memory and the 70% budget, with the sampled device peak and the job's peak host memory from the run table.", arena_table(), "benchmark/runs/paired/<cell>/gpu.stdout; benchmark/runs/RUNS.tsv", "Results (device-memory demand); Methods (implementation); Note 2 §7"),
-        (7, "LAUNCH_LATENCY", "Empty-kernel launch latency", "Empty-kernel launch cost on the L40S: sync (launch plus synchronise, timed per launch) and async (back-to-back launches, one synchronisation): n, median, quartiles, mean and minimum in microseconds.", read_tsv(f"{P}/launch_latency_l40s.tsv"), "benchmark/profiling/launch_latency_l40s.tsv", "Methods (profiling); Note 2 §8"),
-        (8, "NSYS_KERNEL_SUMMARY", "Nsight Systems kernel attribution", "One row per alphabet from the profiled run: wall, kernel and memcpy seconds, launch count, the top kernel and its share.", read_tsv(f"{P}/nsys_kernel_summary.tsv"), "benchmark/profiling/nsys_kernel_summary.tsv", "Methods (profiling); Note 2 §8"),
-        (9, "NSIGHT_SUMMARY", "Nsight Compute summary (header only)", "Header-only by design: the Nsight Compute hardware counters were administratively restricted on the cluster, so no kernel rows were collected; the empty table is distributed so that its emptiness is visible.", read_tsv(f"{P}/nsight_summary.tsv"), "benchmark/profiling/nsight_summary.tsv", "Methods (profiling); Note 2 §11.1"),
+        (6, "ARENA_REPORTS", "Device-arena reports", "The engine's own arena report for every recorded run, parsed from gpu.stdout with the parser the key numbers use: selected and allocated rate-category counts, whether the capacity was reduced (the six guard runs) and from what, slot count, per-slot partial-likelihood and counter sizes, arena footprint, the need at the requested capacity, the usable device memory and the 70% budget, with the sampled device peak and the job's peak host memory from the run table.", arena_table(), "benchmark/runs/paired/<cell>/gpu.stdout; benchmark/runs/RUNS.tsv", "Methods (implementation)"),
+        (7, "LAUNCH_LATENCY", "Empty-kernel launch latency", "Empty-kernel launch cost on the L40S: sync (launch plus synchronise, timed per launch) and async (back-to-back launches, one synchronisation): n, median, quartiles, mean and minimum in microseconds.", read_tsv(f"{P}/launch_latency_l40s.tsv"), "benchmark/profiling/launch_latency_l40s.tsv", "Methods (profiling)"),
+        (8, "NSYS_KERNEL_SUMMARY", "Nsight Systems kernel attribution", "One row per alphabet from the profiled run: wall, kernel and memcpy seconds, launch count, the top kernel and its share.", read_tsv(f"{P}/nsys_kernel_summary.tsv"), "benchmark/profiling/nsys_kernel_summary.tsv", "Methods (profiling)"),
+        (9, "NSIGHT_SUMMARY", "Nsight Compute summary (header only)", "Header-only by design: the Nsight Compute hardware counters were administratively restricted on the cluster, so no kernel rows were collected; the empty table is distributed so that its emptiness is visible.", read_tsv(f"{P}/nsight_summary.tsv"), "benchmark/profiling/nsight_summary.tsv", "Methods (profiling)"),
     ]
     coldict = column_dictionary()
     readme = pd.DataFrame([dict(supplementary_data=f"Supplementary Data {n}", sheet=f"Data {n}", title=t, contents=c, rows=len(d), columns=len(d.columns), source_file=src, cited_in=cit)
                            for n, s, t, c, d, src, cit in items])
     with pd.ExcelWriter(supplementary_data_OUT, engine="openpyxl") as xw:
         head = pd.DataFrame({"Supplementary Data": [
-            "Machine-readable tables behind the main text and Supplementary Note 2 of the IQ-TREE3-GPU manuscript, one sheet per item, numbered Supplementary Data 0-9.",
+            "Machine-readable tables behind the main text and Supplementary Figures of the IQ-TREE3-GPU manuscript, one sheet per item, numbered Supplementary Data 0-9.",
             "Each sheet is the archived record's file without alteration: a cell holds a number only when every value in its column is a number; identifiers, checksums, model strings and command lines are text. Empty cells are empty in the source as well.",
             "The last sheet, RUNS_columns, defines every column of Data 1 (from benchmark/BENCHMARK_SCHEMA.md in the record).",
         ]})
@@ -1547,7 +1547,7 @@ def _keynumber_values():
 
 
 def check_memory_denominator():
-    """The per-entry arena figure must be computed against the allocated capacity (R13)."""
+    """The per-entry arena figure must be computed against the allocated capacity."""
     vals = dict(csv.reader(open(KEYNUM), delimiter="\t"))
     v = float(vals.get("arena_bytes_per_entry_median", "nan"))
     return [] if 7.9 <= v <= 8.4 else [f"arena_bytes_per_entry_median = {v} (expected 8.0 +- 0.4)"]

@@ -241,7 +241,7 @@ transfer to DNA, whose arithmetic intensity is ~1.04 FLOP/B and therefore memory
 
 ## 10a. Practical guidance: when to use it, how many cores to ask for, which card
 
-This section moved here from the manuscript's Discussion (round 8), because it is operational
+This section is operational
 advice rather than a result. Every number is a key in
 [`benchmark/runs/KEY_NUMBERS.md`](../benchmark/runs/KEY_NUMBERS.md).
 

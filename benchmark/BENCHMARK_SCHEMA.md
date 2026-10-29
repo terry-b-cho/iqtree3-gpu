@@ -35,7 +35,7 @@ Legend: **source** = harness (paired benchmark), smi (`nvidia-smi`), slurm (`sac
 | datetime_utc | harness | ADD | run start, ISO-8601 UTC |
 | dataset | harness | HAVE (`genus`) | dataset/genus name |
 | data_type | harness | ADD | `protein` or `dna` |
-| data_source | harness | ADD | `real_MAG` or `alisim_simulated` (with true model). The harness labels by alignment path and mislabelled the `benchmark/data/dna/dna_*` sets as `real_MAG`; the aggregator sets every `data_type=dna` row to `alisim_simulated` (round 8, R26) |
+| data_source | harness | ADD | `real_MAG` or `alisim_simulated` (with true model). The harness labels by alignment path and mislabelled the `benchmark/data/dna/dna_*` sets as `real_MAG`; the aggregator sets every `data_type=dna` row to `alisim_simulated` |
 | seed | harness | ADD | RNG seed (`-seed`), so the search is reproducible |
 | command_line | harness | ADD | exact IQ-TREE invocation for each arm |
 

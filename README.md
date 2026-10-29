@@ -124,7 +124,7 @@ and compiles a single binary that runs with or without `-gpu`. If you have no NV
 
 | Need | Version used here | Notes |
 |---|---|---|
-| NVIDIA GPU with fp64 | compute capability 7.0 to 8.9 tested | V100, RTX 6000/8000, A100, A40, A6000, L40, L40S |
+| NVIDIA GPU with fp64 | compute capability 7.0 to 8.9 | tested on V100, V100S, RTX 8000, A100, A40 and L40S |
 | CUDA toolkit | 12.8 | 12.x expected to work; the runtime needs `libcudart` and `libcublas` on `LD_LIBRARY_PATH` |
 | GCC | 14.2.0 | must be a version your CUDA release accepts; on an Lmod cluster **load gcc before cuda** |
 | CMake | 3.31.2 | >= 3.18 required |
@@ -355,6 +355,7 @@ iqtree3-gpu/
 │   ├── lib/paths.sh                   # the one place the repository root is resolved
 │   └── dev/                           # example-dataset builder, author cards (scripts/dev/README.md)
 ├── validation/                        # where the validation harnesses write YOUR results
+├── logs/                              # SLURM logs of the harness and validation jobs land here
 ├── assets/                            # CITATION.cff, logo, author cards
 │
 └── benchmark/                         # THE PUBLISHED BENCHMARK (not needed to use the tool)
