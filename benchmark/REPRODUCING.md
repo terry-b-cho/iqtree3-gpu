@@ -9,7 +9,7 @@ the function behind every panel in [`FIGURE_MAP.md`](FIGURE_MAP.md).
 |---|---|---|---|
 | **1. Quick test** | that your build is exact | clone + a GPU | ~2 min |
 | **2. All figures and tables** | every figure in the paper | clone only, **no GPU** | ~4 min |
-| **3. The measurements themselves** | every row of `RUNS.tsv` | clone + Zenodo inputs + a GPU | days |
+| **3. The measurements themselves** | every row of `RUNS.tsv` | clone + the Zenodo inputs + a GPU | days |
 
 ---
 
@@ -27,11 +27,11 @@ bash scripts/iqtree3-gpu-verify.sh ./iqtree3_gpu_build/iqtree3   # ~30 s: engage
 The parentheses matter: `run_example.sh` must be started from `examples/`, and the subshell puts you
 back at the repository root afterwards so the commands that follow work as written.
 
-For a slightly larger but still fast run, the repository ships **12 complete DNA alignments**
-(`benchmark/data/dna/dna_n04` … `dna_n30`, 0.8–6.3 MB each) and **all 35 real amino-acid alignments** used by
-the benchmark. `dna_n04` through `dna_n12` each complete in under 20 seconds per arm:
+For a slightly larger but still fast run, fetch the alignments (Tier 3 below) and use one of the small
+nucleotide sets; `dna_n04` through `dna_n12` each complete in under 20 seconds per arm:
 
 ```bash
+bash benchmark/scripts/fetch_benchmark_data.sh alignments
 GENUS=dna_n06 THREADS=20 CARD=mytest MODEL=GTR+F+G4 \
   ALN_OVERRIDE="$PWD/benchmark/data/dna/dna_n06/aln.phy" \
   sbatch benchmark/scripts/harness/paired_benchmark.sh
@@ -56,29 +56,28 @@ This rewrites all of `benchmark/figures/` (the 25 panels as PDF+PNG, the 7 compo
 Data and the manifest), regenerates `runs/KEY_NUMBERS.md` (every number quoted in the text), then
 the Supplementary Data workbook and the map in `benchmark/README.md`. It needs Python with numpy,
 matplotlib, pypdf and Biopython; the two workbooks additionally need pandas and openpyxl and are
-skipped with a notice when those are absent. The output is deterministic: the same record gives
-byte-identical panels, Source Data and tables (the PDFs differ only in their creation date).
+skipped with a notice when those are absent. From a clone, the composite figures, the run tables and
+the manifest regenerate byte-identically; individual panel PNGs and Source Data CSVs can differ in the
+last floating-point digit or with another font environment, and the PDFs differ only in their creation
+date. One exception: the device-arena report (Supplementary Data 6 and the `arena_*` key numbers) is
+parsed from each run's `gpu.stdout`, which is in neither git nor the Zenodo record, so those regenerate
+only on the authors' copy.
 
 ## Tier 3 — Re-run the benchmarks themselves
 
-Requires a CUDA GPU and, for the large DNA cells, one extra download.
+Requires a CUDA GPU and the input alignments, which are not in git.
 
-**The inputs that do not fit on GitHub.** Fourteen simulated DNA alignments total ~2.4 GB and eleven
-exceed GitHub's hard 100 MB per-file limit. They are deposited on Zenodo as a single folder:
-
-> **Zenodo DOI: _PLACEHOLDER — add on deposit_**
+**The inputs.** The 35 amino-acid and 26 nucleotide alignments (and the 435 source genomes, not needed
+to run anything) are on Zenodo, doi:10.5281/zenodo.22942159, one archive per `benchmark/data/` folder. From the
+repository root:
 
 ```bash
-# download and unpack the deposit, then:
-bash iqtree3-gpu-benchmark-inputs-v0.1.0/install_into_repo.sh /path/to/this/clone
+bash benchmark/scripts/fetch_benchmark_data.sh alignments   # downloads, verifies and unpacks into benchmark/data/
 ```
 
-The installer copies each alignment into the matching `benchmark/data/dna/<set>/` and verifies every file
-against `benchmark/data/dna/CHECKSUMS.sha256`.
-
-**Or skip the download entirely.** Every one of those alignments is *simulated and regenerable*. Each
-`benchmark/data/dna/<set>/PROVENANCE.md` records the taxa, sites, guide tree, exact model string, seed and
-the literal AliSim command, and the guide trees themselves are in the repository. To rebuild them all:
+The DOI resolves once the record is published with the paper. The 14 large nucleotide alignments can
+also be regenerated: each `benchmark/data/dna/<set>/PROVENANCE.md` records the taxa, sites, guide tree,
+exact model string, seed and the literal AliSim command, and the guide trees are in git. To rebuild them all:
 
 ```bash
 bash benchmark/scripts/dev/build_complexity_datasets.sh

@@ -6,9 +6,9 @@ from IQ-TREE's own `max_lh_slots`, and falls back to the CPU kernel if it will n
 
 All amino-acid data are concatenated marker-gene alignments of metagenome-assembled genomes,
 classified with GTDB-Tk against GTDB and quality-controlled with CheckM2. Tip labels record host
-species and sample. The `concat_alignment.faa` files are **ordinary git files, present in every
-clone** (~126 MB total). The raw source genomes (`*.fna`, ~830 MB) are in `../genomes/`, stored
-through Git LFS, with their study, host and accession metadata in `../genomes/genome_metadata.tsv`
+species and sample. The `concat_alignment.faa` files and the source genomes (`../genomes/`) are on
+Zenodo (doi:10.5281/zenodo.22942159): `bash benchmark/scripts/fetch_benchmark_data.sh alignments` fetches the
+alignments. Their study, host and accession metadata is in `../genomes/genome_metadata.tsv`
 (see `../genomes/PROVENANCE.md` and `../README.md`).
 
 ---

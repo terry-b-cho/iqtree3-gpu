@@ -33,7 +33,7 @@ benchmark/
 ├── FIGURE_MAP.md           every panel: the function that draws it, its row filter, its inputs; how to change a panel
 ├── REPRODUCING.md          the three reproduction tiers: quick test, every figure, the measurements themselves
 ├── BENCHMARK_SCHEMA.md     column dictionary for the run table and the methodology rules
-├── data/                   inputs with provenance: genomes/ (435 MAGs, Git LFS), protein/ (35), dna/ (26)
+├── data/                   inputs: provenance in git, payloads on Zenodo (doi:10.5281/zenodo.22942159; data/README.md)
 ├── runs/                   THE RECORD: RUNS.tsv (one row per paired run), KEY_NUMBERS.tsv/.md (every quoted
 │                           number), PHASE_STEPS.tsv, REPLICATES_20T.tsv, Supplementary_Data_benchmark.xlsx,
 │                           and paired/<cell>/ with both arms' logs, trees and support behind every row
@@ -41,7 +41,7 @@ benchmark/
 │                           figures: PDF + PNG), source_data/ + Source_Data.xlsx, FIGURE_MANIFEST.tsv
 ├── profiling/              Nsight and launch-latency records
 ├── figures_tables/         figures.py · tables.py · lib/ · refresh_all.sh      the presentation tier
-└── scripts/                aggregate_runs.py · phase_extract.py · harness/ · dev/   the benchmark tier
+└── scripts/                aggregate_runs.py · phase_extract.py · fetch_benchmark_data.sh · harness/ · dev/   the benchmark tier
 ```
 
 ## Regenerating every figure, table and number (no GPU, about 4 minutes)

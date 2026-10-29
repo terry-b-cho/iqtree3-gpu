@@ -369,7 +369,7 @@ See [`benchmark/REPRODUCING.md`](../benchmark/REPRODUCING.md) and the figure and
   repository and run in minutes.
 - **All figures** - `bash benchmark/figures_tables/refresh_all.sh` regenerates every figure from the
   measured record, which ships in full. No GPU needed.
-- **The measurements** - 12 DNA alignments and all 35 amino-acid alignments ship in the
-  repository. Fourteen larger simulated DNA alignments (~2.4 GB; 11 of them above GitHub's
-  100 MB per-file limit) are deposited on Zenodo as one folder, or can be regenerated locally
-  from the recipe in each `benchmark/data/dna/<set>/PROVENANCE.md`.
+- **The measurements** - the input alignments are on Zenodo (doi:10.5281/zenodo.22942159);
+  `bash benchmark/scripts/fetch_benchmark_data.sh alignments` downloads them into `benchmark/data/`.
+  The 14 large simulated DNA alignments can also be regenerated from the recipe in each
+  `benchmark/data/dna/<set>/PROVENANCE.md`.

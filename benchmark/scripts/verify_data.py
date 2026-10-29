@@ -2,7 +2,10 @@
 # Environment: python3 (standard library only)
 """verify_data.py - prove that the input data in data/ is complete and is what the record describes.
 
-Self-contained: needs nothing outside this repository. Checks, in order,
+The payloads (genome FASTAs, amino-acid alignments, nucleotide alignments) are not in git: they come
+from the Zenodo record 10.5281/zenodo.22942159 via benchmark/scripts/fetch_benchmark_data.sh. A
+payload that is wholly absent is reported as not downloaded and skipped; one that is partly present
+is checked strictly. Checks, in order,
 
   1. benchmark/data/genomes/genome_metadata.tsv lists every .fna under benchmark/data/genomes/ and nothing else, and
      every file's md5 equals the md5 recorded for it;
@@ -14,7 +17,7 @@ Self-contained: needs nothing outside this repository. Checks, in order,
 
 Exit 0 only if every check passes. Usage, from anywhere:
 
-    python3 benchmark/scripts/verify_data.py            # full check (~1 min: reads 830 MB of genomes)
+    python3 benchmark/scripts/verify_data.py            # full check (~1 min with the genomes present)
     python3 benchmark/scripts/verify_data.py --quick    # skip the md5 / sha256 reads
 """
 import csv
@@ -23,7 +26,8 @@ import hashlib
 import os
 import sys
 
-REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+REPO = os.environ.get("IQTREE3_GPU_REPO") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+FETCH = "bash benchmark/scripts/fetch_benchmark_data.sh"
 GENOMES = os.path.join(REPO, "benchmark", "data", "genomes")
 PROTEIN = os.path.join(REPO, "benchmark", "data", "protein")
 DNA = os.path.join(REPO, "benchmark", "data", "dna")
@@ -51,7 +55,9 @@ if not os.path.exists(META):
 rows = list(csv.DictReader(open(META, newline=""), delimiter="\t"))
 listed = {r["stable_genome_id"]: r for r in rows}
 on_disk = {os.path.basename(p)[:-4]: p for p in glob.glob(os.path.join(GENOMES, "g__*", "*.fna"))}
-if set(listed) != set(on_disk):
+if not on_disk:
+    print(f"note  genomes not downloaded ({len(listed)} listed in genome_metadata.tsv): {FETCH} genomes")
+elif set(listed) != set(on_disk):
     fail(f"genome table and benchmark/data/genomes/ differ: {len(set(listed) - set(on_disk))} listed but absent, "
          f"{len(set(on_disk) - set(listed))} on disk but unlisted")
 else:
@@ -62,16 +68,18 @@ if bad_dir:
     fail(f"{len(bad_dir)} genomes are not at the path the table records, e.g. {bad_dir[:3]}")
 else:
     ok("every genome sits at the path the table records")
-if not QUICK:
+if not QUICK and on_disk:
     bad = [g for g, r in listed.items() if g in on_disk and digest(on_disk[g], "md5") != r["md5_fna"]]
     if bad: fail(f"{len(bad)} genomes differ from their recorded md5, e.g. {bad[:3]}")
     else: ok(f"md5 of all {len(on_disk)} genome files matches the table")
 
 # 2. alignments
-alns = sorted(glob.glob(os.path.join(PROTEIN, "*", "concat_alignment.faa"))) + \
-       sorted(glob.glob(os.path.join(REPO, "examples", "data", "*.faa")))
+bench_alns = sorted(glob.glob(os.path.join(PROTEIN, "*", "concat_alignment.faa")))
+if not bench_alns:
+    print(f"note  amino-acid alignments not downloaded: {FETCH} alignments")
+alns = bench_alns + sorted(glob.glob(os.path.join(REPO, "examples", "data", "*.faa")))
 if not alns:
-    fail("no amino-acid alignments found")
+    fail("no amino-acid alignments found (not even examples/data/*.faa)")
 unknown = {}
 for a in alns:
     t = tips(a)
@@ -82,13 +90,15 @@ for a in alns:
 if unknown: fail(f"tips that are not listed genomes in {len(unknown)} alignments: {unknown}")
 else: ok(f"{len(alns)} alignments, every tip is a listed genome")
 mismatch = []
-for gdir in sorted(glob.glob(os.path.join(PROTEIN, "g__*"))):
-    g = os.path.basename(gdir)
-    beside = {os.path.basename(p)[:-4] for p in glob.glob(os.path.join(GENOMES, g, "*.fna"))}
-    in_aln = set(tips(os.path.join(gdir, "concat_alignment.faa")))
-    if beside != in_aln: mismatch.append(g)
-if mismatch: fail(f"full-genus alignments whose tips differ from benchmark/data/genomes/<genus>/: {mismatch}")
-else: ok("each full-genus alignment carries exactly the genomes staged for that genus")
+if on_disk and bench_alns:
+    for gdir in sorted(glob.glob(os.path.join(PROTEIN, "g__*"))):
+        g = os.path.basename(gdir)
+        a = os.path.join(gdir, "concat_alignment.faa")
+        if not os.path.exists(a): continue
+        beside = {os.path.basename(p)[:-4] for p in glob.glob(os.path.join(GENOMES, g, "*.fna"))}
+        if beside != set(tips(a)): mismatch.append(g)
+    if mismatch: fail(f"full-genus alignments whose tips differ from benchmark/data/genomes/<genus>/: {mismatch}")
+    else: ok("each full-genus alignment carries exactly the genomes staged for that genus")
 
 # 3. DNA checksums
 chk = os.path.join(DNA, "CHECKSUMS.sha256")
@@ -109,7 +119,7 @@ else:
         if not QUICK and digest(p, "sha256") != want: wrong.append(rel)
     if wrong: fail(f"DNA alignments with a wrong sha256: {wrong}")
     else: ok(f"DNA alignments present: {present}" + ("" if QUICK else ", all sha256 match"))
-    if absent: print(f"note  {len(absent)} DNA alignments not present (regenerable; see their PROVENANCE.md): "
+    if absent: print(f"note  {len(absent)} DNA alignments not present ({FETCH} alignments, or regenerate from PROVENANCE.md): "
                      + ", ".join(absent[:5]) + (" ..." if len(absent) > 5 else ""))
 
 print(f"\n{'ALL CHECKS PASSED' if not fails else str(len(fails)) + ' CHECK(S) FAILED'}")

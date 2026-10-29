@@ -1,2 +1,0 @@
-# Raw source genomes (435 files, ~830 MB) are stored through Git LFS; everything else is ordinary git.
-benchmark/data/genomes/**/*.fna filter=lfs diff=lfs merge=lfs -text

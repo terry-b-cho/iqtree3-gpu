@@ -60,6 +60,7 @@ BIN=$IQTREE_BUILD_ROOT/iqtree3_gpu_build/iqtree3
 CHECK=$REPO/scripts/rf_logl_check.py
 GENUS=${GENUS:-g__CAG-269}
 ALN=$REPO/benchmark/data/protein/$GENUS/concat_alignment.faa
+[ -f "$ALN" ] || { echo "FATAL: $ALN is missing; run: bash benchmark/scripts/fetch_benchmark_data.sh alignments" >&2; exit 1; }
 OUT=$REPO/validation/equivalence/$GENUS
 TSV=$REPO/validation/equivalence_matrix.tsv
 mkdir -p "$OUT" "$(dirname "$TSV")"

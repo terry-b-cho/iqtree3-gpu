@@ -4,8 +4,8 @@ cff-version: 1.2.0
 message: >-
   If you use IQ-TREE3-GPU, please cite this work (see preferred-citation) together with the
   IQ-TREE 3 article it builds on (Wong et al. 2026, doi:10.1093/molbev/msag117), listed under
-  references. A preprint DOI and a Zenodo DOI for the archived record will be added here when
-  they are minted.
+  references. The benchmark data (source genomes, alignments, run record) are archived on Zenodo
+  under the DOI listed in identifiers.
 title: "IQ-TREE3-GPU: GPU-accelerated maximum-likelihood phylogenetic tree inference for complex amino acid substitution models"
 abstract: >-
   Maximum-likelihood (ML) phylogenetic inference spends much of its computational time evaluating
@@ -26,6 +26,10 @@ abstract: >-
   IQ-TREE3-GPU as a practical, reusable tool for accelerating computationally intensive amino-acid
   phylogenetic reconstruction within existing research workflows.
 type: software
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22942159
+    description: Benchmark data deposit (source genomes, alignments and the paired CPU-GPU run record)
 version: "0.1.0"
 date-released: 2026-10-25
 license: GPL-2.0-only

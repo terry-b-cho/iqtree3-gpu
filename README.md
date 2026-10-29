@@ -88,7 +88,7 @@ Four commands, on a machine with an NVIDIA GPU, CUDA 12.x, a matching gcc and CM
 [Setup](#setup)). On an Lmod cluster such as HMS O2 the second line loads them; elsewhere skip it.
 
 ```bash
-GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/kosticlab/iqtree3-gpu.git && cd iqtree3-gpu   # skips 830 MB of benchmark genomes the tool never reads
+git clone https://github.com/kosticlab/iqtree3-gpu.git && cd iqtree3-gpu
 module load gcc/14.2.0 cuda/12.8 cmake/3.31.2                      # Lmod clusters only; gcc first
 ./build_iqtree_gpu.sh                                             # fetches IQ-TREE 3, patches it, builds ./iqtree3_gpu_build/iqtree3 (5-8 min on 8 cores; no GPU needed)
 bash scripts/iqtree3-gpu-verify.sh ./iqtree3_gpu_build/iqtree3    # on a GPU node, seconds: kernel engaged, RF = 0, log-likelihood matches
@@ -313,7 +313,7 @@ Nothing in it is needed to build, verify or use the tool.
 |---|---|
 | What was measured, and which section produces which figure and table | [`benchmark/README.md`](benchmark/README.md) |
 | The function behind every panel, its rows and inputs; how to change a panel | [`benchmark/FIGURE_MAP.md`](benchmark/FIGURE_MAP.md) |
-| Inputs with provenance: 435 genomes (Git LFS), 35 amino-acid and 26 nucleotide alignments | [`benchmark/data/`](benchmark/data/README.md) |
+| Inputs: provenance of the 435 genomes and 61 alignments in git; the files themselves on Zenodo (doi:10.5281/zenodo.22942159) | [`benchmark/data/`](benchmark/data/README.md) |
 | Measured record: `RUNS.tsv` (226 rows, 182 on the reported build), per-cell evidence, `KEY_NUMBERS.md` | [`benchmark/runs/`](benchmark/runs/KEY_NUMBERS.md) |
 | Figures: panels, lettered composites, Source Data, manifest | [`benchmark/figures/`](benchmark/figures/README.md) |
 | Column dictionary for the run table | [`benchmark/BENCHMARK_SCHEMA.md`](benchmark/BENCHMARK_SCHEMA.md) |
@@ -326,9 +326,9 @@ bash benchmark/figures_tables/refresh_all.sh   # regenerate every figure, table 
 bash scripts/run_tests.sh --quick          # repository invariants, figure contract, map and cross-checks
 ```
 
-Set `GIT_LFS_SKIP_SMUDGE=1` on clone to skip the 830 MB of genomes. A Zenodo deposit of the complete
-record accompanies the manuscript; its DOI will be added to
-[`benchmark/REPRODUCING.md`](benchmark/REPRODUCING.md) and [`assets/CITATION.cff`](assets/CITATION.cff) on deposit.
+The benchmark inputs (435 source genomes, 35 amino-acid and 26 nucleotide alignments, about 1.1 GB
+compressed) are on Zenodo, doi:10.5281/zenodo.22942159, not in git; `bash benchmark/scripts/fetch_benchmark_data.sh alignments`
+downloads what the harness needs. Every figure and table regenerates from `benchmark/runs/` without them.
 
 ## Repository structure
 
@@ -360,15 +360,15 @@ iqtree3-gpu/
 └── benchmark/                         # THE PUBLISHED BENCHMARK (not needed to use the tool)
     ├── README.md                      # the map: every figure and table -> the script that makes it
     ├── REPRODUCING.md · BENCHMARK_SCHEMA.md
-    ├── data/                          # genomes/ (LFS), protein/, dna/ (data/README.md)
+    ├── data/                          # provenance of genomes/, protein/, dna/; the files come from Zenodo (data/README.md)
     ├── runs/                          # RUNS.tsv, KEY_NUMBERS.md, phase and replicate tables, paired/ evidence, Supplementary Data
     ├── figures/                       # panels/, composites/, source_data/, Source_Data.xlsx, FIGURE_MANIFEST.tsv
     ├── profiling/                     # Nsight and launch-latency records
     ├── figures_tables/                # figures.py, tables.py, lib/, refresh_all.sh: every figure and table from the record
     └── scripts/                       # the benchmark itself: record builders, the SLURM harness, dataset builders
-        ├── aggregate_runs.py · phase_extract.py · verify_data.py
+        ├── aggregate_runs.py · phase_extract.py · verify_data.py · fetch_benchmark_data.sh
         ├── harness/                   # the paired SLURM benchmark (harness/README.md)
-        └── dev/                       # dataset builders, Zenodo packaging (dev/README.md)
+        └── dev/                       # dataset builders, the Zenodo deposit script (dev/README.md)
 ```
 
 ## Contributing

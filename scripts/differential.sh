@@ -64,6 +64,7 @@ _d=$(_i3g_try "${REPO_DIR:-}") \
 BIN=$IQTREE_BUILD_ROOT/iqtree3_gpu_build/iqtree3
 GENUS=${GENUS:-g__CAG-269}
 ALN=$REPO/benchmark/data/protein/$GENUS/concat_alignment.faa
+[ -f "$ALN" ] || { echo "FATAL: $ALN is missing; run: bash benchmark/scripts/fetch_benchmark_data.sh alignments" >&2; exit 1; }
 OUT=$REPO/validation/differential/${GENUS}
 rm -rf "$OUT"; mkdir -p "$OUT"
 

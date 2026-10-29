@@ -30,6 +30,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follo
   (`rows_prior_build`, `build_sha_prior` in the key numbers).
 
 ### Changed
+- Benchmark input data moved out of git to Zenodo (doi:10.5281/zenodo.22942159): the 435 source genomes
+  (formerly Git LFS), the 45 amino-acid alignments and the 26 nucleotide alignments. Their provenance,
+  metadata tables, checksums, guide trees and logs stay in git; `benchmark/scripts/fetch_benchmark_data.sh`
+  downloads the archives into place and `verify_data.py` reports a folder that has not been fetched
+  instead of failing. Git LFS is no longer used. Figures and tables still regenerate from `benchmark/runs/`
+  alone.
 - Repository split into the tool (root: `build_iqtree_gpu.sh`, `src/`, `examples/`, `scripts/`,
   `docs/`) and the published benchmark (`benchmark/`: inputs, measured record, figures, tables and
   the scripts that produce them). `benchmark/README.md` maps every figure and table to the script
