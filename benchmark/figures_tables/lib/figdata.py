@@ -23,7 +23,7 @@ Nothing is hardcoded, so the repository runs from any directory.
 import csv, math, os, random, re
 
 GATE_FAILURE_CELL = "g__Ruminococcoides__T20__l40s_cx"
-SUPERSEDED_SHA_PREFIX = "07c70cae"
+PRIOR_BUILD_SHA_PREFIX = "07c70cae"
 SUPPORT_GATE_TOL = 5.0          # points; matches paired_benchmark.sh:399
 LOGL_CONTRACT = 1e-4            # matches paired_benchmark.sh:477
 
@@ -85,7 +85,7 @@ def load(mod, current_build_only=True):
         rows = list(csv.DictReader(fh, delimiter="\t"))
     if current_build_only:
         rows = [r for r in rows
-                if not (r.get("binary_sha256") or "").startswith(SUPERSEDED_SHA_PREFIX)]
+                if not (r.get("binary_sha256") or "").startswith(PRIOR_BUILD_SHA_PREFIX)]
     for r in rows:
         r["_complexity"] = complexity(r)
         r["_speedup"] = num(r.get("speedup"))

@@ -111,5 +111,5 @@ The manuscript's machine-readable tables are the sheets of `runs/Supplementary_D
 
 ## What is not here
 
-The manuscript text and team-internal working material are not distributed. Nothing here depends
+The manuscript text is not distributed. Nothing here depends
 on them: every figure, table and number regenerates from `runs/` alone.

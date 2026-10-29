@@ -8,7 +8,7 @@ the topology with `-te` is not enough: IQ-TREE still OPTIMISES the model paramet
 converge to slightly different points and the comparison measures optimiser divergence rather than
 kernel arithmetic.
 
-That is not hypothetical. On 2026-07-21 the harness reported per-site differences up to 4.6e-02 for
+In practice the harness reported per-site differences up to 4.6e-02 for
 +R models while the TOTAL tree log-likelihood agreed to 6.5e-08, and the reports showed the arms had
 landed on different proportions (0.3459 vs 0.3458). The maths matches exactly: at an optimum
 dlogL/dtheta = 0, so a parameter perturbation moves the TOTAL by O(dtheta^2) but each SITE's

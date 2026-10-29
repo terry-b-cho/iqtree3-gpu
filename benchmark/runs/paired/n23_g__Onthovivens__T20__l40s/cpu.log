@@ -4,12 +4,12 @@ Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
 Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
 
 Host:    compute-g-17-203.o2.rc.hms.harvard.edu (AVX512, FMA3, 502 GB RAM)
-Command: /path/to/builds/gpu_build_graphs/iqtree3_build_newton/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n23_g__Onthovivens/concat_alignment.faa -T 20 -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu -redo
+Command: /path/to/builds/gpu_build_graphs/iqtree3_build_newton/iqtree3 -s /path/to/iqtree3-gpu/data/protein/n23_g__Onthovivens/concat_alignment.faa -T 20 -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu -redo
 Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
 Time:    Sat Aug  1 03:11:07 2026
 Kernel:  AVX+FMA - 20 threads (20 CPU cores detected)
 
-Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n23_g__Onthovivens/concat_alignment.faa ... Fasta format detected
+Reading alignment file /path/to/iqtree3-gpu/data/protein/n23_g__Onthovivens/concat_alignment.faa ... Fasta format detected
 Reading fasta file: done in 0.036345 secs using 90.16% CPU
 Alignment most likely contains protein sequences
 Constructing alignment: done in 0.134832 secs using 1607% CPU
@@ -71,7 +71,7 @@ Corrected Akaike Information Criterion: PMB+F+I+R5
 Bayesian Information Criterion:         PMB+F+I+R5
 Best-fit model: PMB+F+I+R5 chosen according to BIC
 
-All model information printed to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.model.gz
+All model information printed to /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.model.gz
 CPU time for ModelFinder: 109815.860 seconds (30h:30m:15s)
 Wall-clock time for ModelFinder: 5530.670 seconds (1h:32m:10s)
 Generating 1000 samples for ultrafast bootstrap (seed: 1)...
@@ -225,7 +225,7 @@ BEST SCORE FOUND : -1878173.996
 Testing tree branches by SH-like aLRT with 1000 replicates...
 3.309 sec.
 Creating bootstrap support values...
-Split supports printed to NEXUS file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.splits.nex
+Split supports printed to NEXUS file /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.splits.nex
 Total tree length: 3.957
 
 Total number of iterations: 102
@@ -235,20 +235,20 @@ Total CPU time used: 124573.674 sec (34h:36m:13s)
 Total wall-clock time used: 6295.474 sec (1h:44m:55s)
 
 Computing bootstrap consensus tree...
-Reading input file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.splits.nex...
+Reading input file /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.splits.nex...
 23 taxa and 44 splits.
-Consensus tree written to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.contree
-Reading input trees file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.contree
+Consensus tree written to /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.contree
+Reading input trees file /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.contree
 Log-likelihood of consensus tree: -1878173.995
 
 Analysis results written to: 
-  IQ-TREE report:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.iqtree
-  Maximum-likelihood tree:       /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.treefile
-  Likelihood distances:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.mldist
+  IQ-TREE report:                /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.iqtree
+  Maximum-likelihood tree:       /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.treefile
+  Likelihood distances:          /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.mldist
 
 Ultrafast bootstrap approximation results written to:
-  Split support values:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.splits.nex
-  Consensus tree:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.contree
-  Screen log file:               /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.log
+  Split support values:          /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.splits.nex
+  Consensus tree:                /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.contree
+  Screen log file:               /path/to/iqtree3-gpu/results/benchmarks/paired/n23_g__Onthovivens__T20__l40s/cpu.log
 
 Date and Time: Sat Aug  1 04:56:04 2026

@@ -4,12 +4,12 @@ Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
 Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
 
 Host:    compute-g-17-145.o2.rc.hms.harvard.edu (AVX512, FMA3, 753 GB RAM)
-Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa -T 20 -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu -redo
+Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /path/to/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa -T 20 -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu -redo
 Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
 Time:    Sat Aug 22 15:51:03 2026
 Kernel:  AVX+FMA - 20 threads (20 CPU cores detected)
 
-Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa ... Fasta format detected
+Reading alignment file /path/to/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa ... Fasta format detected
 Reading fasta file: done in 0.019877 secs using 98.81% CPU
 Alignment most likely contains protein sequences
 Constructing alignment: done in 0.121382 secs using 1362% CPU
@@ -57,7 +57,7 @@ Corrected Akaike Information Criterion: LG+F+I+R3
 Bayesian Information Criterion:         LG+F+I+R3
 Best-fit model: LG+F+I+R3 chosen according to BIC
 
-All model information printed to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.model.gz
+All model information printed to /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.model.gz
 CPU time for ModelFinder: 8341.099 seconds (2h:19m:1s)
 Wall-clock time for ModelFinder: 427.903 seconds (0h:7m:7s)
 Generating 1000 samples for ultrafast bootstrap (seed: 1)...
@@ -128,7 +128,7 @@ BEST SCORE FOUND : -1048836.839
 Testing tree branches by SH-like aLRT with 1000 replicates...
 1.406 sec.
 Creating bootstrap support values...
-Split supports printed to NEXUS file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.splits.nex
+Split supports printed to NEXUS file /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.splits.nex
 Total tree length: 3.891
 
 Total number of iterations: 102
@@ -138,20 +138,20 @@ Total CPU time used: 12181.879 sec (3h:23m:1s)
 Total wall-clock time used: 626.181 sec (0h:10m:26s)
 
 Computing bootstrap consensus tree...
-Reading input file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.splits.nex...
+Reading input file /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.splits.nex...
 14 taxa and 28 splits.
-Consensus tree written to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.contree
-Reading input trees file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.contree
+Consensus tree written to /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.contree
+Reading input trees file /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.contree
 Log-likelihood of consensus tree: -1048836.839
 
 Analysis results written to: 
-  IQ-TREE report:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.iqtree
-  Maximum-likelihood tree:       /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.treefile
-  Likelihood distances:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.mldist
+  IQ-TREE report:                /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.iqtree
+  Maximum-likelihood tree:       /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.treefile
+  Likelihood distances:          /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.mldist
 
 Ultrafast bootstrap approximation results written to:
-  Split support values:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.splits.nex
-  Consensus tree:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.contree
-  Screen log file:               /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.log
+  Split support values:          /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.splits.nex
+  Consensus tree:                /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.contree
+  Screen log file:               /path/to/iqtree3-gpu/results/benchmarks/paired/n14_g__Nanosyncoccus__T20__rtx8000/cpu.log
 
 Date and Time: Sat Aug 22 16:01:31 2026

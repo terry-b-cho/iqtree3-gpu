@@ -1,4 +1,4 @@
-# IQ-TREE3-GPU — kernel design (rewrite, 2026-07-21)
+# IQ-TREE3-GPU — kernel design
 
 ## Objective
 

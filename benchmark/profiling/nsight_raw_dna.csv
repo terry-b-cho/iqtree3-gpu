@@ -4,7 +4,7 @@ Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
 Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
 
 Host:    compute-gc-17-242.o2.rc.hms.harvard.edu (AVX512, FMA3, 502 GB RAM)
-Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_n14/aln.phy -m GTR+F+G4 -T 1 -gpu -seed 1 --prefix /tmp/roofline_50571639/dna -redo
+Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /path/to/iqtree3-gpu/data/dna/dna_n14/aln.phy -m GTR+F+G4 -T 1 -gpu -seed 1 --prefix /tmp/roofline_50571639/dna -redo
 Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
 Time:    Sat Aug 15 11:21:30 2026
 Kernel:  AVX+FMA - 1 threads (4 CPU cores detected)
@@ -12,7 +12,7 @@ Kernel:  AVX+FMA - 1 threads (4 CPU cores detected)
 HINT: Use -nt option to specify number of threads because your CPU has 4 cores!
 HINT: -nt AUTO will automatically determine the best number of threads to use.
 
-Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_n14/aln.phy ... Phylip format detected
+Reading alignment file /path/to/iqtree3-gpu/data/dna/dna_n14/aln.phy ... Phylip format detected
 Alignment most likely contains DNA/RNA sequences
 Constructing alignment: done in 0.0533841 secs using 56.15% CPU
 Alignment has 14 sequences with 99220 columns, 26390 distinct patterns

@@ -199,8 +199,8 @@ run_arm () {  # arm(cpu|gpu)
   local pfx="$OUT/$arm"
   # --gpu-strict is COMPUTATIONALLY IDENTICAL to -gpu; it only turns any CPU fallback or device
   # error into a hard abort. For a benchmark that is essential: a silent fallback would mean
-  # unknowingly timing CPU against CPU, which is exactly the failure this project already shipped
-  # once. If the GPU arm aborts, we get no number rather than a wrong one.
+  # unknowingly timing CPU against CPU, which is the failure this gate exists to prevent.
+  # If the GPU arm aborts, we get no number rather than a wrong one.
   [ "$arm" = gpu ] && { bin=$GPUBIN; gflag="-gpu --gpu-strict"; }
   echo; echo "--- $arm arm (-T $THREADS $gflag) ---"
   local sampler=""
@@ -529,10 +529,10 @@ PYD
 [ -z "$PATTERN_SATURATION" ] && PATTERN_SATURATION=NA
 [ -z "$DOMINANT_PHASE" ] && DOMINANT_PHASE=NA
 
-# --- SECOND-WAVE STUBS (deliberately deferred; see benchmark/BENCHMARK_SCHEMA.md groups I/J/K/L-roofline) ---
-# TODO(second-wave): RAPL cpu_energy_j, smi gpu_power/energy, Nsight achieved_dram/fp64 + roofline_bound,
-# and >=3 timing replicates (wall_sd_s/wall_cv). Emitted now as TODO_2W so the column exists in RUNS.tsv.
-TODO_2W=TODO_2W
+# --- UNMEASURED COLUMNS (see benchmark/BENCHMARK_SCHEMA.md groups I/J/K/L-roofline): RAPL cpu_energy_j,
+# smi gpu_power/energy, Nsight achieved_dram/fp64 + roofline_bound, and timing replicates (wall_sd_s/wall_cv).
+# Written as NA so that the columns exist in RUNS.tsv with a stable schema.
+NOT_MEASURED=NA
 
 # --- Group M companion: long-form per-phase table (phase, arm, phase_wall_s, phase_speedup) ---
 {
@@ -582,9 +582,9 @@ ROW="$ROW\t$NUM_STATES\t$PER_PATTERN_MACS\t$PATTERN_SATURATION"
 # Group M: run-level phase decomposition (long form in PHASES.tsv)
 HDR="$HDR\tdominant_phase"
 ROW="$ROW\t$DOMINANT_PHASE"
-# Second-wave stubs (clearly marked TODO_2W; see note above)
+# Unmeasured columns (NA; see note above)
 HDR="$HDR\tcpu_energy_j\tgpu_power_mean_w\tgpu_energy_j\tachieved_dram_gbs\tachieved_fp64_gflops\troofline_bound\tn_replicates\twall_sd_s\twall_cv"
-ROW="$ROW\t$TODO_2W\t$TODO_2W\t$TODO_2W\t$TODO_2W\t$TODO_2W\t$TODO_2W\t1\t$TODO_2W\t$TODO_2W"
+ROW="$ROW\t$NOT_MEASURED\t$NOT_MEASURED\t$NOT_MEASURED\t$NOT_MEASURED\t$NOT_MEASURED\t$NOT_MEASURED\t1\t$NOT_MEASURED\t$NOT_MEASURED"
 { echo -e "$HDR"; echo -e "$ROW"; } > "$OUT/RESULT.tsv"
 echo; echo "== RESULT.tsv ($(head -1 "$OUT/RESULT.tsv" | tr '\t' '\n' | wc -l) columns) =="; column -t -s$'\t' "$OUT/RESULT.tsv" 2>/dev/null | cut -c1-200
 

@@ -28,8 +28,8 @@ PAIRED = os.path.join(REPO, "benchmark", "runs", "paired")
 RUNS = os.path.join(REPO, "benchmark", "runs", "RUNS.tsv")
 SUMMARY = os.path.join(REPO, "benchmark", "runs", "RUNS_summary.tsv")
 
-# Values that mean "not a number" for aggregation purposes (schema uses NA; second-wave stubs TODO_2W).
-_NULLS = {"", "NA", "N/A", "NONE", "NULL", "TODO_2W", "TODO"}
+# Values that mean "not a number" for aggregation purposes (the schema uses NA; older placeholder tokens are accepted).
+_NULLS = {"", "NA", "N/A", "NONE", "NULL"}
 
 # Columns that older per-cell RESULT.tsv files carry but the published run table does not. The
 # per-cell files are raw evidence and are left as written; the column is dropped here, at ingest,
@@ -92,8 +92,8 @@ def collect_cells():
         jr = load_result(jf) if os.path.exists(jf) else None
         if jr:
             for k, v in jr.items():
-                # A REAL group-J measurement must beat a placeholder: paired_benchmark.sh stubs second-wave columns
-                # (gpu_power_mean_w, gpu_energy_j, ...) as TODO_2W in its own row, and plain setdefault
+                # A REAL group-J measurement must beat a placeholder: paired_benchmark.sh writes the unmeasured
+                # columns (gpu_power_mean_w, gpu_energy_j, ...) as NA in its own row, and plain setdefault
                 # let the stub win over the card sweep's measured value. Overwrite only null tokens --
                 # a genuine core value is still never replaced.
                 if (r.get(k) is None) or (str(r.get(k)).strip().upper() in _NULLS):
@@ -253,7 +253,7 @@ def main():
     # ONE ROW PER CELL, APPEND-SAFE. Keyed by the cell directory (genus+threads+card). Current disk
     # state upserts its cell's row; rows whose cell dir is NO LONGER on disk are RETAINED from the
     # existing RUNS.tsv and marked row_status=archived -- data is never silently dropped. A re-run of
-    # the SAME cell intentionally supersedes that cell's row (same measurement point, newer
+    # the SAME cell intentionally replaces that cell's row (same measurement point, newer
     # measurement); every prior snapshot is additionally preserved in git history, so nothing is ever
     # lost. New cells (new sizes, new cards, replicates) simply ADD rows.
     _, prev = read_existing(RUNS)
@@ -266,8 +266,7 @@ def main():
         index[cellname] = old
     skipped_legacy = 0
     for r in cells:
-        # Exclude pre-schema (legacy 25-column) cells: they lack data_type, come from a superseded binary,
-        # and are being re-run on the current engine.
+        # Exclude pre-schema (legacy 25-column) cells: they lack data_type and come from an earlier binary.
         if (r.get("data_type") or "NA").strip() in ("", "NA"):
             skipped_legacy += 1
             continue

@@ -17,7 +17,7 @@
 #  jobs used <half of the RAM they reserved (measured across 124 runs: 1.13 GB mean, 6.99 GB max
 #  against a 96 GB request), which cost us scheduler priority.
 #
-#  SIZING RULE (recalibrated 2026-08-31 after three OOM failures). The first model sized the DEVICE
+#  SIZING RULE (recalibrated after three out-of-memory failures). The first model sized the DEVICE
 #  arena (patterns x 128 B x 1.3 x taxa) and under-predicted badly. The lesson from the failures:
 #  **the CPU arm, not the GPU arm, sets the host-memory requirement.** All three OOM cells finished
 #  their GPU arm normally (which keeps partials in VRAM) and then died in the CPU arm, which holds

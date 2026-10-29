@@ -82,7 +82,10 @@ benchmark/data/dna/dna_[phu]*_*/aln.log
 # --- Zenodo staging area (built by benchmark/scripts/dev/build_zenodo_bundle.sh; never committed) ---
 zenodo_upload_bundle/
 
-# --- private archive of material removed from the published benchmark (never distributed) ---
+# --- local archive of material removed from the published benchmark (not distributed) ---
 benchmark/xx_archive_junkyard/
 # Arial TrueType files for the figures: Monotype-licensed, placed locally, never distributed
 benchmark/figures/arial/
+
+# --- manuscript drafts and audit feedback: never published ---
+xx_manuscript_drafts/

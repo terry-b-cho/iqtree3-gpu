@@ -254,9 +254,8 @@ run_mode () {
 
   # gpu_kernel_time_s: GPU-KERNEL-ONLY time, isolated from host time (schema J). This needs Nsight
   # Systems/Compute (nsys/ncu) to attribute device-kernel duration; the paired harness records only
-  # wall time. Left as a TODO stub until an nsys profiling pass is wired in (see the retired launch-count
-  # work). Emitting the column now keeps the card-sweep schema stable for later backfill.
-  local gpu_kernel_time_s="TODO_nsight"
+  # wall time. Written as NA; emitting the column keeps the card-sweep schema stable for later backfill.
+  local gpu_kernel_time_s="NA"
 
   # ---- emit: paired_benchmark.sh core columns (so rows aggregate into RUNS.tsv) + group-J columns ----
   local JHDR JROW OUTJ="$OUT/RESULT_cardsweep_J.tsv"

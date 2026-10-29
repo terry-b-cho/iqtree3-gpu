@@ -152,9 +152,11 @@ Accelerated (identical result to CPU IQ-TREE):
 - `+F` empirical frequencies, `+G` gamma rates, `+R` FreeRate, `+I` invariant sites
 - `-m TESTNEW` (ModelFinder), `--ufboot`, `--alrt`, `--dating mcmctree`
 - Any thread count (`-T N`)
+- `--gpu-newton host|device`: the branch-length Newton loop on the host with GPU derivatives (default;
+  the benchmarked configuration) or entirely on the GPU (opt-in; same routine, not benchmarked)
 
 > **Nucleotide GPU support is verified and shipped in the production binary.** The 4-state path (DNA is
-> memory/launch-bound, so it uses a different thread mapping and an on-device Newton loop) builds
+> memory/launch-bound, so it uses a different thread mapping) builds
 > correct, fully-GPU-engaged trees — RF = 0 vs CPU with logL identical and the GPU genuinely engaged
 > (pct_gpu = 100, cpu_calls = 0) across the full n = 4..30 paired sweep (both 1 and 20 threads), and it
 > is built by `build_iqtree_gpu.sh`. Measured speedup (fixed model, L40S): at 20 threads nucleotide

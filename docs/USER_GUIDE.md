@@ -66,7 +66,9 @@ Before any real analysis:
 
 It checks two things **in order**: first *engagement* (the GPU kernel was actually installed and ran,
 not merely that a device was reported), then *equivalence* (`rf_dist: 0`, matching log-likelihood).
-Do this once per machine, and again after any rebuild.
+Do this once per machine, and again after any rebuild. It is a check of the build, not part of an
+analysis: a `-gpu` run (section 6) is a single analysis on the GPU and never runs the CPU tool or
+compares anything.
 
 ## 6. Run your analysis
 
@@ -127,7 +129,7 @@ The engine therefore counts every call and prints a machine-readable line at exi
 
 ```
 [IQ-TREE3-GPU] GPUSTATS gpu_calls=N cpu_calls=M pct_gpu=... rebuilds=... rebinds=... \
-                  ncat_switches=... packets_skipped=... device_errors=... strict=0|1
+                  ncat_switches=... packets_skipped=... device_errors=... ... strict=0|1 newton_mode=host|device
 ```
 
 Delegations are also reported by *reason* (`model-is-mixture`, `not-amino-acid`, `+ASC`, ...), so a
@@ -143,10 +145,32 @@ silent fallback would mean unknowingly comparing CPU against CPU.
 iqtree3 -gpu --gpu-strict -T 20 -s aln.faa -m LG+F+R4 --prefix mytree
 ```
 
+**`--gpu-newton host|device`** chooses where the per-branch Newton–Raphson branch-length loop runs.
+`host` is the default: IQ-TREE's own loop on the CPU, calling the GPU for every first and second
+derivative. **Every run in the published benchmark used this configuration.** `device` runs the whole
+loop on the GPU as a line-by-line port of the same routine (same bracket, tolerance and iteration
+limit; unit-tested against the host loop at both state counts), with one host round-trip per branch
+instead of one per iteration. It changes device-call counts and timings, it was not the benchmarked
+configuration, and it is therefore opt-in. A branch whose derivatives become non-finite on the device
+is handed back to the host loop. The mode is printed in the start-up banner and recorded as
+`newton_mode=host|device` at exit; `newton_ondevice=` counts the branches optimised on the device.
+
+```bash
+iqtree3 --gpu-newton device --gpu-strict -T 20 -s aln.phy -m GTR+F+G4 --prefix mytree   # opt-in
+```
+
 ## 9. Confirm a real run was equivalent (optional, for publications)
 
-Run once on CPU (no `-gpu`) and once on GPU with the **same** `-s`, `-m`, `-seed`, then compare with
-the dependency-free checker (system python3, no extra packages):
+None of this section runs during a normal `-gpu` analysis. If you want the comparison for your own
+data, the wrapper runs the same command once on the CPU and once on the GPU (with `--gpu-strict`) and
+reports wall times, speedup and the agreement verdict; it costs one extra full CPU analysis:
+
+```bash
+bash scripts/iqtree3-gpu-benchmark.sh ./iqtree3_gpu_build/iqtree3 mytree -s aln.faa -m LG+F+R4 -T 20 -seed 1
+```
+
+To compare two runs you already have (same `-s`, `-m`, `-seed`, one without `-gpu` and one with),
+use the dependency-free checker directly (system python3, no extra packages):
 
 ```bash
 python3 scripts/rf_logl_check.py mytree_cpu mytree_gpu mycheck

@@ -25,8 +25,7 @@
 # =============================================================================
 #  WHY. An end-to-end "RF = 0 and logL matches" result is a weak test: it is the LAST thing the
 #  pipeline produces, so a defect in an intermediate buffer can be masked by the optimiser
-#  converging to the same answer anyway. That is how this project shipped, for weeks, a GPU backend
-#  whose kernel was never installed at all.
+#  converging to the same answer anyway. A GPU backend whose kernel is never installed passes it.
 #
 #  This harness compares per-site quantities on a FIXED topology, so search divergence cannot
 #  confound the comparison and any difference is purely numerical:
@@ -88,7 +87,7 @@ for MODEL in ${MODELS:-"LG+G4" "LG+R4" "LG+F+I+R5" "WAG+F+R3"}; do
   # STEP 1 -- converge the model ONCE on the CPU, purely to obtain its fitted parameters.
   # Fixing the topology with -te is NOT sufficient to make this a kernel comparison: IQ-TREE still
   # optimises model parameters, so the two arms land on slightly different points and we would be
-  # measuring optimiser divergence. Observed on 2026-07-21: per-site differences up to 4.6e-02 for
+  # measuring optimiser divergence. Observed: per-site differences up to 4.6e-02 for
   # +R models while the TOTAL logL agreed to 6.5e-08, with the arms differing in the 4th decimal of
   # a category proportion. At an optimum dlogL/dtheta = 0, so a parameter nudge moves the total by
   # O(dtheta^2) but each site by O(dtheta) -- exactly the pattern seen.

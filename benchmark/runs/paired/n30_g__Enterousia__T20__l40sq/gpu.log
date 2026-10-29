@@ -4,12 +4,12 @@ Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
 Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
 
 Host:    compute-g-17-169.o2.rc.hms.harvard.edu (AVX512, FMA3, 502 GB RAM)
-Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n30_g__Enterousia/concat_alignment.faa -T 20 -gpu --gpu-strict -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu -redo
+Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /path/to/iqtree3-gpu/data/protein/n30_g__Enterousia/concat_alignment.faa -T 20 -gpu --gpu-strict -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu -redo
 Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
 Time:    Sun Aug 23 17:24:16 2026
 Kernel:  AVX+FMA - 20 threads (20 CPU cores detected)
 
-Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n30_g__Enterousia/concat_alignment.faa ... Fasta format detected
+Reading alignment file /path/to/iqtree3-gpu/data/protein/n30_g__Enterousia/concat_alignment.faa ... Fasta format detected
 Reading fasta file: done in 0.0328779 secs using 98.98% CPU
 Alignment most likely contains protein sequences
 Constructing alignment: done in 0.144089 secs using 1303% CPU
@@ -75,7 +75,7 @@ Corrected Akaike Information Criterion: Q.PFAM+F+R7
 Bayesian Information Criterion:         Q.PFAM+F+R6
 Best-fit model: Q.PFAM+F+R6 chosen according to BIC
 
-All model information printed to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.model.gz
+All model information printed to /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.model.gz
 CPU time for ModelFinder: 1932.480 seconds (0h:32m:12s)
 Wall-clock time for ModelFinder: 1734.873 seconds (0h:28m:54s)
 Generating 1000 samples for ultrafast bootstrap (seed: 1)...
@@ -146,7 +146,7 @@ BEST SCORE FOUND : -1667605.159
 Testing tree branches by SH-like aLRT with 1000 replicates...
 2.976 sec.
 Creating bootstrap support values...
-Split supports printed to NEXUS file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.splits.nex
+Split supports printed to NEXUS file /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.splits.nex
 Total tree length: 5.591
 
 Total number of iterations: 105
@@ -156,20 +156,20 @@ Total CPU time used: 4062.854 sec (1h:7m:42s)
 Total wall-clock time used: 1999.106 sec (0h:33m:19s)
 
 Computing bootstrap consensus tree...
-Reading input file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.splits.nex...
+Reading input file /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.splits.nex...
 30 taxa and 62 splits.
-Consensus tree written to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.contree
-Reading input trees file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.contree
+Consensus tree written to /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.contree
+Reading input trees file /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.contree
 Log-likelihood of consensus tree: -1667605.117
 
 Analysis results written to: 
-  IQ-TREE report:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.iqtree
-  Maximum-likelihood tree:       /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.treefile
-  Likelihood distances:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.mldist
+  IQ-TREE report:                /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.iqtree
+  Maximum-likelihood tree:       /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.treefile
+  Likelihood distances:          /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.mldist
 
 Ultrafast bootstrap approximation results written to:
-  Split support values:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.splits.nex
-  Consensus tree:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.contree
-  Screen log file:               /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.log
+  Split support values:          /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.splits.nex
+  Consensus tree:                /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.contree
+  Screen log file:               /path/to/iqtree3-gpu/results/benchmarks/paired/n30_g__Enterousia__T20__l40sq/gpu.log
 
 Date and Time: Sun Aug 23 17:57:37 2026

@@ -137,8 +137,8 @@
 // call and silently delegate to the saved CPU pointers when it fails, so a run can print the
 // banner, show non-zero nvidia-smi utilisation, and still evaluate an arbitrary fraction of
 // its likelihoods on the CPU -- one ineligible ModelFinder candidate is enough. A benchmark in
-// that state is partly CPU-vs-CPU and passes a banner-plus-utilisation gate unchanged. This
-// project has already shipped one silent CPU-vs-CPU result; the two mechanisms here exist to
+// that state is partly CPU-vs-CPU and passes a banner-plus-utilisation gate unchanged. A silent
+// CPU-vs-CPU result is easy to produce and hard to notice; the two mechanisms here exist to
 // make that class of error impossible to miss rather than merely unlikely.
 //
 //   ACCOUNTING (always on). Every call is counted as executed-on-device or delegated-to-CPU,
@@ -153,6 +153,14 @@
 //   site; a device error is fatal instead of routing through gpuAbortToCpu(); and the exit
 //   accounting must show 100% GPU. It exists to PROVE that -gpu ran the whole likelihood, not
 //   to make it faster.
+//
+//   --gpu-newton host|device. WHERE the per-branch Newton-Raphson loop runs. `host` (the
+//   default) is IQ-TREE's own minimizeNewton on the CPU, calling the device for every
+//   derivative; this is the configuration of every run in the published benchmark. `device`
+//   runs the whole loop in one conditional CUDA graph (STEP 3 below) with a single host
+//   round-trip per branch; it is a faithful port of the same routine and is unit-tested
+//   against it, but it was NOT the benchmarked configuration, so it is opt-in. The choice is
+//   reported in the banner and as `newton_mode=` in the GPUSTATS line.
 //
 // ---------------------------------------------------------------------------------------
 // DEFERRED _pattern_lh DOWNLOAD
@@ -432,6 +440,8 @@ struct GpuContextStats {
     // Latched from params->gpu_strict. The destructor has no PhyloTree to consult and the flag
     // is run-constant, so latching is exact rather than a guess.
     bool       strict = false;
+    // Latched from params->gpu_newton_device, for the same reason and in the same place.
+    bool       newton_device = false;
 
     GpuContextStats() {
         for (int i = 0; i < GPU_EP_COUNT; i++) { on_gpu[i].store(0); on_cpu[i].store(0); }
@@ -476,13 +486,13 @@ struct GpuContextStats {
                "device_errors=%lld kernel_launches=%lld graph_replays=%lld "
                "full_captured=%lld full_replayed=%lld subset_traversals=%lld "
                "launches_per_full=%lld derv_replayed=%lld logl_replayed=%lld "
-               "newton_ondevice=%lld newton_loops=%lld strict=%d\n",
+               "newton_ondevice=%lld newton_loops=%lld strict=%d newton_mode=%s\n",
                gpu, cpu, pct, full_rebuilds, rebinds, ncat_switches,
                non_owning_packets.load(), device_errors.load(),
                iqtree_gpu_lik_launch_count(), iqtree_gpu_lik_graph_replay_count(),
                full_captured, full_replayed, subset_traversals, launches_per_full,
                derv_replayed, logl_replayed, newton_ondevice, iqtree_gpu_lik_newton_count(),
-               strict ? 1 : 0);
+               strict ? 1 : 0, newton_device ? "device" : "host");
         fflush(stdout);
 
         // The --gpu-strict exit assertion. Every individual delegation is already fatal at the
@@ -520,6 +530,9 @@ inline bool gpu_note_strict(const PhyloTree *tree) {
         g_gpu_strict = true;
         g_stats.strict = true;
     }
+    // Same latch for the Newton placement, so the GPUSTATS line records which loop ran.
+    if (tree && tree->params && tree->params->gpu_newton_device)
+        g_stats.newton_device = true;
     return g_gpu_strict;
 }
 
@@ -1628,13 +1641,13 @@ void PhyloTree::gpuGatherBranchLengths(std::vector<double> &lens) {
 
 // Off switch for the experimental CUDA-graph replay caches (full-traversal sweep, and the Newton
 // derivative/logL singleton graphs). Set env IQTREE_GPU_NO_GRAPH_REPLAY to force the proven per-launch
-// path -- the path the production binary uses, which is correct on every tree size. Used to isolate the
-// DNA small-tree NNI crash, which lives in the replay caching, not in the on-device Newton loop.
+// path -- the default path, which is correct on every tree size. The small-tree nucleotide NNI
+// failure lives in the replay caching, not in the on-device Newton loop.
 static int gpu_graph_replay_enabled() {
     // OFF by default. The experimental CUDA-graph replay caching is both UNSOUND and REDUNDANT:
     //  - Unsound: the full-traversal replay (gpuReplayOrComputeSweep) replays a graph for the wrong
     //    topology during NNI on small DNA trees, producing a slightly-off logL that trips
-    //    optimizeNNI's "Using one NNI reduces LogL" assertion. Pinpointed (job 49035252): disabling
+    //    optimizeNNI's "Using one NNI reduces LogL" assertion. Disabling
     //    the full-graph cache alone fixes it; disabling the small-graph derv/logl caches does not.
     //  - Redundant: once the on-device Newton loop is active it carries the entire speedup -- the n30
     //    1-thread speedup is identical (~4.36x) with the caching on or off. The caching buys nothing.
@@ -2045,13 +2058,14 @@ static bool gpuLoglReplay(int ncat, double len, double *logl) {
 // STEP 3: on-device Newton loop
 // ------------------------------------------------------------------------------------------
 // The whole per-branch Newton optimisation runs on the GPU in one conditional-WHILE graph launch,
-// removing the ~8 us host round-trip the graph-replay fallback still pays per iteration. Off
-// switch (for A/B validation): set env IQTREE_GPU_NO_ONDEVICE_NEWTON to fall back to the host
-// minimizeNewton (which itself uses the fast derivative/logL graph replay).
-static int gpu_ondevice_newton_enabled() {
-    static int v = -1;
-    if (v < 0) v = (getenv("IQTREE_GPU_NO_ONDEVICE_NEWTON") == nullptr) ? 1 : 0;
-    return v;
+// removing the ~8 us host round-trip paid per iteration when the host loop drives the device.
+// OPT-IN: selected with `--gpu-newton device` (Params::gpu_newton_device). The default,
+// `--gpu-newton host`, keeps IQ-TREE's minimizeNewton on the host with device-evaluated
+// derivatives -- the configuration of every run in the published benchmark. A run-constant
+// Params flag rather than an environment variable, so that the choice is on the command line
+// that the run record stores, and is echoed in the banner and the GPUSTATS line.
+static inline bool gpu_ondevice_newton_enabled(const PhyloTree *tree) {
+    return tree && tree->params && tree->params->gpu_newton_device;
 }
 
 static bool gpuEnsureNewtonLoopGraph(int ncat) {
@@ -2075,7 +2089,7 @@ static bool gpuEnsureNewtonLoopGraph(int ncat) {
 // host optimiser". Mirrors optimizeOneBranch's minimizeNewton call semantics exactly.
 bool PhyloTree::gpuNewtonOptimize(double x1, double xguess, double x2, double xacc,
                                   int maxNRStep, double &optx) {
-    if (!gpu_ondevice_newton_enabled()) return false;
+    if (!gpu_ondevice_newton_enabled(this)) return false;
     if (!g_gpu.eng || g_gpu.tree != this) return false;
     if (gpu_ineligible_reason(this) != GPU_OK) return false;
     if (!current_it || !current_it_back) return false;

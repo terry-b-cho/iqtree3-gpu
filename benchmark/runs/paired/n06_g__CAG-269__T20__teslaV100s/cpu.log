@@ -4,12 +4,12 @@ Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
 Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
 
 Host:    compute-g-17-148.o2.rc.hms.harvard.edu (AVX512, FMA3, 376 GB RAM)
-Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n06_g__CAG-269/concat_alignment.faa -T 20 -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu -redo
+Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /path/to/iqtree3-gpu/data/protein/n06_g__CAG-269/concat_alignment.faa -T 20 -m TESTNEW --ufboot 1000 --alrt 1000 -seed 1 --prefix /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu -redo
 Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
 Time:    Sun Aug 23 05:24:01 2026
 Kernel:  AVX+FMA - 20 threads (20 CPU cores detected)
 
-Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n06_g__CAG-269/concat_alignment.faa ... Fasta format detected
+Reading alignment file /path/to/iqtree3-gpu/data/protein/n06_g__CAG-269/concat_alignment.faa ... Fasta format detected
 Reading fasta file: done in 0.033731 secs using 94.1% CPU
 Alignment most likely contains protein sequences
 Constructing alignment: done in 0.149075 secs using 958.4% CPU
@@ -61,7 +61,7 @@ Corrected Akaike Information Criterion: WAG+F+I+R3
 Bayesian Information Criterion:         WAG+F+I+R3
 Best-fit model: WAG+F+I+R3 chosen according to BIC
 
-All model information printed to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.model.gz
+All model information printed to /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.model.gz
 CPU time for ModelFinder: 7315.014 seconds (2h:1m:55s)
 Wall-clock time for ModelFinder: 370.894 seconds (0h:6m:10s)
 Generating 1000 samples for ultrafast bootstrap (seed: 1)...
@@ -137,7 +137,7 @@ BEST SCORE FOUND : -963569.988
 Testing tree branches by SH-like aLRT with 1000 replicates...
 0.469 sec.
 Creating bootstrap support values...
-Split supports printed to NEXUS file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.splits.nex
+Split supports printed to NEXUS file /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.splits.nex
 Total tree length: 1.773
 
 Total number of iterations: 101
@@ -147,20 +147,20 @@ Total CPU time used: 7962.716 sec (2h:12m:42s)
 Total wall-clock time used: 406.073 sec (0h:6m:46s)
 
 Computing bootstrap consensus tree...
-Reading input file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.splits.nex...
+Reading input file /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.splits.nex...
 6 taxa and 9 splits.
-Consensus tree written to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.contree
-Reading input trees file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.contree
+Consensus tree written to /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.contree
+Reading input trees file /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.contree
 Log-likelihood of consensus tree: -963569.988
 
 Analysis results written to: 
-  IQ-TREE report:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.iqtree
-  Maximum-likelihood tree:       /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.treefile
-  Likelihood distances:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.mldist
+  IQ-TREE report:                /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.iqtree
+  Maximum-likelihood tree:       /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.treefile
+  Likelihood distances:          /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.mldist
 
 Ultrafast bootstrap approximation results written to:
-  Split support values:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.splits.nex
-  Consensus tree:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.contree
-  Screen log file:               /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.log
+  Split support values:          /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.splits.nex
+  Consensus tree:                /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.contree
+  Screen log file:               /path/to/iqtree3-gpu/results/benchmarks/paired/n06_g__CAG-269__T20__teslaV100s/cpu.log
 
 Date and Time: Sun Aug 23 05:30:48 2026

@@ -5,6 +5,30 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follo
 
 ## [Unreleased]
 
+### Added
+- `--gpu-newton host|device` selects where the per-branch Newton-Raphson branch-length loop runs
+  under `-gpu`. `host` (the default) is IQ-TREE's own loop on the CPU with every derivative
+  evaluated on the device; it is the configuration of every run in the published benchmark.
+  `device` runs the whole loop on the GPU in one conditional CUDA graph with a single host
+  round-trip per branch; same routine, same tolerances, unit-tested against the host loop, not
+  benchmarked, hence opt-in. The choice is printed in the banner and recorded as `newton_mode=`
+  in the GPUSTATS line. This replaces the undocumented environment switch that previously turned
+  the device loop on by default, so a default `-gpu` run now behaves exactly as the benchmarked
+  binary did.
+- `scripts/iqtree3-gpu-verify.sh` now also gates on the exit accounting (calls on the device,
+  none delegated, no device errors), not only on the start-up banner. A binary built for another
+  compute capability prints the banner, falls back to the CPU on every call, and matched the CPU
+  log-likelihood trivially; it now fails with the reason and the rebuild hint.
+- `scripts/iqtree3-gpu-benchmark.sh`: optional wrapper that runs one command on the CPU and on the
+  GPU (`--gpu-strict`) and reports wall times, speedup and the agreement verdict. A plain `-gpu` run
+  has never done any of this; the start-up banner line that read "Equivalence target vs CPU
+  IQ-TREE ..." is reworded to say so, and the README and user guide state it in one sentence.
+- Public tree scrubbed of working notes: dated remarks and development history in comments and
+  documents, the internal placeholder tokens in the run record (now `NA`), and the cluster path
+  in the per-run logs and the run table (now `/path/to/iqtree3-gpu`). The earlier build whose 44
+  rows are excluded from every figure is now called the prior build throughout
+  (`rows_prior_build`, `build_sha_prior` in the key numbers).
+
 ### Changed
 - Repository split into the tool (root: `build_iqtree_gpu.sh`, `src/`, `examples/`, `scripts/`,
   `docs/`) and the published benchmark (`benchmark/`: inputs, measured record, figures, tables and

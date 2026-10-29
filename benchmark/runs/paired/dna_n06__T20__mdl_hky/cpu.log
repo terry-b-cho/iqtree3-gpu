@@ -4,12 +4,12 @@ Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
 Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
 
 Host:    compute-g-17-170.o2.rc.hms.harvard.edu (AVX512, FMA3, 502 GB RAM)
-Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_n06/aln.phy -T 20 -m HKY+F+G4 --ufboot 1000 --alrt 1000 -seed 1 --prefix /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu -redo
+Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /path/to/iqtree3-gpu/data/dna/dna_n06/aln.phy -T 20 -m HKY+F+G4 --ufboot 1000 --alrt 1000 -seed 1 --prefix /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu -redo
 Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
 Time:    Tue Sep  8 23:16:17 2026
 Kernel:  AVX+FMA - 20 threads (20 CPU cores detected)
 
-Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/dna/dna_n06/aln.phy ... Phylip format detected
+Reading alignment file /path/to/iqtree3-gpu/data/dna/dna_n06/aln.phy ... Phylip format detected
 Alignment most likely contains DNA/RNA sequences
 Constructing alignment: done in 0.104942 secs using 1597% CPU
 Alignment has 6 sequences with 143055 columns, 2311 distinct patterns
@@ -98,7 +98,7 @@ BEST SCORE FOUND : -531321.995
 Testing tree branches by SH-like aLRT with 1000 replicates...
 0.031 sec.
 Creating bootstrap support values...
-Split supports printed to NEXUS file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.splits.nex
+Split supports printed to NEXUS file /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.splits.nex
 Total tree length: 0.661
 
 Total number of iterations: 101
@@ -108,20 +108,20 @@ Total CPU time used: 36.429 sec (0h:0m:36s)
 Total wall-clock time used: 1.886 sec (0h:0m:1s)
 
 Computing bootstrap consensus tree...
-Reading input file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.splits.nex...
+Reading input file /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.splits.nex...
 6 taxa and 9 splits.
-Consensus tree written to /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.contree
-Reading input trees file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.contree
+Consensus tree written to /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.contree
+Reading input trees file /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.contree
 Log-likelihood of consensus tree: -531321.995
 
 Analysis results written to: 
-  IQ-TREE report:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.iqtree
-  Maximum-likelihood tree:       /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.treefile
-  Likelihood distances:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.mldist
+  IQ-TREE report:                /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.iqtree
+  Maximum-likelihood tree:       /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.treefile
+  Likelihood distances:          /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.mldist
 
 Ultrafast bootstrap approximation results written to:
-  Split support values:          /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.splits.nex
-  Consensus tree:                /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.contree
-  Screen log file:               /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.log
+  Split support values:          /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.splits.nex
+  Consensus tree:                /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.contree
+  Screen log file:               /path/to/iqtree3-gpu/results/benchmarks/paired/dna_n06__T20__mdl_hky/cpu.log
 
 Date and Time: Tue Sep  8 23:16:19 2026

@@ -20,8 +20,7 @@
 # so an in-script mkdir cannot save a fresh clone.
 #SBATCH -o logs/regen_example_%j.out
 #SBATCH -e logs/regen_example_%j.err
-# One-off: regenerate examples/expected_output with the CURRENT PRODUCTION binary. The committed
-# reference was produced 2026-07-21 (post-swap-fix but pre-engine-rewrite); the reference a user
+# One-off: regenerate examples/expected_output with the current binary. The reference a user
 # compares against must come from the shipped engine. Correctness-only -> gpu_requeue is fine.
 set -uo pipefail
 [ -r /etc/profile.d/lmod.sh ] && source /etc/profile.d/lmod.sh 2>/dev/null || true

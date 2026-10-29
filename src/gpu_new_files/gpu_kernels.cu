@@ -557,7 +557,7 @@ __global__ void k_partial(PartialArgs a) {
 
 /* 4-STATE SHAPE.  Same maths, same reduction order, same outputs as k_partial<4,...>; a
  * different thread mapping, because DNA is memory-bound and the generic shape's shared-memory
- * staging is a net cost at four states (file header, and DNA_KERNEL_DESIGN.md section 3.4).
+ * staging is a net cost at four states (see the file header).
  *
  * One thread owns ALL FOUR states of one (pattern, category):
  *

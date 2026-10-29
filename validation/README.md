@@ -19,9 +19,8 @@ alignments because they are the inputs every recorded run used, so a verdict her
 with the published record. Any other alignment works by setting `GENUS` to a directory that holds a
 `concat_alignment.faa`.
 
-## Where our own records are
+## Development records
 
-The equivalence-matrix evidence, arm-symmetry check and on-device Newton validation records produced
-during development are team-internal and are not distributed. They are historical records of our
-runs; this directory is for yours. Nothing in `benchmark/figures/` or
+The equivalence-matrix, arm-symmetry and on-device Newton validation records produced during
+development are not distributed; this directory is for your runs. Nothing in `benchmark/figures/` or
 `benchmark/runs/` depends on either — those regenerate from `benchmark/runs/RUNS.tsv` alone.

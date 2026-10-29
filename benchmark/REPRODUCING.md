@@ -103,7 +103,7 @@ measurement unless `FORCE=1`.
 
 ## What is not in the repository
 
-The manuscript text and team-internal working material are not distributed here. **Nothing in
+The manuscript text is not distributed here. **Nothing in
 `benchmark/figures/` or `benchmark/runs/` depends on them**: every figure, table and number
 regenerates from `benchmark/runs/RUNS.tsv` and the per-cell record with
 `benchmark/figures_tables/`.

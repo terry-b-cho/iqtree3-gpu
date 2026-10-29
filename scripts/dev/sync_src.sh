@@ -9,9 +9,8 @@
 #  gpu_build/iqtree3_src/tree/. Nothing keeps them in step automatically, so every edit to the
 #  kernel silently makes the public repo ship different code from the code we validated.
 #
-#  This is not hypothetical. On 2026-07-21 src/ was four days stale and a fresh clone would have
-#  rebuilt the defective kernel in which the GPU pointer swap was dead code. It was fixed, and then
-#  went stale AGAIN within hours as soon as the next kernel change landed.
+#  A stale src/ means a fresh clone rebuilds an older kernel than the one that was validated, and
+#  it goes stale again as soon as the next kernel change lands in the build tree.
 #
 #  So: run `--check` in CI / before any release or benchmark, and `--sync` after any kernel change.
 #

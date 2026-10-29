@@ -1,6 +1,6 @@
 IQ-TREE 3.1.3 built Jul 22 2026
 
-Input file name: /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Ruminococcus/concat_alignment.faa
+Input file name: /path/to/iqtree3-gpu/data/protein/g__Ruminococcus/concat_alignment.faa
 Type of analysis: ModelFinder + tree reconstruction + ultrafast bootstrap (1000 replicates)
 Random seed number: 1
 
@@ -367,15 +367,15 @@ ALISIM COMMAND
 --------------
 To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
 
---alisim simulated_MSA -t /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcus__T20__l40s_cx/cpu.treefile -m "VT+F+R10{0.264598,0.0185693,0.157133,0.19583,0.189032,0.627731,0.193752,1.36578,0.141721,2.32833,0.0441753,3.65841,0.00729724,6.24128,0.000145163,8.04947,0.000888809,8.21863,0.00125736,28.1784}" --length 217518
+--alisim simulated_MSA -t /path/to/iqtree3-gpu/results/benchmarks/paired/g__Ruminococcus__T20__l40s_cx/cpu.treefile -m "VT+F+R10{0.264598,0.0185693,0.157133,0.19583,0.189032,0.627731,0.193752,1.36578,0.141721,2.32833,0.0441753,3.65841,0.00729724,6.24128,0.000145163,8.04947,0.000888809,8.21863,0.00125736,28.1784}" --length 217518
 
 To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
 
-iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Ruminococcus/concat_alignment.faa --alisim mimicked_MSA
+iqtree -s /path/to/iqtree3-gpu/data/protein/g__Ruminococcus/concat_alignment.faa --alisim mimicked_MSA
 
 To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
 
-iqtree -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/g__Ruminococcus/concat_alignment.faa --alisim mimicked_MSA --num-alignments 100
+iqtree -s /path/to/iqtree3-gpu/data/protein/g__Ruminococcus/concat_alignment.faa --alisim mimicked_MSA --num-alignments 100
 
 For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
 

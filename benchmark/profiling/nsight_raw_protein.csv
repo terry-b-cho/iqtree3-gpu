@@ -4,7 +4,7 @@ Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
 Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
 
 Host:    compute-gc-17-242.o2.rc.hms.harvard.edu (AVX512, FMA3, 502 GB RAM)
-Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa -m LG+G4 -T 1 -gpu -seed 1 --prefix /tmp/roofline_50571639/protein -redo
+Command: /path/to/builds/gpu_build/iqtree3_gpu_build/iqtree3 -s /path/to/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa -m LG+G4 -T 1 -gpu -seed 1 --prefix /tmp/roofline_50571639/protein -redo
 Seed:    1 (Using SPRNG - Scalable Parallel Random Number Generator)
 Time:    Sat Aug 15 11:16:08 2026
 Kernel:  AVX+FMA - 1 threads (4 CPU cores detected)
@@ -12,7 +12,7 @@ Kernel:  AVX+FMA - 1 threads (4 CPU cores detected)
 HINT: Use -nt option to specify number of threads because your CPU has 4 cores!
 HINT: -nt AUTO will automatically determine the best number of threads to use.
 
-Reading alignment file /n/data1/joslin/icrb/kostic/terry/github/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa ... Fasta format detected
+Reading alignment file /path/to/iqtree3-gpu/data/protein/n14_g__Nanosyncoccus/concat_alignment.faa ... Fasta format detected
 Reading fasta file: done in 0.0183921 secs using 54.98% CPU
 Alignment most likely contains protein sequences
 Constructing alignment: done in 0.061137 secs using 48.77% CPU

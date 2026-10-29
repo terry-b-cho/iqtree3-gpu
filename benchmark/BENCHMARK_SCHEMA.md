@@ -44,7 +44,7 @@ Legend: **source** = harness (paired benchmark), smi (`nvidia-smi`), slurm (`sac
 |---|---|---|---|
 | iqtree_version | iqlog | ADD | e.g. IQ-TREE 3.x.x |
 | tool_git_commit | harness | ADD | commit that built the binary. Recorded values refer to the development history that preceded this repository's first commit and do not resolve here; `binary_sha256` is the binding identity |
-| binary_sha256 | harness | ADD | hash of the `iqtree3` binary actually run. The recorded hashes come from a build whose only difference from the current `src/` is the text of the engine's log banner (renamed to `[IQ-TREE3-GPU]`); a fresh build therefore hashes differently while computing identically |
+| binary_sha256 | harness | ADD | hash of the `iqtree3` binary actually run. The reported rows come from a build of an earlier source revision; the released source contains the same likelihood kernels and adds per-run launch accounting and the optional `--gpu-newton device` mode (off by default), so a fresh build hashes differently while computing identically in the default configuration. Rows whose hash begins `07c70cae` come from a still earlier build and are excluded from every figure and statistic |
 | build_cuda / build_gcc / sm_archs | harness | ADD | CUDA + compiler versions, compiled GPU archs |
 | replay_cache | stats | ADD | `off` (default) / `on`; documents the engine config |
 
@@ -278,7 +278,7 @@ Invariants that make the data trustworthy at any moment:
 - `gate_pass` is `NA` unless engagement AND equivalence were both recorded; such rows are kept (for
   transparency) but excluded from every summary mean and every figure.
 - `RUNS.tsv` is append-only in spirit: a re-run of a cell updates that cell's row in place (keyed by
-  run_id/cell); superseded engines' cells are moved to a labelled archive dir, never silently deleted.
+  run_id/cell); cells from an earlier engine are moved to a labelled archive directory rather than deleted.
 - A `schema_version` note at the top of `RUNS.tsv` records which schema (this file's revision) produced
   the columns, so the dataset stays interpretable as the schema grows.
 

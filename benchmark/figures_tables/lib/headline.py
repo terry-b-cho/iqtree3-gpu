@@ -1,14 +1,14 @@
 """headline.py -- the ONE definition of which benchmark rows the manuscript reports.
 
 WHY THIS EXISTS. `benchmark/runs/RUNS.tsv` records every paired run ever made, including 44 rows
-produced by a SUPERSEDED build of the GPU binary (`07c70cae...`). Those rows are kept deliberately:
+produced by an EARLIER build of the GPU binary (`07c70cae...`). Those rows are kept deliberately:
 `binary_sha256` makes the build provenance of every measurement auditable directly from the
 distributed data. They must not, however, contribute to any published figure or statistic, because
 pooling two builds mixes a build difference into what is presented as measurement variation.
 
 THE TRAP THIS FILE EXISTS TO PREVENT. The obvious way to exclude them is to swap the namespace
 filter from `__l40s` to `__l40s_b2` (the namespace the re-runs were written to). That is WRONG: the
-`__l40s` namespace is MIXED. It holds the 44 superseded cells AND four nucleotide 20-thread cells
+`__l40s` namespace is MIXED. It holds the 44 earlier-build cells AND four nucleotide 20-thread cells
 (n06, n14, n20, n30) that were always on the current build and therefore have no `_b2` twin. A
 namespace swap silently drops those four and leaves an 8-point nucleotide ladder instead of 12.
 
@@ -20,7 +20,7 @@ Nothing is hardcoded, so the repository runs from any directory.
 """
 import csv, os, re
 
-SUPERSEDED_SHA_PREFIX = "07c70cae"       # the build whose rows are excluded from all analysis
+PRIOR_BUILD_SHA_PREFIX = "07c70cae"      # the build whose rows are excluded from all analysis
 HEADLINE_NAMESPACES = ("l40s", "l40s_b2")  # the size-ladder namespaces, before the build filter
 
 
@@ -31,7 +31,7 @@ def namespace(cell):
 
 def is_current_build(row):
     """True if this row was measured with the build the manuscript reports."""
-    return not (row.get("binary_sha256") or "").startswith(SUPERSEDED_SHA_PREFIX)
+    return not (row.get("binary_sha256") or "").startswith(PRIOR_BUILD_SHA_PREFIX)
 
 
 def is_headline(row):

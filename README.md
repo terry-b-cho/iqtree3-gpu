@@ -94,6 +94,9 @@ module load gcc/14.2.0 cuda/12.8 cmake/3.31.2                      # Lmod cluste
 bash scripts/iqtree3-gpu-verify.sh ./iqtree3_gpu_build/iqtree3    # on a GPU node, seconds: kernel engaged, RF = 0, log-likelihood matches
 ```
 
+The last line is a one-time check of the build, not part of an analysis. A `-gpu` run is a single
+analysis on the GPU: it never runs the CPU tool and never compares anything.
+
 Then take your usual IQ-TREE command and add `-gpu`:
 
 ```bash
@@ -195,6 +198,12 @@ module load gcc/14.2.0 cuda/12.8            # runtime libraries
 
 - **`--gpu-strict`** is computationally identical to `-gpu` but aborts, with the reason and a non-zero
   exit, if any likelihood call fell back to the CPU. Use it for benchmarks and CI.
+- **`--gpu-newton host|device`** chooses where the branch-length Newton loop runs. `host` (the default)
+  is IQ-TREE's own loop on the CPU with every derivative evaluated on the GPU; it is the configuration
+  of every run in the published benchmark. `device` runs the whole loop on the GPU with one host
+  round-trip per branch; same routine, same tolerances, unit-tested against the host loop, but not
+  benchmarked, so it is opt-in. The choice is printed in the banner and recorded as `newton_mode=` in
+  the exit accounting line.
 - **`-T N` must not exceed the cores you were given.** IQ-TREE refuses to start otherwise ("more threads
   than CPU cores available"); on a cluster, match `-T` to your allocation (`-c`), or use `-T AUTO`.
 - **`-T N` is not symmetric.** On the CPU it is N worker threads. On the GPU it drives host-side work only
@@ -215,14 +224,20 @@ module load gcc/14.2.0 cuda/12.8            # runtime libraries
 `-gpu` is always safe: eligibility is decided per call and ineligible work falls back to the CPU.
 Full list and untested paths: [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md#4-what-the-gpu-path-supports).
 
-### Confirm a real run was equivalent
+### Confirm a real run was equivalent (optional)
 
-Run once without `-gpu` and once with it, same `-s`, `-m` and `-seed`, then:
+Nothing below happens during a normal `-gpu` run. If you want the CPU-vs-GPU comparison for your own
+data (a pipeline sanity check, or a speedup number), the wrapper runs the same command twice and
+reports both:
 
 ```bash
-python3 scripts/rf_logl_check.py mytree_cpu mytree_gpu mycheck
-# VERDICT[mycheck]: PASS   rf_dist=0   logl_reldiff=0.0e+00     (PASS = RF 0 and relative difference <= 1e-4)
+bash scripts/iqtree3-gpu-benchmark.sh ./iqtree3_gpu_build/iqtree3 mytree -s aln.faa -m LG+F+R4 -T 20
+# -> wall time: CPU ... s   GPU ... s   speedup ...x
+# -> VERDICT[mytree]: PASS   rf_dist=0   logl_reldiff=...        (PASS = RF 0 and relative difference <= 1e-4)
 ```
+
+It costs one extra full analysis on the CPU. To compare two runs you already have, use the checker
+directly: `python3 scripts/rf_logl_check.py mytree_cpu mytree_gpu mycheck`.
 
 Deeper checks, in increasing scope: `scripts/kernel_unit_test.sh` (kernel vs in-file CPU reference),
 `scripts/differential.sh` (per-site, per-rate-category log-likelihoods under a pinned model) and
@@ -332,7 +347,8 @@ iqtree3-gpu/
 ├── config/site.env.example            # site settings: SLURM partition, modules, binaries
 ├── docs/                              # USER_GUIDE, DEPENDENCIES, CONTRIBUTING, CODE_OF_CONDUCT
 ├── scripts/
-│   ├── iqtree3-gpu-verify.sh          # 30-second gate for your build
+│   ├── iqtree3-gpu-verify.sh          # 30-second gate for your build (run once after building)
+│   ├── iqtree3-gpu-benchmark.sh       # optional: run CPU and GPU arms of one command, report speedup + agreement
 │   ├── rf_logl_check.py               # equivalence verdict for any CPU/GPU pair of runs
 │   ├── kernel_unit_test.sh · differential.sh · equivalence_matrix.sh   # deeper validation (SLURM)
 │   ├── run_tests.sh                   # every repository invariant, for the tool and the benchmark

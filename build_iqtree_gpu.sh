@@ -22,8 +22,8 @@ case "$BUILD_DIR" in /*) ;; *) BUILD_DIR="$PWD/$BUILD_DIR" ;; esac
 # Default to a MULTI-ARCH build covering every card this tool was tested on, so a binary built on
 # one node runs natively on any of them. Building for a single wrong arch is not an error -- the
 # driver JITs from embedded PTX -- but it is then not native code for the card and pays a JIT cost at
-# start-up. Our own production build was mistakenly configured for sm_75 while every benchmark ran on
-# an sm_89 L40S; multi-arch removes that whole class of mistake.
+# start-up. A binary configured for one architecture and run on another pays that cost without any
+# warning; the multi-arch default removes that whole class of mismatch.
 #   70=V100/V100S  75=RTX6000/8000  80=A100  86=A6000/A40/RTX3090  89=L40/L40S/RTX4090
 # Pass a single value (e.g. 89) for a smaller, faster-to-compile binary.
 SM="${2:-70;75;80;86;89}"

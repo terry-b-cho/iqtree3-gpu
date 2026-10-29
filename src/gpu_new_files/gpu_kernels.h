@@ -553,8 +553,8 @@ int iqtree_gpu_report();   // report visible CUDA devices; returns count
 
 // OUTPUT GUARD (IQ-TREE3-GPU). gpu_eligible() validates the INPUTS of a run -- data type,
 // model, tree flags. Correctness also depends on which OUTPUT BUFFERS the run goes on to
-// consume, and nothing used to check those, which is how --dating mcmctree ran for months
-// against a G_matrix the GPU never filled. This is the missing half: given the run's Params,
+// consume, and an input check alone lets --dating mcmctree read a G_matrix the GPU never
+// filled. This is the other half: given the run's Params,
 // it returns NULL when every output the run will ask for is one the GPU maintains, and
 // otherwise a human-readable sentence naming the flag. setLikelihoodKernel() calls it before
 // installing the GPU function pointers, so an unsupported output degrades to the CPU kernel

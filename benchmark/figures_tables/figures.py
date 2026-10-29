@@ -83,7 +83,7 @@ except ImportError:                       # only the tree montages need Biopytho
 # two alphabets are already separated by hue and shape is given to THREAD COUNT (triangle = 20
 # threads, circle = 1 thread), so the panel shows both strata without a second hue.
 #
-# Histogram forms of both panels and five further drafts of panel b were retired on 2026-10-26.
+# Histogram forms of both panels and five further drafts of panel b were retired.
 #
 # THE GATE-FAILURE CELL IS RETAINED HERE. It is excluded from fits and speedup summaries everywhere
 # else, but removing it from the figure whose purpose is to display worst cases would be circular.
@@ -647,8 +647,8 @@ mechanism_main = main
 # vermillion pair that means alphabet everywhere else. Panel c colours the alphabet. Marks are
 # circles only: filled = amino acid in b; in c filled = IQ-TREE3-GPU, open = IQ-TREE3.
 #
-# TWO HONESTY CONSTRAINTS the board required, both enforced here:
-#   * Device time CANNOT be shown. `gpu_kernel_time_s` is NA/TODO_nsight in all 182 rows. What is
+# TWO HONESTY CONSTRAINTS, both enforced here:
+#   * Device time CANNOT be shown. `gpu_kernel_time_s` is NA in all 182 rows. What is
 #     reportable is the bound from the profiling kernel fraction, and its DIRECTION matters: profiling
 #     inflates host wall more than device kernel time, so the profiled fraction is a LOWER bound on the
 #     unprofiled one, and the absolute kernel seconds are the usable number.
@@ -891,7 +891,7 @@ phases_cost_main = main
 #   cross-card speedup is never compared
 #
 # The panels that ranked the cards by nominal fp64 and memory bandwidth, the per-card wall facets
-# and the device-energy bars were removed from the publication on 2026-10-26.
+# and the device-energy bars were removed from the publication.
 #
 # Paths: the repository root is resolved at run time from $REPO_DIR or this file's own location.
 # Nothing is hardcoded, so the repository runs from any directory.
@@ -953,7 +953,7 @@ hardware_main = main
 # supp_ported.py - Supplementary Fig. S1C and the replicate table.
 #
 #   S1C replicate spread at 20 threads, both alphabets on one axis (the former sampled-utilisation
-#       figure was withdrawn on 2026-10-26)
+#       figure was withdrawn)
 #
 # Also writes runs/REPLICATES_20T.tsv (Supplementary Data 5): one row per alphabet x taxon count,
 # from the same replicate sets the S4 panel draws, so the table and the figure cannot drift.
@@ -1064,7 +1064,7 @@ supp_ported_main = main
 #
 # S2 and S3 (the trees) are written by trees.py; S1C by supp_ported.py; S1D by hardware.py.
 # The former pattern-saturation (S5), build-regression (S7) and coverage dot-matrix panels were
-# removed on 2026-10-26.
+# removed.
 #
 # Paths: the repository root is resolved at run time from $REPO_DIR or this file's own location.
 # Nothing is hardcoded, so the repository runs from any directory.
@@ -1077,7 +1077,7 @@ def phase_step_heatmap(fit_rows):
     """Step x cell, CPU arm. Shows at a glance which steps exist for which alphabet.
 
     `fit_rows` restricts to current-build cells: PHASE_STEPS.tsv covers all 226 recorded runs,
-    including the 44 on the superseded binary, which must not enter a published figure.
+    including the 44 on the earlier binary, which must not enter a published figure.
     """
     keep = {r["cell"] for r in fit_rows}
     threads = {r["threads"] for r in fit_rows}
@@ -1319,7 +1319,7 @@ supplementary_main = main
 #      deliberate; taxa order with complexity printed conveys the same fact without the double-take.)
 #
 # S2   the complete per-run record, every current-build cell, as a multipage montage using the
-#      contract's `_p{NN}` suffix. Page 1 states that the 44 superseded-build runs are excluded.
+#      contract's `_p{NN}` suffix. Page 1 states that the 44 earlier-build runs are excluded.
 #
 # ONE TREE PER DATASET. The CPU and GPU arms returned identical topologies in all 182 runs, so a
 # second tree would be a second copy of the same figure. That identity is the result and it belongs

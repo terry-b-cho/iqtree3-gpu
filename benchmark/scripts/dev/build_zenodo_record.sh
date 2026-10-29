@@ -10,7 +10,7 @@
 #                        and every paired cell directory (both arms' logs, trees, support, RESULT.tsv)
 #    benchmark/profiling/  nsys/nsight summaries and the launch-latency measurement
 #    (not staged: benchmark/figures/. The figures and Source Data travel with the submission; they
-#     were withdrawn from the record on 2026-10-07 so that it holds the raw inputs, the measured
+#     were withdrawn from the record so that it holds the raw inputs, the measured
 #     record and the code.)
 #    scripts/ benchmark/scripts/ src/ config/ containers/ examples/ build_iqtree_gpu.sh and the documents
 #    MANIFEST.sha256     one line per file, verified with `sha256sum -c`

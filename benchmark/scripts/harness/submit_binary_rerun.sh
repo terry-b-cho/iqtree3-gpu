@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  submit_binary_rerun.sh -- re-measure the cells recorded with the SUPERSEDED binary.
+#  submit_binary_rerun.sh -- re-measure the cells recorded with the EARLIER binary.
 # =============================================================================
 # Paths: the repository root is resolved at run time by scripts/lib/paths.sh. Nothing is hardcoded.
-#  WHY. `binary_sha256` splits RUNS.tsv into two builds: 138 rows on edf783c3... (Aug-Sep) and 44 on
-#  07c70cae... (July). Both are IQ-TREE 3.1.3 + this repo's GPU patch -- the same tool, two builds of
-#  our own code ~10 days apart -- but they do not behave identically. On identical DNA alignments the
-#  July build issues ~2.1-2.5x FEWER GPU calls and is correspondingly faster at every size
+#  WHY. `binary_sha256` splits RUNS.tsv into two builds: 138 rows on edf783c3... and 44 on
+#  07c70cae... Both are IQ-TREE 3.1.3 + this repo's GPU patch -- the same tool, two builds of
+#  our own code -- but they do not behave identically. On identical DNA alignments the
+#  earlier build issues ~2.1-2.5x FEWER GPU calls and is correspondingly faster at every size
 #  (dna_n28: 1.82x / 318,563 calls vs 0.91-0.95x / 776,801 calls). `dna_n17__T20__l40s_n202chk` is a
 #  same-node control on the newer build, so this is the binary, not the node.
 #
 #  All 44 old-build cells sit in the `__l40s` HEADLINE namespace, which is exactly what the figure
-#  generators filter on -- so the published ladders are currently drawn from the superseded build.
+#  generators filter on -- so without the re-runs the published ladders would mix the two builds.
 #
 #  SAFETY. Everything here is ADDITIVE:
 #    * a new namespace, CARD=l40s_b2, so cell dirs are <genus>__T<thr>__l40s_b2 and the 44 existing
@@ -37,7 +37,7 @@ _d=$(_i3g_try "${REPO_DIR:-}") || _d=$(_i3g_try "$(dirname "${BASH_SOURCE[0]:-$0
 
 MODE=${1:-dry}
 CARD=l40s_b2                       # the new namespace: every row is an addition
-OLD_SHA_PREFIX=07c70cae            # the superseded build we are replacing
+OLD_SHA_PREFIX=07c70cae            # the earlier build we are replacing
 EXPECT_SHA=edf783c3                # the build every re-run must use
 PART=${PART:-${SLURM_PARTITION:-gpu_quad}}
 RUNS="$REPO/benchmark/runs/RUNS.tsv"
@@ -50,7 +50,7 @@ echo "== binary check =="
 echo "   path   : $IQTREE_GPU_BIN"
 echo "   sha256 : ${ACTUAL_SHA}...  (expected ${EXPECT_SHA}...)"
 if [ "$ACTUAL_SHA" != "$EXPECT_SHA" ]; then
-  echo "   ABORT: the binary on disk is neither the superseded build nor the one these re-runs are" >&2
+  echo "   ABORT: the binary on disk is neither the earlier build nor the one these re-runs are" >&2
   echo "          meant to characterise. Submitting now would create a THIRD build in the record." >&2
   echo "          Rebuild to ${EXPECT_SHA} or update EXPECT_SHA deliberately." >&2
   exit 1
@@ -59,7 +59,7 @@ echo "   OK: matches the build used by the other 138 rows."
 echo
 
 mkdir -p "$LOGDIR"
-echo "== cells recorded on the superseded build (namespace -> $CARD) =="
+echo "== cells recorded on the earlier build (namespace -> $CARD) =="
 printf "   %-38s %-8s %-4s %-9s %-7s %s\n" CELL TYPE THR MEM TIME "old speedup"
 
 submitted=0; skipped=0; missing=0

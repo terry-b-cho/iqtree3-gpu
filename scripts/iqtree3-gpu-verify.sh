@@ -67,9 +67,9 @@ gpu_t=$((SECONDS-t0))
 grep -E "IQ-TREE3-GPU" "$WORK/gpu.stdout" | head -3
 
 # ENGAGEMENT GATE. A log-likelihood/RF match proves nothing on its own: if the GPU kernel is never
-# installed, both runs execute the SAME CPU kernel and agree trivially. That is not hypothetical --
-# it is exactly what happened here through 2026-07-21, when the GPU pointer swap sat after an early
-# `return` in setLikelihoodKernel() and was dead code, while this script still reported PASS.
+# installed, both runs execute the SAME CPU kernel and agree trivially. A pointer swap placed after
+# an early `return` in setLikelihoodKernel() is dead code, and a script that checks only the
+# log-likelihood would still report PASS.
 # "GPU acceleration ACTIVE" is printed only from inside the swap block, so it is the proof that the
 # GPU kernel was actually installed. Absence of it = the run was CPU-only, whatever the logL says.
 if ! grep -q "GPU acceleration ACTIVE" "$WORK/gpu.stdout"; then
@@ -85,6 +85,31 @@ if ! grep -q "GPU acceleration ACTIVE" "$WORK/gpu.stdout"; then
     exit 1
 fi
 echo " GPU engagement     : OK (kernel swap applied)"
+
+# ACCOUNTING GATE. The banner proves the kernel was installed, not that it RAN: every entry point
+# re-tests eligibility per call and plain -gpu delegates to the CPU on any device failure (for
+# example a binary built for another compute capability: "no kernel image is available"). Such a run
+# prints the banner, finishes on the CPU, and matches the CPU log-likelihood trivially. The GPUSTATS
+# line at exit counts what actually happened, so require: calls on the device, none delegated, no
+# device errors. This is the same rule the benchmark harness applies.
+stats=$(grep -oE "GPUSTATS gpu_calls=.*" "$WORK/gpu.stdout" | tail -1)
+gpu_calls=$(echo "$stats" | grep -oE "gpu_calls=[0-9]+" | cut -d= -f2)
+cpu_calls=$(echo "$stats" | grep -oE "cpu_calls=[0-9]+" | cut -d= -f2)
+dev_err=$(echo "$stats"   | grep -oE "device_errors=[0-9]+" | cut -d= -f2)
+if [ -z "$stats" ] || [ "${gpu_calls:-0}" -eq 0 ] || [ "${cpu_calls:-1}" -ne 0 ] || [ "${dev_err:-1}" -ne 0 ]; then
+    echo "---------------------------------------------------------------"
+    echo " VERDICT: FAIL — the GPU kernel was installed but did NOT run the likelihood."
+    echo "   exit accounting: ${stats:-<no GPUSTATS line>}"
+    if grep -q "no kernel image is available" "$WORK/gpu.stdout"; then
+        echo "   Reason: this binary was not built for this GPU's compute capability."
+        echo "   Rebuild with the default multi-arch setting, or pass this card's architecture"
+        echo "   (e.g. ./build_iqtree_gpu.sh ./iqtree3_gpu_build 75) -- see docs/DEPENDENCIES.md."
+    else
+        grep -E "^\[IQ-TREE3-GPU\] (likelihood calls|  delegated by reason)" "$WORK/gpu.stdout" | sed 's/^/   /'
+    fi
+    exit 1
+fi
+echo " GPU accounting     : OK (${gpu_calls} calls on the device, 0 delegated, 0 device errors)"
 
 cll=$(grep -oE "Log-likelihood of the tree: *-?[0-9.]+" "$WORK/cpu.iqtree" | grep -oE "\-?[0-9.]+$")
 gll=$(grep -oE "Log-likelihood of the tree: *-?[0-9.]+" "$WORK/gpu.iqtree" | grep -oE "\-?[0-9.]+$")

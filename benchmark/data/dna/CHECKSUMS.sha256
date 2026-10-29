@@ -1,5 +1,5 @@
 # SHA256 checksums for the simulated DNA benchmark inputs.
-# Generated 2026-09-16 18:33 UTC. Verify a regenerated file with:
+# Verify a regenerated file with:
 #     sha256sum -c benchmark/data/dna/CHECKSUMS.sha256
 #
 750382c4d0202a94265387c32ad1ceef06619e1b4e1d91d32cce26ce8ce5450c  benchmark/data/dna/dna_hc_n100_L2M/aln.phy

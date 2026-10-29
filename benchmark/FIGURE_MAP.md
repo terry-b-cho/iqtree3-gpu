@@ -96,7 +96,7 @@ Letter pages, 4 x 4 trees inside 0.8 in margins.
 
 | name | definition | n |
 |---|---|---|
-| ALL | `figdata.load(REPO)`: rows of `RUNS.tsv` whose `binary_sha256` does not start with `07c70cae` (the superseded build) | 182 |
+| ALL | `figdata.load(REPO)`: rows of `RUNS.tsv` whose `binary_sha256` does not start with `07c70cae` (the earlier build; see `BENCHMARK_SCHEMA.md`) | 182 |
 | ALL226 | `figdata.load(REPO, current_build_only=False)` | 226 |
 | EQ | `for_equivalence(ALL)`: ALL, the gate-failure cell retained and labelled | 182 |
 | FITS | `for_fits(ALL)`: ALL minus the gate-failure cell `g__Ruminococcoides__T20__l40s_cx` and the six `__mdl_*` correctness cells | 175 |
@@ -154,7 +154,7 @@ Inputs are in addition to `runs/RUNS.tsv`. Functions are in `figures.py` under t
 Drafts for choosing a presentation, when written, come from the same section as the panel they
 would replace, under the stem `<panel>_alternative<k>_<slug>`; they pass the same audits, have a
 manifest row and a `figures/source_data/` CSV, but no Source Data sheet, no place in the README
-map and no composite. None is present at the moment; the retired drafts are in the private archive.
+map and no composite. None is present at the moment; earlier drafts are not distributed.
 
 `split_supports` (Fig. 1B) re-reads both arms' consensus trees with the harness's own split parser
 (`scripts/harness/paired_benchmark.sh`, equivalence block) and asserts that the per-run maximum it

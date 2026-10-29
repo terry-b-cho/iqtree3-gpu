@@ -115,7 +115,7 @@ GTDB (Parks et al.), CheckM2 (Chklovski et al.), IQ-TREE 3 (Wong et al. 2026,
 https://doi.org/10.1093/molbev/msag117) and AliSim (Ly-Trong
 et al.) for the simulated nucleotide data.
 
-## Complexity-extension datasets (added 2026-08-31)
+## Complexity-extension datasets
 
 The original ladders varied only TAXA, which left DNA and protein on almost disjoint complexity
 ranges (complexity = branches x patterns x rate categories x states^2, and states^2 is 16 for DNA vs

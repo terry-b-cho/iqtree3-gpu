@@ -12,7 +12,7 @@
 #
 # This script previously had a second, default "grid" mode that drew every
 # benchmark genus into one grid figure under the results tree. That output was
-# superseded by benchmark/scripts/trees.py, which emits the tree record
+# replaced by benchmark/scripts/trees.py, which emits the tree record
 # under the naming contract (FigS04a, FigS04b, FigS05a_p01..p06) with a row in
 # FIGURE_MANIFEST.tsv. The grid mode has been removed; the original full version
 # is kept outside the public tree for provenance.
